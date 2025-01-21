@@ -1,0 +1,138 @@
+[
+    {
+        "item_id": "scissors",
+        "name": "Scissors",
+        "type": "melee",
+        "quick_look": "Front Hut Consulate | Carpet Stalls Left and Right | Right Side Alley",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CScissors",
+        "tags": []
+    },
+    {
+        "item_id": "kitchen_knife",
+        "name": "Kitchen Knife",
+        "type": "melee",
+        "quick_look": "Carpet Shop Smuggle | Main Stalls | Consulate Kitchen | Food Vendor Start",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CKitchen%20Knife",
+        "tags": []
+    },
+    {
+        "item_id": "screwdriver",
+        "name": "Screwdriver",
+        "type": "melee",
+        "quick_look": "Parking Lot Smuggle and truck | Consulate Outhouse | Room RIght of soldier spawn and below | Default Spawn | Handyman Hideout",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CScrewdriver",
+        "tags": []
+    },
+    {
+        "item_id": "cleaver",
+        "name": "Cleaver",
+        "type": "melee",
+        "quick_look": "Consulate Kitchen | Shisha Stalls | Food Vendor Start",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CCleaver",
+        "tags": []
+    },
+    {
+        "item_id": "saber",
+        "name": "Saber",
+        "type": "melee",
+        "quick_look": "Shoe Shop (down to undergrounds) | Reza's Office",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CSaber",
+        "tags": []
+    },
+    {
+        "item_id": "battle_axe",
+        "name": "Battle Axe",
+        "type": "melee",
+        "quick_look": "Headmaster Secret Sauce | Exit Secret Sauce",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CBattle%20Axe",
+        "tags": []
+    },
+    {
+        "item_id": "letter_opener",
+        "name": "Letter Opener",
+        "type": "melee",
+        "quick_look": "Claus Side Office",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CLetter%20Opener",
+        "tags": []
+    },
+    {
+        "item_id": "fire_axe",
+        "name": "Fire Axe",
+        "type": "melee",
+        "quick_look": "Consulate Car Park",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Lethal%20Melee%7CFire%20Axe",
+        "tags": []
+    },
+    {
+        "item_id": "loud_pistol",
+        "name": "Loud Pistol",
+        "type": "weapon",
+        "quick_look": "Consulate Securities | School Weapons Room",
+        "hitmaps_link": "",
+        "tags": []
+    },
+    {
+        "item_id": "loud_smg",
+        "name": "Loud SMG",
+        "type": "weapon",
+        "quick_look": "Street Soldiers",
+        "hitmaps_link": "",
+        "tags": []
+    },
+    {
+        "item_id": "loud_ar",
+        "name": "Loud AR",
+        "type": "weapon",
+        "quick_look": "Elite Soldiers+ | School Weapons Room",
+        "hitmaps_link": "",
+        "tags": []
+    },
+    {
+        "item_id": "loud_shotgun",
+        "name": "Loud Shotgun",
+        "type": "weapon",
+        "quick_look": "Car Park | Tunnels",
+        "hitmaps_link": "",
+        "tags": []
+    },
+    {
+        "item_id": "crowbar",
+        "name": "Crowbar",
+        "type": "utility",
+        "quick_look": "Consulate wall vault | School Stairwell (NW) | Compound start | Consulate basement room",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Non-Lethal%20Melee%7CCrowbar",
+        "tags": []
+    },
+    {
+        "item_id": "wrench",
+        "name": "Wrench",
+        "type": "utility",
+        "quick_look": "Consulate Janitor room | School entrance | Bazaar Streets x2",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Non-Lethal%20Melee%7CWrench",
+        "tags": []
+    },
+    {
+        "item_id": "propane",
+        "name": "Propane",
+        "type": "utility",
+        "quick_look": "Handyman Hideout | Consulate Car Park | Market Stalls | Handyman Roof",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Explosive%7CPropane%20Flask",
+        "tags": []
+    },
+    {
+        "item_id": "consulate_keycard",
+        "name": "Consulate Keycard",
+        "type": "utility",
+        "quick_look": "Lamp Store Roof Top | Consulate Garage",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Misc%20Item%7CConsulate%20Keycard",
+        "tags": []
+    },
+    {
+        "item_id": "coin",
+        "name": "Coin",
+        "type": "utility",
+        "quick_look": "Shoe Shop x6 | Consulate Car Park x2",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/marrakesh/a-gilded-cage?item=Distraction%7CCoin",
+        "tags": []
+    }
+]

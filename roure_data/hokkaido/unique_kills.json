@@ -1,0 +1,217 @@
+{
+    "yuki_yamazaki": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Aquarium",
+                    "video_link": "https://youtu.be/mbEeafy8C4A",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "2:30 - 3:00",
+                    "notes": "Throw the brief as she approaches the door, use her map icon to remember a reference for yourself. Be mindful of the security and 2 people."
+                },
+                {
+                    "name": "Gondola",
+                    "video_link": "https://youtu.be/d8ZKvfVYIl4",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Pre 40s",
+                    "notes": "Throw lure into the corner as Yuki is in a different room to her guards."
+                }
+            ]
+        },
+        "drowning": {
+            "name": "Drowning",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/aFPaQ07dJIM",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "Pre 1:50",
+                    "notes": ""
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Sushi",
+                    "video_link": "https://youtu.be/sCMKEPU9qlQ",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "Sushi Trigger",
+                    "notes": "Lure prep food and can leave right away, timing isnt tight."
+                },
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/TxWCcnB8RLI",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "2:50 or 3:15",
+                    "notes": "Lockdown and allow the guards to split, only the Instructor comes into the room you wait it"
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "Sauna",
+                    "video_link": "https://youtu.be/CvKlUywLRAw",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "3:50 or 4:20",
+                    "notes": "Either Gondola or Sauna works for fall easily."
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/PTyg8yGGHiE",
+                    "requires": "Taser and Seiker",
+                    "starts": "Any",
+                    "timings": "Pre 1:50",
+                    "notes": "Make a guard sick or have a sieker for the KOs, otherwise it can be very hard. Sink is not heard"
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/hEtS_J9zZYA",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "1:55 or 2:10",
+                    "notes": "Make sure guard isnt in range and Yuki is up against her desk."
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Suite",
+                    "video_link": "https://youtu.be/tj_5KRwWqXs",
+                    "requires": "Poison and Bodyguard disguise",
+                    "starts": "Any",
+                    "timings": "2:15 or 2:40",
+                    "notes": "Use bodyguard to access the suite."
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Purpose of this card is to showcase if you have to do anything unorthadox for the kill method. You can just refer to the Isolations"
+                }
+            ]
+        }
+    },
+    "erich_soders": {
+        "firearm": {
+            "name": "Any Firearm (Loud or Silent)",
+            "methods": [
+                {
+                    "name": "Wallbang",
+                    "video_link": "https://youtu.be/epFjCAM7IIM",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Shoot through the cracks in the ceiling to wallbang soders"
+                }
+            ]
+        },
+        "poison_stem_cells": {
+            "name": "Poison Stem Cells",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/Z_CEifNmm8I",
+                    "requires": "Keyhacker / Poison",
+                    "starts": "Any",
+                    "timings": "+2:50 with trigger",
+                    "notes": "Either go with the manual method for a quick kill or trigger for a big delayed kill. Surgeons and Director? can be used to access the room if no keyhacker."
+                }
+            ]
+        },
+        "robot_arms": {
+            "name": "Robot Arms",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/xp4__AogRrE",
+                    "requires": "2 Keyhackers",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Be sure cams are taken out. Enter the mainframe and play the mini game to be able to kill him with the main controls."
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/AP82KXFphxQ",
+                    "requires": "Screwdriver / 2 Keyhackers",
+                    "starts": "Any",
+                    "timings": "",
+                    "notes": "Be sure cams are taken out. Tamper with the maintenance controls then defibrillator. Hit the final prompt when the AI says \"ready\", going too late is fine but too early wont kill."
+                }
+            ]
+        },
+        "throw_heart_in_trash": {
+            "name": "Throw Heart in Trash",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/3O0-bPBhhDY",
+                    "requires": "Kalmer / Snail / Pistol",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "I'd almost always recommend bringing something for this kill condition beyond pistol, but if you find yourself with only a pistol the panic methods are viable."
+                }
+            ]
+        },
+        "shoot_heart": {
+            "name": "Shoot Heart",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/f3i_gjC9Mmg",
+                    "requires": "Gun",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Bring a sniper for this condition if you can, anything but shotgun works though."
+                }
+            ]
+        },
+        "explosive": {
+            "name": "Explosive",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/x2K-q9AyOu4",
+                    "requires": "Bomb",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Soders has extremely low health so clip him at any range with a bomb and he dies because of this hes extremely wall bangable."
+                }
+            ]
+        }
+    }
+}

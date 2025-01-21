@@ -1,0 +1,156 @@
+[
+    {
+        "item_id": "combat_knife",
+        "name": "Combat Knife",
+        "type": "melee",
+        "quick_look": "Safehouse spawn dropdown | Table by Labs Plane exit",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CCombat%20Knife",
+        "tags": []
+    },
+    {
+        "item_id": "hatchet",
+        "name": "Hatchet",
+        "type": "melee",
+        "quick_look": "Shed",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CHatchet",
+        "tags": []
+    },
+    {
+        "item_id": "saber",
+        "name": "Saber",
+        "type": "melee",
+        "quick_look": "Main Room Mansion Wall | Level 5 Clock Tower Office Wall",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CSaber",
+        "tags": []
+    },
+    {
+        "item_id": "circumcision_knife",
+        "name": "Circumcision Knife",
+        "type": "melee",
+        "quick_look": "Plague Doctor",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CCircumcision%20Knife",
+        "tags": []
+    },
+    {
+        "item_id": "amputation_knife",
+        "name": "Amputation Knife",
+        "type": "melee",
+        "quick_look": "Plague Doctor",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CAmputation%20Knife",
+        "tags": []
+    },
+    {
+        "item_id": "letter_opener",
+        "name": "Letter Opener",
+        "type": "melee",
+        "quick_look": "Francesca's Desk",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CLetter%20Opener",
+        "tags": []
+    },
+    {
+        "item_id": "kitchen_knife",
+        "name": "Kitchen Knife",
+        "type": "melee",
+        "quick_look": "47's Apartment | Kitchen | Sanguine Shop",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CKitchen%20Knifehttps://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CKitchen%20Knife",
+        "tags": []
+    },
+    {
+        "item_id": "screwdriver",
+        "name": "Screwdriver",
+        "type": "melee",
+        "quick_look": "Shed | Franny Living Room | Lab Forklift | Church Hut",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CScrewdriver",
+        "tags": []
+    },
+    {
+        "item_id": "fire_axe",
+        "name": "Fire Axe",
+        "type": "melee",
+        "quick_look": "Garage Staircase | Lab Cams | Lab Main Entrance",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CFire%20Axe",
+        "tags": []
+    },
+    {
+        "item_id": "cleaver",
+        "name": "Cleaver",
+        "type": "melee",
+        "quick_look": "Butcher's Shop",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CCleaver",
+        "tags": []
+    },
+    {
+        "item_id": "scissors",
+        "name": "Scissors",
+        "type": "melee",
+        "quick_look": "Franny Living Room | Under Clock Tower Spawn Office | Church",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CScissors",
+        "tags": []
+    },
+    {
+        "item_id": "katana",
+        "name": "Katana",
+        "type": "melee",
+        "quick_look": "Attic Corner",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CKatana",
+        "tags": []
+    },
+    {
+        "item_id": "old_axe",
+        "name": "Old Axe",
+        "type": "melee",
+        "quick_look": "Shed Behind Church",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7COld%20Axe",
+        "tags": []
+    },
+    {
+        "item_id": "battle_axe",
+        "name": "Battle Axe",
+        "type": "melee",
+        "quick_look": "Back Main Ruins",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CBattle%20Axe",
+        "tags": []
+    },
+    {
+        "item_id": "folding_knife",
+        "name": "Folding Knife",
+        "type": "melee",
+        "quick_look": "Sanguine Coffee Table | PI Shop | Front Ruins Tower",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Lethal%20Melee%7CFolding%20Knife",
+        "tags": []
+    },
+    {
+        "item_id": "loud_pistol",
+        "name": "Loud Pistol",
+        "type": "weapon",
+        "quick_look": "47's Apartment | Every Mansion Guard",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Firearm%7CBartoli%2075S",
+        "tags": []
+    },
+    {
+        "item_id": "loud_shotgun",
+        "name": "Loud Shotgun",
+        "type": "weapon",
+        "quick_look": "Guard by cliff drop in Caves | Top of Ruins | Back Mansion",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Firearm%7CTactical%20Bartoli%2012G",
+        "tags": []
+    },
+    {
+        "item_id": "loud_smg",
+        "name": "Loud SMG",
+        "type": "weapon",
+        "quick_look": "Lab Security Guards",
+        "hitmaps_link": "",
+        "tags": []
+    },
+    {
+        "item_id": "impact_explosive",
+        "name": "Impact Explosive",
+        "type": "weapon",
+        "quick_look": "47's Apartment",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/sapienza/world-of-tomorrow?item=Explosive%7CExplosive%20Golf%20Ball",
+        "tags": [
+            "impact_explosive"
+        ]
+    }
+]

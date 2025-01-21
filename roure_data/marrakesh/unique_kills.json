@@ -1,0 +1,246 @@
+{
+    "claus_strandberg": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Regular ISOs will work for loud kills"
+                }
+            ]
+        },
+        "drowning": {
+            "name": "Drowning",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/XMVv0gLq8Cc",
+                    "requires": "Sieker",
+                    "starts": "Any",
+                    "timings": "Any",
+                    "notes": "Once Claus is on the massage room side of the map you must sieker someone else on that same side before him or Claus will not go to a bathroom"
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Distract",
+                    "video_link": "https://www.youtube.com/watch?v=H3KaJ1e6o2U",
+                    "requires": "Pistol",
+                    "starts": "Any",
+                    "timings": "2:20",
+                    "notes": "Once hes leaned over shoot the back glass to occupy everyone down belore then throw any item and dont be seen by Claus for an impact lure."
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/NBjz1RbAvBE",
+                    "requires": "Pistol",
+                    "starts": "Any",
+                    "timings": "2:20 + 5:00 forever",
+                    "notes": "Also able to lure into the closet and drag back onto the balcony when ready"
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "Lockdown",
+                    "video_link": "https://youtu.be/j1VURxotdVI",
+                    "requires": "Breacher or concussion device",
+                    "starts": "Any",
+                    "timings": "Trigger + ~4:00",
+                    "notes": ""
+                },
+                {
+                    "name": "Honeycomb",
+                    "video_link": "https://youtu.be/VTL87U88Wro",
+                    "requires": "Breacher or concussion device",
+                    "starts": "Any (Elite soldier preferred)",
+                    "timings": "Trigger + ~5:00",
+                    "notes": ""
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/XGV3VuoV1yI",
+                    "requires": "Pistol or screwdriver",
+                    "starts": "Janitor or consulate parking garage",
+                    "timings": "2:20",
+                    "notes": "Check the extra videos for a prisoner kill onto Claus for electrocution"
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/oHux8O6mrS0",
+                    "requires": "Taser or Firearm",
+                    "starts": "Any",
+                    "timings": "Any",
+                    "notes": "Can be done without a remote setup but is significantly slower"
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Consumed",
+                    "video_link": "https://youtu.be/wOHLIocW3pc",
+                    "requires": "Lethal Poison",
+                    "starts": "Janitor or consulate parking garage",
+                    "timings": "5:20",
+                    "notes": "Make sure to avoid triggering any proxy conversations along Claus cycles"
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Regular ISOs will work for live kills"
+                }
+            ]
+        }
+    },
+    "loud_kills": {
+        "name": "Loud Kills",
+        "methods": [
+            {
+                "name": "Office",
+                "video_link": "https://youtu.be/bW2ZZwaqwBI",
+                "requires": "Nothing",
+                "starts": "Elite Soldier",
+                "timings": "Instant",
+                "notes": "Can be left there for the rest of your run and can come back, kill and exit."
+            },
+            {
+                "name": "Intercom",
+                "video_link": "https://youtu.be/gqMAfmShUN0",
+                "requires": "Nothing",
+                "starts": "Any",
+                "timings": "Trigger",
+                "notes": "Kill from floor below outside"
+            },
+            {
+                "name": "Live loud kills",
+                "video_link": "https://youtu.be/6Gs5rK8R20M",
+                "requires": "Nothing",
+                "starts": "Any",
+                "timings": "Trigger",
+                "notes": "Ofcourse be weary that the room on your left is clear, if theyre on bad cycles as you arrive send them up with a shot or kalmer them"
+            }
+        ]
+    },
+    "reza_zaydan": {
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Flying Toilet",
+                    "video_link": "https://youtu.be/Ae0c3giuHR0",
+                    "requires": "Breacher + Visual lure",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Alternatively you can wait for Reza to naturally go under the toilet but this is significantly slower"
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/6QM4-t97s_A",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Can also be done instantly in Reza's office from soldier start"
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/PQmrCr2v4rg",
+                    "requires": "Breacher or taser",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Traditionally the Cherry Blossom lure will be initiated almost immediately"
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/nS7_DSkmW5c",
+                    "requires": "Taser or firearm",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Can also be done with the office isolation but is riskier to set up"
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Water Bottle",
+                    "video_link": "https://youtu.be/lPXnsS3JcTA",
+                    "requires": "Pistol and lethal poison",
+                    "starts": "Solider, School, or Default",
+                    "timings": "3:10",
+                    "notes": ""
+                },
+                {
+                    "name": "Plate",
+                    "video_link": "https://youtu.be/Xoe3REK49FM",
+                    "requires": "Lethal poison",
+                    "starts": "Default preferred",
+                    "timings": "4:10",
+                    "notes": ""
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Regular ISOs will work for live kills"
+                }
+            ]
+        }
+    }
+}

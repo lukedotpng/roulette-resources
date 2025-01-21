@@ -1,0 +1,462 @@
+{
+    "sean_rose": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Basement",
+                    "video_link": "https://youtu.be/hFuPdfAlTf4",
+                    "requires": "Lockpick",
+                    "starts": "Any",
+                    "timings": "Instant / 6:00",
+                    "notes": "A way to kill Sean at the end of a spin in the house."
+                },
+                {
+                    "name": "Shed",
+                    "video_link": "https://youtu.be/qIudIJHA7bU",
+                    "requires": "Sedative / Gun to give up",
+                    "starts": "Any",
+                    "timings": "3:30 - 4:50",
+                    "notes": "A way to Loud Live Sean inside his usual Shed cycle"
+                },
+                {
+                    "name": "Peekaboo",
+                    "video_link": "https://youtu.be/AiDNiykpzac",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "~3:00",
+                    "notes": "A way to Loud Live Sean at an earlier part of his cycle, take note of how this effects Maya"
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/AzcEoM-AOZE",
+                    "requires": "Nothing",
+                    "starts": "Hacker / Any",
+                    "timings": "Instant / 6:00",
+                    "notes": ""
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/SO9nX3cRml0",
+                    "requires": "Nothing",
+                    "starts": "Hacker / Any",
+                    "timings": "Instant / 6:00",
+                    "notes": ""
+                },
+                {
+                    "name": "Haybale",
+                    "video_link": "https://youtu.be/5AEAuw4TWew",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "~3:00",
+                    "notes": "For haybale push you need to head over right after isolating Maya, not time for anything really"
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "Gunclick",
+                    "video_link": "https://youtu.be/DyMOUlQ7Uws",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "3:30 - 4:50",
+                    "notes": "Gunclick option requires a loadout slot, but in terms of ease of use and timing its by far the best to learn. Learn either of the other 2 if you're worrying about being loadout locked."
+                },
+                {
+                    "name": "Briefcase",
+                    "video_link": "https://youtu.be/5S5VxySjM8Y",
+                    "requires": "Briefcase",
+                    "starts": "Any",
+                    "timings": "3:30 - 4:50",
+                    "notes": ""
+                },
+                {
+                    "name": "Barrel",
+                    "video_link": "https://youtu.be/a328vgb55_8",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "3:30 - 4:50",
+                    "notes": ""
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/auUxFW0lfZM",
+                    "requires": "Taser",
+                    "starts": "Any",
+                    "timings": "3:30 - 4:50",
+                    "notes": ""
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "No meta way to do this kill other than propane"
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/pGbRZr2ovJY",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "6:00",
+                    "notes": "Tamper with the clock before his arrival to allow for slightly easier exeuction on him. (shed will be used for most live kills)"
+                }
+            ]
+        }
+    },
+    "penelope_graves": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Basement",
+                    "video_link": "https://youtu.be/FXLry8N1GJ0",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "45 - 1:00 / 7:00",
+                    "notes": "Drag Pen so you have a line of sight from the corner by the books, its soundproof if you shoot from there"
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/jz_v4xcUk4s",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "45 - 1:00 / 7:00",
+                    "notes": "Check for upstairs guard, hackers and Sean's guard returning to the house for the drag."
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/qqAIS47_nFw",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "45 - 1:00",
+                    "notes": "Check for upstairs guard, hackers and Sean's guard returning to the house for the drag."
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "Scarecrow",
+                    "video_link": "https://youtu.be/aBSFGyg_K_Q",
+                    "requires": "Taser",
+                    "starts": "Any",
+                    "timings": "1:50",
+                    "notes": "Faucet ON AND OFF, activate any time"
+                },
+                {
+                    "name": "Kitchen",
+                    "video_link": "https://youtu.be/59ko87zJi9Q",
+                    "requires": "EMP or Coin",
+                    "starts": "Any",
+                    "timings": "4:00",
+                    "notes": "KO roaming soldier, EMP in puddle, time the activation, or with taser activate anytime."
+                },
+                {
+                    "name": "House Remote",
+                    "video_link": "https://youtu.be/Ya8A1xG3kxk",
+                    "requires": "Gun + Taser",
+                    "starts": "West Bridge (Fact Check)",
+                    "timings": "Instant (Fact Check)",
+                    "notes": ""
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "No meta way to do this kill other than a propane"
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Consumed",
+                    "video_link": "https://youtu.be/l5GEpuZRTTQ",
+                    "requires": "Poison",
+                    "starts": "Any",
+                    "timings": "4:40 (No proxy)",
+                    "notes": "Can be spotted turning on generator, be sure to check."
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/fb2brYY3pe4",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "7:00",
+                    "notes": "Check for roaming upstairs guard, hackers and sean's guard returning to the house."
+                },
+                {
+                    "name": "Barracks",
+                    "video_link": "https://www.youtube.com/watch?v=DymwVuO18rI",
+                    "requires": "Silenced Semi Auto Gun",
+                    "starts": "Any",
+                    "timings": "3:30 or 4:30 with a delay",
+                    "notes": "Place gun to distract guard and start the chain lure as she begins to walk"
+                }
+            ]
+        }
+    },
+    "ezra_berg": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Nothing",
+                    "video_link": "https://youtu.be/q2aYE0OxmTI",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Sub 50 / Trigger",
+                    "notes": "Drag Ezra so you have a line of sight from the corner by the books, its soundproof if you shoot from there"
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/55lM55um73Q",
+                    "requires": "Gun / Explosive",
+                    "starts": "Any",
+                    "timings": "Sub 50s ISO",
+                    "notes": "Watch to your right for roaming hackers and check above the for 1 roaming guard on a long cycle."
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "House",
+                    "video_link": "https://youtu.be/GN8HDfl_idY",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Sub 50s ISO",
+                    "notes": "Watch to your right for roaming hackers and check above the for 1 roaming guard on a long cycle."
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "Barrel",
+                    "video_link": "https://youtu.be/5swVbzjC0aw",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Early set up then 2:50 - 3:50",
+                    "notes": "Clear out the shed early then come back later to use the switch into throw lure."
+                },
+                {
+                    "name": "Phone",
+                    "video_link": "https://youtu.be/Xc_0Wnpm-24",
+                    "requires": "Phone",
+                    "starts": "Any",
+                    "timings": "4:00",
+                    "notes": "Bump the guard and call the phone as hes leaving the shed"
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "No meta way to do this kill other than a propane"
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "Basement",
+                    "video_link": "https://youtu.be/uDch7qFb4lM",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "First part of this video is just showing a Pen ISO paired with a basement clear out so Ezra roams uninteruppted."
+                }
+            ]
+        }
+    },
+    "maya_parvati": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/3HCetTCf3E4",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "2:20 - 2:38",
+                    "notes": "Can leave her at this box if you never activate the 2 slurry guard's convo."
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Haybale",
+                    "video_link": "https://youtu.be/e6ZW_qOdr8M",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "1:55 (4:00 Cycles)",
+                    "notes": "Shoot when shes in line with the doors."
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "Chain Lure",
+                    "video_link": "https://youtu.be/W2qdCHJEM2M",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "2:20",
+                    "notes": "Turn on generator, wait till she is fully stationary, then copy the chain lure."
+                },
+                {
+                    "name": "Peekaboo",
+                    "video_link": "https://youtu.be/bWpv43agfJU",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "4:00",
+                    "notes": "Catch her vision then run her left and cross well after the whoosh is gone to the other side for a KO."
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "Barrel",
+                    "video_link": "https://youtu.be/N8s0zX_GPtk",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "2:10 - 2:35",
+                    "notes": "Turn on generator and puncture the fire barrel, shoot the puddle from inside garages shed."
+                },
+                {
+                    "name": "Peekaboo",
+                    "video_link": "https://youtu.be/7YZOJ1Prs2I",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "4:00",
+                    "notes": ""
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/U7sGWv7-UM0",
+                    "requires": "EMP",
+                    "starts": "Any",
+                    "timings": "1:30 - 2:45 (4:00 Cycles)",
+                    "notes": "EMP in puddle to attract her, dont do it super early or you might get Sean / his guard, also watch for roaming soldiers and the 2:45 timing."
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://www.youtube.com/watch?v=jiWj9It8ST0",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "2:20 - 2:38",
+                    "notes": "Leak the cannister, lure her over to it and shoot any nearby metal for a sparks explosion"
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Consumed",
+                    "video_link": "https://youtu.be/d8Axj78xrYA",
+                    "requires": "Poison",
+                    "starts": "Any",
+                    "timings": "1:00 (4:00 Cycles)",
+                    "notes": "Turn on the forklift and distract the other guard to get into the barn and check its safe to poison the drink."
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/pPnIUACs2dE",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "2:20 - 2:38",
+                    "notes": "Same as the ISO"
+                }
+            ]
+        }
+    }
+}

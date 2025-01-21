@@ -1,0 +1,66 @@
+{
+    "sean_rose": [
+        {
+            "name": "Hacker Start",
+            "video_link": "https://youtu.be/ine5owxpj8I",
+            "requires": "Lockpick and Gun",
+            "starts": "Hacker",
+            "timings": "Instant",
+            "notes": "Time 2 throw KOs onto him and his guard, box his guard and drag him into the basement to proxy Ezra then KO Pen followed by Ezra."
+        },
+        {
+            "name": "Shed",
+            "video_link": "https://youtu.be/PivZ1zHLr9A",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "3:30 - 4:50",
+            "notes": "Either KO the 2 Technicians and hide them and the guns ready for later, or just enter when hes washing his hand and triple KO"
+        }
+    ],
+    "penelope_graves": [
+        {
+            "name": "Basement",
+            "video_link": "https://youtu.be/p2D3F6Z1Kwo",
+            "requires": "Lockpick and Gun",
+            "starts": "Any",
+            "timings": "1:05 (No proxy)",
+            "notes": "Wait by the basement door and KO as shes passing, be careful if youve proxy delayed her as hackers are rotating, if so just bump her and wait for the all clear."
+        },
+        {
+            "name": "Barracks",
+            "video_link": "https://www.youtube.com/watch?v=DymwVuO18rI",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "3:30 (No proxy)",
+            "notes": "Allow pen to start speaking to the guy then bump him and throw distract ASAP, if timed as shes about to give up on the convo she will come alone."
+        }
+    ],
+    "ezra_berg": [
+        {
+            "name": "Basement",
+            "video_link": "https://youtu.be/-DlOMn7f7I4",
+            "requires": "Lockpick / Crowbar / Gun",
+            "starts": "Any",
+            "timings": "Instant",
+            "notes": ""
+        }
+    ],
+    "maya_parvati": [
+        {
+            "name": "Chain Lure",
+            "video_link": "https://youtu.be/m5g2TcnUrRc",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "2:10 - 2:35",
+            "notes": "Get in range to trigger he dialogue by 2:38 at the latest and youve made it, activate the generator and initiate a chain lure into the small room or leave her by the box."
+        },
+        {
+            "name": "Peekaboo",
+            "video_link": "https://youtu.be/w_oNArOCbPA",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "4:00",
+            "notes": "Hard to mix Sean timing with this one, thats why its not meta at all. Catch her vision then run her left and cross well after the whoosh is gone to the other side for a KO. Drag her to top of the steps for a 100% safe ISO."
+        }
+    ]
+}

@@ -1,0 +1,288 @@
+{
+    "sinhi_akka": {
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Lanturn",
+                    "video_link": "https://youtu.be/I0k5-SQMu6w",
+                    "requires": "Visual Lure",
+                    "starts": "Any",
+                    "timings": "2:05",
+                    "notes": "Use briefcase of coin to lure under the lanturn"
+                },
+                {
+                    "name": "Bricks",
+                    "video_link": "https://youtu.be/uiHAJbTbHUA",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "4:00",
+                    "notes": "KO all the surronding pirates and drag under the bricks"
+                }
+            ]
+        },
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Hostage",
+                    "video_link": "https://youtu.be/9nBOgPJsK_g",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "4:00",
+                    "notes": "KO and box her guard and give a gun to the nearby pirate to remove him then kill and box."
+                },
+                {
+                    "name": "Ruins",
+                    "video_link": "https://youtu.be/Gf0jQ_hmbI8",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "2:00",
+                    "notes": "Drag back for a line of sight from the ruins."
+                }
+            ]
+        },
+        "drowning": {
+            "name": "Drowning",
+            "methods": [
+                {
+                    "name": "Toilet ISO",
+                    "video_link": "",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "~2:00",
+                    "notes": "Emetic Akka at any point after leaving her front gate, then either lure and KO the guard or give him a gun to temporarily remove him."
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/78t-q8z9zPc",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "2:00+",
+                    "notes": "Take care of her guard and the gate guard, then drag and dump on the bridge."
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/0313DM8S2I8",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "2:05",
+                    "notes": "Light the barrel as she naturally passes it. Can use a brief to stop her on it and a breacher to make it remote."
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/SCmyq40tm4w",
+                    "requires": "",
+                    "starts": "Any",
+                    "timings": "1:55",
+                    "notes": "Bump and lure the guard out of the puddle and KO, put the taser in the puddle and detonate, 1:55 death."
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "No meta way to do this condition outside of propane flasks."
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Consumed",
+                    "video_link": "https://youtu.be/MlJFs0WRPPY",
+                    "requires": "Poison",
+                    "starts": "Any",
+                    "timings": "3:30",
+                    "notes": "Can poison in any disguise thats not trespass if you crouch."
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Regular ISOs work for live kills."
+                }
+            ]
+        }
+    },
+    "noel_crest": {
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Boat",
+                    "video_link": "https://youtu.be/soznkycc_wo",
+                    "requires": "Pistol",
+                    "starts": "Any",
+                    "timings": "50s",
+                    "notes": "Chain lue and shoot."
+                },
+                {
+                    "name": "Boat - Remote",
+                    "video_link": "https://youtu.be/Vuw2Pr_5Ybs",
+                    "requires": "Bomb",
+                    "starts": "Any",
+                    "timings": "3:20",
+                    "notes": "Briefcase under the boat and micro on the boat."
+                },
+                {
+                    "name": "Lanturn",
+                    "video_link": "https://youtu.be/Ylt04XpYlWQ",
+                    "requires": "Pistol",
+                    "starts": "Social Hub",
+                    "timings": "35s",
+                    "notes": "Only useful for super fast kills."
+                }
+            ]
+        },
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Toilet",
+                    "video_link": "https://youtu.be/F4HIeQ3dOY4",
+                    "requires": "Social Hub",
+                    "starts": "Any",
+                    "timings": "Instant",
+                    "notes": "Use a durian to send the guards far enough away then quickly kill and box."
+                },
+                {
+                    "name": "Stilt",
+                    "video_link": "https://youtu.be/GjqgtOc-PCA",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "1:30",
+                    "notes": "KO and box his guards, check its safe to KO the front one."
+                }
+            ]
+        },
+        "drowning": {
+            "name": "Drowning",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Toilet ISO is used for this condition"
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "Shore",
+                    "video_link": "https://youtu.be/5_yTSLGLpjg",
+                    "requires": "Nothing",
+                    "starts": "Social Hub",
+                    "timings": "40s",
+                    "notes": "Lure to the water and apple KO."
+                },
+                {
+                    "name": "Stilt",
+                    "video_link": "https://youtu.be/EgRAyESJSIg",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "1:30s",
+                    "notes": "KO and dump"
+                }
+            ]
+        },
+        "fire": {
+            "name": "Fire",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/KE0uSinj00U",
+                    "requires": "Sieker",
+                    "starts": "Social Hub",
+                    "timings": "Instant or 20s",
+                    "notes": "Double sieker or wait for him to walk a bit then emetic, delay the guards to perform the kill."
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/4j2bIVeEyXE",
+                    "requires": "Emetic and Taser",
+                    "starts": "Social Hub",
+                    "timings": "1:55",
+                    "notes": "Bump and lure the guard out of the puddle and KO, put the taser in the puddle and detonate, 1:55 death."
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "No meta way to do this condition outside of propane flasks."
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Consumed",
+                    "video_link": "https://youtu.be/hVV_nrFUV_U",
+                    "requires": "Pistol and Poison",
+                    "starts": "Stilt",
+                    "timings": "3:10",
+                    "notes": "Wake the sleeping lady up ASAP for fastest death. Get the key out of her hut and prepare and poison the food."
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "Regular ISOs work for live kills."
+                }
+            ]
+        }
+    }
+}

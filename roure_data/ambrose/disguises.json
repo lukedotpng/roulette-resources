@@ -1,0 +1,72 @@
+[
+    {
+        "disguise_id": "suit",
+        "name": "Suit",
+        "quick_look": "Suit [S][F] - Buccaneer, turn right when heading into satellite cave",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman2/ambrose-island/shadows-in-the-water?item=Disguise%7CThe%20Buccaneerhttps://www.hitmaps.com/games/hitman3/ambrose-island/shadows-in-the-water?item=Disguise%7CThe%20Buccaneer",
+        "notes": "",
+        "video_links": []
+    },
+    {
+        "disguise_id": "cook",
+        "name": "Cook",
+        "quick_look": "Cook [S][F] - Durian Room, Shed to boat key",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman2/ambrose-island/shadows-in-the-water?item=Disguise%7CCook",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/5HRhYpgYM_Y"
+        ]
+    },
+    {
+        "disguise_id": "engineer",
+        "name": "Engineer",
+        "quick_look": "Engineer - Beach KO",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/9ZjGmhzk920"
+        ]
+    },
+    {
+        "disguise_id": "hippie",
+        "name": "Hippie",
+        "quick_look": "Start Shrine and tranq",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/ihGDEXyFCFE"
+        ]
+    },
+    {
+        "disguise_id": "metal_worker",
+        "name": "Metal Worker",
+        "quick_look": "Metal Worker [S][F] - Shed by shortcut ladder",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman2/ambrose-island/shadows-in-the-water?item=Disguise%7CMetal%20Worker",
+        "notes": "Diguise you sometimes start in",
+        "video_links": [
+            "https://youtu.be/cRXmBykFxR0"
+        ]
+    },
+    {
+        "disguise_id": "militia_soldier",
+        "name": "Militia Soldier",
+        "quick_look": "Militia Soldier [F] - Get with Noel ISO",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman2/ambrose-island/shadows-in-the-water?item=Disguise%7CMilitia%20Soldier",
+        "notes": "Disguise comes from the Noel ISO",
+        "video_links": [
+            "https://youtu.be/WShvnkmY9iw"
+        ]
+    },
+    {
+        "disguise_id": "pirate",
+        "name": "Pirate",
+        "quick_look": "Akka meeting room peekaboo",
+        "hitmaps_link": "",
+        "notes": "Disguise comes from the Akka ISO",
+        "video_links": [
+            "https://youtu.be/mCRiZxzeFHA",
+            "https://youtu.be/RonYxRGQnXQ",
+            "https://youtu.be/TNKghbM7kGc"
+        ]
+    }
+]

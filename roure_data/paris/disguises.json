@@ -1,0 +1,119 @@
+[
+    {
+        "disguise_id": "suit",
+        "name": "Suit",
+        "quick_look": "Suit [S]",
+        "hitmaps_link": "",
+        "notes": "Must start in suit",
+        "video_links": []
+    },
+    {
+        "disguise_id": "auction_staff",
+        "name": "Auction Staff",
+        "quick_look": "Auction Staff | Under Dalia Room | Attic Storage | Museum Owner",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/aXmtmNa-UoI",
+            "https://youtu.be/7bv2QHa8dZA",
+            "https://youtu.be/ECRpp9sPbGM"
+        ]
+    },
+    {
+        "disguise_id": "cicada_bodyguard",
+        "name": "CICADA Bodyguard",
+        "quick_look": "CICADA Bodyguard | Sheikh Room | Balcony | IAGO bathroom | Outside Back Shed | Kurt | Stairs to top floor",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/lx8cwuzKvmM",
+            "https://youtu.be/8wNbiCyeIgY",
+            "https://youtu.be/c0Lc4uemzHo"
+        ]
+    },
+    {
+        "disguise_id": "chef",
+        "name": "Chef",
+        "quick_look": "Chef [S] | Main Staircase Basement Lure",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/jZvyg3magnU"
+        ]
+    },
+    {
+        "disguise_id": "helmut_kruger",
+        "name": "Helmut Kruger",
+        "quick_look": "Helmut Kruger [U] | Fireworks Timed Sedate",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/_Y18viy5rCY",
+            "https://www.youtube.com/watch?v=yzuOEPYW1GI"
+        ]
+    },
+    {
+        "disguise_id": "palace_staff",
+        "name": "Palace Staff",
+        "quick_look": "Palace Staff [S][F] | Outside Level 1 Kitchen | Basement Lockers Free ",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/paris/the-showstopper?item=Disguise%7CPalace%20Staff",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/7DAGOPd6Zsw",
+            "https://youtu.be/-GgpFZtGGis"
+        ]
+    },
+    {
+        "disguise_id": "security_guard",
+        "name": "Security Guard",
+        "quick_look": "Security Guard | Code 17 Room | Under Balcony | Tech Spawn",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/QuGcpWQi9wc",
+            "https://youtu.be/8xT_WV0t5Ng",
+            "https://youtu.be/8Iurp-YbCv8"
+        ]
+    },
+    {
+        "disguise_id": "sheikh",
+        "name": "Sheikh",
+        "quick_look": "Sheikh [U] | Sheikh Room",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/bVthAigW7xk"
+        ]
+    },
+    {
+        "disguise_id": "stylist",
+        "name": "Stylist",
+        "quick_look": "Stylist [S][F] | Free in Stylist Area",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/Lt6gIXqsf3w"
+        ]
+    },
+    {
+        "disguise_id": "tech_crew",
+        "name": "Tech Crew",
+        "quick_look": "Tech Crew [S] | Main Staircase",
+        "hitmaps_link": "",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/FmJ7LX3ubj4",
+            "https://youtu.be/5383ECLczv0"
+        ]
+    },
+    {
+        "disguise_id": "vampire_magician",
+        "name": "Vampire Magician",
+        "quick_look": "Vampire Magician [F][U!] | Attic Backroom",
+        "hitmaps_link": "https://www.hitmaps.com/games/hitman/paris/the-showstopper?item=Disguise%7CVampire%20Magician",
+        "notes": "",
+        "video_links": [
+            "https://youtu.be/iwz3qEw_U2s"
+        ]
+    }
+]

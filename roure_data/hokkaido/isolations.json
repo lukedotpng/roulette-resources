@@ -1,0 +1,36 @@
+{
+    "": [
+        {
+            "name": "Gondola",
+            "video_link": "https://youtu.be/eMUVuwXISQs",
+            "requires": "Nothing",
+            "starts": "Suite / Chef / Restaurant / Handyman",
+            "timings": "Pre 40s",
+            "notes": "Throw lure into the corner as Yuki is in a different room to her guards."
+        },
+        {
+            "name": "Suite Emetic",
+            "video_link": "https://youtu.be/crpjFcjVnMM",
+            "requires": "Emetic",
+            "starts": "Any",
+            "timings": "30 - 1:50",
+            "notes": "Can choose either Portmans suite or your own with siekering her 2nd. Making 1 guard sick makes the ISO easier"
+        },
+        {
+            "name": "Aqaurium",
+            "video_link": "https://youtu.be/nF-oAmSk_pc",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "2:30 or 3:00",
+            "notes": "Throw the brief as she approaches the door, use her map icon to remember a reference for yourself. Be mindful of the security and 2 people."
+        },
+        {
+            "name": "Sauna",
+            "video_link": "https://youtu.be/oFsmbaEGS0s",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "3:40 - 4:10",
+            "notes": "Be sure to turn up the heat with 30s buffer to make sure its empty for Yuki. If you're late and hostile you can peekaboo her for a double KO"
+        }
+    ]
+}

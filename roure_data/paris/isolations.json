@@ -1,0 +1,134 @@
+{
+    "viktor_novikov": [
+        {
+            "name": "Instant Bathroom",
+            "video_link": "https://youtu.be/haeniPp0i74",
+            "requires": "Seiker",
+            "starts": "Attic",
+            "timings": "Trigger",
+            "notes": "Get him sick before he has moved a couple steps down to have him go alone or alternatively let him to have his bodyguard (Kurt) with him."
+        },
+        {
+            "name": "Downstairs Fireworks",
+            "video_link": "https://youtu.be/i3JAc9lNDNY",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "",
+            "notes": "Pay attention to the timings I try to display in the video, there is a deadzone for Vik where he will go the wrong way."
+        },
+        {
+            "name": "Tech Corridor",
+            "video_link": "https://youtu.be/Bw12E4WO858",
+            "requires": "Nothing",
+            "starts": "Tech",
+            "timings": "Instant*",
+            "notes": "Pick up remote detonate ASAP *or delay him with a distraction shot"
+        },
+        {
+            "name": "Fireworks Outside",
+            "video_link": "https://youtu.be/qrpSBvRPl58",
+            "requires": "Nothing",
+            "starts": "Tech",
+            "timings": "Instant",
+            "notes": "Instant Fireworks will have Vik arrive outside around 1 minute later on his own. Small window here to KO or kill and drag"
+        },
+        {
+            "name": "Ceiling Shot - Tech",
+            "video_link": "https://youtu.be/u37VncN530Q",
+            "requires": "Pistol",
+            "starts": "Tech",
+            "timings": "Instant",
+            "notes": "Shoot at the very top of the wall ASAP to get Viktor investigate the attic, arrive at the attic entrance around 90s later to isolate"
+        },
+        {
+            "name": "Ceiling Shot - Attic",
+            "video_link": "https://youtu.be/d_f0iuOUkUs",
+            "requires": "Pistol or Sniper",
+            "starts": "Attic",
+            "timings": "Instant",
+            "notes": "Shoot at the very top of the wall ASAP to get Viktor investigate the attic, arrive at the attic entrance around 90s later to isolate"
+        },
+        {
+            "name": "Emetic Wallbang",
+            "video_link": "https://youtu.be/Ta1AuOENJUc",
+            "requires": "Emetic",
+            "starts": "Stylist or Chef",
+            "timings": "",
+            "notes": "Make Viktor sick through the stairs and make your way around the mansion to the above floor. Faster route up to Vik here: https://www.youtube.com/watch?v=89xiIaeu8b0"
+        },
+        {
+            "name": "Fireworks Seiker",
+            "video_link": "https://youtu.be/a6-16_SpRaQ",
+            "requires": "Seiker",
+            "starts": "Tech",
+            "timings": "Instant -> 2:30",
+            "notes": "Instant activate fireworks then seiker him at any point. His sickness will activate once the firework sequence ends and then he will puke in floor 1 bathroom at around 2:30."
+        },
+        {
+            "name": "Tech Instant Distract",
+            "video_link": "https://youtu.be/cldvXY5EGyY",
+            "requires": "Pistol",
+            "starts": "Tech",
+            "timings": "Instant",
+            "notes": "Dont activate fireworks, instead distract Viktor. Don't go too fast or you will clip the camera"
+        },
+        {
+            "name": "Seikerless Attic",
+            "video_link": "https://youtu.be/08PGBOowdd8",
+            "requires": "Pistol",
+            "starts": "Attic",
+            "timings": "Instant",
+            "notes": "Distract the guard by Viktor and then Viktor"
+        }
+    ],
+    "dalia_margolis": [
+        {
+            "name": "IAGO Bathroom",
+            "video_link": "https://youtu.be/s8PQ8vmOozY",
+            "requires": "Emetic Device",
+            "starts": "Auction",
+            "timings": "Instant",
+            "notes": "Drop emetic device from your inventory at Dalia's Feet ASAP, avoid anyone else. The Tech video shows how to enter this bathroom faster and get a disguise. https://youtu.be/-ZYlwAqyqyI"
+        },
+        {
+            "name": "Fireworks Balcony",
+            "video_link": "https://youtu.be/tqssde5iRXQ",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "Trigger for 60s*",
+            "notes": "Activate fireworks then access the top balcony via pipe or disguise. Then shut the door and double KO"
+        },
+        {
+            "name": "Fireworks Down 1",
+            "video_link": "https://youtu.be/4HcNnBAq5m8",
+            "requires": "Nothing",
+            "starts": "Any",
+            "timings": "",
+            "notes": "Activate fireworks then when she is out on the balcony distract her guard then throw lure her down."
+        },
+        {
+            "name": "Fireworks Double Down",
+            "video_link": "https://youtu.be/Rj3PHPbXxlE",
+            "requires": "Phone",
+            "starts": "Any",
+            "timings": "",
+            "notes": "Activate fireworks then when she is out on the balcony distract her guard then KO the security guard and ring the phone."
+        },
+        {
+            "name": "Suite",
+            "video_link": "https://youtu.be/dCaEbI8DXu0",
+            "requires": "Seiker",
+            "starts": "Any",
+            "timings": "2:10 - 2:40",
+            "notes": "Peekaboo or sieker her into the bathroom and KO."
+        },
+        {
+            "name": "Code 17",
+            "video_link": "https://youtu.be/xyGx21ilwr8",
+            "requires": "Seiker",
+            "starts": "Any",
+            "timings": "Trigger + 90s",
+            "notes": "KO Kurt (Vik's bodyguard) for his phone and activate it for \"Code 17\" lockdown. 90s later dalia is isolated."
+        }
+    ]
+}

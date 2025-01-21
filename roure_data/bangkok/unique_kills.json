@@ -1,0 +1,318 @@
+{
+    "": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/XCPBytDDlCc",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "~1:00",
+                    "notes": ""
+                },
+                {
+                    "name": "Exterminator",
+                    "video_link": "https://youtu.be/PwOnCjcZntg",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Trigger + 3:00",
+                    "notes": ""
+                }
+            ]
+        },
+        "drowning": {
+            "name": "Drowning",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/vGAedKe5dwA",
+                    "requires": "Emetics",
+                    "starts": "Any",
+                    "timings": "Instant",
+                    "notes": ""
+                },
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/aAjgFC3r7Ck",
+                    "requires": "Emetics",
+                    "starts": "Any",
+                    "timings": "1:30 - 2:30",
+                    "notes": ""
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Jacuzzi Setup",
+                    "video_link": "https://youtu.be/nal6nHDqG-k",
+                    "requires": "Nothing",
+                    "starts": "Recording Crew",
+                    "timings": "Instant",
+                    "notes": ""
+                },
+                {
+                    "name": "Peekaboo Jacuzzi",
+                    "video_link": "https://www.youtube.com/watch?v=Zy7oqymf9ws",
+                    "requires": "Briefcase",
+                    "starts": "Any",
+                    "timings": "",
+                    "notes": ""
+                },
+                {
+                    "name": "Top Floor",
+                    "video_link": "https://youtu.be/hM2h1WraaE4",
+                    "requires": "Snail",
+                    "starts": "Any",
+                    "timings": "",
+                    "notes": ""
+                },
+                {
+                    "name": "Snail Lure",
+                    "video_link": "https://youtu.be/KA7Tdju2jvM",
+                    "requires": "SMG / Keycard + Snail",
+                    "starts": "Recording Crew or Suite",
+                    "timings": "Instant",
+                    "notes": ""
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://youtu.be/wzIsyE6DE5w",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "~55s",
+                    "notes": ""
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "https://www.youtube.com/watch?v=EjtGj71xJh0",
+                    "requires": "Tase",
+                    "starts": "Any",
+                    "timings": "1:30 - 2:30",
+                    "notes": "Video shows how to do it remote, you can very easily just KO and drag him on the puddle"
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": ""
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Beer",
+                    "video_link": "https://youtu.be/E8bqIg1zRI4",
+                    "requires": "Poison",
+                    "starts": "Recording Crew",
+                    "timings": "~1:20 with bump",
+                    "notes": "To create different timings from the bottle do things like make him sick and give him more weapons to report etc."
+                },
+                {
+                    "name": "Birthday Cake",
+                    "video_link": "https://youtu.be/MJj8KOvmBUg",
+                    "requires": "Poison",
+                    "starts": "Kitchen",
+                    "timings": "3:30 - 4:30",
+                    "notes": "Death timing for Cake varies massively"
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "Bathroom Peekaboo",
+                    "video_link": "https://www.youtube.com/watch?v=OlYjG3wmHoE",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "55s",
+                    "notes": ""
+                }
+            ]
+        }
+    },
+    "ken_morgan": {
+        "loud_kills": {
+            "name": "Loud Kills",
+            "methods": [
+                {
+                    "name": "Bathroom",
+                    "video_link": "https://youtu.be/j5ybNV20ucc",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "If in bathroom make sure both doors are closed between you and the outside waiter"
+                },
+                {
+                    "name": "Basement",
+                    "video_link": "https://youtu.be/3_VUeEdXWPM",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": ""
+                }
+            ]
+        },
+        "drowning": {
+            "name": "Drowning",
+            "methods": [
+                {
+                    "name": "Bathroom",
+                    "video_link": "https://youtu.be/FtBpPFgRS7k",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Bathroom emetic is most verstile and easier in most cases. "
+                },
+                {
+                    "name": "Basement",
+                    "video_link": "https://youtu.be/gVEjpC7E2tE",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Basement can be good for some disguises such as Abel because he is enforced at the bathroom."
+                }
+            ]
+        },
+        "falling_object": {
+            "name": "Falling Object",
+            "methods": [
+                {
+                    "name": "Restaurant",
+                    "video_link": "https://youtu.be/uvqBL69LAZA",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "50s",
+                    "notes": "Restuarant timing is 50s, with a 2nd try oppurtinity if you miss it."
+                },
+                {
+                    "name": "Coconut Backup",
+                    "video_link": "https://youtu.be/SkeOVlv6O8k",
+                    "requires": "Gun",
+                    "starts": "Any",
+                    "timings": "",
+                    "notes": "Coconuts are for if you think you will just miss restuarant but are right after so very very niche."
+                },
+                {
+                    "name": "47 Suite",
+                    "video_link": "https://youtu.be/NneX1VUZS7k",
+                    "requires": "",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "47 suite is a really slow and easy roleplay kill, good for if you dont know Bangkok too well and wany a trigger option."
+                }
+            ]
+        },
+        "fall": {
+            "name": "Fall",
+            "methods": [
+                {
+                    "name": "47 Suite",
+                    "video_link": "https://youtu.be/4jH_J86ExsU",
+                    "requires": "Nothing",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Can be performed at any time and is easy. Needs Nothing."
+                },
+                {
+                    "name": "Patio",
+                    "video_link": "https://youtu.be/4jH_J86ExsU",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "~3:00",
+                    "notes": "Specific timing and execution, but fast. Needs Emetic."
+                }
+            ]
+        },
+        "electrocution": {
+            "name": "Electrocution",
+            "methods": [
+                {
+                    "name": "Electrocution",
+                    "video_link": "https://youtu.be/laX6oWkWa40",
+                    "requires": "Emetic and Taser",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Bathroom emetic is most verstile and easier in most cases."
+                },
+                {
+                    "name": "Basement",
+                    "video_link": "https://youtu.be/JmgNAFHWuqw",
+                    "requires": "Emetic and Taser",
+                    "starts": "Any",
+                    "timings": "Trigger",
+                    "notes": "Basement can be good for some disguises such as Abel because he is enforced at the bathroom."
+                }
+            ]
+        },
+        "explosion_accident": {
+            "name": "Explosion Accident",
+            "methods": [
+                {
+                    "name": "",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "No meta way to do this other than propane"
+                }
+            ]
+        },
+        "consumed": {
+            "name": "Consumed",
+            "methods": [
+                {
+                    "name": "Consumed",
+                    "video_link": "https://youtu.be/T791Cwh57Zs",
+                    "requires": "Poison",
+                    "starts": "Any",
+                    "timings": "~1:10 (3rd from left) | ~4:10 (4th from left)",
+                    "notes": "Pretty safe to poison the dish in any disguise"
+                }
+            ]
+        },
+        "live_kills": {
+            "name": "Live Kills",
+            "methods": [
+                {
+                    "name": "Bathroom and Basement",
+                    "video_link": "",
+                    "requires": "",
+                    "starts": "",
+                    "timings": "",
+                    "notes": "See other videos for these ISOs. Preferred for most spins"
+                },
+                {
+                    "name": "Patio",
+                    "video_link": "https://youtu.be/0hAUF7bjW24",
+                    "requires": "Emetic",
+                    "starts": "Any",
+                    "timings": "~2:45",
+                    "notes": "The patio live kill is far trickier than the emetics but can save you a lot of time, learn if you want to speciliase a bit more on Bangkok"
+                }
+            ]
+        }
+    }
+}
