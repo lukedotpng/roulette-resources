@@ -24,7 +24,11 @@ export default async function Page({
     } else {
         return (
             <Isolations
-                targets={MissionTargets[mission]}
+                targets={
+                    mission !== "hokkaido"
+                        ? MissionTargets[mission]
+                        : ["yuki_yamazaki"]
+                }
                 isolationsGroup={isolations}
             />
         );

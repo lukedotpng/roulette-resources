@@ -23,28 +23,26 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
 
     return (
         <section className="flex gap-5 text-xl">
-            <nav>
-                <ul>
-                    {disguises.map((disguise) => (
-                        <li key={disguise.disguise_id}>
-                            <button
-                                data-active={
-                                    disguise.disguise_id === activeDisguiseId
-                                }
-                                className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
-                                onClick={() => {
-                                    setActiveDisguiseId(disguise.disguise_id);
-                                    router.replace(
-                                        `?disguise=${disguise.disguise_id}`,
-                                    );
-                                }}
-                            >
-                                {disguise.name}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+            <ul className="h-96 overflow-scroll">
+                {disguises.map((disguise) => (
+                    <li key={disguise.disguise_id}>
+                        <button
+                            data-active={
+                                disguise.disguise_id === activeDisguiseId
+                            }
+                            className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
+                            onClick={() => {
+                                setActiveDisguiseId(disguise.disguise_id);
+                                router.replace(
+                                    `?disguise=${disguise.disguise_id}`,
+                                );
+                            }}
+                        >
+                            {disguise.name}
+                        </button>
+                    </li>
+                ))}
+            </ul>
             <div className="text-2xl">
                 <DisguiseCard disguise={activeDisguise} />
             </div>

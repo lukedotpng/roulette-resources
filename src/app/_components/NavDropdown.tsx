@@ -23,7 +23,7 @@ export default function NavDropdown({
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="flex w-40 flex-col"
+                className="flex w-40 flex-col shadow-xl shadow-black"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}

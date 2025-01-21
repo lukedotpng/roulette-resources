@@ -27,8 +27,8 @@ export default async function Page({
     // );
 
     return (
-        <main className="flex flex-1 flex-col items-center gap-5 bg-zinc-800 text-5xl text-white">
-            <h1 className="w-full p-4 font-bold">
+        <main className="flex flex-1 flex-col items-center gap-5 bg-zinc-800 text-3xl text-white">
+            <h1 className="w-full p-4 pb-0 font-bold">
                 {MapIDToDisplayText(mission)}
             </h1>
             <MissionInfoNav mission={mission} />

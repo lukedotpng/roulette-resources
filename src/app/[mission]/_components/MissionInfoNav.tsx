@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function MissionInfoNav({ mission }: { mission: string }) {
     return (
-        <nav className="flex text-3xl font-semibold">
+        <nav className="flex text-2xl font-semibold">
             <NavLink text="General" href={`/${mission}`} />
             <NavLink text="Disguises" href={`/${mission}/disguises`} />
             <NavLink text="Isolations" href={`/${mission}/isolations`} />
