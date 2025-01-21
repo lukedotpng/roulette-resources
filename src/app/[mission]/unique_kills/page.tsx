@@ -1,4 +1,4 @@
-import { UniqueKill } from "@/types";
+// import { UniqueKill } from "@/types";
 
 export default function Page() {
     return (

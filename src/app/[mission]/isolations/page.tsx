@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 
-import { Isolation, IsolationsGroup, Mission } from "@/types";
+import { IsolationsGroup, Mission } from "@/types";
 import Isolations from "./_components/Isolations";
 import { MissionTargets } from "@/globals";
 

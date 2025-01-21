@@ -4,7 +4,6 @@ import {
     DropdownMenu,
     DropdownMenuTrigger,
     DropdownMenuContent,
-    DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 
@@ -28,7 +27,7 @@ export default function NavDropdown({
                     event.preventDefault();
                 }}
             >
-                {maps.map((map, index) => {
+                {maps.map((map) => {
                     return (
                         <Link
                             key={map}

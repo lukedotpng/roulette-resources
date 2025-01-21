@@ -59,16 +59,16 @@ export default function Isolations({
 }
 
 function IsolationCard({ isolation }: { isolation: Isolation }) {
-    const link = isolation.video_link;
-    const youtubeIdRegex =
-        /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
+    // const link = isolation.video_link;
+    // const youtubeIdRegex =
+    //     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
 
-    const videoIdMatch = link.match(youtubeIdRegex);
-    if (videoIdMatch === null || videoIdMatch.length < 8) {
-        return;
-    }
+    // const videoIdMatch = link.match(youtubeIdRegex);
+    // if (videoIdMatch === null || videoIdMatch.length < 8) {
+    //     return;
+    // }
 
-    const videoId = videoIdMatch[7];
+    // const videoId = videoIdMatch[7];
 
     return (
         <div className="max-w-[600px] bg-white p-3 text-zinc-900">
