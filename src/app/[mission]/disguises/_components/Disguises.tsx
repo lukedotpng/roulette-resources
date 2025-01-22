@@ -7,7 +7,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import Link from "next/link";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
