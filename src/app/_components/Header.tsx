@@ -3,11 +3,13 @@ import NavDropdown from "./NavDropdown";
 
 export default function Header() {
     return (
-        <header className="flex h-10 items-center justify-between">
+        <header className="flex h-8 items-center justify-between sm:h-9 md:h-10">
             <Link href="/" prefetch={true}>
-                <h1 className="px-2 text-2xl font-extrabold">Rou|Re</h1>
+                <h1 className="px-2 text-base font-extrabold sm:text-lg md:text-2xl">
+                    Rou|Re
+                </h1>
             </Link>
-            <nav className="h-full self-center text-xl font-bold">
+            <nav className="h-full self-center text-xs font-bold sm:text-sm md:text-base">
                 <NavDropdown
                     season="Season 1"
                     maps={[

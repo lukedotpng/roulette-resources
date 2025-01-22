@@ -1,6 +1,7 @@
 import { db } from "@/server/db";
 import { itemsSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+import Items from "./_components/Items";
 
 export default async function Page({
     params,
@@ -23,12 +24,6 @@ export default async function Page({
     if (itemsData === null) {
         return <h1>No data for this map :(</h1>;
     } else {
-        return (
-            <h1>
-                {itemsData.map((item) => {
-                    return <div key={item.item_id}>{item.name}</div>;
-                })}
-            </h1>
-        );
+        return <Items items={itemsData} />;
     }
 }

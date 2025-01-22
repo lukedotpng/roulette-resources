@@ -17,12 +17,12 @@ export default function NavDropdown({
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-                <button className="h-full w-40 outline-none hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white">
+                <button className="h-full w-20 text-sm font-bold outline-none hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white sm:w-32 sm:text-base md:w-40 md:text-xl">
                     {season}
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="flex w-40 flex-col shadow-xl shadow-black"
+                className="flex w-20 flex-col shadow-lg shadow-black sm:w-32 md:w-40"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
@@ -31,7 +31,7 @@ export default function NavDropdown({
                     return (
                         <Link
                             key={map}
-                            className="bg-white px-1 py-2 text-base text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
+                            className="bg-white px-1 py-2 text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
                             href={`/${textToPathFormat(map)}`}
                             prefetch={true}
                         >

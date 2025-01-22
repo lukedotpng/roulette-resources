@@ -26,6 +26,10 @@ export default function RootLayout({
             >
                 <Header />
                 {children}
+                {/* screen size debug */}
+                <h1 className="fixed left-20 top-1 after:content-['xs'] after:sm:content-['sm'] after:md:content-['md'] after:lg:content-['lg'] after:xl:content-['xl']">
+                    size:
+                </h1>
             </body>
         </html>
     );

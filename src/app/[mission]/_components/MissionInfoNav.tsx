@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function MissionInfoNav({ mission }: { mission: string }) {
     return (
-        <nav className="flex text-2xl font-semibold">
+        <nav className="flex w-80 justify-center text-xs font-semibold sm:w-fit sm:text-xl md:text-2xl">
             <NavLink text="General" href={`/${mission}`} />
             <NavLink text="Disguises" href={`/${mission}/disguises`} />
             <NavLink text="Isolations" href={`/${mission}/isolations`} />
@@ -20,7 +20,7 @@ function NavLink({ text, href }: { text: string; href: string }) {
     return (
         <Link
             data-active={pathname === href}
-            className="data-[active=true]:-2 bg-white px-5 py-2 text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-4 data-[active=true]:border-red-500"
+            className="bg-white px-2 py-1 text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-4 data-[active=true]:border-red-500 sm:px-4 md:px-8 md:py-2"
             href={href}
             prefetch={true}
         >
