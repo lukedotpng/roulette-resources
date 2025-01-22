@@ -1,4 +1,6 @@
-import { promises as fs } from "fs";
+import { db } from "@/server/db";
+import { itemsSchema } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export default async function Page({
     params,
@@ -7,26 +9,26 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    // const parisDisguises = await fs
-    //     .readFile(process.cwd() + "/roure_data/paris/disguises.json", "utf-8")
-    //     .then((data) => JSON.parse(data) as Disguise[]);
+    const itemInfoRow = await db
+        .select()
+        .from(itemsSchema)
+        .where(eq(itemsSchema.map, mission));
 
-    // const parisIsolations = await fs.readFile(
-    //     process.cwd() + "/roure_data/paris/isolations.json",
-    //     "utf-8",
-    // );
-    const items = await fs.readFile(
-        process.cwd() + "/roure_data/" + mission + "/items.json",
-        "utf-8",
-    );
-    // const parisUniqueKills = await fs.readFile(
-    //     process.cwd() + "/roure_data/paris/unique_kills.json",
-    //     "utf-8",
-    // );
+    if (itemInfoRow === null || itemInfoRow.length === 0) {
+        return <h1>No data for this map :(</h1>;
+    }
 
-    if (!items) {
+    const itemsData = itemInfoRow[0].data;
+
+    if (itemsData === null) {
         return <h1>No data for this map :(</h1>;
     } else {
-        return <h1>{JSON.stringify(items)}</h1>;
+        return (
+            <h1>
+                {itemsData.map((item) => {
+                    return <div key={item.item_id}>{item.name}</div>;
+                })}
+            </h1>
+        );
     }
 }

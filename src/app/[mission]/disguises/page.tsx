@@ -1,7 +1,8 @@
-import { promises as fs } from "fs";
-
 import { Disguise } from "@/types";
 import Disguises from "./_components/Disguises";
+import { db } from "@/server/db";
+import { disguisesSchema } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export default async function Page({
     params,
@@ -10,17 +11,20 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    const disguises = await fs
-        .readFile(
-            process.cwd() + "/roure_data/" + mission + "/disguises.json",
-            "utf-8",
-        )
-        .then((data) => JSON.parse(data) as Disguise[])
-        .catch(() => []);
+    const disguiseInfoRow = await db
+        .select()
+        .from(disguisesSchema)
+        .where(eq(disguisesSchema.map, mission));
 
-    if (disguises.length === 0) {
+    if (disguiseInfoRow === null || disguiseInfoRow.length === 0) {
+        return <h1>No data for this map :(</h1>;
+    }
+
+    const disguiseData = disguiseInfoRow[0].data;
+
+    if (disguiseData === null) {
         return <h1>No data yet :(</h1>;
     } else {
-        return <Disguises disguises={disguises} />;
+        return <Disguises disguises={disguiseData} />;
     }
 }

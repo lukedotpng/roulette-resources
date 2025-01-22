@@ -34,6 +34,14 @@ export type UniqueKill = {
     methods: Method[];
 };
 
+export type TargetUniqueKills = {
+    [key: string]: UniqueKill;
+};
+
+export type UniqueKillsGroup = {
+    [key: string]: TargetUniqueKills;
+};
+
 export type Method = {
     name: string;
     video_link: string;

@@ -1,8 +1,9 @@
-import { promises as fs } from "fs";
-
-import { IsolationsGroup, Mission } from "@/types";
+import { Mission } from "@/types";
 import Isolations from "./_components/Isolations";
 import { MissionTargets } from "@/globals";
+import { db } from "@/server/db";
+import { isolationsSchema } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export default async function Page({
     params,
@@ -11,15 +12,18 @@ export default async function Page({
 }) {
     const mission: Mission = (await params).mission as Mission;
 
-    const isolations = await fs
-        .readFile(
-            process.cwd() + "/roure_data/" + mission + "/isolations.json",
-            "utf-8",
-        )
-        .then((data) => JSON.parse(data) as IsolationsGroup)
-        .catch(() => undefined);
+    const isolationInfoRow = await db
+        .select()
+        .from(isolationsSchema)
+        .where(eq(isolationsSchema.map, mission));
 
-    if (!isolations) {
+    if (isolationInfoRow === null || isolationInfoRow.length === 0) {
+        return <h1>No data for this map :(</h1>;
+    }
+
+    const isolationsData = isolationInfoRow[0].data;
+
+    if (isolationsData === null) {
         return <h1>No data for this map :(</h1>;
     } else {
         return (
@@ -29,7 +33,7 @@ export default async function Page({
                         ? MissionTargets[mission]
                         : ["yuki_yamazaki"]
                 }
-                isolationsGroup={isolations}
+                isolationsGroup={isolationsData}
             />
         );
     }

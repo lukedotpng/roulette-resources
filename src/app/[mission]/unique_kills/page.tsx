@@ -1,9 +1,38 @@
 // import { UniqueKill } from "@/types";
 
-export default function Page() {
-    return (
-        <section className="flex gap-5 text-xl">
-            <h1>Unique Kills page under construction</h1>
-        </section>
-    );
+import { db } from "@/server/db";
+import { uniqueKillsSchema } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
+import UniqueKills from "./_components/UniqueKills";
+import { MissionTargets } from "@/globals";
+import { Mission } from "@/types";
+
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ mission: string }>;
+}) {
+    const mission = (await params).mission as Mission;
+
+    const uniqueKillsRow = await db
+        .select()
+        .from(uniqueKillsSchema)
+        .where(eq(uniqueKillsSchema.map, mission));
+
+    if (uniqueKillsRow === null || uniqueKillsRow.length === 0) {
+        return <h1>No data for this map :(</h1>;
+    }
+
+    const uniqueKillsData = uniqueKillsRow[0].data;
+
+    if (uniqueKillsData === null) {
+        return <h1>No data for this map :(</h1>;
+    } else {
+        return (
+            <UniqueKills
+                targets={MissionTargets[mission]}
+                uniqueKillsGroup={uniqueKillsData}
+            />
+        );
+    }
 }

@@ -9,23 +9,6 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    // const parisDisguises = await fs
-    //     .readFile(process.cwd() + "/roure_data/paris/disguises.json", "utf-8")
-    //     .then((data) => JSON.parse(data) as Disguise[]);
-
-    // const parisIsolations = await fs.readFile(
-    //     process.cwd() + "/roure_data/paris/isolations.json",
-    //     "utf-8",
-    // );
-    // const parisItems = await fs.readFile(
-    //     process.cwd() + "/roure_data/paris/items.json",
-    //     "utf-8",
-    // );
-    // const parisUniqueKills = await fs.readFile(
-    //     process.cwd() + "/roure_data/paris/unique_kills.json",
-    //     "utf-8",
-    // );
-
     return (
         <main className="flex flex-1 flex-col items-center gap-5 bg-zinc-800 text-3xl text-white">
             <h1 className="w-full p-4 pb-0 font-bold">

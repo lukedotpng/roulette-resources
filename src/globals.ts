@@ -43,3 +43,25 @@ export const MissionTargets = {
     chongqing: ["hush", "imogen_royce"],
     mendoza: ["don_yates", "tamara_vidal"],
 } as const;
+
+export const UniqueKillTypes = [
+    "loud_kills",
+    "drowning",
+    "falling_object",
+    "fall",
+    "fire",
+    "electrocution",
+    "explosion_accident",
+    "consumed",
+    "live_kills",
+];
+
+export const SodersUniqueKillTypes = [
+    "firearm",
+    "poison_stem_cells",
+    "robot_arms",
+    "electrocution",
+    "throw_heart_in_trash_can",
+    "shoot_heart",
+    "explosive",
+];
