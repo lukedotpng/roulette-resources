@@ -1,4 +1,3 @@
-import { Disguise } from "@/types";
 import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
 import { disguisesSchema } from "@/server/db/schema";

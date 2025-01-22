@@ -4,7 +4,7 @@ import NavDropdown from "./NavDropdown";
 export default function Header() {
     return (
         <header className="flex h-10 items-center justify-between">
-            <Link href="/">
+            <Link href="/" prefetch={true}>
                 <h1 className="px-2 text-2xl font-extrabold">Rou|Re</h1>
             </Link>
             <nav className="h-full self-center text-xl font-bold">
