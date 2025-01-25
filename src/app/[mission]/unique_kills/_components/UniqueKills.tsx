@@ -74,7 +74,7 @@ export default function UniqueKills({
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>
-            <div className="flex flex-col gap-2 text-xs sm:text-sm md:text-base">
+            <div className="flex flex-col gap-4 text-xs sm:text-sm md:text-base">
                 {UniqueKillTypes.map((uniqueKillType, index) => {
                     const filteredUniqueKills = uniqueKills.filter(
                         (uniqueKill) => {
@@ -109,42 +109,76 @@ function UniqueKillCard({
     killType: string;
     uniqueKills: UniqueKill[];
 }) {
+    const [collapsed, setCollapsed] = useState(true);
+
     return (
-        <div className="w-80 bg-white p-3 text-zinc-900 sm:w-[30rem] md:w-[35rem]">
-            <div className="flex flex-col gap-2">
-                <p className="text-[1.1em] font-bold">
-                    {UniqueKillIDToDisplayText(killType)}
-                </p>
-                {uniqueKills.map((uniqueKillMethod, index) => (
-                    <div key={index} className="border-t-4 border-zinc-900">
-                        <p>
-                            <strong>Starts: </strong>
-                            {uniqueKillMethod.starts}
-                        </p>
-                        <p>
-                            <strong>Requires: </strong>
-                            {uniqueKillMethod.requires}
-                        </p>
-                        <p>
-                            <strong>Timings: </strong>
-                            {uniqueKillMethod.timings}
-                        </p>
-                        {uniqueKillMethod.notes && (
-                            <p>
-                                <strong>Notes: </strong>
-                                {uniqueKillMethod.notes}
-                            </p>
-                        )}
-                        <a
-                            className="w-fit font-bold underline"
-                            href={uniqueKillMethod.video_link}
-                            target="_blank"
+        <div className="w-80 bg-white text-zinc-900 sm:w-[30rem] md:w-[35rem]">
+            <button
+                data-active={!collapsed}
+                className="data-[active=true]:p-t-8 group flex w-full items-center justify-between p-3 text-[1.3em] font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
+                onClick={() => setCollapsed(!collapsed)}
+            >
+                <div></div>
+                <p>{UniqueKillIDToDisplayText(killType)}</p>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512"
+                    className="h-4 w-4 fill-zinc-900 group-hover:fill-white group-data-[active=true]:rotate-90"
+                >
+                    {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                    <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                </svg>
+            </button>
+            {!collapsed && (
+                <div className="flex flex-col gap-2 p-3">
+                    {uniqueKills.map((uniqueKillMethod, index) => (
+                        <div
+                            key={index}
+                            className="border-t-4 border-zinc-900 first:border-0"
                         >
-                            Watch video here
-                        </a>
-                    </div>
-                ))}
-            </div>
+                            {uniqueKillMethod.name && (
+                                <p>
+                                    <strong>Name: </strong>
+                                    {uniqueKillMethod.name}
+                                </p>
+                            )}
+                            {uniqueKillMethod.starts && (
+                                <p>
+                                    <strong>Starts: </strong>
+                                    {uniqueKillMethod.starts}
+                                </p>
+                            )}
+                            {uniqueKillMethod.requires && (
+                                <p>
+                                    <strong>Requires: </strong>
+                                    {uniqueKillMethod.requires}
+                                </p>
+                            )}
+                            {uniqueKillMethod.timings && (
+                                <p>
+                                    <strong>Timings: </strong>
+                                    {uniqueKillMethod.timings}
+                                </p>
+                            )}
+                            {uniqueKillMethod.notes && (
+                                <p>
+                                    <strong>Notes: </strong>
+                                    {uniqueKillMethod.notes}
+                                </p>
+                            )}
+                            {uniqueKillMethod.video_link && (
+                                <a
+                                    className="w-fit font-bold underline"
+                                    href={uniqueKillMethod.video_link}
+                                    target="_blank"
+                                >
+                                    Watch video here
+                                </a>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
