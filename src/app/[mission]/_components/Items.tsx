@@ -38,7 +38,7 @@ function ItemCard({ type, items }: { type: string; items: Item[] }) {
                         className="border-b-2 border-zinc-900 py-1 last:border-0"
                     >
                         {item.hitmaps_link ? (
-                            <a href={item.hitmaps_link}>
+                            <a href={item.hitmaps_link} target="_blank">
                                 <span className="font-semibold underline">
                                     {item.name}
                                 </span>

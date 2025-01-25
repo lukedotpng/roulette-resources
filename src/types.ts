@@ -31,3 +31,53 @@ export type Mission =
     | "berlin"
     | "chongqing"
     | "mendoza";
+
+export type Target =
+    | "viktor_novikov"
+    | "dalia_margolis"
+    | "silvio_caruso"
+    | "francesca_de_santis"
+    | "claus_strandberg"
+    | "reza_zaydan"
+    | "jordan_cross"
+    | "ken_morgan"
+    | "sean_rose"
+    | "ezra_berg"
+    | "penelope_graves"
+    | "maya_parvati"
+    | "erich_soders"
+    | "yuki_yamazaki"
+    | "sierra_knox"
+    | "robert_knox"
+    | "rico_delgado"
+    | "jorge_franco"
+    | "andrea_martinez"
+    | "dawood_rangan"
+    | "vanya_shah"
+    | "maelstrom"
+    | "noel_crest"
+    | "sinhi_venthan"
+    | "janus"
+    | "nolan_cassidy"
+    | "zoe_washington"
+    | "sophia_washington"
+    | "athena_savalas"
+    | "tyson_williams"
+    | "ljudmila_vetrova"
+    | "steven_bradley"
+    | "carl_ingram"
+    | "marcus_stuyvesant"
+    | "alexa_carlisle"
+    | "ica_agents"
+    | "hush"
+    | "imogen_royce"
+    | "don_yates"
+    | "tamara_vidal";
+
+export type TargetImage = {
+    [key in Target]: string;
+};
+
+export type MissionTargets = {
+    [key in Mission]: readonly Target[];
+};

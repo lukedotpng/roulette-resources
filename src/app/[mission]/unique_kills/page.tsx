@@ -4,7 +4,7 @@ import { db } from "@/server/db";
 import { uniqueKillSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import UniqueKills from "./_components/UniqueKills";
-import { MissionTargets } from "@/globals";
+import { MissionTargetsList } from "@/globals";
 import { Mission } from "@/types";
 
 export default async function Page({
@@ -25,7 +25,7 @@ export default async function Page({
 
     return (
         <UniqueKills
-            targets={MissionTargets[mission]}
+            targets={MissionTargetsList[mission]}
             uniqueKills={uniqueKills}
         />
     );

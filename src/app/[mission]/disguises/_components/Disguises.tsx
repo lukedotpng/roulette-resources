@@ -1,6 +1,8 @@
 "use client";
 
 import { Disguise } from "@/types";
+
+import Image from "next/image";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -32,17 +34,26 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
         <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-xl">
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                    <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[state=open]:bg-red-500 data-[active=true]:pl-2 data-[state=open]:text-white sm:py-3">
-                        <p>{DisguiseIDToDisplayText(activeDisguise.id)}</p>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 320 512"
-                            className="h-4 w-4 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 group-data-[state=open]:fill-white"
-                        >
-                            {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
-                            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
-                        </svg>
-                    </button>
+                    <div className="group flex flex-col">
+                        <Image
+                            src={activeDisguise.image_url ?? ""}
+                            width={693}
+                            height={517}
+                            alt={DisguiseIDToDisplayText(activeDisguise.id)}
+                            className="pointer-events-none hidden w-60 border-4 border-b-0 border-white sm:block"
+                        ></Image>
+                        <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[state=open]:bg-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:text-white sm:py-3">
+                            <p>{DisguiseIDToDisplayText(activeDisguise.id)}</p>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 320 512"
+                                className="h-4 w-4 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 group-data-[state=open]:fill-white"
+                            >
+                                {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                                <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                            </svg>
+                        </button>
+                    </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     className="flex h-96 w-60 flex-col overflow-scroll shadow-lg shadow-black"

@@ -1,6 +1,6 @@
 import { Mission } from "@/types";
 import Isolations from "./_components/Isolations";
-import { MissionTargets } from "@/globals";
+import { MissionTargetsList } from "@/globals";
 import { db } from "@/server/db";
 import { isolationSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
@@ -25,7 +25,7 @@ export default async function Page({
         <Isolations
             targets={
                 mission !== "hokkaido"
-                    ? MissionTargets[mission]
+                    ? MissionTargetsList[mission]
                     : ["yuki_yamazaki"]
             }
             isolations={isolations}
