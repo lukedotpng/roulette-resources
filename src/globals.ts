@@ -1,4 +1,4 @@
-import { Mission, MissionTargets, Target, TargetImage } from "./types";
+import { Mission, MissionTargets, TargetImage } from "./types";
 
 export const Missions: Mission[] = [
     "paris",
