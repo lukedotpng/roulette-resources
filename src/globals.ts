@@ -54,9 +54,6 @@ export const UniqueKillTypes = [
     "explosion_accident",
     "consumed",
     "live_kills",
-];
-
-export const SodersUniqueKillTypes = [
     "firearm",
     "poison_stem_cells",
     "robot_arms",
