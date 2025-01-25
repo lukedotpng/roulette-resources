@@ -1,6 +1,6 @@
 import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
-import { disguisesSchema } from "@/server/db/schema";
+import { disguiseSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function Page({
@@ -10,20 +10,14 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    const disguiseInfoRow = await db
+    const disguises = await db
         .select()
-        .from(disguisesSchema)
-        .where(eq(disguisesSchema.map, mission));
+        .from(disguiseSchema)
+        .where(eq(disguiseSchema.map, mission));
 
-    if (disguiseInfoRow === null || disguiseInfoRow.length === 0) {
+    if (disguises === null || disguises.length === 0) {
         return <h1>No data for this map :(</h1>;
     }
 
-    const disguiseData = disguiseInfoRow[0].data;
-
-    if (disguiseData === null) {
-        return <h1>No data yet :(</h1>;
-    } else {
-        return <Disguises disguises={disguiseData} />;
-    }
+    return <Disguises disguises={disguises} />;
 }

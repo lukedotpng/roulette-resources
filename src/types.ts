@@ -1,55 +1,15 @@
-export type Disguise = {
-    disguise_id: string;
-    name: string;
-    quick_look: string;
-    hitmaps_link: string;
-    notes: string;
-    video_links: string[];
-};
+import { InferSelectModel } from "drizzle-orm";
+import {
+    disguiseSchema,
+    isolationSchema,
+    itemSchema,
+    uniqueKillSchema,
+} from "./server/db/schema";
 
-export type Isolation = {
-    name: string;
-    video_link: string;
-    requires: string;
-    starts: string;
-    timings: string;
-    notes: string;
-};
-
-export type IsolationsGroup = {
-    [key: string]: Isolation[];
-};
-
-export type Item = {
-    item_id: string;
-    name: string;
-    type: string;
-    quick_look: string;
-    hitmaps_link: string;
-    tags: string[];
-};
-
-export type UniqueKill = {
-    name: string;
-    methods: Method[];
-};
-
-export type TargetUniqueKills = {
-    [key: string]: UniqueKill;
-};
-
-export type UniqueKillsGroup = {
-    [key: string]: TargetUniqueKills;
-};
-
-export type Method = {
-    name: string;
-    video_link: string;
-    requires: string;
-    starts: string;
-    timings: string;
-    notes: string;
-};
+export type Disguise = InferSelectModel<typeof disguiseSchema>;
+export type Isolation = InferSelectModel<typeof isolationSchema>;
+export type Item = InferSelectModel<typeof itemSchema>;
+export type UniqueKill = InferSelectModel<typeof uniqueKillSchema>;
 
 export type Mission =
     | "paris"

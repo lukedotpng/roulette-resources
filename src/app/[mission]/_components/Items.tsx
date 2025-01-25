@@ -34,18 +34,18 @@ function ItemCard({ type, items }: { type: string; items: Item[] }) {
             {items.map((item) => {
                 return (
                     <div
-                        key={item.item_id}
+                        key={item.id}
                         className="border-b-2 border-zinc-900 py-1 last:border-0"
                     >
-                        {item.hitmaps_link === "" ? (
-                            <h2 className="font-semibold">{item.name}</h2>
-                        ) : (
-                            <a
-                                href={item.hitmaps_link}
-                                className="font-semibold underline"
-                            >
-                                {item.name}
+                        {item.hitmaps_link ? (
+                            <a href={item.hitmaps_link}>
+                                <span className="font-semibold underline">
+                                    {item.name}
+                                </span>
+                                <sub className="italic">Hitmaps</sub>
                             </a>
+                        ) : (
+                            <h2 className="font-semibold">{item.name}</h2>
                         )}
 
                         <p className="text-xs sm:text-sm">{item.quick_look}</p>

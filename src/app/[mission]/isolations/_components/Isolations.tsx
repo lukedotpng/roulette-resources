@@ -1,6 +1,6 @@
 "use client";
 
-import { Isolation, IsolationsGroup } from "@/types";
+import { Isolation } from "@/types";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -8,14 +8,14 @@ import {
     DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Isolations({
     targets,
-    isolationsGroup,
+    isolations,
 }: {
     targets: readonly string[];
-    isolationsGroup: IsolationsGroup;
+    isolations: Isolation[];
 }) {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -23,24 +23,21 @@ export default function Isolations({
     const [activeTargetId, setActiveTargetId] = useState(
         searchParams.get("target") ?? targets[0],
     );
-    const [activeIsolations, setActiveIsolations] = useState<Isolation[]>(
-        isolationsGroup[targets[0]],
-    );
-
-    useEffect(() => {
-        for (const target of targets) {
-            if (target === activeTargetId) {
-                setActiveIsolations(isolationsGroup[target]);
-            }
-        }
-    }, [activeTargetId, activeIsolations]);
 
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                    <button className="h-fit w-60 bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[state=open]:bg-red-500 data-[active=true]:pl-2 data-[state=open]:text-white sm:py-3">
-                        {TargetIDToDisplayText(activeTargetId)}
+                    <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[state=open]:bg-red-500 data-[active=true]:pl-2 data-[state=open]:text-white sm:py-3">
+                        <p>{TargetIDToDisplayText(activeTargetId)}</p>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 320 512"
+                            className="h-4 w-4 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 group-data-[state=open]:fill-white"
+                        >
+                            {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                        </svg>
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -67,9 +64,12 @@ export default function Isolations({
                 </DropdownMenuContent>
             </DropdownMenu>
             <div className="flex flex-col gap-2 text-sm sm:text-xl md:text-2xl">
-                {activeIsolations.map((isolation, index) => (
-                    <IsolationCard key={index} isolation={isolation} />
-                ))}
+                {isolations.map((isolation, index) => {
+                    if (activeTargetId !== isolation.target) {
+                        return null;
+                    }
+                    return <IsolationCard key={index} isolation={isolation} />;
+                })}
             </div>
         </section>
     );
@@ -131,6 +131,7 @@ function IsolationCard({ isolation }: { isolation: Isolation }) {
         </div>
     );
 }
+
 function TargetIDToDisplayText(target: string) {
     let targetDisplayText = "";
     const words = target.split("_");

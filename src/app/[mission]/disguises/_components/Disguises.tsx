@@ -16,13 +16,13 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     const router = useRouter();
 
     const [activeDisguiseId, setActiveDisguiseId] = useState(
-        searchParams.get("disguise") ?? disguises[0].disguise_id,
+        searchParams.get("disguise") ?? disguises[0].id,
     );
     const [activeDisguise, setActiveDisguise] = useState(disguises[0]);
 
     useEffect(() => {
         for (const disguise of disguises) {
-            if (disguise.disguise_id === activeDisguiseId) {
+            if (disguise.id === activeDisguiseId) {
                 setActiveDisguise(disguise);
             }
         }
@@ -32,8 +32,16 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
         <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-xl">
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                    <button className="h-fit w-60 bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[state=open]:bg-red-500 data-[active=true]:pl-2 data-[state=open]:text-white sm:py-3">
-                        {activeDisguise.name}
+                    <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[state=open]:bg-red-500 data-[active=true]:pl-2 data-[state=open]:text-white sm:py-3">
+                        <p>{DisguiseIDToDisplayText(activeDisguise.id)}</p>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 320 512"
+                            className="h-4 w-4 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 group-data-[state=open]:fill-white"
+                        >
+                            {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                        </svg>
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -45,19 +53,15 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                     {disguises.map((disguise) => {
                         return (
                             <DropdownMenuItem
-                                key={disguise.disguise_id}
-                                data-active={
-                                    disguise.disguise_id === activeDisguiseId
-                                }
+                                key={disguise.id}
+                                data-active={disguise.id === activeDisguiseId}
                                 className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
                                 onClick={() => {
-                                    setActiveDisguiseId(disguise.disguise_id);
-                                    router.replace(
-                                        `?disguise=${disguise.disguise_id}`,
-                                    );
+                                    setActiveDisguiseId(disguise.id);
+                                    router.replace(`?disguise=${disguise.id}`);
                                 }}
                             >
-                                {disguise.name}
+                                {DisguiseIDToDisplayText(disguise.id)}
                             </DropdownMenuItem>
                         );
                     })}
@@ -74,11 +78,11 @@ function DisguiseCard({ disguise }: { disguise: Disguise }) {
     return (
         <div className="bg-white p-2 text-zinc-900 md:p-5">
             <div className="flex flex-col gap-2">
-                {disguise.hitmaps_link !== "" && (
+                {disguise.hitmaps_link && (
                     <a
                         href={disguise.hitmaps_link}
                         target="_blank"
-                        className="block italic underline"
+                        className="block text-base italic underline"
                     >
                         {"Hitmaps"}
                     </a>
@@ -87,7 +91,7 @@ function DisguiseCard({ disguise }: { disguise: Disguise }) {
                     <p className="text-base">{disguise.notes}</p>
                 )}
                 <div className="flex w-64 flex-col gap-2 sm:w-80 md:w-96 md:gap-5">
-                    {disguise.video_links.map((link) => {
+                    {disguise.video_links?.map((link) => {
                         const youtubeIdRegex =
                             /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
 
@@ -114,4 +118,18 @@ function DisguiseCard({ disguise }: { disguise: Disguise }) {
             </div>
         </div>
     );
+}
+
+function DisguiseIDToDisplayText(disguise: string) {
+    let disguiseDisplayText = "";
+    // disguise ID example: paris-palace_staff
+    const disguiseSplit = disguise.split("-")[1]; // palace_staff
+    const words = disguiseSplit.split("_"); // ["palace", "staff"]
+
+    for (const word of words) {
+        disguiseDisplayText +=
+            word.charAt(0).toUpperCase() + word.slice(1) + " ";
+    }
+
+    return disguiseDisplayText;
 }

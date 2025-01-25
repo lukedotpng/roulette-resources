@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { itemsSchema } from "@/server/db/schema";
+import { itemSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import Items from "./_components/Items";
 
@@ -10,20 +10,14 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    const itemInfoRow = await db
+    const items = await db
         .select()
-        .from(itemsSchema)
-        .where(eq(itemsSchema.map, mission));
+        .from(itemSchema)
+        .where(eq(itemSchema.map, mission));
 
-    if (itemInfoRow === null || itemInfoRow.length === 0) {
+    if (items === null || items.length === 0) {
         return <h1>No data for this map :(</h1>;
     }
 
-    const itemsData = itemInfoRow[0].data;
-
-    if (itemsData === null) {
-        return <h1>No data for this map :(</h1>;
-    } else {
-        return <Items items={itemsData} />;
-    }
+    return <Items items={items} />;
 }

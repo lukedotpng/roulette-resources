@@ -1,7 +1,7 @@
 // import { UniqueKill } from "@/types";
 
 import { db } from "@/server/db";
-import { uniqueKillsSchema } from "@/server/db/schema";
+import { uniqueKillSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import UniqueKills from "./_components/UniqueKills";
 import { MissionTargets } from "@/globals";
@@ -14,25 +14,19 @@ export default async function Page({
 }) {
     const mission = (await params).mission as Mission;
 
-    const uniqueKillsRow = await db
+    const uniqueKills = await db
         .select()
-        .from(uniqueKillsSchema)
-        .where(eq(uniqueKillsSchema.map, mission));
+        .from(uniqueKillSchema)
+        .where(eq(uniqueKillSchema.map, mission));
 
-    if (uniqueKillsRow === null || uniqueKillsRow.length === 0) {
+    if (uniqueKills === null || uniqueKills.length === 0) {
         return <h1>No data for this map :(</h1>;
     }
 
-    const uniqueKillsData = uniqueKillsRow[0].data;
-
-    if (uniqueKillsData === null) {
-        return <h1>No data for this map :(</h1>;
-    } else {
-        return (
-            <UniqueKills
-                targets={MissionTargets[mission]}
-                uniqueKillsGroup={uniqueKillsData}
-            />
-        );
-    }
+    return (
+        <UniqueKills
+            targets={MissionTargets[mission]}
+            uniqueKills={uniqueKills}
+        />
+    );
 }
