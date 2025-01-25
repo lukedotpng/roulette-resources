@@ -11,7 +11,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 
 export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     const searchParams = useSearchParams();
@@ -33,15 +33,15 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-xl">
             <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                    <div className="group flex flex-col">
-                        <Image
-                            src={activeDisguise.image_url ?? ""}
-                            width={693}
-                            height={517}
-                            alt={DisguiseIDToDisplayText(activeDisguise.id)}
-                            className="pointer-events-none hidden w-60 border-4 border-b-0 border-white sm:block"
-                        ></Image>
+                <div className="flex flex-col">
+                    <Image
+                        src={activeDisguise.image_url ?? ""}
+                        width={693}
+                        height={517}
+                        alt={DisguiseIDToDisplayText(activeDisguise.id)}
+                        className="hidden w-60 border-4 border-b-0 border-white sm:block"
+                    />
+                    <DropdownMenuTrigger asChild>
                         <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[state=open]:bg-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:text-white sm:py-3">
                             <p>{DisguiseIDToDisplayText(activeDisguise.id)}</p>
                             <svg
@@ -53,8 +53,8 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                                 <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
                             </svg>
                         </button>
-                    </div>
-                </DropdownMenuTrigger>
+                    </DropdownMenuTrigger>
+                </div>
                 <DropdownMenuContent
                     className="flex h-96 w-60 flex-col overflow-scroll shadow-lg shadow-black"
                     onCloseAutoFocus={(event: Event) => {

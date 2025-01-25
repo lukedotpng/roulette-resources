@@ -29,15 +29,15 @@ export default function Isolations({
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
             <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                    <div className="group flex flex-col">
-                        <Image
-                            src={TargetImageURLS[activeTargetId] ?? ""}
-                            width={693}
-                            height={517}
-                            alt={TargetIDToDisplayText(activeTargetId)}
-                            className="pointer-events-none hidden w-60 border-4 border-b-0 border-white md:block"
-                        ></Image>
+                <div className="flex flex-col">
+                    <Image
+                        src={TargetImageURLS[activeTargetId] ?? ""}
+                        width={693}
+                        height={517}
+                        alt={TargetIDToDisplayText(activeTargetId)}
+                        className="hidden w-60 border-4 border-b-0 border-white md:block"
+                    />
+                    <DropdownMenuTrigger asChild>
                         <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[state=open]:bg-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:text-white sm:py-3">
                             <p>{TargetIDToDisplayText(activeTargetId)}</p>
                             <svg
@@ -49,8 +49,8 @@ export default function Isolations({
                                 <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
                             </svg>
                         </button>
-                    </div>
-                </DropdownMenuTrigger>
+                    </DropdownMenuTrigger>
+                </div>
                 <DropdownMenuContent
                     className="flex w-60 flex-col overflow-scroll shadow-lg shadow-black"
                     onCloseAutoFocus={(event: Event) => {
