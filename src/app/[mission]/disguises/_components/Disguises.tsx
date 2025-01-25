@@ -11,7 +11,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     const searchParams = useSearchParams();
