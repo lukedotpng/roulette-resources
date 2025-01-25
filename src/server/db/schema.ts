@@ -7,7 +7,6 @@ export const disguiseSchema = pgTable("roulette-resources-disguises", {
     hitmaps_link: text(),
     notes: text(),
     video_links: text().array(),
-    image_url: text(),
 });
 
 export const isolationSchema = pgTable("roulette-resources-isolations", {
