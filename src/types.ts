@@ -74,10 +74,6 @@ export type Target =
     | "don_yates"
     | "tamara_vidal";
 
-export type TargetImage = {
-    [key in Target]: string;
-};
-
 export type MissionTargets = {
     [key in Mission]: readonly Target[];
 };

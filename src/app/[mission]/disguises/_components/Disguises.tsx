@@ -30,9 +30,6 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
         }
     }, [activeDisguiseId, activeDisguise]);
 
-    const [potentialNextDisguiseImage, setPotentialNextDisguiseImage] =
-        useState<string>();
-
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-xl">
             <DropdownMenu modal={false}>
@@ -41,23 +38,11 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                         src={`/disguises/${activeDisguise.id}.webp`}
                         width={693}
                         height={517}
-                        quality={10}
-                        loading="eager"
+                        quality={50}
+                        priority
                         alt={DisguiseIDToDisplayText(activeDisguise.id)}
                         className="hidden w-60 border-4 border-b-0 border-white sm:block"
                     />
-                    {potentialNextDisguiseImage && (
-                        <Image
-                            src={`/disguises/${potentialNextDisguiseImage}.webp`}
-                            width={693}
-                            height={517}
-                            quality={10}
-                            loading="eager"
-                            alt={DisguiseIDToDisplayText(activeDisguise.id)}
-                            aria-hidden="true"
-                            className="absolute -z-10 h-0 opacity-0"
-                        />
-                    )}
                     <DropdownMenuTrigger asChild>
                         <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[state=open]:bg-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:text-white sm:py-3">
                             <p>{DisguiseIDToDisplayText(activeDisguise.id)}</p>
@@ -80,22 +65,32 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                 >
                     {disguises.map((disguise) => {
                         return (
-                            <DropdownMenuItem
-                                key={disguise.id}
-                                data-active={disguise.id === activeDisguiseId}
-                                className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
-                                onClick={() => {
-                                    setActiveDisguiseId(disguise.id);
-                                    router.replace(`?disguise=${disguise.id}`);
-                                }}
-                                onMouseOver={() => {
-                                    setPotentialNextDisguiseImage(
-                                        disguise.id ?? "",
-                                    );
-                                }}
-                            >
-                                {DisguiseIDToDisplayText(disguise.id)}
-                            </DropdownMenuItem>
+                            <>
+                                <Image
+                                    src={`/disguises/${disguise.id}.webp`}
+                                    width={693}
+                                    height={517}
+                                    quality={50}
+                                    alt={DisguiseIDToDisplayText(disguise.id)}
+                                    aria-hidden="true"
+                                    className="invisible absolute h-0"
+                                ></Image>
+                                <DropdownMenuItem
+                                    key={disguise.id}
+                                    data-active={
+                                        disguise.id === activeDisguiseId
+                                    }
+                                    className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
+                                    onClick={() => {
+                                        setActiveDisguiseId(disguise.id);
+                                        router.replace(
+                                            `?disguise=${disguise.id}`,
+                                        );
+                                    }}
+                                >
+                                    {DisguiseIDToDisplayText(disguise.id)}
+                                </DropdownMenuItem>
+                            </>
                         );
                     })}
                 </DropdownMenuContent>

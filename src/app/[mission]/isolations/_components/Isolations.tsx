@@ -1,6 +1,5 @@
 "use client";
 
-import { TargetImageURLS } from "@/globals";
 import { Isolation, Target } from "@/types";
 import {
     DropdownMenu,
@@ -31,7 +30,7 @@ export default function Isolations({
             <DropdownMenu modal={false}>
                 <div className="flex flex-col">
                     <Image
-                        src={TargetImageURLS[activeTargetId] ?? ""}
+                        src={`/targets/${activeTargetId}.webp`}
                         width={693}
                         height={517}
                         alt={TargetIDToDisplayText(activeTargetId)}
@@ -59,17 +58,29 @@ export default function Isolations({
                 >
                     {targets.map((target) => {
                         return (
-                            <DropdownMenuItem
-                                key={target}
-                                data-active={target === activeTargetId}
-                                className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
-                                onClick={() => {
-                                    setActiveTargetId(target);
-                                    router.replace(`?disguise=${target}`);
-                                }}
-                            >
-                                {TargetIDToDisplayText(target)}
-                            </DropdownMenuItem>
+                            <>
+                                <Image
+                                    src={`/targets/${target}.webp`}
+                                    width={693}
+                                    height={517}
+                                    quality={50}
+                                    priority
+                                    alt={TargetIDToDisplayText(target)}
+                                    aria-hidden="true"
+                                    className="invisible absolute h-0"
+                                ></Image>
+                                <DropdownMenuItem
+                                    key={target}
+                                    data-active={target === activeTargetId}
+                                    className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
+                                    onClick={() => {
+                                        setActiveTargetId(target);
+                                        router.replace(`?disguise=${target}`);
+                                    }}
+                                >
+                                    {TargetIDToDisplayText(target)}
+                                </DropdownMenuItem>
+                            </>
                         );
                     })}
                 </DropdownMenuContent>

@@ -1,4 +1,4 @@
-import { Mission, MissionTargets, TargetImage } from "./types";
+import { Mission, MissionTargets } from "./types";
 
 export const Missions: Mission[] = [
     "paris",
@@ -62,60 +62,3 @@ export const UniqueKillTypes = [
     "shoot_heart",
     "explosive",
 ];
-
-export const TargetImageURLS: TargetImage = {
-    viktor_novikov:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ630eLDz7hdbSDxNHntlIgf6PwVUqK7QyFeLmA",
-    dalia_margolis:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6VC7L2Ht1bVDomOF8NdpAjx5kIWKMa4XniJzS",
-    silvio_caruso:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6RDdxcAfPKFdux27c8WDb9CPLowQyYTXhiJns",
-    francesca_de_santis:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6b5t2xDO52Gai8pNnxBFjhDz0WQrT9Y1g7PtA",
-    claus_strandberg:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6Qma2HbfzDBF7K6tyARZN0vHEchOmpJ2qPCnb",
-    reza_zaydan:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6xdi8Ba21vLHrZickoFbsX4wSxC5hEtpuUVOA",
-    jordan_cross:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6b98Zh0O52Gai8pNnxBFjhDz0WQrT9Y1g7PtA",
-    ken_morgan:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6incPstFqTPk2L8fueJQZ9OBx74UlCS3MKbYA",
-    sean_rose:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6YGVK7EbSR97MV2L0831GwlFxe4ZNuXETzt5s",
-    ezra_berg:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6wqsEGrbjCNjvWDK73kuHOpbZQdmVLtqoFM0g",
-    penelope_graves:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ676zrFkAEVlx4hGwyFUS7uq03e9o5aACQdKmW",
-    maya_parvati:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6hCC9McgoRFsgEcmWp5dCIJHwxQVAfBSGaT0l",
-    erich_soders:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ6bI9DYJO52Gai8pNnxBFjhDz0WQrT9Y1g7PtA",
-    yuki_yamazaki:
-        "https://h67hwj4dua.ufs.sh/f/0hnOyldaAzQ61NzycAqQpXcGWNJHSyP3VmBKfDzRnAe27bl6",
-    sierra_knox: "",
-    robert_knox: "",
-    rico_delgado: "",
-    jorge_franco: "",
-    andrea_martinez: "",
-    dawood_rangan: "",
-    vanya_shah: "",
-    maelstrom: "",
-    noel_crest: "",
-    sinhi_venthan: "",
-    janus: "",
-    nolan_cassidy: "",
-    zoe_washington: "",
-    sophia_washington: "",
-    athena_savalas: "",
-    tyson_williams: "",
-    ljudmila_vetrova: "",
-    steven_bradley: "",
-    carl_ingram: "",
-    marcus_stuyvesant: "",
-    alexa_carlisle: "",
-    ica_agents: "",
-    hush: "",
-    imogen_royce: "",
-    don_yates: "",
-    tamara_vidal: "",
-} as const;
