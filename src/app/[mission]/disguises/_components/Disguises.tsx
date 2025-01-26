@@ -38,7 +38,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
             <DropdownMenu modal={false}>
                 <div className="flex flex-col">
                     <Image
-                        src={"/disguises/" + activeDisguise.id}
+                        src={`/disguises/${activeDisguise.id}.webp`}
                         width={693}
                         height={517}
                         quality={10}
@@ -48,7 +48,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                     />
                     {potentialNextDisguiseImage && (
                         <Image
-                            src={"/disguises/" + potentialNextDisguiseImage}
+                            src={`/disguises/${potentialNextDisguiseImage}.webp`}
                             width={693}
                             height={517}
                             quality={10}
