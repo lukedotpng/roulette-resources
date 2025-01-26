@@ -57,7 +57,6 @@ export const UniqueKillTypes = [
     "firearm",
     "poison_stem_cells",
     "robot_arms",
-    "electrocution",
     "throw_heart_in_trash_can",
     "shoot_heart",
     "explosive",
