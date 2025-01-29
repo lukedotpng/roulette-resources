@@ -111,7 +111,9 @@ function IsolationCard({ isolation }: { isolation: Isolation }) {
     return (
         <div className="w-80 bg-white p-3 text-zinc-900 sm:w-[30rem] md:w-[35rem]">
             <div className="flex flex-col gap-2">
-                <p className="text-[1.1em] font-bold">{isolation.name}</p>
+                <p className="self-center text-[1.1em] font-bold">
+                    {isolation.name}
+                </p>
                 <p>
                     <strong>Starts: </strong>
                     {isolation.starts}

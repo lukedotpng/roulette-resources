@@ -126,7 +126,7 @@ function UniqueKillCard({
         <div className="w-80 bg-white text-zinc-900 sm:w-[30rem] md:w-[35rem]">
             <button
                 data-active={!collapsed}
-                className="data-[active=true]:p-t-8 group flex w-full items-center justify-between p-3 text-[1.3em] font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
+                className="group flex w-full items-center justify-between p-3 text-[1.3em] font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div></div>
@@ -141,15 +141,14 @@ function UniqueKillCard({
                 </svg>
             </button>
             {!collapsed && (
-                <div className="flex flex-col gap-2 p-3">
+                <div className="flex flex-col gap-2">
                     {uniqueKills.map((uniqueKillMethod, index) => (
                         <div
                             key={index}
-                            className="border-t-4 border-zinc-900 first:border-0"
+                            className="border-t-4 border-zinc-900 p-3 first:border-0"
                         >
                             {uniqueKillMethod.name && (
-                                <p>
-                                    <strong>Name: </strong>
+                                <p className="text-center text-[1.1em] font-bold">
                                     {uniqueKillMethod.name}
                                 </p>
                             )}
