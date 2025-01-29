@@ -31,7 +31,7 @@ export const MissionTargetsList: MissionTargets = {
     hokkaido: ["erich_soders", "yuki_yamazaki"],
     miami: ["sierra_knox", "robert_knox"],
     santa_fortuna: ["rico_delgado", "jorge_franco", "andrea_martinez"],
-    mumbai: ["dawood_rangan", "vanya_shah", "maelstrom"],
+    mumbai: ["dawood_rangan", "vanya_shah", "wazir_kale"],
     whittleton_creek: ["janus", "nolan_cassidy"],
     ambrose_island: ["noel_crest", "sinhi_venthan"],
     isle_of_sgail: ["zoe_washington", "sophia_washington"],

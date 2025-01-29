@@ -54,7 +54,7 @@ export type Target =
     | "andrea_martinez"
     | "dawood_rangan"
     | "vanya_shah"
-    | "maelstrom"
+    | "wazir_kale"
     | "janus"
     | "nolan_cassidy"
     | "noel_crest"
