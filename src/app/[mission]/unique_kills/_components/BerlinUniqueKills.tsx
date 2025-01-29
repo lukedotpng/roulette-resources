@@ -1,7 +1,6 @@
 "use client";
 
-import { UniqueKillTypes } from "@/globals";
-import { BerlinUniqueKill, Target, UniqueKill } from "@/types";
+import { BerlinUniqueKill, UniqueKill } from "@/types";
 import {
     DropdownMenu,
     DropdownMenuTrigger,

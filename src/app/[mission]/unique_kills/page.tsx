@@ -1,5 +1,3 @@
-// import { UniqueKill } from "@/types";
-
 import { db } from "@/server/db";
 import { uniqueKillSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
@@ -23,8 +21,6 @@ export default async function Page({
     if (uniqueKills === null || uniqueKills.length === 0) {
         return <h1>No data for this map :(</h1>;
     }
-
-    let targets = MissionTargetsList[mission];
 
     // Berlin is treated differently
     if (mission === "berlin") {
