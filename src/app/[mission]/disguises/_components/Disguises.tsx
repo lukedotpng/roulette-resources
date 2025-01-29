@@ -133,8 +133,9 @@ function DisguiseCard({ disguise }: { disguise: Disguise }) {
                                 key={link}
                                 width="380"
                                 height="213"
-                                src={`https://www.youtube.com/embed/${videoId}`}
+                                src={`https://www.youtube-nocookie.com/embed/${videoId}`}
                                 allow="clipboard-write; picture-in-picture"
+                                referrerPolicy="strict-origin-when-cross-origin"
                                 allowFullScreen
                             />
                         );

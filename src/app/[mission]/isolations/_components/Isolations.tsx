@@ -143,8 +143,9 @@ function IsolationCard({ isolation }: { isolation: Isolation }) {
                         key={link}
                         width="560"
                         height="315"
-                        src={`https://www.youtube.com/embed/${videoId}`}
+                        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
                         allow="clipboard-write; picture-in-picture"
+                        referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
                     />
                 </div> */}

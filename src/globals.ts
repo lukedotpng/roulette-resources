@@ -1,4 +1,4 @@
-import { Mission, MissionTargets } from "./types";
+import { BerlinUniqueKill, Mission, MissionTargets } from "./types";
 
 export const Missions: Mission[] = [
     "paris",
@@ -39,7 +39,18 @@ export const MissionTargetsList: MissionTargets = {
     haven_island: ["tyson_williams", "ljudmila_vetrova", "steven_bradley"],
     dubai: ["carl_ingram", "marcus_stuyvesant"],
     dartmoor: ["alexa_carlisle"],
-    berlin: ["ica_agents"],
+    berlin: [
+        "banner",
+        "chamberlin",
+        "davenport",
+        "green",
+        "lowenthal",
+        "montgomery",
+        "rhodes",
+        "swan",
+        "thames",
+        "tremaine",
+    ],
     chongqing: ["hush", "imogen_royce"],
     mendoza: ["don_yates", "tamara_vidal"],
 } as const;
@@ -60,4 +71,18 @@ export const UniqueKillTypes = [
     "throw_heart_in_trash_can",
     "shoot_heart",
     "explosive",
+    "impact_explosive",
+];
+
+// making seperate group for berlin so i can iterate through them instead of targets
+export const BerlinUniqueKillTypes: BerlinUniqueKill[] = [
+    "loud_kills",
+    "drowning",
+    "falling_object",
+    "fall",
+    "fire",
+    "electrocution",
+    "explosion_accident",
+    "consumed",
+    "live_kills",
 ];

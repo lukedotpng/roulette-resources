@@ -68,7 +68,16 @@ export type Target =
     | "carl_ingram"
     | "marcus_stuyvesant"
     | "alexa_carlisle"
-    | "ica_agents"
+    | "banner"
+    | "chamberlin"
+    | "davenport"
+    | "green"
+    | "lowenthal"
+    | "montgomery"
+    | "rhodes"
+    | "swan"
+    | "thames"
+    | "tremaine"
     | "hush"
     | "imogen_royce"
     | "don_yates"
@@ -77,3 +86,14 @@ export type Target =
 export type MissionTargets = {
     [key in Mission]: readonly Target[];
 };
+
+export type BerlinUniqueKill =
+    | "loud_kills"
+    | "drowning"
+    | "falling_object"
+    | "fall"
+    | "fire"
+    | "electrocution"
+    | "explosion_accident"
+    | "consumed"
+    | "live_kills";

@@ -4,8 +4,9 @@ import { db } from "@/server/db";
 import { uniqueKillSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import UniqueKills from "./_components/UniqueKills";
-import { MissionTargetsList } from "@/globals";
+import { BerlinUniqueKillTypes, MissionTargetsList } from "@/globals";
 import { Mission } from "@/types";
+import BerlinUniqueKills from "./_components/BerlinUniqueKills";
 
 export default async function Page({
     params,
@@ -23,10 +24,22 @@ export default async function Page({
         return <h1>No data for this map :(</h1>;
     }
 
-    return (
-        <UniqueKills
-            targets={MissionTargetsList[mission]}
-            uniqueKills={uniqueKills}
-        />
-    );
+    let targets = MissionTargetsList[mission];
+
+    // Berlin is treated differently
+    if (mission === "berlin") {
+        return (
+            <BerlinUniqueKills
+                uniqueKillTypes={BerlinUniqueKillTypes}
+                uniqueKills={uniqueKills}
+            />
+        );
+    } else {
+        return (
+            <UniqueKills
+                targets={MissionTargetsList[mission]}
+                uniqueKills={uniqueKills}
+            />
+        );
+    }
 }
