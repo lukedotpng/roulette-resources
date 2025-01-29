@@ -65,7 +65,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                 >
                     {disguises.map((disguise) => {
                         return (
-                            <>
+                            <div key={disguise.id}>
                                 <Image
                                     src={`/disguises/${disguise.id}.webp`}
                                     width={693}
@@ -76,7 +76,6 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                                     className="invisible absolute h-0"
                                 ></Image>
                                 <DropdownMenuItem
-                                    key={disguise.id}
                                     data-active={
                                         disguise.id === activeDisguiseId
                                     }
@@ -90,12 +89,12 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                                 >
                                     {DisguiseIDToDisplayText(disguise.id)}
                                 </DropdownMenuItem>
-                            </>
+                            </div>
                         );
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>
-            <div className="text-base sm:text-xl md:text-2xl">
+            <div className="text-xs sm:text-sm md:text-base">
                 <DisguiseCard disguise={activeDisguise} />
             </div>
         </section>
@@ -104,21 +103,19 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
 
 function DisguiseCard({ disguise }: { disguise: Disguise }) {
     return (
-        <div className="bg-white p-2 text-zinc-900 md:p-5">
+        <div className="w-80 bg-white p-2 text-zinc-900 sm:w-[30rem] md:w-[35rem] md:p-5">
             <div className="flex flex-col gap-2">
                 {disguise.hitmaps_link && (
                     <a
                         href={disguise.hitmaps_link}
                         target="_blank"
-                        className="block text-base italic underline"
+                        className="block italic underline"
                     >
                         {"Hitmaps"}
                     </a>
                 )}
-                {disguise.notes && (
-                    <p className="text-base">{disguise.notes}</p>
-                )}
-                <div className="flex w-64 flex-col gap-2 sm:w-80 md:w-96 md:gap-5">
+                {disguise.notes && <p>{disguise.notes}</p>}
+                <div className="flex flex-col gap-2 md:gap-5">
                     {disguise.video_links?.map((link) => {
                         const youtubeIdRegex =
                             /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383

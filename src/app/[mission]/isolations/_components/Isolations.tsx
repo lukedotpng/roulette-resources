@@ -58,7 +58,7 @@ export default function Isolations({
                 >
                     {targets.map((target) => {
                         return (
-                            <>
+                            <div key={target}>
                                 <Image
                                     src={`/targets/${target}.webp`}
                                     width={693}
@@ -70,7 +70,6 @@ export default function Isolations({
                                     className="invisible absolute h-0"
                                 ></Image>
                                 <DropdownMenuItem
-                                    key={target}
                                     data-active={target === activeTargetId}
                                     className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
                                     onClick={() => {
@@ -80,7 +79,7 @@ export default function Isolations({
                                 >
                                     {TargetIDToDisplayText(target)}
                                 </DropdownMenuItem>
-                            </>
+                            </div>
                         );
                     })}
                 </DropdownMenuContent>
