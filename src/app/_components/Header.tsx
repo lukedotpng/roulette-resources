@@ -28,7 +28,7 @@ export default function Header() {
                         "Santa Fortuna",
                         "Mumbai",
                         "Whittleton Creek",
-                        "Ambrose",
+                        "Ambrose Island",
                         "Isle of Sgail",
                         "New York",
                         "Haven Island",
