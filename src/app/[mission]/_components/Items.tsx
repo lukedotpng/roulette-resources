@@ -42,7 +42,9 @@ function ItemCard({ type, items }: { type: string; items: Item[] }) {
                                 <span className="font-semibold underline">
                                     {item.name}
                                 </span>
-                                <sub className="italic">Hitmaps</sub>
+                                <span className="text-[.7em] italic">
+                                    Hitmaps
+                                </span>
                             </a>
                         ) : (
                             <h2 className="font-semibold">{item.name}</h2>
