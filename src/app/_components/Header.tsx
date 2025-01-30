@@ -3,7 +3,7 @@ import NavDropdown from "./NavDropdown";
 
 export default function Header() {
     return (
-        <header className="flex h-8 items-center justify-between sm:h-9 md:h-10">
+        <header className="flex h-8 items-center justify-between bg-white sm:h-9 md:h-10">
             <Link href="/" prefetch={true}>
                 <h1 className="px-2 text-base font-extrabold sm:text-lg md:text-2xl">
                     Rou|Re
