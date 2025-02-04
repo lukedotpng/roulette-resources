@@ -2,6 +2,8 @@ import { db } from "@/server/db";
 import { itemSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import Items from "./_components/Items";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 export default async function Page({
     params,
@@ -19,5 +21,18 @@ export default async function Page({
         return <h1>No data for this map :(</h1>;
     }
 
-    return <Items items={items} />;
+    const session = await auth();
+    let isAdmin = false;
+
+    if (session && session.user) {
+        if (session.user.username === "lukedotpng") {
+            isAdmin = true;
+        }
+    }
+
+    return (
+        <SessionProvider>
+            <Items items={items} isAdmin={isAdmin} />
+        </SessionProvider>
+    );
 }
