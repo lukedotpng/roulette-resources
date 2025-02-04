@@ -1,7 +1,19 @@
 import Link from "next/link";
 import NavDropdown from "./NavDropdown";
+import { auth } from "@/auth";
+import SignIn from "./SignIn";
+import UserIcon from "./UserIcon";
+import { SessionProvider } from "next-auth/react";
 
-export default function Header() {
+export default async function Header() {
+    const session = await auth();
+
+    let signedIn = false;
+
+    if (session && session.user) {
+        signedIn = true;
+    }
+
     return (
         <header className="flex h-8 items-center justify-between bg-white sm:h-9 md:h-10">
             <Link href="/" prefetch={true}>
@@ -9,6 +21,7 @@ export default function Header() {
                     Rou|Re
                 </h1>
             </Link>
+            <div className="flex-1"></div>
             <nav className="h-full self-center text-xs font-bold sm:text-sm md:text-base">
                 <NavDropdown
                     season="Season 1"
@@ -45,6 +58,15 @@ export default function Header() {
                     ]}
                 />
             </nav>
+            <div className="px-4">
+                {!signedIn ? (
+                    <SignIn />
+                ) : (
+                    <SessionProvider>
+                        <UserIcon />
+                    </SessionProvider>
+                )}
+            </div>
         </header>
     );
 }
