@@ -1,12 +1,16 @@
 import { InferSelectModel } from "drizzle-orm";
 import {
     disguiseSchema,
+    disguiseVideoSchema,
     isolationSchema,
     itemSchema,
     uniqueKillSchema,
 } from "./server/db/schema";
 
-export type Disguise = InferSelectModel<typeof disguiseSchema>;
+export type Disguise = InferSelectModel<typeof disguiseSchema> & {
+    disguiseVideoSchema: InferSelectModel<typeof disguiseVideoSchema>[];
+};
+
 export type Isolation = InferSelectModel<typeof isolationSchema>;
 export type Item = InferSelectModel<typeof itemSchema>;
 export type UniqueKill = InferSelectModel<typeof uniqueKillSchema>;

@@ -116,11 +116,11 @@ function DisguiseCard({ disguise }: { disguise: Disguise }) {
                 )}
                 {disguise.notes && <p>{disguise.notes}</p>}
                 <div className="flex flex-col gap-2 md:gap-5">
-                    {disguise.video_links?.map((link) => {
+                    {disguise.disguiseVideoSchema.map((video) => {
                         const youtubeIdRegex =
                             /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
 
-                        const videoIdMatch = link.match(youtubeIdRegex);
+                        const videoIdMatch = video.link.match(youtubeIdRegex);
                         if (videoIdMatch === null || videoIdMatch.length < 8) {
                             return;
                         }
@@ -130,7 +130,7 @@ function DisguiseCard({ disguise }: { disguise: Disguise }) {
                         return (
                             <iframe
                                 className="aspect-video h-auto w-full"
-                                key={link}
+                                key={video.id}
                                 width="380"
                                 height="213"
                                 src={`https://www.youtube-nocookie.com/embed/${videoId}`}

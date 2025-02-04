@@ -1,6 +1,6 @@
 import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
-import { disguiseSchema } from "@/server/db/schema";
+import { disguiseSchema, disguiseVideoSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function Page({
@@ -10,10 +10,12 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    const disguises = await db
-        .select()
-        .from(disguiseSchema)
-        .where(eq(disguiseSchema.map, mission));
+    const disguises = await db.query.disguiseSchema.findMany({
+        where: eq(disguiseSchema.map, mission),
+        with: {
+            disguiseVideoSchema: true,
+        },
+    });
 
     if (disguises === null || disguises.length === 0) {
         return <h1>No data for this map :(</h1>;
