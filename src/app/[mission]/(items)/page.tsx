@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import Items from "./_components/Items";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { Mission } from "@/types";
 
 export default async function Page({
     params,
@@ -12,10 +13,9 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    const items = await db
-        .select()
-        .from(itemSchema)
-        .where(eq(itemSchema.map, mission));
+    let items = await db.query.itemSchema.findMany({
+        where: eq(itemSchema.map, mission),
+    });
 
     if (items === null || items.length === 0) {
         return <h1>No data for this map :(</h1>;
@@ -30,9 +30,11 @@ export default async function Page({
         }
     }
 
+    items = items.sort((a, b) => (a.name >= b.name ? 1 : -1));
+
     return (
         <SessionProvider>
-            <Items items={items} isAdmin={isAdmin} />
+            <Items items={items} mission={mission as Mission} />
         </SessionProvider>
     );
 }
