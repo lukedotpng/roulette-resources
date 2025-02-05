@@ -58,7 +58,7 @@ export type Target =
     | "janus"
     | "nolan_cassidy"
     | "noel_crest"
-    | "sinhi_venthan"
+    | "sinhi_akka"
     | "zoe_washington"
     | "sophia_washington"
     | "athena_savalas"
