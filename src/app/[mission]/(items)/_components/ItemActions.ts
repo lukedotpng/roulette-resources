@@ -5,18 +5,17 @@ import { db } from "@/server/db";
 import { itemSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 import z from "zod";
 
-const newItemScheme = z.object({
-    id: z.string(),
-    map: z.string().min(1),
-    name: z.string().min(1),
-    type: z.string().min(1),
-    quick_look: z.string().min(0),
-    hitmaps_link: z.string(),
-});
+// const newItemScheme = z.object({
+//     id: z.string(),
+//     map: z.string().min(1),
+//     name: z.string().min(1),
+//     type: z.string().min(1),
+//     quick_look: z.string().min(0),
+//     hitmaps_link: z.string(),
+// });
 
 const updateItemScheme = z.object({
     id: z.string().min(1),

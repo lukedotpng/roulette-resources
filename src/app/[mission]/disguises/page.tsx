@@ -1,6 +1,6 @@
 import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
-import { disguiseSchema, disguiseVideoSchema } from "@/server/db/schema";
+import { disguiseSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function Page({

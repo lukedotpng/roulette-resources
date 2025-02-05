@@ -5,12 +5,14 @@ import Discord from "next-auth/providers/discord";
 declare module "next-auth" {
     interface User {
         username: string;
+        admin: boolean;
     }
 }
 
 declare module "next-auth/jwt" {
     interface JWT {
         username: string;
+        admin: boolean;
     }
 }
 
@@ -41,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     username: profile.username,
                     name: profile.global_name,
                     image: profile.image_url,
+                    admin: isAdmin(profile.username),
                 };
             },
         }),
@@ -50,6 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (user) {
                 token.id = user.id;
                 token.username = user.username;
+                token.admin = user.admin;
             }
 
             return token;
@@ -58,9 +62,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (token.id) {
                 session.user.id = token.id as string;
                 session.user.username = token.username;
+                session.user.admin = token.admin;
             }
 
             return session;
         },
     },
 });
+
+function isAdmin(username: string) {
+    return username === "lukedotpng";
+}

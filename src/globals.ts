@@ -1,4 +1,4 @@
-import { BerlinUniqueKill, Item, Mission, MissionTargets } from "./types";
+import { BerlinUniqueKill, Mission, MissionTargets } from "./types";
 
 export const Missions: Mission[] = [
     "paris",

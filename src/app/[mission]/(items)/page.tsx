@@ -3,7 +3,6 @@ import { itemSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import Items from "./_components/Items";
 import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
 import { Mission } from "@/types";
 
 export default async function Page({
@@ -19,15 +18,6 @@ export default async function Page({
 
     if (items === null || items.length === 0) {
         return <h1>No data for this map :(</h1>;
-    }
-
-    const session = await auth();
-    let isAdmin = false;
-
-    if (session && session.user) {
-        if (session.user.username === "lukedotpng") {
-            isAdmin = true;
-        }
     }
 
     items = items.sort((a, b) => (a.name >= b.name ? 1 : -1));
