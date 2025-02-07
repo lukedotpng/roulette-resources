@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DeleteDisguiseVideoAction } from "./DisguiseActions";
+import { DeleteDisguiseVideoAction } from "../DisguiseActions";
 
 export default function DisguiseCard({ disguise }: { disguise: Disguise }) {
     const session = useSession();

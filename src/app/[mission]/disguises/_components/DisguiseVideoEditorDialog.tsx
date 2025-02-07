@@ -10,7 +10,7 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { NewDisguiseVideoAction } from "./DisguiseActions";
+import { NewDisguiseVideoAction } from "../DisguiseActions";
 import { DisguiseIDToDisplayText } from "@/globals";
 
 export default function DisguiseVideoEditorDialog({
