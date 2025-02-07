@@ -45,23 +45,20 @@ export default function ItemEditorDialog({
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed left-1/2 top-1/2 h-96 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-3 sm:w-[30rem]">
-                    <DialogTitle className="w-full text-base font-bold sm:text-xl">
+                <DialogContent className="fixed left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                    <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
                         Edit Item
                     </DialogTitle>
                     <form
-                        className="flex flex-col gap-2 text-sm sm:text-xl"
+                        className="p-3 text-sm sm:text-xl"
                         action={async (formData: FormData) => {
                             await UpdateItemAction(formData);
                             setEditDialogActive(false);
                         }}
                     >
-                        <fieldset>
+                        <fieldset className="">
                             {/* Field for the item name */}
                             <label className="font-semibold">Name:</label>
-                            {/* <FormMessage match={"valueMissing"}>
-                                Please enter the item name!
-                            </FormMessage> */}
                             <input
                                 type="text"
                                 name="name"
@@ -70,7 +67,8 @@ export default function ItemEditorDialog({
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="name"
                             />
-
+                        </fieldset>
+                        <fieldset className="pt-2">
                             {/* Field for quick look*/}
                             <label className="font-semibold">Quick Look:</label>
                             <input
@@ -83,6 +81,8 @@ export default function ItemEditorDialog({
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="quick_look"
                             />
+                        </fieldset>
+                        <fieldset className="pt-2">
                             {/* Field for Hitmaps URL */}
                             <label className="font-semibold">
                                 Hitmaps Link:
@@ -97,31 +97,31 @@ export default function ItemEditorDialog({
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="hitmaps_link"
                             />
-                            {/* Hidden field for Item ID */}
-                            <input
-                                hidden
-                                readOnly
-                                name="id"
-                                value={item.id}
-                                id="id"
-                            />
-                            {/* Hidden field for Item Map */}
-                            <input
-                                hidden
-                                readOnly
-                                name="map"
-                                value={item.map}
-                                id="map"
-                            />
-                            {/* Hidden field for Item type */}
-                            <input
-                                hidden
-                                readOnly
-                                name="type"
-                                value={item.type}
-                                id="type"
-                            />
                         </fieldset>
+                        {/* Hidden field for Item ID */}
+                        <input
+                            hidden
+                            readOnly
+                            name="id"
+                            value={item.id}
+                            id="id"
+                        />
+                        {/* Hidden field for Item Map */}
+                        <input
+                            hidden
+                            readOnly
+                            name="map"
+                            value={item.map}
+                            id="map"
+                        />
+                        {/* Hidden field for Item type */}
+                        <input
+                            hidden
+                            readOnly
+                            name="type"
+                            value={item.type}
+                            id="type"
+                        />
 
                         {hasBeenEdited && (
                             <button

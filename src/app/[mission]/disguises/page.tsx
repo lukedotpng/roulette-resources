@@ -2,6 +2,7 @@ import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
 import { disguiseSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+import { SessionProvider } from "next-auth/react";
 
 export default async function Page({
     params,
@@ -21,5 +22,9 @@ export default async function Page({
         return <h1>No data for this map :(</h1>;
     }
 
-    return <Disguises disguises={disguises} />;
+    return (
+        <SessionProvider>
+            <Disguises disguises={disguises} />
+        </SessionProvider>
+    );
 }

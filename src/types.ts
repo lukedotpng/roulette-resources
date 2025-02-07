@@ -7,8 +7,9 @@ import {
     uniqueKillSchema,
 } from "./server/db/schema";
 
+export type DisguiseVideo = InferSelectModel<typeof disguiseVideoSchema>;
 export type Disguise = InferSelectModel<typeof disguiseSchema> & {
-    disguiseVideoSchema: InferSelectModel<typeof disguiseVideoSchema>[];
+    disguiseVideoSchema: DisguiseVideo[];
 };
 
 export type Isolation = InferSelectModel<typeof isolationSchema>;

@@ -1,5 +1,13 @@
+import { randomUUID } from "crypto";
 import { relations } from "drizzle-orm";
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
+
+export const userSchema = pgTable("roulette-resources-users", {
+    username: text().primaryKey(),
+    name: text(),
+    image: text(),
+    admin: boolean(),
+});
 
 export const disguiseSchema = pgTable("roulette-resources-disguises", {
     id: text().primaryKey(),
@@ -12,11 +20,14 @@ export const disguiseSchema = pgTable("roulette-resources-disguises", {
 export const disguiseVideoSchema = pgTable(
     "roulette-resources-disguise_videos",
     {
-        id: uuid().primaryKey(),
+        id: uuid()
+            .primaryKey()
+            .$defaultFn(() => randomUUID()),
         disguise_id: text()
             .notNull()
             .references(() => disguiseSchema.id),
         link: text().notNull(),
+        visible: boolean().notNull(),
     },
 );
 

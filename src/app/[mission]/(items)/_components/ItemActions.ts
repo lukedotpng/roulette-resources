@@ -31,8 +31,6 @@ export async function UpdateItemAction(formData: FormData) {
         return "unauthorized";
     }
 
-    console.log("Updating item...");
-
     const formParsed = updateItemScheme.safeParse({
         id: formData.get("id"),
         name: formData.get("name"),
@@ -44,14 +42,10 @@ export async function UpdateItemAction(formData: FormData) {
         return;
     }
 
-    const res = await db
+    await db
         .update(itemSchema)
         .set(formParsed.data)
         .where(eq(itemSchema.id, formParsed.data.id));
 
-    console.log(res);
-
-    console.log(formParsed);
-
-    revalidatePath("/[mission]/");
+    revalidatePath("/[mission]/", "page");
 }

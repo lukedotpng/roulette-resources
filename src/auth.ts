@@ -1,6 +1,9 @@
 import NextAuth from "next-auth";
 import "next-auth/jwt";
 import Discord from "next-auth/providers/discord";
+import { db } from "./server/db";
+import { userSchema } from "./server/db/schema";
+import { eq } from "drizzle-orm";
 
 declare module "next-auth" {
     interface User {
@@ -17,13 +20,16 @@ declare module "next-auth/jwt" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    session: {
+        strategy: "jwt",
+    },
     providers: [
         Discord({
             authorization: {
                 url: "https://discord.com/api/oauth2/authorize",
                 params: { scope: "identify" },
             },
-            profile(profile) {
+            async profile(profile) {
                 // Default avatar profile logic from auth.js discord provider
                 if (profile.avatar === null) {
                     const defaultAvatarNumber =
@@ -38,12 +44,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`;
                 }
 
+                let isAdmin = false;
+
+                const user = await db.query.userSchema.findFirst({
+                    where: eq(userSchema.username, profile.username),
+                });
+
+                if (!user && profile.username) {
+                    await db.insert(userSchema).values({
+                        username: profile.username,
+                        name: profile.global_name ?? "",
+                        image: profile.image_url ?? "",
+                        admin: isAdmin,
+                    });
+                } else if (user) {
+                    isAdmin = user.admin ?? false;
+                }
+
                 return {
-                    id: profile.id,
                     username: profile.username,
                     name: profile.global_name,
                     image: profile.image_url,
-                    admin: isAdmin(profile.username),
+                    admin: isAdmin,
                 };
             },
         }),
@@ -51,7 +73,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
         jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
                 token.username = user.username;
                 token.admin = user.admin;
             }
@@ -59,8 +80,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return token;
         },
         session({ session, token }) {
-            if (token.id) {
-                session.user.id = token.id as string;
+            if (token.username) {
                 session.user.username = token.username;
                 session.user.admin = token.admin;
             }
@@ -69,7 +89,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
     },
 });
-
-function isAdmin(username: string) {
-    return username === "lukedotpng";
-}

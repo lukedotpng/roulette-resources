@@ -86,3 +86,17 @@ export const BerlinUniqueKillTypes: BerlinUniqueKill[] = [
     "consumed",
     "live_kills",
 ];
+
+export function DisguiseIDToDisplayText(disguise: string) {
+    let disguiseDisplayText = "";
+    // disguise ID example: paris-palace_staff
+    const disguiseSplit = disguise.split("-")[1]; // palace_staff
+    const words = disguiseSplit.split("_"); // ["palace", "staff"]
+
+    for (const word of words) {
+        disguiseDisplayText +=
+            word.charAt(0).toUpperCase() + word.slice(1) + " ";
+    }
+
+    return disguiseDisplayText.trim();
+}
