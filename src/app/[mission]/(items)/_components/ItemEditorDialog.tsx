@@ -10,7 +10,7 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { UpdateItemAction } from "./ItemActions";
+import { UpdateItemAction } from "../ItemActions";
 
 export default function ItemEditorDialog({
     item,
