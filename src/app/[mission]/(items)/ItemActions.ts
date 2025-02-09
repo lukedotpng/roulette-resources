@@ -27,7 +27,7 @@ const updateItemScheme = z.object({
 export async function UpdateItemAction(formData: FormData) {
     const session = await auth();
 
-    if (!session || !session.user || session.user.username !== "lukedotpng") {
+    if (!session || !session.user || !session.user.admin) {
         return "unauthorized";
     }
 

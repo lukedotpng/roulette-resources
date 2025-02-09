@@ -46,7 +46,9 @@ export const disguiseVideoRelations = relations(
 );
 
 export const isolationSchema = pgTable("roulette-resources-isolations", {
-    id: uuid().primaryKey(),
+    id: uuid()
+        .primaryKey()
+        .$defaultFn(() => randomUUID()),
     target: text().notNull(),
     map: text().notNull(),
     name: text().notNull(),
@@ -55,6 +57,7 @@ export const isolationSchema = pgTable("roulette-resources-isolations", {
     timings: text(),
     notes: text(),
     video_link: text().notNull(),
+    visible: boolean().notNull(),
 });
 
 export const itemSchema = pgTable("roulette-resources-items", {
