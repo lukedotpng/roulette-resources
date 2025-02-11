@@ -6,6 +6,7 @@ import {
     itemSchema,
     uniqueKillSchema,
 } from "./server/db/schema";
+import { boolean } from "drizzle-orm/mysql-core";
 
 export type DisguiseVideo = InferSelectModel<typeof disguiseVideoSchema>;
 export type Disguise = InferSelectModel<typeof disguiseSchema> & {
@@ -36,6 +37,8 @@ export type Mission =
     | "berlin"
     | "chongqing"
     | "mendoza";
+
+export type Season = "season_1" | "season_2" | "season_3";
 
 export type Target =
     | "viktor_novikov"
@@ -182,4 +185,12 @@ export type SpinMissionTargets = {
 
 export type TargetUniqueKills = {
     [key in SpinTarget]: string[];
+};
+
+export type MissionPoolOptions = {
+    [key in Mission]: boolean;
+};
+
+export type SeasonPoolSelected = {
+    [key in Season]: boolean;
 };

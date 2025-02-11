@@ -19,13 +19,8 @@ import {
     sniperConditionList,
     TargetUniqueKillsList,
 } from "./SpinGlobals";
-import { Missions } from "@/globals";
 
-export function GenerateSpinForMission(mission?: Mission) {
-    if (!mission) {
-        mission = Missions[Math.floor(Math.random() * Missions.length)];
-    }
-
+export function GenerateSpinForMission(mission: Mission) {
     const targets = SpinMissionTargetsList[mission];
     const missionSpinInfo = MissionSpinInfoList[mission];
 

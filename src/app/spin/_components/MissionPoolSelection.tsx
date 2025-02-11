@@ -1,0 +1,177 @@
+import {
+    Mission,
+    MissionPoolOptions,
+    Season,
+    SeasonPoolSelected,
+} from "@/types";
+
+import {
+    Dialog,
+    DialogContent,
+    DialogOverlay,
+    DialogPortal,
+    DialogTitle,
+    DialogTrigger,
+} from "@radix-ui/react-dialog";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+    MissionPoolOptionsList,
+    SeasonOneMissions,
+    SeasonPoolSelectedList,
+    SeasonThreeMissions,
+    SeasonTwoMissions,
+} from "../SpinGlobals";
+import { Missions } from "@/globals";
+
+export default function MissionPoolSelection({
+    setMissionPool,
+}: {
+    setMissionPool: Dispatch<SetStateAction<Mission[]>>;
+}) {
+    const seasonsList: Season[] = ["season_1", "season_2", "season_3"];
+    const [missionsPoolOptions, setMissionsPoolOptions] =
+        useState<MissionPoolOptions>(MissionPoolOptionsList);
+
+    const [seasonsSelected, setSeasonsSelected] = useState<SeasonPoolSelected>(
+        SeasonPoolSelectedList,
+    );
+
+    useEffect(() => {
+        let seasonOneAllSelected = true;
+        for (let i = 0; i < SeasonOneMissions.length; i++) {
+            if (!missionsPoolOptions[SeasonOneMissions[i]]) {
+                seasonOneAllSelected = false;
+            }
+        }
+
+        let seasonTwoAllSelected = true;
+        for (let i = 0; i < SeasonTwoMissions.length; i++) {
+            if (!missionsPoolOptions[SeasonTwoMissions[i]]) {
+                seasonTwoAllSelected = false;
+            }
+        }
+
+        let seasonThreeAllSelected = true;
+        for (let i = 0; i < SeasonThreeMissions.length; i++) {
+            if (!missionsPoolOptions[SeasonThreeMissions[i]]) {
+                seasonThreeAllSelected = false;
+            }
+        }
+
+        setSeasonsSelected({
+            season_1: seasonOneAllSelected,
+            season_2: seasonTwoAllSelected,
+            season_3: seasonThreeAllSelected,
+        });
+        const updatedMissionPool: Mission[] = [];
+
+        Missions.map((mission) => {
+            if (missionsPoolOptions[mission]) {
+                updatedMissionPool.push(mission);
+            }
+        });
+
+        setMissionPool(updatedMissionPool);
+    }, [missionsPoolOptions]);
+
+    return (
+        <Dialog>
+            <DialogTrigger className="w-48 bg-white p-2 text-zinc-900 hover:bg-red-500 hover:text-white">
+                Select Missions
+            </DialogTrigger>
+            <DialogPortal>
+                <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
+                <DialogContent className="fixed left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                    <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
+                        Select Missions
+                    </DialogTitle>
+                    <section className="flex justify-between gap-2 p-4">
+                        {seasonsList.map((season) => {
+                            let seasonMissionList: Mission[] = [];
+                            switch (season) {
+                                case "season_1":
+                                    seasonMissionList = SeasonOneMissions;
+                                    break;
+                                case "season_2":
+                                    seasonMissionList = SeasonTwoMissions;
+                                    break;
+                                case "season_3":
+                                    seasonMissionList = SeasonThreeMissions;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            return (
+                                <div
+                                    className="flex flex-1 flex-col items-center"
+                                    key={season}
+                                >
+                                    <button
+                                        data-selected={seasonsSelected[season]}
+                                        className="h-10 w-full border-2 border-white bg-white text-zinc-900 first:mb-3 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white"
+                                        onClick={() => {
+                                            const updatedMissionsPoolOptions =
+                                                missionsPoolOptions;
+
+                                            seasonMissionList.map((mission) => {
+                                                updatedMissionsPoolOptions[
+                                                    mission
+                                                ] = !seasonsSelected[season];
+                                            });
+
+                                            setMissionsPoolOptions({
+                                                ...updatedMissionsPoolOptions,
+                                            });
+                                        }}
+                                    >
+                                        <h2 className="font-bold">
+                                            {MapIDToDisplayText(season)}
+                                        </h2>
+                                    </button>
+                                    {seasonMissionList.map((mission) => {
+                                        return (
+                                            <button
+                                                key={mission}
+                                                data-selected={
+                                                    missionsPoolOptions[mission]
+                                                }
+                                                className="h-10 w-full border-2 border-white bg-white text-zinc-900 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white"
+                                                onClick={() => {
+                                                    setMissionsPoolOptions({
+                                                        ...missionsPoolOptions,
+                                                        [mission]:
+                                                            !missionsPoolOptions[
+                                                                mission
+                                                            ],
+                                                    });
+                                                }}
+                                            >
+                                                {MapIDToDisplayText(mission)}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+                    </section>
+                </DialogContent>
+            </DialogPortal>
+        </Dialog>
+    );
+}
+
+function MapIDToDisplayText(map: string) {
+    let mapDisplayText = "";
+    const words = map.split("_");
+
+    for (const word of words) {
+        let parsedWord = word.charAt(0).toUpperCase() + word.slice(1) + " ";
+        if (parsedWord == "Of ") {
+            parsedWord = parsedWord.toLowerCase();
+        }
+        mapDisplayText += parsedWord;
+    }
+
+    return mapDisplayText;
+}

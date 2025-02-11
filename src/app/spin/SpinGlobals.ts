@@ -3,6 +3,9 @@ import {
     TargetBannedConditions,
     MissionSpinInfo,
     TargetUniqueKills,
+    Mission,
+    MissionPoolOptions,
+    SeasonPoolSelected,
 } from "@/types";
 
 // Global
@@ -974,4 +977,60 @@ export const TargetUniqueKillsList: TargetUniqueKills = {
     imogen_royce: [],
     don_yates: [],
     tamara_vidal: [],
+};
+
+export const SeasonOneMissions: Mission[] = [
+    "paris",
+    "sapienza",
+    "marrakesh",
+    "bangkok",
+    "colorado",
+    "hokkaido",
+];
+
+export const SeasonTwoMissions: Mission[] = [
+    "miami",
+    "santa_fortuna",
+    "mumbai",
+    "whittleton_creek",
+    "ambrose_island",
+    "isle_of_sgail",
+    "new_york",
+    "haven_island",
+];
+
+export const SeasonThreeMissions: Mission[] = [
+    "dubai",
+    "dartmoor",
+    "berlin",
+    "chongqing",
+    "mendoza",
+];
+
+export const MissionPoolOptionsList: MissionPoolOptions = {
+    paris: true,
+    sapienza: true,
+    marrakesh: true,
+    bangkok: true,
+    colorado: true,
+    hokkaido: true,
+    miami: true,
+    santa_fortuna: true,
+    mumbai: true,
+    whittleton_creek: true,
+    ambrose_island: true,
+    isle_of_sgail: true,
+    new_york: true,
+    haven_island: true,
+    dubai: true,
+    dartmoor: true,
+    berlin: true,
+    chongqing: true,
+    mendoza: true,
+};
+
+export const SeasonPoolSelectedList: SeasonPoolSelected = {
+    season_1: true,
+    season_2: true,
+    season_3: true,
 };
