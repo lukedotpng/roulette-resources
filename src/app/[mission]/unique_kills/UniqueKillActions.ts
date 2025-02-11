@@ -100,12 +100,10 @@ export async function UpdateUniqueKillAction(formData: FormData) {
         return;
     }
 
-    console.log(formParsed);
-
-    // await db
-    //     .update(uniqueKillSchema)
-    //     .set(formParsed.data)
-    //     .where(eq(uniqueKillSchema.id, formParsed.data.id));
+    await db
+        .update(uniqueKillSchema)
+        .set(formParsed.data)
+        .where(eq(uniqueKillSchema.id, formParsed.data.id));
 
     revalidatePath("/[mission]/unique_kills", "page");
 }
