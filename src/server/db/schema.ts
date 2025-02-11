@@ -70,7 +70,9 @@ export const itemSchema = pgTable("roulette-resources-items", {
 });
 
 export const uniqueKillSchema = pgTable("roulette-resources-unique_kills", {
-    id: uuid().primaryKey(),
+    id: uuid()
+        .primaryKey()
+        .$defaultFn(() => randomUUID()),
     target: text().notNull(),
     map: text().notNull(),
     kill_method: text().notNull(),
@@ -80,4 +82,5 @@ export const uniqueKillSchema = pgTable("roulette-resources-unique_kills", {
     timings: text(),
     notes: text(),
     video_link: text().notNull(),
+    visible: boolean().notNull(),
 });

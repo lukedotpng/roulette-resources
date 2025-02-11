@@ -1,6 +1,6 @@
 "use client";
 
-import { Isolation } from "@/types";
+import { UniqueKill } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -11,58 +11,96 @@ import {
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import {
-    CreateIsolationAction,
-    UpdateIsolationAction,
-} from "../IsolationActions";
+    CreateUniqueKillAction,
+    UpdateUniqueKillAction,
+} from "../UniqueKillActions";
 
-export default function IsolationEditorDialog({
-    isolation,
+export default function UniqueKillEditorDialog({
+    uniqueKill,
     isNew,
     editDialogActive,
     setEditDialogActive,
 }: {
-    isolation: Isolation;
+    uniqueKill: UniqueKill;
     isNew: boolean;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
-    const [isolationName, setIsolationName] = useState(isolation.name);
-    const [isolationNotes, setIsolationNotes] = useState(isolation.notes || "");
-    const [isolationRequires, setIsolationRequires] = useState(
-        isolation.requires || "",
+    const [uniqueKillMethod, setUniqueKillMethod] = useState(
+        uniqueKill.kill_method,
     );
-    const [isolationStarts, setIsolationStarts] = useState(
-        isolation.starts || "",
+    const [uniqueKillName, setUniqueKillName] = useState(uniqueKill.name || "");
+    const [uniqueKillNotes, setUniqueKillNotes] = useState(
+        uniqueKill.notes || "",
     );
-    const [isolationTimings, setIsolationTimings] = useState(
-        isolation.timings || "",
+    const [uniqueKillRequires, setUniqueKillRequires] = useState(
+        uniqueKill.requires || "",
     );
-    const [isolationVideoLink, setIsolationVideoLink] = useState(
-        isolation.video_link,
+    const [uniqueKillStarts, setUniqueKillStarts] = useState(
+        uniqueKill.starts || "",
     );
+    const [uniqueKillTimings, setUniqueKillTimings] = useState(
+        uniqueKill.timings || "",
+    );
+    const [uniqueKillVideoLink, setUniqueKillVideoLink] = useState(
+        uniqueKill.video_link || "",
+    );
+
+    let uniqueKillOptions = [
+        "loud_kills",
+        "drowning",
+        "falling_object",
+        "fall",
+        "fire",
+        "electrocution",
+        "explosion_accident",
+        "consumed_poison",
+        "impact_explosive",
+    ];
+
+    switch (uniqueKill.target) {
+        case "silvio_caruso":
+            uniqueKillOptions.push("shoot_through_the_telescope");
+            break;
+        case "sean_rose":
+            uniqueKillOptions.push("explosive_watch_battery");
+            break;
+        case "sierra_knox":
+            uniqueKillOptions.push("shoot_the_car");
+            break;
+        case "athena_savalas":
+            uniqueKillOptions.push("athena_savalas_award");
+            break;
+        case "steven_bradley":
+            uniqueKillOptions.push("explosive_on_water_scooter");
+            break;
+        default:
+            break;
+    }
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
     useEffect(() => {
         if (
-            isolationName !== isolation.name ||
-            isolationNotes !== isolation.notes ||
-            isolationRequires !== isolation.requires ||
-            isolationStarts !== isolation.starts ||
-            isolationTimings !== isolation.timings ||
-            isolationVideoLink !== isolation.video_link
+            uniqueKillName !== (uniqueKill.name || "") ||
+            uniqueKillNotes !== (uniqueKill.notes || "") ||
+            uniqueKillRequires !== (uniqueKill.requires || "") ||
+            uniqueKillStarts !== (uniqueKill.starts || "") ||
+            uniqueKillTimings !== (uniqueKill.timings || "") ||
+            uniqueKillVideoLink !== (uniqueKill.video_link || "")
         ) {
             setHasBeenEdited(true);
         } else {
             setHasBeenEdited(false);
         }
     }, [
-        isolationName,
-        isolationNotes,
-        isolationRequires,
-        isolationStarts,
-        isolationTimings,
-        isolationVideoLink,
+        uniqueKillMethod,
+        uniqueKillName,
+        uniqueKillNotes,
+        uniqueKillRequires,
+        uniqueKillStarts,
+        uniqueKillTimings,
+        uniqueKillVideoLink,
         hasBeenEdited,
     ]);
 
@@ -78,23 +116,56 @@ export default function IsolationEditorDialog({
                         className="p-3 text-sm sm:text-xl"
                         action={async (formData: FormData) => {
                             if (isNew) {
-                                await CreateIsolationAction(formData);
+                                await CreateUniqueKillAction(formData);
                             } else {
-                                await UpdateIsolationAction(formData);
+                                await UpdateUniqueKillAction(formData);
                             }
                             setEditDialogActive(false);
                         }}
                     >
+                        {isNew ? (
+                            <fieldset>
+                                {/* Field for the isolation name */}
+                                <label className="font-semibold">
+                                    Kill Method:
+                                </label>
+                                <select
+                                    required
+                                    value={uniqueKillMethod}
+                                    name="kill_method"
+                                    onChange={(e) =>
+                                        setUniqueKillMethod(e.target.value)
+                                    }
+                                >
+                                    {uniqueKillOptions.map((uniqueKill) => (
+                                        <option
+                                            value={uniqueKill}
+                                            key={uniqueKill}
+                                        >
+                                            {UniqueKillIDToDisplayText(
+                                                uniqueKill,
+                                            )}
+                                        </option>
+                                    ))}
+                                </select>
+                            </fieldset>
+                        ) : (
+                            <input
+                                readOnly
+                                hidden
+                                name="kill_method"
+                                value={uniqueKill.kill_method}
+                            ></input>
+                        )}
                         <fieldset className="">
                             {/* Field for the isolation name */}
                             <label className="font-semibold">Name:</label>
                             <input
-                                required
                                 type="text"
                                 name="name"
-                                value={isolationName}
+                                value={uniqueKillName}
                                 onChange={(e) =>
-                                    setIsolationName(e.target.value)
+                                    setUniqueKillName(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="name"
@@ -106,9 +177,9 @@ export default function IsolationEditorDialog({
                             <input
                                 type="text"
                                 name="starts"
-                                value={isolationStarts}
+                                value={uniqueKillStarts}
                                 onChange={(e) =>
-                                    setIsolationStarts(e.target.value)
+                                    setUniqueKillStarts(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="starts"
@@ -120,9 +191,9 @@ export default function IsolationEditorDialog({
                             <input
                                 type="text"
                                 name="requires"
-                                value={isolationRequires}
+                                value={uniqueKillRequires}
                                 onChange={(e) =>
-                                    setIsolationRequires(e.target.value)
+                                    setUniqueKillRequires(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="requires"
@@ -134,9 +205,9 @@ export default function IsolationEditorDialog({
                             <input
                                 type="text"
                                 name="timings"
-                                value={isolationTimings}
+                                value={uniqueKillTimings}
                                 onChange={(e) =>
-                                    setIsolationTimings(e.target.value)
+                                    setUniqueKillTimings(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="timings"
@@ -148,9 +219,9 @@ export default function IsolationEditorDialog({
                             <input
                                 type="text"
                                 name="notes"
-                                value={isolationNotes}
+                                value={uniqueKillNotes}
                                 onChange={(e) =>
-                                    setIsolationNotes(e.target.value)
+                                    setUniqueKillNotes(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="notes"
@@ -162,10 +233,9 @@ export default function IsolationEditorDialog({
                             <input
                                 type="url"
                                 name="video_link"
-                                required
-                                value={isolationVideoLink}
+                                value={uniqueKillVideoLink}
                                 onChange={(e) =>
-                                    setIsolationVideoLink(e.target.value)
+                                    setUniqueKillVideoLink(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="video_link"
@@ -176,7 +246,7 @@ export default function IsolationEditorDialog({
                             hidden
                             readOnly
                             name="id"
-                            value={isolation.id}
+                            value={uniqueKill.id}
                             id="id"
                         />
                         {/* Hidden field for Isolation Map */}
@@ -184,7 +254,7 @@ export default function IsolationEditorDialog({
                             hidden
                             readOnly
                             name="map"
-                            value={isolation.map}
+                            value={uniqueKill.map}
                             id="map"
                         />
                         {/* Hidden field for Isolation Target */}
@@ -192,7 +262,7 @@ export default function IsolationEditorDialog({
                             hidden
                             readOnly
                             name="target"
-                            value={isolation.target}
+                            value={uniqueKill.target}
                             id="target"
                         />
 
@@ -209,4 +279,16 @@ export default function IsolationEditorDialog({
             </DialogPortal>
         </Dialog>
     );
+}
+
+function UniqueKillIDToDisplayText(uniqueKill: string) {
+    let uniqueKillDisplayText = "";
+    const words = uniqueKill.split("_");
+
+    for (const word of words) {
+        uniqueKillDisplayText +=
+            word.charAt(0).toUpperCase() + word.slice(1) + " ";
+    }
+
+    return uniqueKillDisplayText;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { UniqueKillTypes } from "@/globals";
-import { Target, UniqueKill } from "@/types";
+import { Mission, Target, UniqueKill } from "@/types";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -11,20 +11,52 @@ import {
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import UniqueKillCard from "./UniqueKillCard";
+import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
+import { useSession } from "next-auth/react";
 
 export default function UniqueKills({
     targets,
+    mission,
     uniqueKills,
 }: {
     targets: readonly Target[];
+    mission: Mission;
     uniqueKills: UniqueKill[];
 }) {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const session = useSession();
 
     const [activeTargetId, setActiveTargetId] = useState<Target>(
         (searchParams.get("target") as Target) ?? targets[0],
     );
+
+    const [editDialogActive, setEditDialogActive] = useState(false);
+    const [createNewUniqueKill, setCreateNewUniqueKill] = useState(false);
+    const [currentUniqueKillToEdit, setCurrentUniqueToEdit] =
+        useState<UniqueKill>({
+            id: "",
+            target: "",
+            kill_method: "",
+            map: mission,
+            name: "New Unique Kill",
+            requires: "",
+            starts: "",
+            timings: "",
+            notes: "",
+            video_link: "",
+            visible: true,
+        });
+
+    function handleUniqueKillEditTrigger(
+        uniqueKill: UniqueKill,
+        isNew: boolean,
+    ) {
+        setCreateNewUniqueKill(isNew);
+        setEditDialogActive(true);
+        setCurrentUniqueToEdit(uniqueKill);
+    }
 
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
@@ -91,7 +123,8 @@ export default function UniqueKills({
                         (uniqueKill) => {
                             return (
                                 uniqueKill.kill_method === uniqueKillType &&
-                                uniqueKill.target === activeTargetId
+                                uniqueKill.target === activeTargetId &&
+                                uniqueKill.visible
                             );
                         },
                     );
@@ -105,91 +138,47 @@ export default function UniqueKills({
                             key={index}
                             killType={uniqueKillType}
                             uniqueKills={filteredUniqueKills}
+                            handleUniqueKillEditTrigger={
+                                handleUniqueKillEditTrigger
+                            }
                         />
                     );
                 })}
+                {session.data?.user?.admin && (
+                    <button
+                        className="w-full items-center justify-between bg-white p-3 text-[1.3em] font-bold text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
+                        onClick={() => {
+                            handleUniqueKillEditTrigger(
+                                {
+                                    id: "",
+                                    target: activeTargetId,
+                                    kill_method: "loud_kills",
+                                    map: mission,
+                                    name: "New Unique Kill",
+                                    requires: "",
+                                    starts: "",
+                                    timings: "",
+                                    notes: "",
+                                    video_link: "",
+                                    visible: true,
+                                },
+                                true,
+                            );
+                        }}
+                    >
+                        {"Create New Unique Kill"}
+                    </button>
+                )}
             </div>
-        </section>
-    );
-}
-
-function UniqueKillCard({
-    killType,
-    uniqueKills,
-}: {
-    killType: string;
-    uniqueKills: UniqueKill[];
-}) {
-    const [collapsed, setCollapsed] = useState(true);
-
-    return (
-        <div className="w-80 bg-white text-zinc-900 sm:w-[30rem] md:w-[35rem]">
-            <button
-                data-active={!collapsed}
-                className="group flex w-full items-center justify-between p-3 text-[1.3em] font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
-                onClick={() => setCollapsed(!collapsed)}
-            >
-                <div></div>
-                <p>{UniqueKillIDToDisplayText(killType)}</p>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"
-                    className="h-4 w-4 fill-zinc-900 group-hover:fill-white group-data-[active=true]:rotate-90"
-                >
-                    {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
-                    <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
-                </svg>
-            </button>
-            {!collapsed && (
-                <div className="flex flex-col gap-2">
-                    {uniqueKills.map((uniqueKillMethod, index) => (
-                        <div
-                            key={index}
-                            className="border-t-4 border-zinc-900 p-3 first:border-0"
-                        >
-                            {uniqueKillMethod.name && (
-                                <p className="text-center text-[1.1em] font-bold">
-                                    {uniqueKillMethod.name}
-                                </p>
-                            )}
-                            {uniqueKillMethod.starts && (
-                                <p>
-                                    <strong>Starts: </strong>
-                                    {uniqueKillMethod.starts}
-                                </p>
-                            )}
-                            {uniqueKillMethod.requires && (
-                                <p>
-                                    <strong>Requires: </strong>
-                                    {uniqueKillMethod.requires}
-                                </p>
-                            )}
-                            {uniqueKillMethod.timings && (
-                                <p>
-                                    <strong>Timings: </strong>
-                                    {uniqueKillMethod.timings}
-                                </p>
-                            )}
-                            {uniqueKillMethod.notes && (
-                                <p>
-                                    <strong>Notes: </strong>
-                                    {uniqueKillMethod.notes}
-                                </p>
-                            )}
-                            {uniqueKillMethod.video_link && (
-                                <a
-                                    className="w-fit font-bold underline"
-                                    href={uniqueKillMethod.video_link}
-                                    target="_blank"
-                                >
-                                    Watch video here
-                                </a>
-                            )}
-                        </div>
-                    ))}
-                </div>
+            {editDialogActive && (
+                <UniqueKillEditorDialog
+                    uniqueKill={currentUniqueKillToEdit}
+                    isNew={createNewUniqueKill}
+                    editDialogActive={editDialogActive}
+                    setEditDialogActive={setEditDialogActive}
+                />
             )}
-        </div>
+        </section>
     );
 }
 
@@ -202,16 +191,4 @@ function TargetIDToDisplayText(target: string) {
     }
 
     return targetDisplayText;
-}
-
-function UniqueKillIDToDisplayText(uniqueKill: string) {
-    let uniqueKillDisplayText = "";
-    const words = uniqueKill.split("_");
-
-    for (const word of words) {
-        uniqueKillDisplayText +=
-            word.charAt(0).toUpperCase() + word.slice(1) + " ";
-    }
-
-    return uniqueKillDisplayText;
 }
