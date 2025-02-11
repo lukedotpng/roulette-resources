@@ -12,15 +12,22 @@ import {
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import DisguiseCard from "./DisguiseCard";
+import DisguiseVideoEditorDialog from "./DisguiseVideoEditorDialog";
+import { DisguiseIDToDisplayText } from "@/globals";
+import { useSession } from "next-auth/react";
 
 export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const session = useSession();
 
     const [activeDisguiseId, setActiveDisguiseId] = useState(
         searchParams.get("disguise") ?? disguises[0].id,
     );
     const [activeDisguise, setActiveDisguise] = useState(disguises[0]);
+
+    const [editDialogActive, setEditDialogActive] = useState(false);
 
     useEffect(() => {
         for (const disguise of disguises) {
@@ -28,7 +35,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                 setActiveDisguise(disguise);
             }
         }
-    }, [activeDisguiseId, activeDisguise]);
+    }, [activeDisguiseId, activeDisguise, disguises]);
 
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-xl">
@@ -96,66 +103,22 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
             </DropdownMenu>
             <div className="text-xs sm:text-sm md:text-base">
                 <DisguiseCard disguise={activeDisguise} />
+                {session.data?.user?.admin && (
+                    <button
+                        className="mt-1 w-full rounded-b-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        onClick={() => setEditDialogActive(true)}
+                    >
+                        Add New Video
+                    </button>
+                )}
             </div>
+            {editDialogActive && (
+                <DisguiseVideoEditorDialog
+                    disguise={activeDisguise}
+                    editDialogActive={editDialogActive}
+                    setEditDialogActive={setEditDialogActive}
+                />
+            )}
         </section>
     );
-}
-
-function DisguiseCard({ disguise }: { disguise: Disguise }) {
-    return (
-        <div className="w-80 bg-white p-2 text-zinc-900 sm:w-[30rem] md:w-[35rem] md:p-5">
-            <div className="flex flex-col gap-2">
-                {disguise.hitmaps_link && (
-                    <a
-                        href={disguise.hitmaps_link}
-                        target="_blank"
-                        className="block italic underline"
-                    >
-                        {"Hitmaps"}
-                    </a>
-                )}
-                {disguise.notes && <p>{disguise.notes}</p>}
-                <div className="flex flex-col gap-2 md:gap-5">
-                    {disguise.video_links?.map((link) => {
-                        const youtubeIdRegex =
-                            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
-
-                        const videoIdMatch = link.match(youtubeIdRegex);
-                        if (videoIdMatch === null || videoIdMatch.length < 8) {
-                            return;
-                        }
-
-                        const videoId = videoIdMatch[7];
-
-                        return (
-                            <iframe
-                                className="aspect-video h-auto w-full"
-                                key={link}
-                                width="380"
-                                height="213"
-                                src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-                                allow="clipboard-write; picture-in-picture"
-                                referrerPolicy="strict-origin-when-cross-origin"
-                                allowFullScreen
-                            />
-                        );
-                    })}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function DisguiseIDToDisplayText(disguise: string) {
-    let disguiseDisplayText = "";
-    // disguise ID example: paris-palace_staff
-    const disguiseSplit = disguise.split("-")[1]; // palace_staff
-    const words = disguiseSplit.split("_"); // ["palace", "staff"]
-
-    for (const word of words) {
-        disguiseDisplayText +=
-            word.charAt(0).toUpperCase() + word.slice(1) + " ";
-    }
-
-    return disguiseDisplayText;
 }

@@ -4,6 +4,7 @@ import { MissionTargetsList } from "@/globals";
 import { db } from "@/server/db";
 import { isolationSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+import { SessionProvider } from "next-auth/react";
 
 export default async function Page({
     params,
@@ -22,13 +23,16 @@ export default async function Page({
     }
 
     return (
-        <Isolations
-            targets={
-                mission !== "hokkaido"
-                    ? MissionTargetsList[mission]
-                    : ["yuki_yamazaki"]
-            }
-            isolations={isolations}
-        />
+        <SessionProvider>
+            <Isolations
+                targets={
+                    mission !== "hokkaido"
+                        ? MissionTargetsList[mission]
+                        : ["yuki_yamazaki"]
+                }
+                mission={mission}
+                isolations={isolations}
+            />
+        </SessionProvider>
     );
 }

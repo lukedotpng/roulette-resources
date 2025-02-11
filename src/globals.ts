@@ -67,10 +67,15 @@ export const UniqueKillTypes = [
     "live_kills",
     "firearm",
     "poison_stem_cells",
+    "shoot_silvio_through_the_telescope",
+    "explosive_watch_battery",
+    "shoot_the_car",
+    "athena_savalas_award",
+    "explosive_on_water_scooter",
     "robot_arms",
-    "throw_heart_in_trash_can",
-    "shoot_heart",
-    "explosive",
+    "throw_the_heart_in_the_trash",
+    "shoot_the_heart",
+    "explosion",
     "impact_explosive",
 ];
 
@@ -86,3 +91,17 @@ export const BerlinUniqueKillTypes: BerlinUniqueKill[] = [
     "consumed",
     "live_kills",
 ];
+
+export function DisguiseIDToDisplayText(disguise: string) {
+    let disguiseDisplayText = "";
+    // disguise ID example: paris-palace_staff
+    const disguiseSplit = disguise.split("-")[1]; // palace_staff
+    const words = disguiseSplit.split("_"); // ["palace", "staff"]
+
+    for (const word of words) {
+        disguiseDisplayText +=
+            word.charAt(0).toUpperCase() + word.slice(1) + " ";
+    }
+
+    return disguiseDisplayText.trim();
+}

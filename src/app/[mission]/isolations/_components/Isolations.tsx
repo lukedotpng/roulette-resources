@@ -1,29 +1,58 @@
 "use client";
 
-import { Isolation, Target } from "@/types";
+import { Isolation, Mission, Target } from "@/types";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import IsolationEditorDialog from "./IsolationEditorDialog";
+import IsolationCard from "./IsolationCard";
 
 export default function Isolations({
     targets,
+    mission,
     isolations,
 }: {
     targets: readonly Target[];
+    mission: Mission;
     isolations: Isolation[];
 }) {
     const searchParams = useSearchParams();
     const router = useRouter();
 
+    const session = useSession();
+
     const [activeTargetId, setActiveTargetId] = useState<Target>(
         (searchParams.get("target") as Target) ?? targets[0],
     );
+
+    const [editDialogActive, setEditDialogActive] = useState(false);
+    const [createNewIsolation, setCreateNewIsolation] = useState(false);
+    const [currentIsolationToEdit, setCurrentIsolationToEdit] =
+        useState<Isolation>({
+            id: "",
+            target: "",
+            map: mission,
+            name: "New Isolation",
+            requires: "",
+            starts: "",
+            timings: "",
+            notes: "",
+            video_link: "",
+            visible: true,
+        });
+
+    function handleIsolationEditTrigger(isolation: Isolation, isNew: boolean) {
+        setCreateNewIsolation(isNew);
+        setEditDialogActive(true);
+        setCurrentIsolationToEdit(isolation);
+    }
 
     return (
         <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
@@ -86,73 +115,56 @@ export default function Isolations({
             </DropdownMenu>
             <div className="flex flex-col gap-2 text-xs sm:text-sm md:text-base">
                 {isolations.map((isolation, index) => {
-                    if (activeTargetId !== isolation.target) {
+                    if (
+                        activeTargetId !== isolation.target ||
+                        isolation.visible === false
+                    ) {
                         return null;
                     }
-                    return <IsolationCard key={index} isolation={isolation} />;
+                    return (
+                        <IsolationCard
+                            key={index}
+                            isolation={isolation}
+                            handleIsolationEditTrigger={
+                                handleIsolationEditTrigger
+                            }
+                        />
+                    );
                 })}
-            </div>
-        </section>
-    );
-}
-
-function IsolationCard({ isolation }: { isolation: Isolation }) {
-    // const link = isolation.video_link;
-    // const youtubeIdRegex =
-    //     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
-
-    // const videoIdMatch = link.match(youtubeIdRegex);
-    // if (videoIdMatch === null || videoIdMatch.length < 8) {
-    //     return;
-    // }
-
-    // const videoId = videoIdMatch[7];
-
-    return (
-        <div className="w-80 bg-white p-3 text-zinc-900 sm:w-[30rem] md:w-[35rem]">
-            <div className="flex flex-col gap-2">
-                <p className="self-center text-[1.1em] font-bold">
-                    {isolation.name}
-                </p>
-                <p>
-                    <strong>Starts: </strong>
-                    {isolation.starts}
-                </p>
-                <p>
-                    <strong>Requires: </strong>
-                    {isolation.requires}
-                </p>
-                <p>
-                    <strong>Timings: </strong>
-                    {isolation.timings}
-                </p>
-                {isolation.notes && (
-                    <p>
-                        <strong>Notes: </strong>
-                        {isolation.notes}
-                    </p>
+                {session.data?.user?.admin && (
+                    <button
+                        className="w-full bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        onClick={() =>
+                            handleIsolationEditTrigger(
+                                {
+                                    id: "",
+                                    target: activeTargetId,
+                                    map: mission,
+                                    name: "New Isolation",
+                                    requires: "",
+                                    starts: "",
+                                    timings: "",
+                                    notes: "",
+                                    video_link: "",
+                                    visible: true,
+                                },
+                                true,
+                            )
+                        }
+                    >
+                        Add New Isolation
+                    </button>
                 )}
-                <a
-                    className="w-fit font-bold underline"
-                    href={isolation.video_link}
-                    target="_blank"
-                >
-                    Watch video here
-                </a>
-                {/* <div className="flex w-[560px] flex-col gap-5">
-                    <iframe
-                        className="first:pt-5"
-                        key={link}
-                        width="560"
-                        height="315"
-                        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-                        allow="clipboard-write; picture-in-picture"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                    />
-                </div> */}
             </div>
-        </div>
+            {editDialogActive && (
+                <IsolationEditorDialog
+                    isolation={currentIsolationToEdit}
+                    isNew={createNewIsolation}
+                    editDialogActive={editDialogActive}
+                    setEditDialogActive={setEditDialogActive}
+                />
+            )}
+        </section>
     );
 }
 

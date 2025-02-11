@@ -1,4 +1,4 @@
-import MissionInfoNav from "./_components/MissionInfoNav";
+import MissionInfoNav from "./(items)/_components/MissionInfoNav";
 
 export default async function Page({
     params,

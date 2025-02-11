@@ -5,6 +5,7 @@ import UniqueKills from "./_components/UniqueKills";
 import { BerlinUniqueKillTypes, MissionTargetsList } from "@/globals";
 import { Mission } from "@/types";
 import BerlinUniqueKills from "./_components/BerlinUniqueKills";
+import { SessionProvider } from "next-auth/react";
 
 export default async function Page({
     params,
@@ -32,10 +33,13 @@ export default async function Page({
         );
     } else {
         return (
-            <UniqueKills
-                targets={MissionTargetsList[mission]}
-                uniqueKills={uniqueKills}
-            />
+            <SessionProvider>
+                <UniqueKills
+                    targets={MissionTargetsList[mission]}
+                    mission={mission}
+                    uniqueKills={uniqueKills}
+                />
+            </SessionProvider>
         );
     }
 }
