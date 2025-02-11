@@ -6,7 +6,6 @@ import {
     itemSchema,
     uniqueKillSchema,
 } from "./server/db/schema";
-import { boolean } from "drizzle-orm/mysql-core";
 
 export type DisguiseVideo = InferSelectModel<typeof disguiseVideoSchema>;
 export type Disguise = InferSelectModel<typeof disguiseSchema> & {
