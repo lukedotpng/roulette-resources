@@ -46,7 +46,7 @@ export default function UniqueKillEditorDialog({
         uniqueKill.video_link || "",
     );
 
-    let uniqueKillOptions = [
+    const uniqueKillOptions = [
         "loud_kills",
         "drowning",
         "falling_object",

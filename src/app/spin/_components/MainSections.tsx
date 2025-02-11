@@ -15,9 +15,9 @@ export default function MainSection() {
     const [spin, setSpin] = useState<Spin>(GenerateSpinForMission(mission));
 
     // Options
-    const [missionPool, setMissionPool] = useState<Mission[]>(Missions);
-    const [missionQueue, setMissionQueue] = useState<Mission[]>(Missions);
-    const [noRepeatForXSpins, setNoRepeatForXSpins] = useState<number>(0);
+    const [missionPool] = useState<Mission[]>(Missions);
+    // const [missionQueue, setMissionQueue] = useState<Mission[]>(Missions);
+    // const [noRepeatForXSpins, setNoRepeatForXSpins] = useState<number>(0);
 
     useEffect(() => {
         setIsMounted(true);

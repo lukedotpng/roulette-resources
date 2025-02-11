@@ -26,13 +26,13 @@ export function GenerateSpinForMission(mission?: Mission) {
         mission = Missions[Math.floor(Math.random() * Missions.length)];
     }
 
-    let targets = SpinMissionTargetsList[mission];
+    const targets = SpinMissionTargetsList[mission];
     const missionSpinInfo = MissionSpinInfoList[mission];
 
-    let disguisesSpun: string[] = [];
-    let conditionsSpun: string[] = [];
+    const disguisesSpun: string[] = [];
+    const conditionsSpun: string[] = [];
 
-    let spin: Spin = {};
+    const spin: Spin = {};
 
     targets.forEach((target) => {
         spin[target] = { disguise: "", condition: "", ntko: false };
@@ -113,7 +113,7 @@ function GetRandomCondition(target: SpinTarget, conditions: TargetConditions) {
         ];
     }
 
-    let conditionsList: string[] = customConditions[conditionType];
+    const conditionsList: string[] = customConditions[conditionType];
 
     let condition =
         conditionsList[Math.floor(Math.random() * conditionsList.length)];
