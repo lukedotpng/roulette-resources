@@ -1,6 +1,7 @@
 import {
     ConditionType,
     Mission,
+    MissionSpin,
     Spin,
     SpinTarget,
     TargetConditions,
@@ -20,7 +21,7 @@ import {
     TargetUniqueKillsList,
 } from "./SpinGlobals";
 
-export function GenerateSpinForMission(mission: Mission) {
+export function GenerateMissionSpin(mission: Mission): MissionSpin {
     const targets = SpinMissionTargetsList[mission];
     const missionSpinInfo = MissionSpinInfoList[mission];
 
@@ -51,7 +52,7 @@ export function GenerateSpinForMission(mission: Mission) {
         conditionsSpun.push(condition);
     });
 
-    return spin;
+    return { mission: mission, spin: spin };
 }
 
 function GenerateCondition(
@@ -287,10 +288,10 @@ function CanAddNTKO(
     conditionType: ConditionType,
 ) {
     // Basic condition check
-    if (
-        (conditionType === "melee" || conditionType === "weapon") &&
-        !condition.includes("explosive")
-    ) {
+    if (conditionType !== "melee" && conditionType !== "weapon") {
+        return false;
+    }
+    if (condition.endsWith("explosive")) {
         return false;
     }
 
@@ -309,6 +310,9 @@ function CanAddNTKO(
         return false;
     }
 
+    console.log("TARGET:", target);
+    console.log("\tCONDITION:", condition);
+    console.log("\tCONDITION TYPE:", condition);
     return true;
 }
 

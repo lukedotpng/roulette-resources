@@ -170,6 +170,11 @@ export type SpinTarget =
     | "don_yates"
     | "tamara_vidal";
 
+export type MissionSpin = {
+    mission: Mission;
+    spin: Spin;
+};
+
 export type Spin = {
     [key in SpinTarget]?: {
         disguise: string;
@@ -192,4 +197,8 @@ export type MissionPoolOptions = {
 
 export type SeasonPoolSelected = {
     [key in Season]: boolean;
+};
+
+export type MissionDisguises = {
+    [key in Mission]: string[];
 };
