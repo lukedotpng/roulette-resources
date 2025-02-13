@@ -17,7 +17,7 @@ export default function NavDropdown({
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-                <button className="h-full w-20 text-sm font-bold outline-none hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white sm:w-32 sm:text-base md:w-40 md:text-xl">
+                <button className="h-full w-20 text-sm font-bold outline-hidden hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white sm:w-32 sm:text-base md:w-40 md:text-xl">
                     {season}
                 </button>
             </DropdownMenuTrigger>
