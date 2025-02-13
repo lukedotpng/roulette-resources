@@ -310,9 +310,6 @@ function CanAddNTKO(
         return false;
     }
 
-    console.log("TARGET:", target);
-    console.log("\tCONDITION:", condition);
-    console.log("\tCONDITION TYPE:", condition);
     return true;
 }
 

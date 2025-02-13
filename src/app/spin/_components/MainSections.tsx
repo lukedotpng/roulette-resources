@@ -13,6 +13,7 @@ import {
 } from "../SpinGlobals";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import MissionQueueSelection from "./MissionQueueSelection";
 
 export default function MainSection() {
     const searchParams = useSearchParams();
@@ -22,8 +23,8 @@ export default function MainSection() {
 
     // Options
     const [missionPool, setMissionPool] = useState<Mission[]>(Missions);
-    // const [queueMode, setQueueMode] = useState(false);
-    // const [missionQueue, setMissionQueue] = useState<Mission[]>(Missions);
+    const [queueMode, setQueueMode] = useState(false);
+    const [missionQueue, setMissionQueue] = useState<Mission[]>([]);
     // const [noRepeatForXSpins, setNoRepeatForXSpins] = useState<number>(0);
 
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
@@ -35,7 +36,13 @@ export default function MainSection() {
 
     useEffect(() => {
         setIsMounted(true);
-    }, [isMounted]);
+    }, [router]);
+
+    useEffect(() => {
+        setMissionSpin(
+            GetInitialSpin(searchParams.get("s") ?? "", missionPool),
+        );
+    }, [searchParams]);
 
     if (!isMounted) {
         return (
@@ -44,7 +51,7 @@ export default function MainSection() {
     }
 
     return (
-        <main className="flex flex-1 flex-col items-center gap-5 bg-zinc-800 p-5">
+        <main className="flex flex-1 flex-col items-center gap-3 bg-zinc-800 p-2 pt-3 text-xs sm:gap-5 sm:p-5 sm:pt-5 sm:text-base">
             <div
                 data-active={noMissionsSelectedAlertActive}
                 aria-hidden={noMissionsSelectedAlertActive}
@@ -54,7 +61,7 @@ export default function MainSection() {
             </div>
 
             <button
-                className="h-10 w-40 bg-white font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
+                className="h-8 w-32 bg-white font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:h-10 sm:w-40"
                 onClick={() => {
                     if (missionPool.length === 0) {
                         setNoMissionsSelectedAlertActive(true);
@@ -84,17 +91,24 @@ export default function MainSection() {
             </button>
             <SpinInfoSection missionSpin={missionSpin} />
             <div className="flex gap-4">
-                {/* <button
-                    className="group flex items-center justify-start bg-white p-1 pr-2 text-zinc-900"
+                <button
+                    className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900"
                     onClick={() => setQueueMode(!queueMode)}
+                    data-active={queueMode}
                 >
-                    <div
-                        data-active={queueMode}
-                        className="mr-2 h-8 w-8 border-4 border-zinc-900 bg-white data-[active=true]:bg-red-500"
-                    ></div>
-                    <span>{"Toggle Queue"}</span>
-                </button> */}
-                <MissionPoolSelection setMissionPool={setMissionPool} />
+                    <div className="mr-2 aspect-square h-4 border-2 border-zinc-900 bg-white group-data-[active=true]:bg-red-500"></div>
+                    <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                        {"Queue Mode"}
+                    </span>
+                </button>
+                {queueMode ? (
+                    <MissionQueueSelection
+                        missionQueue={missionQueue}
+                        setMissionQueue={setMissionQueue}
+                    />
+                ) : (
+                    <MissionPoolSelection setMissionPool={setMissionPool} />
+                )}
             </div>
         </main>
     );

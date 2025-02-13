@@ -22,6 +22,7 @@ import {
     SeasonTwoMissions,
 } from "../SpinGlobals";
 import { Missions } from "@/globals";
+import { MapIDToDisplayText } from "../SpinUtils";
 
 export default function MissionPoolSelection({
     setMissionPool,
@@ -76,7 +77,7 @@ export default function MissionPoolSelection({
 
     return (
         <Dialog>
-            <DialogTrigger className="w-48 bg-white p-2 text-zinc-900 hover:bg-red-500 hover:text-white">
+            <DialogTrigger className="w-fit bg-white p-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:p-2">
                 Select Missions
             </DialogTrigger>
             <DialogPortal>
@@ -85,7 +86,7 @@ export default function MissionPoolSelection({
                     <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
                         Select Missions
                     </DialogTitle>
-                    <section className="flex justify-between gap-2 p-4">
+                    <section className="flex justify-between gap-2 p-4 text-xs sm:text-base">
                         {seasonsList.map((season) => {
                             let seasonMissionList: Mission[] = [];
                             switch (season) {
@@ -109,7 +110,7 @@ export default function MissionPoolSelection({
                                 >
                                     <button
                                         data-selected={seasonsSelected[season]}
-                                        className="h-10 w-full border-2 border-white bg-white text-zinc-900 first:mb-3 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white"
+                                        className="h-8 w-full border-2 border-white bg-white text-zinc-900 first:mb-3 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                         onClick={() => {
                                             const updatedMissionsPoolOptions =
                                                 missionsPoolOptions;
@@ -136,7 +137,7 @@ export default function MissionPoolSelection({
                                                 data-selected={
                                                     missionsPoolOptions[mission]
                                                 }
-                                                className="h-10 w-full border-2 border-white bg-white text-zinc-900 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white"
+                                                className="h-fit w-full border-2 border-white bg-white py-1 text-zinc-900 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:py-2"
                                                 onClick={() => {
                                                     setMissionsPoolOptions({
                                                         ...missionsPoolOptions,
@@ -159,19 +160,4 @@ export default function MissionPoolSelection({
             </DialogPortal>
         </Dialog>
     );
-}
-
-function MapIDToDisplayText(map: string) {
-    let mapDisplayText = "";
-    const words = map.split("_");
-
-    for (const word of words) {
-        let parsedWord = word.charAt(0).toUpperCase() + word.slice(1) + " ";
-        if (parsedWord == "Of ") {
-            parsedWord = parsedWord.toLowerCase();
-        }
-        mapDisplayText += parsedWord;
-    }
-
-    return mapDisplayText;
 }

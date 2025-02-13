@@ -7,7 +7,7 @@ export default function SpinInfoSection({
     missionSpin: MissionSpin;
 }) {
     return (
-        <section className="flex flex-col gap-2">
+        <section className="flex w-full flex-col items-center gap-2">
             {(Object.keys(missionSpin.spin) as (keyof Spin)[]).map((target) => {
                 return (
                     <TargetSpinCard

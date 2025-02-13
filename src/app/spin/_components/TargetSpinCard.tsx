@@ -11,9 +11,9 @@ export default function TargetSpinCard({
     mission: Mission;
 }) {
     return (
-        <div className="flex flex-col border-4 border-white text-white">
-            <div className="flex h-32 min-w-[40rem] text-white">
-                <div className="relative w-48 border-r-2 border-white">
+        <div className="flex w-full flex-col border-2 border-white text-white sm:border-4 md:w-[40rem]">
+            <div className="flex h-20 w-full text-white sm:h-32">
+                <div className="relative w-32 border-r-[1px] border-white sm:w-48 sm:border-r-2">
                     <Image
                         src={TargetImagePathFormatter(target)}
                         alt={target}
@@ -28,7 +28,7 @@ export default function TargetSpinCard({
                 <div className="flex flex-1 flex-col">
                     <div className="flex flex-1 items-center justify-between border-white bg-zinc-900">
                         <div className="px-1">
-                            <p className="w-fit text-[.75em] font-bold underline decoration-red-500 decoration-2">
+                            <p className="text-[.75em] font-bold underline decoration-red-500 decoration-1 sm:decoration-2">
                                 Method
                             </p>
                             <h1 className="text-[1.1em] font-bold">
@@ -45,12 +45,12 @@ export default function TargetSpinCard({
                             width={693}
                             height={517}
                             quality={10}
-                            className="h-full w-16 border-l-2 border-white object-cover"
+                            className="h-full w-12 border-l-[1px] border-white object-cover sm:w-16 sm:border-l-2"
                         />
                     </div>
-                    <div className="flex flex-1 items-center justify-between border-t-2 border-white bg-zinc-900">
+                    <div className="flex flex-1 items-center justify-between border-t-[1px] border-white bg-zinc-900 sm:border-t-2">
                         <div className="px-1">
-                            <p className="w-fit text-[.75em] font-bold underline decoration-red-500 decoration-2">
+                            <p className="text-[.75em] font-bold underline decoration-red-500 decoration-1 sm:decoration-2">
                                 Disguise
                             </p>
                             <h1 className="text-[1.1em] font-bold">
@@ -72,13 +72,13 @@ export default function TargetSpinCard({
                             width={693}
                             height={517}
                             quality={10}
-                            className="h-full w-16 border-l-2 border-white object-cover"
+                            className="h-full w-12 border-l-[1px] border-white object-cover sm:w-16 sm:border-l-2"
                         />
                     </div>
                 </div>
             </div>
             {spin[target]?.ntko && (
-                <h2 className="border-t-2 border-white bg-red-500 py-1 text-center font-bold">
+                <h2 className="border-t-[1px] border-white bg-red-500 py-0.5 text-center font-bold sm:border-t-2 sm:py-1">
                     No Target Pacification
                 </h2>
             )}
