@@ -10,6 +10,11 @@ import {
 } from "@radix-ui/react-dialog";
 import { Dispatch, SetStateAction } from "react";
 import { MapIDToDisplayText } from "../SpinUtils";
+import {
+    SeasonOneMissions,
+    SeasonTwoMissions,
+    SeasonThreeMissions,
+} from "../SpinGlobals";
 
 export default function MissionQueueSelection({
     missionQueue,
@@ -25,12 +30,44 @@ export default function MissionQueueSelection({
             </DialogTrigger>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed left-1/2 top-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white sm:w-[30rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white sm:w-[30rem]">
                     <DialogTitle className="w-full p-2 text-center text-sm font-bold sm:p-3 sm:text-base">
                         Create Queue
                     </DialogTitle>
                     <section className="flex justify-between p-4 pt-2 text-xs sm:pt-4 sm:text-base">
                         <div className="flex flex-1 flex-col items-center">
+                            <button
+                                className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
+                                onClick={() => {
+                                    setMissionQueue([...Missions]);
+                                }}
+                            >
+                                {"Trilogy"}
+                            </button>
+                            <button
+                                className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
+                                onClick={() => {
+                                    setMissionQueue([...SeasonOneMissions]);
+                                }}
+                            >
+                                {"Season 1"}
+                            </button>
+                            <button
+                                className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
+                                onClick={() => {
+                                    setMissionQueue([...SeasonTwoMissions]);
+                                }}
+                            >
+                                {"Season 2"}
+                            </button>
+                            <button
+                                className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
+                                onClick={() => {
+                                    setMissionQueue([...SeasonThreeMissions]);
+                                }}
+                            >
+                                {"Season 3"}
+                            </button>
                             {Missions.map((mission) => {
                                 return (
                                     <button
@@ -43,7 +80,6 @@ export default function MissionQueueSelection({
                                             setMissionQueue([
                                                 ...updatedMissionQueue,
                                             ]);
-                                            console.log(updatedMissionQueue);
                                         }}
                                     >
                                         <svg
@@ -63,11 +99,8 @@ export default function MissionQueueSelection({
                             {missionQueue.map((mission, index) => {
                                 return (
                                     <div
-                                        key={mission + index}
+                                        key={index}
                                         className="flex h-8 w-full items-center bg-white pl-2 text-zinc-900 sm:h-10"
-                                        onClick={() => {
-                                            console.log(mission);
-                                        }}
                                     >
                                         <button
                                             className="group flex w-6 items-center sm:h-6"
