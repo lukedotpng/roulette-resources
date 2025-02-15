@@ -1,13 +1,12 @@
 "use client";
 
 import { Missions } from "@/globals";
-import { Mission, MissionSpin, Spin } from "@/types";
+import { Mission, MissionSpin } from "@/types";
 import { GenerateMissionSpin } from "../SpinManager";
 import SpinInfoSection from "./SpinInfoSection";
-import MissionPoolSelection from "./MissionPoolSelection";
 import MissionQueueSelection from "./MissionQueueSelection";
-import MissionQueueControls from "./MissionQueueControls";
-import RandomMissionControls from "./RandomMissionControls";
+import MissionQueueSpinControls from "./MissionQueueSpinControls";
+import RandomMissionSpinControls from "./RandomMissionSpinControls";
 import {
     GetSpinFromQuery,
     GetRandomMission,
@@ -16,6 +15,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import RandomMissionOptions from "./RandomMissionOptions";
 
 export default function MainSection() {
     const searchParams = useSearchParams();
@@ -28,7 +28,8 @@ export default function MainSection() {
     const [queueMode, setQueueMode] = useState(false);
     const [missionQueue, setMissionQueue] = useState<Mission[]>([]);
     const [queueIndex, setQueueIndex] = useState(0);
-    // const [noRepeatForXSpins, setNoRepeatForXSpins] = useState<number>(0);
+    const [noRepeatForXSpins, setNoRepeatForXSpins] = useState(0);
+    const [pastSpins, setPastSpins] = useState<Mission[]>([]);
 
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
         useState(false);
@@ -45,7 +46,8 @@ export default function MainSection() {
         setMissionSpin(
             GetSpinFromQuery(searchParams.get("s") ?? "", missionPool),
         );
-    }, [searchParams]);
+        console.log("Spin query loaded");
+    }, [searchParams, missionPool]);
 
     useEffect(() => {
         const spinQuery = CreateSpinQuery(missionSpin);
@@ -54,6 +56,12 @@ export default function MainSection() {
         params.set("s", spinQuery);
         router.push(`/spin?${params.toString()}`);
     }, [missionSpin]);
+
+    useEffect(() => {
+        if (pastSpins.length > noRepeatForXSpins) {
+            setPastSpins([]);
+        }
+    }, [noRepeatForXSpins, pastSpins]);
 
     function GenerateRandomSpin() {
         if (missionPool.length === 0) {
@@ -67,8 +75,22 @@ export default function MainSection() {
             return;
         }
 
-        const randomMission = GetRandomMission(missionPool);
+        let randomMission = GetRandomMission(missionPool);
+        while (pastSpins.includes(randomMission)) {
+            randomMission = GetRandomMission(missionPool);
+        }
+
         const missionSpin: MissionSpin = GenerateMissionSpin(randomMission);
+        const updatedPastSpins = [...pastSpins];
+        updatedPastSpins.push(randomMission);
+        if (
+            updatedPastSpins.length >
+            Math.min(noRepeatForXSpins, missionPool.length - 1)
+        ) {
+            updatedPastSpins.shift();
+        }
+        setPastSpins(updatedPastSpins);
+        console.log(updatedPastSpins);
 
         setMissionSpin(missionSpin);
     }
@@ -124,18 +146,18 @@ export default function MainSection() {
                 {"Please select missions"}
             </div>
             {queueMode ? (
-                <MissionQueueControls
+                <MissionQueueSpinControls
                     GenerateNextSpin={GenerateNextSpin}
                     GeneratePreviousSpin={GeneratePreviousSpin}
                     RegenerateSpin={RegenerateSpin}
                 />
             ) : (
-                <RandomMissionControls
+                <RandomMissionSpinControls
                     GenerateRandomSpin={GenerateRandomSpin}
                 />
             )}
             <SpinInfoSection missionSpin={missionSpin} />
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
                 <button
                     className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900"
                     onClick={ToggleQueueMode}
@@ -152,7 +174,11 @@ export default function MainSection() {
                         setMissionQueue={setMissionQueue}
                     />
                 ) : (
-                    <MissionPoolSelection setMissionPool={setMissionPool} />
+                    <RandomMissionOptions
+                        setMissionPool={setMissionPool}
+                        noRepeatForXSpins={noRepeatForXSpins}
+                        setNoRepeatForXSpins={setNoRepeatForXSpins}
+                    />
                 )}
             </div>
         </main>

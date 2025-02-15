@@ -39,13 +39,21 @@ export default function ItemEditorDialog({
         } else {
             setHasBeenEdited(false);
         }
-    }, [itemName, itemHitmapsLink, itemQuickLook, hasBeenEdited]);
+    }, [
+        itemName,
+        item.name,
+        itemHitmapsLink,
+        hitmapsLinkAsString,
+        itemQuickLook,
+        item.quick_look,
+        hasBeenEdited,
+    ]);
 
     return (
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                     <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
                         Edit Item
                     </DialogTitle>

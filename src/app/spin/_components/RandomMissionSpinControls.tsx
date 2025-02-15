@@ -1,4 +1,4 @@
-export default function RandomMissionControls({
+export default function RandomMissionSpinControls({
     GenerateRandomSpin,
 }: {
     GenerateRandomSpin: () => void;

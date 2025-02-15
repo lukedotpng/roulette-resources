@@ -3,6 +3,7 @@
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import SignOut from "./SignOut";
+import Image from "next/image";
 
 export default function UserIcon() {
     const session = useSession();
@@ -30,9 +31,11 @@ export default function UserIcon() {
                 onClick={() => setSignOutButtonOpen(!signOutButtonOpen)}
             >
                 {session.data.user.image ? (
-                    <img
+                    <Image
                         src={session.data.user.image}
                         alt={session.data.user.name || "No name provided"}
+                        width={128}
+                        height={128}
                         className="h-full w-full rounded-full"
                     />
                 ) : (
@@ -43,7 +46,7 @@ export default function UserIcon() {
                     </p>
                 )}
             </button>
-            <div className="absolute right-0 top-10">
+            <div className="absolute top-10 right-0">
                 {signOutButtonOpen && <SignOut />}
             </div>
         </div>

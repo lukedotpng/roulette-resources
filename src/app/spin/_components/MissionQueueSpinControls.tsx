@@ -1,4 +1,4 @@
-export default function MissionQueueControls({
+export default function MissionQueueSpinControls({
     GenerateNextSpin,
     GeneratePreviousSpin,
     RegenerateSpin,

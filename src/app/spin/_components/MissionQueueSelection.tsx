@@ -110,7 +110,7 @@ export default function MissionQueueSelection({
                                                 }
 
                                                 const missionToMove = mission;
-                                                let updatedMissionQueue =
+                                                const updatedMissionQueue =
                                                     missionQueue;
 
                                                 updatedMissionQueue[index] =
@@ -146,7 +146,7 @@ export default function MissionQueueSelection({
                                                 }
 
                                                 const missionToMove = mission;
-                                                let updatedMissionQueue =
+                                                const updatedMissionQueue =
                                                     missionQueue;
 
                                                 updatedMissionQueue[index] =
