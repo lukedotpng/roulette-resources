@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { Missions } from "@/globals";
 import MainSection from "./_components/MainSections";
 import { CreateSpinQuery, GetSpinFromQuery } from "./SpinUtils";
+import { url } from "inspector";
 
 export async function generateMetadata({
     searchParams,
@@ -14,11 +15,21 @@ export async function generateMetadata({
     const missionSpin = GetSpinFromQuery(spinQuery, Missions);
     spinQuery = CreateSpinQuery(missionSpin);
 
+    const title =
+        missionSpin.mission.charAt(0).toUpperCase() +
+        missionSpin.mission.slice(1);
+
     return {
-        title: missionSpin.mission,
+        title: title,
         openGraph: {
-            image: `/api/og?s=${spinQuery}`,
-            width: 1200,
+            title: title + "Spin",
+            url: `/spin?s=${spinQuery}`,
+            images: [
+                {
+                    url: `/api/og?s=${spinQuery}`,
+                    width: 1200,
+                },
+            ],
         },
     };
 }
