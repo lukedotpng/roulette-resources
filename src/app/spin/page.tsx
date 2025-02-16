@@ -3,7 +3,6 @@ export const dynamic = "force-dynamic";
 import { Missions } from "@/globals";
 import MainSection from "./_components/MainSections";
 import { CreateSpinQuery, GetSpinFromQuery } from "./SpinUtils";
-import { url } from "inspector";
 
 export async function generateMetadata({
     searchParams,
