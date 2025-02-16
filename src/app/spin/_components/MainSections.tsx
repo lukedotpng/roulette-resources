@@ -63,6 +63,18 @@ export default function MainSection() {
         }
     }, [noRepeatForXSpins, pastSpins]);
 
+    useEffect(() => {
+        if (queueMode) {
+            if (missionQueue.length === 0) {
+                setMissionQueue(["paris"]);
+                setQueueIndex(0);
+                setMissionSpin(GenerateMissionSpin("paris"));
+            } else {
+                setMissionSpin(GenerateMissionSpin(missionQueue[0]));
+            }
+        }
+    }, [missionQueue, setMissionQueue]);
+
     function GenerateRandomSpin() {
         if (missionPool.length === 0) {
             setNoMissionsSelectedAlertActive(true);

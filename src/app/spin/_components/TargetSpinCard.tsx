@@ -21,7 +21,7 @@ export default function TargetSpinCard({
                         height={517}
                         className="h-full object-cover object-center"
                     />
-                    <h1 className="absolute bottom-0 w-full bg-zinc-900 bg-opacity-85 text-center font-bold">
+                    <h1 className="bg-opacity-85 absolute bottom-0 w-full bg-zinc-900 text-center font-bold">
                         {TargetIDToDisplayText(target)}
                     </h1>
                 </div>
