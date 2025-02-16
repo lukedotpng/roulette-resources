@@ -17,7 +17,7 @@ export async function generateMetadata({
     return {
         title: missionSpin.mission,
         openGraph: {
-            url: `/api/og?s=${spinQuery}`,
+            image: `/api/og?s=${spinQuery}`,
             width: 1200,
         },
     };
