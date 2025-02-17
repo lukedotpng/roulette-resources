@@ -1,8 +1,8 @@
 import {
     ConditionType,
     Mission,
-    MissionSpin,
     Spin,
+    SpinInfo,
     SpinTarget,
     TargetConditions,
 } from "@/types";
@@ -21,38 +21,38 @@ import {
     TargetUniqueKillsList,
 } from "./SpinGlobals";
 
-export function GenerateMissionSpin(mission: Mission): MissionSpin {
+export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];
-    const missionSpinInfo = MissionSpinInfoList[mission];
+    const spinInfoOptions = MissionSpinInfoList[mission];
 
     const disguisesSpun: string[] = [];
     const conditionsSpun: string[] = [];
 
-    const spin: Spin = {};
+    const spinInfo: SpinInfo = {};
 
     targets.forEach((target) => {
-        spin[target] = { disguise: "", condition: "", ntko: false };
+        spinInfo[target] = { disguise: "", condition: "", ntko: false };
 
         const targetDisguise = GenerateDisguise(
-            missionSpinInfo.disguises,
+            spinInfoOptions.disguises,
             disguisesSpun,
         );
-        spin[target].disguise = targetDisguise;
+        spinInfo[target].disguise = targetDisguise;
         disguisesSpun.push(targetDisguise);
 
         const { condition, isNoKO } = GenerateCondition(
             mission,
-            missionSpinInfo.conditions,
+            spinInfoOptions.conditions,
             target,
             targetDisguise,
             conditionsSpun,
         );
-        spin[target].condition = condition;
-        spin[target].ntko = isNoKO;
+        spinInfo[target].condition = condition;
+        spinInfo[target].ntko = isNoKO;
         conditionsSpun.push(condition);
     });
 
-    return { mission: mission, spin: spin };
+    return { mission: mission, info: spinInfo };
 }
 
 function GenerateCondition(

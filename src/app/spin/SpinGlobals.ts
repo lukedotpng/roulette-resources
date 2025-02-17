@@ -1,7 +1,7 @@
 import {
     SpinMissionTargets,
     TargetBannedConditions,
-    MissionSpinInfo,
+    MissionSpinOptions,
     TargetUniqueKills,
     Mission,
     MissionPoolOptions,
@@ -771,7 +771,7 @@ export const TargetBannedConditionsList: TargetBannedConditions = {
     "ica_agent_#5": [],
 };
 
-export const MissionSpinInfoList: MissionSpinInfo = {
+export const MissionSpinInfoList: MissionSpinOptions = {
     paris: {
         disguises: parisDisguises,
         conditions: {

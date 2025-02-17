@@ -9,7 +9,7 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 import { Dispatch, SetStateAction } from "react";
-import { MapIDToDisplayText } from "../SpinUtils";
+import { MapIDToDisplayText } from "../../../lib/SpinUtils";
 import {
     SeasonOneMissions,
     SeasonTwoMissions,

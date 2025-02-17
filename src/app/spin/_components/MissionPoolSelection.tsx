@@ -22,7 +22,7 @@ import {
     SeasonTwoMissions,
 } from "../SpinGlobals";
 import { Missions } from "@/globals";
-import { MapIDToDisplayText } from "../SpinUtils";
+import { MapIDToDisplayText } from "../../../lib/SpinUtils";
 
 export default function MissionPoolSelection({
     setMissionPool,

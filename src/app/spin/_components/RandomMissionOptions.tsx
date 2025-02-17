@@ -4,39 +4,26 @@ import MissionPoolSelection from "./MissionPoolSelection";
 
 export default function RandomMissionOptions({
     setMissionPool,
-    noRepeatForXSpins,
-    setNoRepeatForXSpins,
+    dontRepeatMission,
+    ToggleDontRepeatMission,
 }: {
     setMissionPool: Dispatch<SetStateAction<Mission[]>>;
-    noRepeatForXSpins: number;
-    setNoRepeatForXSpins: Dispatch<SetStateAction<number>>;
+    dontRepeatMission: boolean;
+    ToggleDontRepeatMission: () => void;
 }) {
     return (
         <>
             <MissionPoolSelection setMissionPool={setMissionPool} />
-            <form
-                className="flex h-full items-center bg-white p-1 px-2 text-zinc-900 sm:p-2"
-                onSubmit={(e) => e.preventDefault()}
+            <button
+                className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900"
+                onClick={ToggleDontRepeatMission}
+                data-active={dontRepeatMission}
             >
-                <label htmlFor="noRepeatForXSpins">{"No repeats for "}</label>
-                <input
-                    className="mx-1 w-8 border-2 border-zinc-900 text-center focus:border-red-500 focus:outline-none sm:w-10"
-                    value={noRepeatForXSpins}
-                    onChange={(e) => {
-                        let value = parseInt(e.target.value);
-                        if (value.toString() === "NaN") {
-                            setNoRepeatForXSpins(0);
-                            return;
-                        }
-                        value = Math.max(value, 0);
-
-                        setNoRepeatForXSpins(value);
-                    }}
-                    name="noRepeatForXSpins"
-                    id="noRepeatForXSpins"
-                />
-                <span>spins</span>
-            </form>
+                <div className="mr-2 aspect-square h-4 border-2 border-zinc-900 bg-white group-data-[active=true]:bg-red-500"></div>
+                <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                    {"No Repeated Missions"}
+                </span>
+            </button>
         </>
     );
 }

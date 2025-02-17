@@ -2,13 +2,9 @@ export const dynamic = "force-dynamic";
 
 import { Missions } from "@/globals";
 import MainSection from "./_components/MainSections";
-import {
-    CreateSpinQuery,
-    GetSpinFromQuery,
-    ValidateSpinQuery,
-} from "./SpinUtils";
 import { Metadata } from "next";
-import { Spin, SpinTarget } from "@/types";
+import { SpinInfo, SpinTarget } from "@/types";
+import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 
 export async function generateMetadata({
     searchParams,
@@ -16,52 +12,24 @@ export async function generateMetadata({
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
     let spinQuery = ((await searchParams).s as string) || "";
-    const validSpinQuery = ValidateSpinQuery(spinQuery);
 
-    if (!validSpinQuery) {
+    const spin = GetSpinFromQuery(spinQuery, false, Missions);
+
+    if (!spin) {
         return {
             title: "Play Roulette!",
             description: "Roulette Spinner to Help You Learn Roulette",
         };
     }
 
-    const missionSpin = GetSpinFromQuery(spinQuery, Missions);
-    spinQuery = CreateSpinQuery(missionSpin);
+    spinQuery = CreateSpinQuery(spin);
 
-    const title = NameIDToDisplayText(missionSpin.mission) + " Spin";
+    const title = NameIDToDisplayText(spin.mission) + " Spin";
 
     let description = "";
-    (Object.keys(missionSpin.spin) as (keyof Spin)[]).map(
-        (target: SpinTarget) => {
-            description += `${NameIDToDisplayText(target)}: ${MethodIDToDisplayText(missionSpin.spin[target]?.condition)} / ${DisguiseIDToDisplayText(missionSpin.spin[target]?.disguise)}\n`;
-        },
-    );
-
-    return {
-        title: title,
-        description: description,
-        openGraph: {
-            title: title,
-            description: description,
-            siteName: "RouRe",
-            url: `https://roulette.luke.town/spin?s=${spinQuery}`,
-            images: [
-                {
-                    url: `/api/og?s=${spinQuery}`,
-                    width: 1200,
-                },
-            ],
-        },
-        twitter: {
-            card: "summary_large_image",
-            images: [
-                {
-                    url: `/api/og?s=${spinQuery}`,
-                    width: 1200,
-                },
-            ],
-        },
-    };
+    (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target: SpinTarget) => {
+        description += `${NameIDToDisplayText(target)}: ${MethodIDToDisplayText(spin.info[target]?.condition)} / ${DisguiseIDToDisplayText(spin.info[target]?.disguise)}\n`;
+    });
 
     return {
         title: title,

@@ -1,17 +1,21 @@
-import { GetSpinFromQuery } from "@/app/spin/SpinUtils";
 import { Missions } from "@/globals";
 import { ImageResponse } from "next/og";
 import SpinInfoSection from "./SpinInfoSection";
-import { Spin } from "@/types";
+import { SpinInfo } from "@/types";
+import { GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 
 export async function GET(request: Request) {
     const spinQuery = new URL(request.url).searchParams.get("s") || "";
-    const missionSpin = GetSpinFromQuery(spinQuery, Missions);
+    const spin = GetSpinFromQuery(spinQuery, false, Missions);
 
-    const targetCount = Object.keys(missionSpin.spin).length;
+    if (!spin) {
+        return null;
+    }
+
+    const targetCount = Object.keys(spin.info).length;
     let noKoCount = 0;
-    (Object.keys(missionSpin.spin) as (keyof Spin)[]).map((target) => {
-        if (missionSpin.spin[target]?.ntko) {
+    (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
+        if (spin.info[target]?.ntko) {
             noKoCount++;
         }
     });
@@ -19,7 +23,7 @@ export async function GET(request: Request) {
     const ogImageHeight =
         154 * targetCount + noKoCount * 40 + 5 * (targetCount - 1);
 
-    return new ImageResponse(<SpinInfoSection missionSpin={missionSpin} />, {
+    return new ImageResponse(<SpinInfoSection spin={spin} />, {
         width: 600,
         height: ogImageHeight,
         status: 200,

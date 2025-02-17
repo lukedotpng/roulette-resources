@@ -1,11 +1,7 @@
-import { MissionSpin, Spin } from "@/types";
+import { Spin, SpinInfo } from "@/types";
 import TargetSpinCard from "./TargetSpinCard";
 
-export default function SpinInfoSection({
-    missionSpin,
-}: {
-    missionSpin: MissionSpin;
-}) {
+export default function SpinInfoSection({ spin }: { spin: Spin }) {
     return (
         <div
             style={{
@@ -18,13 +14,9 @@ export default function SpinInfoSection({
                 gap: "5px",
             }}
         >
-            {(Object.keys(missionSpin.spin) as (keyof Spin)[]).map((target) => {
+            {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 return (
-                    <TargetSpinCard
-                        missionSpin={missionSpin}
-                        target={target}
-                        key={target}
-                    />
+                    <TargetSpinCard spin={spin} target={target} key={target} />
                 );
             })}
         </div>

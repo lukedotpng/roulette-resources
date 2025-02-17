@@ -1,16 +1,16 @@
-import { Mission, MissionSpin, SpinTarget } from "@/types";
+import { Mission, Spin, SpinTarget } from "@/types";
 
 export default function TargetSpinCard({
-    missionSpin,
+    spin,
     target,
 }: {
-    missionSpin: MissionSpin;
+    spin: Spin;
     target: SpinTarget;
 }) {
-    const spin = missionSpin.spin;
-    const mission = missionSpin.mission;
+    const spinInfo = spin.info;
+    const mission = spin.mission;
 
-    const cardHeight = 154 + (spin[target]?.ntko ? 40 : 0);
+    const cardHeight = 154 + (spinInfo[target]?.ntko ? 40 : 0);
 
     return (
         <div
@@ -100,18 +100,20 @@ export default function TargetSpinCard({
                                     fontWeight: "bold",
                                 }}
                             >
-                                {ItemIDToDisplayText(spin[target]?.condition)}
+                                {ItemIDToDisplayText(
+                                    spinInfo[target]?.condition,
+                                )}
                             </div>
                         </div>
 
                         <img
                             src={MethodImagePathFormatter(
-                                spin[target]?.condition,
+                                spinInfo[target]?.condition,
                                 target,
                             )}
                             width={48}
                             height={48}
-                            alt={spin[target]?.condition ?? "No Condition"}
+                            alt={spinInfo[target]?.condition ?? "No Condition"}
                             style={{
                                 height: "100%",
                                 width: "100px",
@@ -155,19 +157,19 @@ export default function TargetSpinCard({
                                 }}
                             >
                                 {DisguiseIDToDisplayText(
-                                    spin[target]?.disguise,
+                                    spinInfo[target]?.disguise,
                                 )}
                             </div>
                         </div>
 
                         <img
                             src={DisguiseImagePathFormatter(
-                                spin[target]?.disguise,
+                                spinInfo[target]?.disguise,
                                 mission,
                             )}
                             width={48}
                             height={48}
-                            alt={spin[target]?.disguise ?? "No Disguise"}
+                            alt={spinInfo[target]?.disguise ?? "No Disguise"}
                             style={{
                                 height: "100%",
                                 width: "100px",
@@ -178,7 +180,7 @@ export default function TargetSpinCard({
                     </div>
                 </div>
             </div>
-            {spin[target]?.ntko && (
+            {spinInfo[target]?.ntko && (
                 <div
                     style={{
                         display: "flex",

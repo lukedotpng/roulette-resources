@@ -1,4 +1,4 @@
-import { Mission, Spin, SpinTarget } from "@/types";
+import { Mission, SpinInfo, SpinTarget } from "@/types";
 import Image from "next/image";
 
 export default function TargetSpinCard({
@@ -6,7 +6,7 @@ export default function TargetSpinCard({
     target,
     mission,
 }: {
-    spin: Spin;
+    spin: SpinInfo;
     target: SpinTarget;
     mission: Mission;
 }) {

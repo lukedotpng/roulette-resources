@@ -117,7 +117,7 @@ export type TargetBannedConditions = {
     [key in SpinTarget]: string[];
 };
 
-export type MissionSpinInfo = {
+export type MissionSpinOptions = {
     [key in Mission]: {
         disguises: string[];
         conditions: TargetConditions;
@@ -170,12 +170,12 @@ export type SpinTarget =
     | "don_yates"
     | "tamara_vidal";
 
-export type MissionSpin = {
+export type Spin = {
     mission: Mission;
-    spin: Spin;
+    info: SpinInfo;
 };
 
-export type Spin = {
+export type SpinInfo = {
     [key in SpinTarget]?: {
         disguise: string;
         condition: string;
