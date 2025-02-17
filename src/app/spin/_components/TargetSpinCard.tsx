@@ -27,7 +27,7 @@ export default function TargetSpinCard({
         clearTimeout(disguiseTimeout.current);
         disguiseTimeout.current = setTimeout(() => {
             setDisguiseSpinAnimationActive(false);
-        }, 300);
+        }, 150);
     }
 
     function HandleConditionSpinAnmiation() {
@@ -36,7 +36,7 @@ export default function TargetSpinCard({
         clearTimeout(conditionTimeout.current);
         conditionTimeout.current = setTimeout(() => {
             setConditionSpinAnimationActive(false);
-        }, 300);
+        }, 150);
     }
 
     return (
