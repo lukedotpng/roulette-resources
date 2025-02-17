@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const spin = GetSpinFromQuery(spinQuery, false, Missions);
 
     if (!spin) {
-        return null;
+        return;
     }
 
     const targetCount = Object.keys(spin.info).length;
