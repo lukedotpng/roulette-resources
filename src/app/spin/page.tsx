@@ -27,10 +27,12 @@ export async function generateMetadata({
 
     return {
         title: title,
+        description: description,
         openGraph: {
             title: title,
             description: description,
-            url: `/spin?s=${spinQuery}`,
+            siteName: "RouRe",
+            url: `https://roulette.luke.town/spin?s=${spinQuery}`,
             images: [
                 {
                     url: `/api/og?s=${spinQuery}`,
