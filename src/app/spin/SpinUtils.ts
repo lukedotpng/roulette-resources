@@ -19,21 +19,6 @@ export function GetRandomMission(missionPool: Mission[]): Mission {
     return randomMission;
 }
 
-export function GetSpinFromQuery(
-    query: string,
-    missionPool: Mission[],
-): MissionSpin {
-    if (!query) {
-        return GenerateMissionSpin(GetRandomMission(missionPool));
-    }
-    const parsedSpin = ParseSpinQuery(query);
-    if (!parsedSpin) {
-        return GenerateMissionSpin(GetRandomMission(missionPool));
-    }
-
-    return parsedSpin;
-}
-
 export function CreateSpinQuery(missionSpin: MissionSpin) {
     let spinQuery = "";
 
@@ -56,6 +41,30 @@ export function CreateSpinQuery(missionSpin: MissionSpin) {
     });
 
     return spinQuery;
+}
+
+export function GetSpinFromQuery(
+    query: string,
+    missionPool: Mission[],
+): MissionSpin {
+    if (!query) {
+        return GenerateMissionSpin(GetRandomMission(missionPool));
+    }
+    const parsedSpin = ParseSpinQuery(query);
+    if (!parsedSpin) {
+        return GenerateMissionSpin(GetRandomMission(missionPool));
+    }
+
+    return parsedSpin;
+}
+
+export function ValidateSpinQuery(query: string): boolean {
+    const missionSpin = ParseSpinQuery(query);
+
+    if (missionSpin === null) {
+        return false;
+    }
+    return true;
 }
 
 export function ParseSpinQuery(spinQuery: string): MissionSpin | null {

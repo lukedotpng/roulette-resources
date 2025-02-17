@@ -2,7 +2,11 @@ export const dynamic = "force-dynamic";
 
 import { Missions } from "@/globals";
 import MainSection from "./_components/MainSections";
-import { CreateSpinQuery, GetSpinFromQuery } from "./SpinUtils";
+import {
+    CreateSpinQuery,
+    GetSpinFromQuery,
+    ValidateSpinQuery,
+} from "./SpinUtils";
 import { Metadata } from "next";
 import { Spin, SpinTarget } from "@/types";
 
@@ -12,6 +16,14 @@ export async function generateMetadata({
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
     let spinQuery = ((await searchParams).s as string) || "";
+    const validSpinQuery = ValidateSpinQuery(spinQuery);
+
+    if (!validSpinQuery) {
+        return {
+            title: "Play Roulette!",
+            description: "Roulette Spinner to Help You Learn Roulette",
+        };
+    }
 
     const missionSpin = GetSpinFromQuery(spinQuery, Missions);
     spinQuery = CreateSpinQuery(missionSpin);
@@ -24,6 +36,32 @@ export async function generateMetadata({
             description += `${NameIDToDisplayText(target)}: ${MethodIDToDisplayText(missionSpin.spin[target]?.condition)} / ${DisguiseIDToDisplayText(missionSpin.spin[target]?.disguise)}\n`;
         },
     );
+
+    return {
+        title: title,
+        description: description,
+        openGraph: {
+            title: title,
+            description: description,
+            siteName: "RouRe",
+            url: `https://roulette.luke.town/spin?s=${spinQuery}`,
+            images: [
+                {
+                    url: `/api/og?s=${spinQuery}`,
+                    width: 1200,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            images: [
+                {
+                    url: `/api/og?s=${spinQuery}`,
+                    width: 1200,
+                },
+            ],
+        },
+    };
 
     return {
         title: title,
@@ -105,5 +143,5 @@ function NameIDToDisplayText(target: string) {
         }
     }
 
-    return nameDisplayText;
+    return nameDisplayText.trim();
 }
