@@ -1,8 +1,12 @@
 import { Missions } from "@/globals";
-import { Mission, Spin } from "@/types";
+import { Mission, Spin, SpinTarget, SpinUpdateAction } from "@/types";
 import { useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
-import { GenerateSpin } from "./SpinManager";
+import {
+    GenerateSpin,
+    RegenerateCondition,
+    RegenerateDisguise,
+} from "./SpinManager";
 import { GetRandomMission } from "@/lib/SpinUtils";
 
 export function useSpinManager() {
@@ -65,6 +69,36 @@ export function useSpinManager() {
         setLastMissionSpun(spin.mission);
         setCurrentSpin(spin);
     }
+    function HandleSpinUpdate(target: SpinTarget, action: SpinUpdateAction) {
+        if (action === "respin_condition") {
+            const res = RegenerateCondition(currentSpin, target);
+            const updatedSpin = structuredClone(currentSpin);
+            if (updatedSpin.info[target]) {
+                updatedSpin.info[target].condition = res.condition;
+                updatedSpin.info[target].ntko = res.isNoKO;
+            }
+
+            setCurrentSpin(updatedSpin);
+            return;
+        }
+        if (action === "respin_disguise") {
+            const disguise = RegenerateDisguise(currentSpin, target);
+            const updatedSpin = structuredClone(currentSpin);
+            if (updatedSpin.info[target]) {
+                updatedSpin.info[target].disguise = disguise;
+            }
+            setCurrentSpin(updatedSpin);
+            return;
+        }
+        if (action === "toggle_ntko") {
+            const updatedSpin = structuredClone(currentSpin);
+            if (updatedSpin.info[target]) {
+                updatedSpin.info[target].ntko = !updatedSpin.info[target].ntko;
+            }
+            setCurrentSpin(updatedSpin);
+            return;
+        }
+    }
     function ToggleDontRepeatMission() {
         setDontRepeatMission(!dontRepeatMission);
     }
@@ -111,6 +145,7 @@ export function useSpinManager() {
     return {
         currentSpin,
         GenerateRandomSpin,
+        HandleSpinUpdate,
         RegenerateSpin,
         GenerateNextSpin,
         GeneratePreviousSpin,

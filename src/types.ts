@@ -202,3 +202,8 @@ export type SeasonPoolSelected = {
 export type MissionDisguises = {
     [key in Mission]: string[];
 };
+
+export type SpinUpdateAction =
+    | "respin_condition"
+    | "respin_disguise"
+    | "toggle_ntko";

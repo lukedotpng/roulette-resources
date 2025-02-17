@@ -41,9 +41,13 @@ export default function MainSection() {
             ) : (
                 <RandomMissionSpinControls
                     GenerateRandomSpin={spinManager.GenerateRandomSpin}
+                    RegenerateSpin={spinManager.RegenerateSpin}
                 />
             )}
-            <SpinInfoSection spin={spinManager.currentSpin} />
+            <SpinInfoSection
+                spin={spinManager.currentSpin}
+                HandleSpinUpdate={spinManager.HandleSpinUpdate}
+            />
             <div className="flex flex-wrap justify-center gap-4">
                 <button
                     className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900"

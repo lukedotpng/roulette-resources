@@ -55,6 +55,20 @@ export function GenerateSpin(mission: Mission): Spin {
     return { mission: mission, info: spinInfo };
 }
 
+function GenerateDisguise(
+    disguiseList: string[],
+    disguisesSpun: string[],
+): string {
+    let targetDisguise =
+        disguiseList[Math.floor(Math.random() * disguiseList.length)];
+    while (disguisesSpun.includes(targetDisguise)) {
+        targetDisguise =
+            disguiseList[Math.floor(Math.random() * disguiseList.length)];
+    }
+
+    return targetDisguise;
+}
+
 function GenerateCondition(
     mission: Mission,
     conditions: TargetConditions,
@@ -313,15 +327,79 @@ function CanAddNTKO(
     return true;
 }
 
-function GenerateDisguise(
-    disguiseList: string[],
-    disguisesSpun: string[],
-): string {
+export function RegenerateCondition(spin: Spin, target: SpinTarget) {
+    const spinInfoOptions = MissionSpinInfoList[spin.mission];
+
+    let { condition, isNoKO } = GetRandomCondition(
+        target,
+        spinInfoOptions.conditions,
+    );
+
+    const conditionsSpun: string[] = [];
+    (Object.keys(spin.info) as (keyof SpinInfo)[]).map(
+        (currTarget: SpinTarget) => {
+            if (target !== currTarget) {
+                if (spin.info[currTarget]?.condition) {
+                    conditionsSpun.push(spin.info[currTarget].condition);
+                }
+            }
+        },
+    );
+
+    while (
+        !CheckValidCondition(
+            condition,
+            conditionsSpun,
+            spin.mission,
+            target,
+            spin.info[target]?.disguise || "",
+        ) ||
+        condition === spin.info[target]?.condition
+    ) {
+        const res = GetRandomCondition(target, spinInfoOptions.conditions);
+        condition = res.condition;
+        isNoKO = res.isNoKO;
+    }
+
+    return { condition, isNoKO };
+}
+
+export function RegenerateDisguise(spin: Spin, target: SpinTarget) {
+    const spinInfoOptions = MissionSpinInfoList[spin.mission];
+
+    const disguisesSpun: string[] = [];
+    (Object.keys(spin.info) as (keyof SpinInfo)[]).map(
+        (currTarget: SpinTarget) => {
+            if (target !== currTarget) {
+                if (spin.info[currTarget]?.disguise) {
+                    disguisesSpun.push(spin.info[currTarget].disguise);
+                }
+            }
+        },
+    );
+
     let targetDisguise =
-        disguiseList[Math.floor(Math.random() * disguiseList.length)];
-    while (disguisesSpun.includes(targetDisguise)) {
+        spinInfoOptions.disguises[
+            Math.floor(Math.random() * spinInfoOptions.disguises.length)
+        ];
+
+    const targetCondition = spin.info[target]?.condition || "";
+
+    while (
+        disguisesSpun.includes(targetDisguise) ||
+        !CheckValidCondition(
+            targetCondition,
+            [],
+            spin.mission,
+            target,
+            targetDisguise,
+        ) ||
+        targetDisguise === spin.info[target]?.disguise
+    ) {
         targetDisguise =
-            disguiseList[Math.floor(Math.random() * disguiseList.length)];
+            spinInfoOptions.disguises[
+                Math.floor(Math.random() * spinInfoOptions.disguises.length)
+            ];
     }
 
     return targetDisguise;

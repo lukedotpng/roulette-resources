@@ -1,7 +1,13 @@
-import { Spin, SpinInfo } from "@/types";
+import { Spin, SpinInfo, SpinTarget, SpinUpdateAction } from "@/types";
 import TargetSpinCard from "./TargetSpinCard";
 
-export default function SpinInfoSection({ spin }: { spin: Spin }) {
+export default function SpinInfoSection({
+    spin,
+    HandleSpinUpdate,
+}: {
+    spin: Spin;
+    HandleSpinUpdate: (target: SpinTarget, action: SpinUpdateAction) => void;
+}) {
     return (
         <section className="flex w-full flex-col items-center gap-2">
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
@@ -10,6 +16,7 @@ export default function SpinInfoSection({ spin }: { spin: Spin }) {
                         spin={spin.info}
                         target={target}
                         mission={spin.mission}
+                        HandleSpinUpdate={HandleSpinUpdate}
                         key={target}
                     />
                 );
