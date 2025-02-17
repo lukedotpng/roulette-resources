@@ -19,12 +19,12 @@ export default function MainSection() {
 
     if (!isMounted) {
         return (
-            <main className="flex flex-1 flex-col items-center gap-5 bg-zinc-800"></main>
+            <main className="flex flex-1 flex-col items-center gap-5"></main>
         );
     }
 
     return (
-        <main className="flex flex-1 flex-col items-center gap-3 bg-zinc-800 p-2 pt-3 text-xs sm:gap-5 sm:p-5 sm:pt-5 sm:text-base">
+        <main className="flex flex-1 flex-col items-center gap-3 p-2 pt-3 text-xs sm:gap-5 sm:p-5 sm:pt-5 sm:text-base">
             <div
                 data-active={spinManager.noMissionsSelectedAlertActive}
                 aria-hidden={spinManager.noMissionsSelectedAlertActive}

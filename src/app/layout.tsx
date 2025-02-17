@@ -22,7 +22,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${notoSans.className} flex min-h-screen flex-col justify-center`}
+                className={`${notoSans.className} flex flex-col justify-center bg-zinc-800`}
             >
                 <Header />
                 {children}
