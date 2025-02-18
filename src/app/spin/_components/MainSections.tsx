@@ -24,7 +24,7 @@ export default function MainSection() {
     }
 
     return (
-        <main className="flex flex-1 flex-col items-center gap-3 p-2 pt-3 text-xs sm:gap-5 sm:p-5 sm:pt-5 sm:text-base">
+        <main className="m-3 flex flex-col items-center gap-3 text-xs sm:m-5 sm:gap-5 sm:text-base">
             <div
                 data-active={spinManager.noMissionsSelectedAlertActive}
                 aria-hidden={spinManager.noMissionsSelectedAlertActive}

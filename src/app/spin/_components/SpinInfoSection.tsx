@@ -9,7 +9,7 @@ export default function SpinInfoSection({
     HandleSpinUpdate: (target: SpinTarget, action: SpinUpdateAction) => void;
 }) {
     return (
-        <section className="flex flex-wrap items-start justify-center gap-2">
+        <section className="flex w-full flex-wrap items-start justify-center gap-2">
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 return (
                     <TargetSpinCard

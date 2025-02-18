@@ -63,7 +63,7 @@ export function MapIDToDisplayText(map: string) {
     return mapDisplayText;
 }
 
-export function ItemIDToDisplayText(item: string | undefined) {
+export function MethodIDToDisplayText(item: string | undefined) {
     if (!item) {
         return "Err No Condition";
     }
@@ -140,4 +140,8 @@ export function MethodImagePathFormatter(
     }
 
     return "/killmethods/" + method + ".webp";
+}
+
+export function DisguiseImagePathFormatter(disguise: string, mission: Mission) {
+    return "/disguises/" + mission + "-" + disguise + ".webp";
 }
