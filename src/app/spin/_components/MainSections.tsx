@@ -8,6 +8,7 @@ import RandomMissionSpinControls from "./RandomMissionSpinControls";
 import { useEffect, useState } from "react";
 import RandomMissionOptions from "./RandomMissionOptions";
 import { useSpinManager } from "../useSpinManager";
+import SpinTipsSection from "./SpinTipsSection";
 
 export default function MainSection() {
     const [isMounted, setIsMounted] = useState(false);
@@ -74,6 +75,10 @@ export default function MainSection() {
                     />
                 )}
             </div>
+            <SpinTipsSection
+                query={spinManager.query}
+                mission={spinManager.currentSpin.mission}
+            />
         </main>
     );
 }

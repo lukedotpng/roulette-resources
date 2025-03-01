@@ -86,7 +86,13 @@ export function DisguiseIDToDisplayText(disguise: string | undefined) {
         return "Err No Disguise";
     }
     let disguiseDisplayText = "";
-    const words = disguise.split("_"); // ["palace", "staff"]
+    const disguiseSplitFromMap = disguise.split("-")[1]; // palace_staff
+    let words: string[] = [];
+    if (!disguiseSplitFromMap) {
+        words = disguise.split("_"); // ["palace", "staff"]
+    } else {
+        words = disguiseSplitFromMap.split("_");
+    }
 
     for (const word of words) {
         if (word.toLowerCase() === "dj") {
@@ -110,6 +116,7 @@ export function TargetIDToDisplayText(target: string) {
         }
         targetDisplayText += word.charAt(0).toUpperCase() + word.slice(1) + " ";
     }
+    targetDisplayText = targetDisplayText.trim();
 
     return targetDisplayText;
 }

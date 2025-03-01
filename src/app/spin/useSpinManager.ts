@@ -17,7 +17,7 @@ export function useSpinManager() {
         setCurrentSpin(spin);
     }
 
-    useSpinQuery(currentSpin, UpdateSpin);
+    const query = useSpinQuery(currentSpin, UpdateSpin);
 
     // Options
     const [missionPool, setMissionPool] = useState<Mission[]>(Missions);
@@ -158,5 +158,6 @@ export function useSpinManager() {
         dontRepeatMission,
         ToggleDontRepeatMission,
         noMissionsSelectedAlertActive,
+        query,
     };
 }

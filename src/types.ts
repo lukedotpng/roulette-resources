@@ -207,3 +207,13 @@ export type SpinUpdateAction =
     | "respin_condition"
     | "respin_disguise"
     | "toggle_ntko";
+
+export type SpinResources = {
+    items: Item[];
+    disguises: Disguise[];
+    uniqueKills: UniqueKill[];
+};
+
+export type TargetSpinResources = {
+    [key in SpinTarget]?: SpinResources;
+};
