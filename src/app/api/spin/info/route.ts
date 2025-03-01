@@ -49,9 +49,9 @@ export async function GET(request: NextRequest): Promise<Response> {
     const targetSpinResources = {} as TargetSpinResources;
 
     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
-        let itemsInSpin: Item[] = [];
-        let disguisesInSpin: Disguise[] = [];
-        let uniqueKillsInSpin: UniqueKill[] = [];
+        const itemsInSpin: Item[] = [];
+        const disguisesInSpin: Disguise[] = [];
+        const uniqueKillsInSpin: UniqueKill[] = [];
 
         const currentCondition = spin.info[target]?.condition || "";
         const currentDisguise = spin.info[target]?.disguise || "";

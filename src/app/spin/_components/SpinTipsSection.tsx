@@ -1,8 +1,4 @@
-import {
-    DisguiseIDToDisplayText,
-    MethodIDToDisplayText,
-    TargetIDToDisplayText,
-} from "@/lib/SpinUtils";
+import { MethodIDToDisplayText, TargetIDToDisplayText } from "@/lib/SpinUtils";
 import { Mission, SpinResources, TargetSpinResources } from "@/types";
 import Link from "next/link";
 import useSWR from "swr";

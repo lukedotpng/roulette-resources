@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { Missions } from "@/globals";
-import MainSection from "./_components/MainSections";
+import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
 import { SpinInfo, SpinTarget } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
