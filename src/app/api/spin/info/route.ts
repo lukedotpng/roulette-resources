@@ -29,24 +29,31 @@ export async function GET(request: NextRequest): Promise<Response> {
         return Response.json({});
     }
 
-    const items =
+    const itemData =
         (await db.query.itemSchema.findMany({
             where: eq(itemSchema.map, spin.mission),
         })) || [];
-    const disguises = await db.query.disguiseSchema.findMany({
+    const disguiseData = await db.query.disguiseSchema.findMany({
         where: eq(disguiseSchema.map, spin.mission),
         with: {
             disguiseVideoSchema: true,
         },
     });
-    // const isolations = await db.query.isolationSchema.findMany({
-    //     where: eq(isolationSchema.map, spin.mission),
-    // });
-    const uniqueKills = await db.query.uniqueKillSchema.findMany({
+    const uniqueKillData = await db.query.uniqueKillSchema.findMany({
         where: eq(uniqueKillSchema.map, spin.mission),
     });
 
     const targetSpinResources = {} as TargetSpinResources;
+
+    const filteredItemData = itemData.filter(
+        (item) => item.map == spin.mission,
+    );
+    const filteredDisguiseData = disguiseData.filter(
+        (disguise) => disguise.map == spin.mission,
+    );
+    const filteredUniqueKillData = uniqueKillData.filter(
+        (uniqueKill) => uniqueKill.map == spin.mission,
+    );
 
     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
         const itemsInSpin: Item[] = [];
@@ -57,15 +64,15 @@ export async function GET(request: NextRequest): Promise<Response> {
         const currentDisguise = spin.info[target]?.disguise || "";
         const isNtko = spin.info[target]?.ntko || false;
 
-        items.forEach((item) => {
+        filteredItemData.forEach((item) => {
             const itemId = item.name.toLowerCase().replaceAll(" ", "_");
             if (itemId.toLowerCase() === currentCondition.toLowerCase()) {
                 itemsInSpin.push(item);
             }
         });
 
-        uniqueKills.forEach((uniqueKill) => {
-            if (uniqueKill.target !== target) {
+        filteredUniqueKillData.forEach((uniqueKill) => {
+            if (uniqueKill.target !== target && spin.mission !== "berlin") {
                 return;
             }
 
@@ -75,7 +82,6 @@ export async function GET(request: NextRequest): Promise<Response> {
                 currentCondition.includes("loud") &&
                 uniqueKill.kill_method === "loud_kills"
             ) {
-                console.log(target, "loud");
                 uniqueKillsInSpin.push(uniqueKill);
             } else if (
                 uniqueKill.kill_method === "consumed" &&
@@ -87,7 +93,7 @@ export async function GET(request: NextRequest): Promise<Response> {
             }
         });
 
-        disguises.forEach((disguise) => {
+        filteredDisguiseData.forEach((disguise) => {
             const disguiseIdNoMission = disguise.id.split("-")[1] || "";
             if (disguiseIdNoMission === currentDisguise) {
                 disguisesInSpin.push(disguise);

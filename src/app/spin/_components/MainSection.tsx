@@ -6,9 +6,10 @@ import MissionQueueSpinControls from "./MissionQueueSpinControls";
 import RandomMissionSpinControls from "./RandomMissionSpinControls";
 
 import { useEffect, useState } from "react";
-import RandomMissionOptions from "./RandomMissionOptions";
 import { useSpinManager } from "../useSpinManager";
 import SpinTipsSection from "./SpinTipsSection";
+import SpinOptions from "./SpinOptions";
+import MissionPoolSelection from "./MissionPoolSelection";
 
 export default function MainSection() {
     const [isMounted, setIsMounted] = useState(false);
@@ -48,6 +49,7 @@ export default function MainSection() {
             <SpinInfoSection
                 spin={spinManager.currentSpin}
                 HandleSpinUpdate={spinManager.HandleSpinUpdate}
+                settings={spinManager.settings}
             />
             <div className="flex flex-wrap justify-center gap-4">
                 <button
@@ -66,19 +68,19 @@ export default function MainSection() {
                         setMissionQueue={spinManager.setMissionQueue}
                     />
                 ) : (
-                    <RandomMissionOptions
+                    <MissionPoolSelection
+                        missionPool={spinManager.missionPool}
                         setMissionPool={spinManager.setMissionPool}
-                        dontRepeatMission={spinManager.dontRepeatMission}
-                        ToggleDontRepeatMission={
-                            spinManager.ToggleDontRepeatMission
-                        }
                     />
                 )}
+                <SpinOptions settings={spinManager.settings} />
             </div>
-            <SpinTipsSection
-                query={spinManager.query}
-                mission={spinManager.currentSpin.mission}
-            />
+            {spinManager.settings.showTips && (
+                <SpinTipsSection
+                    query={spinManager.query}
+                    mission={spinManager.currentSpin.mission}
+                />
+            )}
         </main>
     );
 }

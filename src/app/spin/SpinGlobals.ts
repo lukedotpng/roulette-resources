@@ -1009,31 +1009,31 @@ export const SeasonThreeMissions: Mission[] = [
 ];
 
 export const MissionPoolOptionsList: MissionPoolOptions = {
-    paris: true,
-    sapienza: true,
-    marrakesh: true,
-    bangkok: true,
-    colorado: true,
-    hokkaido: true,
-    miami: true,
-    santa_fortuna: true,
-    mumbai: true,
-    whittleton_creek: true,
-    ambrose_island: true,
-    isle_of_sgail: true,
-    new_york: true,
-    haven_island: true,
-    dubai: true,
-    dartmoor: true,
-    berlin: true,
-    chongqing: true,
-    mendoza: true,
+    paris: false,
+    sapienza: false,
+    marrakesh: false,
+    bangkok: false,
+    colorado: false,
+    hokkaido: false,
+    miami: false,
+    santa_fortuna: false,
+    mumbai: false,
+    whittleton_creek: false,
+    ambrose_island: false,
+    isle_of_sgail: false,
+    new_york: false,
+    haven_island: false,
+    dubai: false,
+    dartmoor: false,
+    berlin: false,
+    chongqing: false,
+    mendoza: false,
 };
 
 export const SeasonPoolSelectedList: SeasonPoolSelected = {
-    season_1: true,
-    season_2: true,
-    season_3: true,
+    season_1: false,
+    season_2: false,
+    season_3: false,
 };
 
 export const KillMethodOptions = [

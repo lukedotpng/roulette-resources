@@ -25,13 +25,27 @@ import { Missions } from "@/globals";
 import { MapIDToDisplayText } from "../../../lib/SpinUtils";
 
 export default function MissionPoolSelection({
+    missionPool,
     setMissionPool,
 }: {
+    missionPool: Mission[];
     setMissionPool: Dispatch<SetStateAction<Mission[]>>;
 }) {
     const seasonsList: Season[] = ["season_1", "season_2", "season_3"];
+
+    function InitializeMissionPoolOptions(
+        missionPool: Mission[],
+    ): MissionPoolOptions {
+        const missionPoolOptions = structuredClone(MissionPoolOptionsList);
+        Missions.forEach((mission) => {
+            if (missionPool.includes(mission)) {
+                missionPoolOptions[mission] = true;
+            }
+        });
+        return missionPoolOptions;
+    }
     const [missionsPoolOptions, setMissionsPoolOptions] =
-        useState<MissionPoolOptions>(MissionPoolOptionsList);
+        useState<MissionPoolOptions>(InitializeMissionPoolOptions(missionPool));
 
     const [seasonsSelected, setSeasonsSelected] = useState<SeasonPoolSelected>(
         SeasonPoolSelectedList,

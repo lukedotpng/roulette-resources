@@ -217,3 +217,12 @@ export type SpinResources = {
 export type TargetSpinResources = {
     [key in SpinTarget]?: SpinResources;
 };
+
+export type SpinSettings = {
+    dontRepeatMissions: boolean;
+    ToggleDontRepeatMissions: () => void;
+    showTips: boolean;
+    ToggleShowTips: () => void;
+    layoutMode: string;
+    SetLayoutMode: (layout: string) => void;
+};

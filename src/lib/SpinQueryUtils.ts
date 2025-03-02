@@ -49,7 +49,7 @@ export function CreateSpinQuery(spin: Spin) {
     const missionIndex = GetMissionIndex(spin.mission);
     const spinTargets = SpinMissionTargetsList[spin.mission];
 
-    spinQuery += `m${missionIndex}-`;
+    spinQuery += `m${missionIndex}`;
 
     spinTargets.forEach((target, index) => {
         const targetSpin = spin.info[target];
