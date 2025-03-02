@@ -36,7 +36,7 @@ export default function SpinTipsSection({
     if (error) {
         return (
             <section className="flex w-full flex-wrap justify-center gap-3 text-xs text-white sm:text-base">
-                <h2>{"Error fetching data, this feels like youre fault :/"}</h2>
+                <h2>{"Error fetching data, this feels like your fault :/"}</h2>
             </section>
         );
     }
