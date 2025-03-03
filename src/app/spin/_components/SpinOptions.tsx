@@ -40,6 +40,16 @@ export default function SpinOptions({ settings }: { settings: SpinSettings }) {
                         </button>
                         <button
                             className="group flex w-fit border-zinc-900 bg-white text-zinc-900"
+                            onClick={settings.ToggleUpdateQuery}
+                            data-active={settings.updateQuery}
+                        >
+                            <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
+                            <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                                {"Update URL On Spin"}
+                            </span>
+                        </button>
+                        <button
+                            className="group flex w-fit border-zinc-900 bg-white text-zinc-900"
                             onClick={settings.ToggleShowTips}
                             data-active={settings.showTips}
                         >

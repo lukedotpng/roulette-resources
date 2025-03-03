@@ -1,11 +1,12 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Spin } from "@/types";
+import { Spin, SpinSettings } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 
 export function useSpinQuery(
     currentSpin: Spin | undefined,
     UpdateSpin: (spin: Spin) => void,
+    settings: SpinSettings,
 ) {
     const searchParams = useSearchParams();
 
@@ -30,7 +31,10 @@ export function useSpinQuery(
         const prevQuery = params.toString();
         params.set("s", spinQuery);
 
-        console.log(prevQuery, "=?", spinQuery);
+        if (!settings.updateQuery) {
+            setQuery(spinQuery);
+            return;
+        }
 
         if (prevQuery !== params.toString()) {
             window.history.pushState(null, "", `/spin?${params.toString()}`);

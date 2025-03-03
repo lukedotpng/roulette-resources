@@ -19,12 +19,6 @@ import { useLocalState } from "@/lib/useLocalState";
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin>();
 
-    function UpdateSpin(spin: Spin) {
-        setCurrentSpin(spin);
-    }
-
-    const query = useSpinQuery(currentSpin, UpdateSpin);
-
     const [spinLegal] = useState(false);
 
     // Options
@@ -45,24 +39,28 @@ export function useSpinManager() {
         "noRepeat",
         false,
     );
-    const [showTips, setShowTips] = useLocalState("showTips", false);
-    const [layoutMode, setLayoutMode] = useLocalState("layout", "row");
-    const [manualMode, setManualMode] = useState(false);
-    const [canAlwaysEditNTKO, setCanAlwaysEditNTKO] = useState(false);
     function ToggleDontRepeatMission() {
         setDontRepeatMission(!dontRepeatMission);
     }
-    function SetLayoutMode(layoutMode: string) {
-        setLayoutMode(layoutMode);
-    }
+    const [showTips, setShowTips] = useLocalState("showTips", false);
     function ToggleShowTips() {
         setShowTips(!showTips);
     }
+    const [layoutMode, setLayoutMode] = useLocalState("layout", "row");
+    function SetLayoutMode(layoutMode: string) {
+        setLayoutMode(layoutMode);
+    }
+    const [manualMode, setManualMode] = useState(false);
     function ToggleManualMode() {
         setManualMode(!manualMode);
     }
+    const [canAlwaysEditNTKO, setCanAlwaysEditNTKO] = useState(false);
     function ToggleCanAlwaysEditNTKO() {
         setCanAlwaysEditNTKO(!canAlwaysEditNTKO);
+    }
+    const [updateQuery, setUpdateQuery] = useLocalState("updateURL", true);
+    function ToggleUpdateQuery() {
+        setUpdateQuery(!updateQuery);
     }
 
     // Utilities
@@ -227,7 +225,14 @@ export function useSpinManager() {
         ToggleManualMode,
         canAlwaysEditNTKO,
         ToggleCanAlwaysEditNTKO,
+        updateQuery,
+        ToggleUpdateQuery,
     };
+
+    function UpdateSpin(spin: Spin) {
+        setCurrentSpin(spin);
+    }
+    const query = useSpinQuery(currentSpin, UpdateSpin, settings);
 
     useEffect(() => {
         if (!currentSpin) {

@@ -226,4 +226,6 @@ export type SpinSettings = {
     ToggleManualMode: () => void;
     canAlwaysEditNTKO: boolean;
     ToggleCanAlwaysEditNTKO: () => void;
+    updateQuery: boolean;
+    ToggleUpdateQuery: () => void;
 };
