@@ -203,10 +203,7 @@ export type MissionDisguises = {
     [key in Mission]: string[];
 };
 
-export type SpinUpdateAction =
-    | "respin_condition"
-    | "respin_disguise"
-    | "toggle_ntko";
+export type SpinUpdateAction = "condition" | "disguise" | "toggle_ntko";
 
 export type SpinResources = {
     items: Item[];
@@ -225,4 +222,8 @@ export type SpinSettings = {
     ToggleShowTips: () => void;
     layoutMode: string;
     SetLayoutMode: (layout: string) => void;
+    manualMode: boolean;
+    ToggleManualMode: () => void;
+    canAlwaysEditNTKO: boolean;
+    ToggleCanAlwaysEditNTKO: () => void;
 };

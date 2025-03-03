@@ -24,28 +24,38 @@ export default function SpinOptions({ settings }: { settings: SpinSettings }) {
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white text-xs sm:w-[30rem] sm:text-base md:text-lg">
-                    <DialogTitle className="w-full p-2 text-center text-[1.1em] font-bold sm:p-3">
+                    <DialogTitle className="mt-2 w-full text-center text-[1.1em] font-bold">
                         {"Options"}
                     </DialogTitle>
                     <section className="mx-4 my-2 flex flex-col gap-2">
                         <button
-                            className="group flex h-10 w-full items-center justify-start border-2 border-zinc-900 bg-white p-1 text-zinc-900"
+                            className="group flex w-fit border-zinc-900 bg-white text-zinc-900"
                             onClick={settings.ToggleDontRepeatMissions}
                             data-active={settings.dontRepeatMissions}
                         >
-                            <div className="mr-2 aspect-square border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
-                            <span className="pb-1 text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
-                                {"Dont Repeat Maps"}
+                            <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
+                            <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                                {"Don't Repeat Maps"}
                             </span>
                         </button>
                         <button
-                            className="group flex h-10 w-full items-center justify-start border-2 border-zinc-900 bg-white p-1 text-zinc-900"
+                            className="group flex w-fit border-zinc-900 bg-white text-zinc-900"
                             onClick={settings.ToggleShowTips}
                             data-active={settings.showTips}
                         >
-                            <div className="mr-2 aspect-square border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
-                            <span className="pb-1 text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                            <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
+                            <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
                                 {"Show Tips"}
+                            </span>
+                        </button>
+                        <button
+                            className="group flex w-fit border-zinc-900 bg-white text-zinc-900"
+                            onClick={settings.ToggleCanAlwaysEditNTKO}
+                            data-active={settings.canAlwaysEditNTKO}
+                        >
+                            <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
+                            <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                                {"Can Always Edit No Target KO"}
                             </span>
                         </button>
                         <div className="items-center">

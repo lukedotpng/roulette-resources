@@ -19,7 +19,7 @@ export const weapons = [
     "explosive",
 ];
 export const weaponModifierPrefix = ["loud_", "silenced_", ""];
-export const explosiveModifierPrefix = ["remote_", "loud_remote_", "impact_"];
+export const explosiveModifierPrefix = ["remote_", "loud_", "impact_"];
 export const pistolConditionList = ["loud_pistol", "pistol", "silenced_pistol"];
 export const smgConditionList = ["loud_smg", "smg", "silenced_smg"];
 export const assaultRifleConditionList = [
@@ -1053,7 +1053,7 @@ export const KillMethodOptions = [
     "loud_shotgun",
     "silenced_shotgun",
     "remote_explosive",
-    "loud_remote_explosive",
+    "loud_explosive",
     "impact_explosive",
     "drowning",
     "falling_object",

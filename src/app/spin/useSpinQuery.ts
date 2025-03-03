@@ -1,14 +1,13 @@
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Spin } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 
 export function useSpinQuery(
-    currentSpin: Spin,
+    currentSpin: Spin | undefined,
     UpdateSpin: (spin: Spin) => void,
 ) {
     const searchParams = useSearchParams();
-    const router = useRouter();
 
     const [query, setQuery] = useState(searchParams.get("s") ?? "");
 
@@ -21,11 +20,22 @@ export function useSpinQuery(
     }, [searchParams]);
 
     useEffect(() => {
+        if (!currentSpin) {
+            return;
+        }
         const spinQuery = CreateSpinQuery(currentSpin);
 
         const params = new URLSearchParams(searchParams.toString());
+
+        const prevQuery = params.toString();
         params.set("s", spinQuery);
-        router.push(`/spin?${params.toString()}`);
+
+        console.log(prevQuery, "=?", spinQuery);
+
+        if (prevQuery !== params.toString()) {
+            window.history.pushState(null, "", `/spin?${params.toString()}`);
+            console.log("Updating URL");
+        }
     }, [currentSpin]);
 
     return query;

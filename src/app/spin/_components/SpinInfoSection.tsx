@@ -10,10 +10,16 @@ import TargetSpinCard from "./TargetSpinCard";
 export default function SpinInfoSection({
     spin,
     HandleSpinUpdate,
+    HandleSpinEdit,
     settings,
 }: {
     spin: Spin;
     HandleSpinUpdate: (target: SpinTarget, action: SpinUpdateAction) => void;
+    HandleSpinEdit: (
+        target: SpinTarget,
+        action: SpinUpdateAction,
+        newValue: string,
+    ) => void;
     settings: SpinSettings;
 }) {
     return (
@@ -24,11 +30,13 @@ export default function SpinInfoSection({
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 return (
                     <TargetSpinCard
+                        key={target}
                         spin={spin.info}
                         target={target}
                         mission={spin.mission}
                         HandleSpinUpdate={HandleSpinUpdate}
-                        key={target}
+                        HandleSpinEdit={HandleSpinEdit}
+                        settings={settings}
                     />
                 );
             })}

@@ -31,7 +31,7 @@ export async function generateMetadata({
     });
 
     return {
-        title: title,
+        title: "Roulette Spinner",
         description: description,
         openGraph: {
             title: title,

@@ -30,7 +30,7 @@ export default function MainSection() {
             <div
                 data-active={spinManager.noMissionsSelectedAlertActive}
                 aria-hidden={spinManager.noMissionsSelectedAlertActive}
-                className="absolute -top-36 rounded-md bg-red-500 p-4 font-bold text-white shadow-xl shadow-black transition-[top] ease-in-out data-[active=true]:visible data-[active=true]:top-20"
+                className="absolute -top-36 z-10 rounded-md bg-red-500 p-4 font-bold text-white shadow-xl shadow-black transition-[top] ease-in-out data-[active=true]:visible data-[active=true]:top-20"
             >
                 {"Please select missions"}
             </div>
@@ -46,11 +46,24 @@ export default function MainSection() {
                     RegenerateSpin={spinManager.RegenerateSpin}
                 />
             )}
-            <SpinInfoSection
-                spin={spinManager.currentSpin}
-                HandleSpinUpdate={spinManager.HandleSpinUpdate}
-                settings={spinManager.settings}
-            />
+            {spinManager.currentSpin && (
+                <SpinInfoSection
+                    spin={spinManager.currentSpin}
+                    HandleSpinUpdate={spinManager.HandleSpinUpdate}
+                    HandleSpinEdit={spinManager.HandleSpinEdit}
+                    settings={spinManager.settings}
+                />
+            )}
+            <button
+                className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900 sm:p-2"
+                onClick={spinManager.settings.ToggleManualMode}
+                data-active={spinManager.settings.manualMode}
+            >
+                <div className="mr-2 aspect-square h-4 border-2 border-zinc-900 bg-white group-data-[active=true]:bg-red-500"></div>
+                <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                    {"Manual Mode"}
+                </span>
+            </button>
             <div className="flex flex-wrap justify-center gap-4">
                 <button
                     className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900"
@@ -75,12 +88,13 @@ export default function MainSection() {
                 )}
                 <SpinOptions settings={spinManager.settings} />
             </div>
-            {spinManager.settings.showTips && (
-                <SpinTipsSection
-                    query={spinManager.query}
-                    mission={spinManager.currentSpin.mission}
-                />
-            )}
+            {spinManager.settings.showTips &&
+                spinManager.currentSpin !== undefined && (
+                    <SpinTipsSection
+                        query={spinManager.query}
+                        mission={spinManager.currentSpin.mission}
+                    />
+                )}
         </main>
     );
 }

@@ -6,21 +6,41 @@ import {
     MethodImagePathFormatter,
     DisguiseImagePathFormatter,
 } from "@/lib/SpinUtils";
-import { Mission, SpinInfo, SpinTarget, SpinUpdateAction } from "@/types";
+import {
+    Mission,
+    SpinInfo,
+    SpinSettings,
+    SpinTarget,
+    SpinUpdateAction,
+} from "@/types";
 import Image from "next/image";
 import TargetSpinCardRow from "./TargetSpinCardRow";
+import SpinEditorDialog from "./SpinEditorDialog";
+import { useState } from "react";
 
 export default function TargetSpinCard({
     spin,
     target,
     mission,
+    settings,
     HandleSpinUpdate,
+    HandleSpinEdit,
 }: {
     spin: SpinInfo;
     target: SpinTarget;
     mission: Mission;
+    settings: SpinSettings;
     HandleSpinUpdate: (target: SpinTarget, action: SpinUpdateAction) => void;
+    HandleSpinEdit: (
+        target: SpinTarget,
+        action: SpinUpdateAction,
+        newValue: string,
+    ) => void;
 }) {
+    const [editDialogActive, setEditDialogActive] = useState(false);
+    const [categoryToEdit, setCategoryToEdit] =
+        useState<SpinUpdateAction>("condition");
+
     return (
         <div className="w-full max-w-[48rem] border-2 border-white text-white">
             <div className="flex h-24 w-full text-white sm:h-36">
@@ -43,13 +63,18 @@ export default function TargetSpinCard({
                             MethodIDToDisplayText(spin[target]?.condition) ??
                             "No Method"
                         }
-                        target={target}
                         imageSrc={MethodImagePathFormatter(
                             spin[target]?.condition || "No Method",
                             target,
                         )}
-                        HandleSpinUpdate={HandleSpinUpdate}
-                        spinUpdateAction="respin_condition"
+                        settings={settings}
+                        HandleSpinUpdate={() =>
+                            HandleSpinUpdate(target, "condition")
+                        }
+                        HandleSpinEdit={() => {
+                            setCategoryToEdit("condition");
+                            setEditDialogActive(true);
+                        }}
                     />
                     <TargetSpinCardRow
                         title="Disguise"
@@ -57,33 +82,69 @@ export default function TargetSpinCard({
                             DisguiseIDToDisplayText(spin[target]?.disguise) ??
                             "No Disguise"
                         }
-                        target={target}
                         imageSrc={DisguiseImagePathFormatter(
                             spin[target]?.disguise || "No Disguise",
                             mission,
                         )}
-                        HandleSpinUpdate={HandleSpinUpdate}
-                        spinUpdateAction="respin_disguise"
+                        settings={settings}
+                        HandleSpinUpdate={() =>
+                            HandleSpinUpdate(target, "disguise")
+                        }
+                        HandleSpinEdit={() => {
+                            setCategoryToEdit("disguise");
+                            setEditDialogActive(true);
+                        }}
+                    />
+                    <SpinEditorDialog
+                        mission={mission}
+                        target={target}
+                        categoryToEdit={categoryToEdit}
+                        HandleSpinEdit={(updatedValue) => {
+                            setEditDialogActive(false);
+                            HandleSpinEdit(
+                                target,
+                                categoryToEdit,
+                                updatedValue,
+                            );
+                            console.log(updatedValue);
+                        }}
+                        dialogActive={editDialogActive}
+                        setDialogActive={setEditDialogActive}
                     />
                 </div>
             </div>
-            {spin[target]?.ntko && (
-                <h2 className="relative border-t-[1px] border-white bg-red-500 py-0.5 text-center text-[.9em] font-bold sm:border-t-2 sm:py-1 sm:text-[1em]">
-                    <span>No Target Pacification</span>
+            {(spin[target]?.ntko ||
+                settings.manualMode ||
+                settings.canAlwaysEditNTKO) && (
+                <div
+                    data-active={spin[target]?.ntko}
+                    className="group relative border-t-[1px] border-white bg-zinc-900 py-0.5 text-center text-[.9em] font-bold data-[active=true]:bg-red-500 sm:border-t-2 sm:py-1 sm:text-[1em]"
+                >
+                    <span className="decoration-2 group-data-[active=false]:line-through">
+                        No Target Pacification
+                    </span>
                     <button
                         className="absolute top-0 right-2 h-full fill-white"
                         onClick={() => HandleSpinUpdate(target, "toggle_ntko")}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            className="h-full w-4 fill-white sm:w-6"
+                            viewBox="0 0 448 512"
+                            className="hidden h-full w-3 fill-white group-data-[active=true]:block sm:w-5"
                         >
-                            {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.  */}
-                            <path d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zm175 79c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+                            {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                            <path d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM152 232l144 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-144 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z" />
+                        </svg>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"
+                            className="hidden h-full w-3 fill-white group-data-[active=false]:block sm:w-5"
+                        >
+                            {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                            <path d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
                         </svg>
                     </button>
-                </h2>
+                </div>
             )}
         </div>
     );

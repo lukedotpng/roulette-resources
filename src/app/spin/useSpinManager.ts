@@ -17,14 +17,15 @@ import { GetRandomMission } from "@/lib/SpinUtils";
 import { useLocalState } from "@/lib/useLocalState";
 
 export function useSpinManager() {
-    const [currentSpin, setCurrentSpin] = useState<Spin>(
-        GenerateSpin(GetRandomMission(Missions)),
-    );
+    const [currentSpin, setCurrentSpin] = useState<Spin>();
+
     function UpdateSpin(spin: Spin) {
         setCurrentSpin(spin);
     }
 
     const query = useSpinQuery(currentSpin, UpdateSpin);
+
+    const [spinLegal] = useState(false);
 
     // Options
     const [missionPool, setMissionPool] = useLocalState<Mission[]>(
@@ -46,6 +47,23 @@ export function useSpinManager() {
     );
     const [showTips, setShowTips] = useLocalState("showTips", false);
     const [layoutMode, setLayoutMode] = useLocalState("layout", "row");
+    const [manualMode, setManualMode] = useState(false);
+    const [canAlwaysEditNTKO, setCanAlwaysEditNTKO] = useState(false);
+    function ToggleDontRepeatMission() {
+        setDontRepeatMission(!dontRepeatMission);
+    }
+    function SetLayoutMode(layoutMode: string) {
+        setLayoutMode(layoutMode);
+    }
+    function ToggleShowTips() {
+        setShowTips(!showTips);
+    }
+    function ToggleManualMode() {
+        setManualMode(!manualMode);
+    }
+    function ToggleCanAlwaysEditNTKO() {
+        setCanAlwaysEditNTKO(!canAlwaysEditNTKO);
+    }
 
     // Utilities
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
@@ -90,7 +108,11 @@ export function useSpinManager() {
         setCurrentSpin(spin);
     }
     function HandleSpinUpdate(target: SpinTarget, action: SpinUpdateAction) {
-        if (action === "respin_condition") {
+        if (!currentSpin) {
+            return;
+        }
+
+        if (action === "condition") {
             const res = RegenerateCondition(currentSpin, target);
             const updatedSpin = structuredClone(currentSpin);
             if (updatedSpin.info[target]) {
@@ -101,7 +123,7 @@ export function useSpinManager() {
             setCurrentSpin(updatedSpin);
             return;
         }
-        if (action === "respin_disguise") {
+        if (action === "disguise") {
             const disguise = RegenerateDisguise(currentSpin, target);
             const updatedSpin = structuredClone(currentSpin);
             if (updatedSpin.info[target]) {
@@ -119,15 +141,40 @@ export function useSpinManager() {
             return;
         }
     }
+    function HandleSpinEdit(
+        target: SpinTarget,
+        action: SpinUpdateAction,
+        newValue: string,
+    ) {
+        if (!currentSpin) {
+            return;
+        }
 
-    function ToggleDontRepeatMission() {
-        setDontRepeatMission(!dontRepeatMission);
-    }
-    function SetLayoutMode(layoutMode: string) {
-        setLayoutMode(layoutMode);
-    }
-    function ToggleShowTips() {
-        setShowTips(!showTips);
+        if (action === "condition") {
+            const updatedSpin = structuredClone(currentSpin);
+            if (updatedSpin.info[target]) {
+                updatedSpin.info[target].condition = newValue;
+            }
+
+            setCurrentSpin(updatedSpin);
+            return;
+        }
+        if (action === "disguise") {
+            const updatedSpin = structuredClone(currentSpin);
+            if (updatedSpin.info[target]) {
+                updatedSpin.info[target].disguise = newValue;
+            }
+            setCurrentSpin(updatedSpin);
+            return;
+        }
+        if (action === "toggle_ntko") {
+            const updatedSpin = structuredClone(currentSpin);
+            if (updatedSpin.info[target]) {
+                updatedSpin.info[target].ntko = !updatedSpin.info[target].ntko;
+            }
+            setCurrentSpin(updatedSpin);
+            return;
+        }
     }
 
     function ToggleQueueMode() {
@@ -176,15 +223,35 @@ export function useSpinManager() {
         ToggleShowTips: ToggleShowTips,
         layoutMode: layoutMode,
         SetLayoutMode: SetLayoutMode,
+        manualMode: manualMode,
+        ToggleManualMode,
+        canAlwaysEditNTKO,
+        ToggleCanAlwaysEditNTKO,
     };
+
+    useEffect(() => {
+        if (!currentSpin) {
+            if (missionPool.length === 0) {
+                setCurrentSpin(
+                    GenerateSpin(
+                        Missions[Math.floor(Missions.length * Math.random())],
+                    ),
+                );
+            } else {
+                GenerateRandomSpin();
+            }
+        }
+    }, [currentSpin]);
 
     return {
         currentSpin,
         GenerateRandomSpin,
         HandleSpinUpdate,
+        HandleSpinEdit,
         RegenerateSpin,
         GenerateNextSpin,
         GeneratePreviousSpin,
+        spinLegal,
         queueMode,
         ToggleQueueMode,
         missionQueue,

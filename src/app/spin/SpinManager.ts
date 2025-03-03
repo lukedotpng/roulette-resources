@@ -221,7 +221,7 @@ function CheckValidCondition(
     if (mission === "hokkaido") {
         const hokkadioExplosiveKillTypes = [
             "remote_explosive",
-            "loud_remote_explosive",
+            "loud_explosive",
             "impact_explosive",
             "explosion_accident",
             "explosion",
