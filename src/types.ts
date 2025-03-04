@@ -228,4 +228,6 @@ export type SpinSettings = {
     ToggleCanAlwaysEditNTKO: () => void;
     updateQuery: boolean;
     ToggleUpdateQuery: () => void;
+    streamOverlayActive: boolean;
+    ToggleStreamOverlayActive: () => void;
 };

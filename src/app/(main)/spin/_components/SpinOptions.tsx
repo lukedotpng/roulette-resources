@@ -11,7 +11,7 @@ import {
 export default function SpinOptions({ settings }: { settings: SpinSettings }) {
     return (
         <Dialog>
-            <DialogTrigger className="group w-6 bg-white p-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:w-8 sm:p-2 md:w-10">
+            <DialogTrigger className="group h-full bg-white p-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:p-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
@@ -66,6 +66,16 @@ export default function SpinOptions({ settings }: { settings: SpinSettings }) {
                             <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
                             <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
                                 {"Can Always Edit No Target KO"}
+                            </span>
+                        </button>
+                        <button
+                            className="group flex w-fit border-zinc-900 bg-white text-zinc-900"
+                            onClick={settings.ToggleStreamOverlayActive}
+                            data-active={settings.streamOverlayActive}
+                        >
+                            <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
+                            <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                                {"Enable Stream Overlay"}
                             </span>
                         </button>
                         <div className="items-center">

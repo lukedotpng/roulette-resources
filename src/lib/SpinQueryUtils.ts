@@ -1,5 +1,5 @@
-import { SpinMissionTargetsList } from "@/app/spin/SpinGlobals";
-import { GenerateSpin } from "@/app/spin/SpinManager";
+import { SpinMissionTargetsList } from "@/app/(main)/spin/SpinGlobals";
+import { GenerateSpin } from "@/app/(main)/spin/SpinManager";
 import { Mission, Spin, SpinInfo } from "@/types";
 import {
     GetRandomMission,

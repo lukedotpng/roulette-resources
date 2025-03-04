@@ -9,7 +9,7 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 import { Dispatch, SetStateAction } from "react";
-import { MapIDToDisplayText } from "../../../lib/SpinUtils";
+import { MapIDToDisplayText } from "../../../../lib/SpinUtils";
 import {
     SeasonOneMissions,
     SeasonTwoMissions,
@@ -25,7 +25,7 @@ export default function MissionQueueSelection({
 }) {
     return (
         <Dialog>
-            <DialogTrigger className="w-fit bg-white p-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:p-2">
+            <DialogTrigger className="h-full w-fit bg-white px-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:px-2">
                 Edit Queue
             </DialogTrigger>
             <DialogPortal>

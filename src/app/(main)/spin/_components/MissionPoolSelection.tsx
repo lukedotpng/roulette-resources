@@ -22,7 +22,7 @@ import {
     SeasonTwoMissions,
 } from "../SpinGlobals";
 import { Missions } from "@/globals";
-import { MapIDToDisplayText } from "../../../lib/SpinUtils";
+import { MapIDToDisplayText } from "../../../../lib/SpinUtils";
 
 export default function MissionPoolSelection({
     missionPool,
@@ -91,7 +91,7 @@ export default function MissionPoolSelection({
 
     return (
         <Dialog>
-            <DialogTrigger className="w-fit bg-white p-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:p-2">
+            <DialogTrigger className="h-full w-fit bg-white px-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:px-2">
                 Select Missions
             </DialogTrigger>
             <DialogPortal>

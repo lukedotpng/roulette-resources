@@ -13,10 +13,16 @@ export function useSpinQuery(
     const [query, setQuery] = useState(searchParams.get("s") ?? "");
 
     useEffect(() => {
-        const spin = GetSpinFromQuery(searchParams.get("s") ?? "", false);
-        setQuery(searchParams.get("s") ?? "");
-        if (spin) {
-            UpdateSpin(spin);
+        const newQuery = searchParams.get("s") ?? "";
+        let currentSpinQuery = "";
+        if (currentSpin) {
+            currentSpinQuery = CreateSpinQuery(currentSpin);
+        }
+
+        const newSpin = GetSpinFromQuery(newQuery, false);
+        setQuery(newQuery);
+        if (newSpin && newQuery !== currentSpinQuery) {
+            UpdateSpin(newSpin);
         }
     }, [searchParams]);
 
@@ -38,7 +44,6 @@ export function useSpinQuery(
 
         if (prevQuery !== params.toString()) {
             window.history.pushState(null, "", `/spin?${params.toString()}`);
-            console.log("Updating URL");
         }
     }, [currentSpin]);
 

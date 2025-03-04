@@ -84,3 +84,8 @@ export const uniqueKillSchema = pgTable("roulette-resources-unique_kills", {
     video_link: text().notNull(),
     visible: boolean().notNull(),
 });
+
+export const overlaySchema = pgTable("roulette-resources-overlays", {
+    id: uuid().primaryKey(),
+    spin_query: text(),
+});

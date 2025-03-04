@@ -15,6 +15,8 @@ import {
 } from "./SpinManager";
 import { GetRandomMission } from "@/lib/SpinUtils";
 import { useLocalState } from "@/lib/useLocalState";
+import { InitializeSpinOverlay } from "../../(streamOverlay)/OverlayActions";
+import { CreateSpinQuery } from "@/lib/SpinQueryUtils";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin>();
@@ -33,6 +35,10 @@ export function useSpinManager() {
     );
     const [queueIndex, setQueueIndex] = useState(0);
     const [lastMissionSpun, setLastMissionSpun] = useState<Mission>();
+    const [overlayId, setOverlayId] = useLocalState(
+        "overlayId",
+        crypto.randomUUID(),
+    );
 
     // Settings
     const [dontRepeatMission, setDontRepeatMission] = useLocalState(
@@ -62,6 +68,29 @@ export function useSpinManager() {
     function ToggleUpdateQuery() {
         setUpdateQuery(!updateQuery);
     }
+    const [streamOverlayActive, setStreamOverlayActive] = useState(false);
+    function ToggleStreamOverlayActive() {
+        setStreamOverlayActive(!streamOverlayActive);
+        if (!streamOverlayActive) {
+            InitializeSpinOverlay(overlayId);
+        }
+    }
+    const settings: SpinSettings = {
+        dontRepeatMissions: dontRepeatMission,
+        ToggleDontRepeatMissions: ToggleDontRepeatMission,
+        showTips: showTips,
+        ToggleShowTips: ToggleShowTips,
+        layoutMode: layoutMode,
+        SetLayoutMode: SetLayoutMode,
+        manualMode: manualMode,
+        ToggleManualMode,
+        canAlwaysEditNTKO,
+        ToggleCanAlwaysEditNTKO,
+        updateQuery,
+        ToggleUpdateQuery,
+        streamOverlayActive,
+        ToggleStreamOverlayActive,
+    };
 
     // Utilities
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
@@ -214,28 +243,13 @@ export function useSpinManager() {
         setCurrentSpin(GenerateSpin(missionQueue[prevIndex]));
     }
 
-    const settings: SpinSettings = {
-        dontRepeatMissions: dontRepeatMission,
-        ToggleDontRepeatMissions: ToggleDontRepeatMission,
-        showTips: showTips,
-        ToggleShowTips: ToggleShowTips,
-        layoutMode: layoutMode,
-        SetLayoutMode: SetLayoutMode,
-        manualMode: manualMode,
-        ToggleManualMode,
-        canAlwaysEditNTKO,
-        ToggleCanAlwaysEditNTKO,
-        updateQuery,
-        ToggleUpdateQuery,
-    };
-
     function UpdateSpin(spin: Spin) {
         setCurrentSpin(spin);
     }
     const query = useSpinQuery(currentSpin, UpdateSpin, settings);
 
     useEffect(() => {
-        if (!currentSpin) {
+        if (!currentSpin && !query) {
             if (missionPool.length === 0) {
                 setCurrentSpin(
                     GenerateSpin(
@@ -245,6 +259,22 @@ export function useSpinManager() {
             } else {
                 GenerateRandomSpin();
             }
+        }
+
+        if (!currentSpin) {
+            return;
+        }
+
+        const newQuery = CreateSpinQuery(currentSpin);
+
+        if (streamOverlayActive) {
+            fetch(`/api/spin/overlay/${overlayId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query: newQuery }),
+            });
         }
     }, [currentSpin]);
 

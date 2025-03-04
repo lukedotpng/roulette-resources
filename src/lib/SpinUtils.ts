@@ -3,7 +3,7 @@ import { Mission, SpinTarget } from "@/types";
 import {
     KillMethodOptions,
     MissionDisguisesList,
-} from "../app/spin/SpinGlobals";
+} from "../app/(main)/spin/SpinGlobals";
 
 export function GetRandomMission(missionPool: Mission[]): Mission {
     if (!missionPool || missionPool.length === 0) {

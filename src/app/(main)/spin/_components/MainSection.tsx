@@ -55,7 +55,7 @@ export default function MainSection() {
                 />
             )}
             <button
-                className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900 sm:p-2"
+                className="group flex h-6 w-fit items-center justify-start bg-white px-1 text-zinc-900 sm:h-8 sm:px-2 md:h-10"
                 onClick={spinManager.settings.ToggleManualMode}
                 data-active={spinManager.settings.manualMode}
             >
@@ -64,9 +64,9 @@ export default function MainSection() {
                     {"Manual Mode"}
                 </span>
             </button>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex h-6 flex-wrap justify-center gap-4 sm:h-8 md:h-10">
                 <button
-                    className="group flex w-fit items-center justify-start bg-white p-1 text-zinc-900"
+                    className="group flex h-full w-fit items-center justify-start bg-white p-1 text-zinc-900"
                     onClick={spinManager.ToggleQueueMode}
                     data-active={spinManager.queueMode}
                 >
