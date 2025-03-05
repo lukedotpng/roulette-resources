@@ -16,7 +16,10 @@ import {
 } from "./SpinManager";
 import { GetRandomMission } from "@/lib/SpinUtils";
 import { useLocalState } from "@/lib/useLocalState";
-import { InitializeSpinOverlay } from "../../(streamOverlay)/OverlayActions";
+import {
+    InitializeSpinOverlay,
+    UpdateSpinOverlay,
+} from "../../(streamOverlay)/OverlayActions";
 import { CreateSpinQuery } from "@/lib/SpinQueryUtils";
 
 export function useSpinManager() {
@@ -70,14 +73,8 @@ export function useSpinManager() {
     function ToggleStreamOverlayActive() {
         setStreamOverlayActive(!streamOverlayActive);
         if (!streamOverlayActive) {
-            fetch(`/api/spin/overlay/${overlayId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ query: query, theme: overlayTheme }),
-            });
             InitializeSpinOverlay(overlayId, query);
+            UpdateSpinOverlay(overlayId, query, overlayTheme);
         }
     }
     const [overlayTheme, setOverlayTheme] = useLocalState<OverlayTheme>(
@@ -87,13 +84,7 @@ export function useSpinManager() {
     function SetOverlayTheme(theme: OverlayTheme) {
         setOverlayTheme(theme);
         if (streamOverlayActive) {
-            fetch(`/api/spin/overlay/${overlayId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ query: query, theme: theme }),
-            });
+            UpdateSpinOverlay(overlayId, query, theme);
         }
     }
 
@@ -292,13 +283,7 @@ export function useSpinManager() {
         const newQuery = CreateSpinQuery(currentSpin);
 
         if (streamOverlayActive) {
-            fetch(`/api/spin/overlay/${overlayId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ query: newQuery, theme: overlayTheme }),
-            });
+            UpdateSpinOverlay(overlayId, newQuery, overlayTheme);
         }
     }, [currentSpin]);
 

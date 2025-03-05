@@ -2,8 +2,8 @@
 
 import { db } from "@/server/db";
 import { overlaySchema } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
 
 import z from "zod";
 
@@ -16,10 +16,7 @@ export async function InitializeSpinOverlay(id: string, spin: string) {
     const idParsed = initSpinOverlayScheme.safeParse({ id: id });
 
     if (idParsed.error) {
-        NextResponse.json(
-            { error: "Overlay ID is not valid" },
-            { status: 400 },
-        );
+        return { error: "Overlay ID is not valid", status: 400 };
     }
 
     db.insert(overlaySchema)
@@ -27,4 +24,17 @@ export async function InitializeSpinOverlay(id: string, spin: string) {
         .catch((e) => console.error("SPIN OVERLAY CREATION:", e));
 
     revalidatePath("/overlay/" + id);
+}
+
+export async function UpdateSpinOverlay(
+    id: string,
+    query: string,
+    theme: string,
+) {
+    console.log("Updating Spin at", id);
+
+    db.update(overlaySchema)
+        .set({ spin_query: query, theme: theme })
+        .where(eq(overlaySchema.id, id))
+        .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
 }
