@@ -104,7 +104,7 @@ export default function SpinOptions({
                             >
                                 <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
                                 <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
-                                    {"Enable Stream Overlay"}
+                                    {"Enable Stream Overlay (1300x600)"}
                                 </span>
                             </button>
                             <button
