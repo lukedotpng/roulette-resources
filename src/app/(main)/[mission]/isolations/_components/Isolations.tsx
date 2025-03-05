@@ -66,7 +66,7 @@ export default function Isolations({
                         className="hidden w-60 border-4 border-b-0 border-white md:block"
                     />
                     <DropdownMenuTrigger asChild>
-                        <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[state=open]:bg-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:text-white sm:py-3">
+                        <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:bg-red-500 group-data-[state=open]:text-white hover:bg-red-500 hover:text-white sm:py-3">
                             <p>{TargetIDToDisplayText(activeTargetId)}</p>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ export default function Isolations({
                     </DropdownMenuTrigger>
                 </div>
                 <DropdownMenuContent
-                    className="flex w-60 flex-col overflow-scroll shadow-lg shadow-black"
+                    className="z-10 flex w-60 flex-col overflow-scroll shadow-lg shadow-black"
                     onCloseAutoFocus={(event: Event) => {
                         event.preventDefault();
                     }}

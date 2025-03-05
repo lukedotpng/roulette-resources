@@ -19,7 +19,8 @@ export async function InitializeSpinOverlay(id: string, spin: string) {
         return { error: "Overlay ID is not valid", status: 400 };
     }
 
-    db.insert(overlaySchema)
+    await db
+        .insert(overlaySchema)
         .values({ id: id, spin_query: spin })
         .catch((e) => console.error("SPIN OVERLAY CREATION:", e));
 
@@ -33,7 +34,8 @@ export async function UpdateSpinOverlay(
 ) {
     console.log("Updating Spin at", id);
 
-    db.update(overlaySchema)
+    await db
+        .update(overlaySchema)
         .set({ id: id, spin_query: query, theme: theme })
         .where(eq(overlaySchema.id, id))
         .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
