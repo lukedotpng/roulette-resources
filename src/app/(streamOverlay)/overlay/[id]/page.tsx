@@ -4,6 +4,7 @@ import { db } from "@/server/db";
 import { overlaySchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import SpinSection from "./_components/SpinSection";
+import { OverlayTheme } from "@/types";
 
 export default async function Page({
     params,
@@ -17,13 +18,18 @@ export default async function Page({
     });
 
     if (!overlayInfo) {
-        return <h1 className="text-5xl text-white">{"Error finding spin"}</h1>;
+        return (
+            <h1 className="text-5xl text-white">{"Error finding spin data"}</h1>
+        );
     }
+
+    console.log("OVERLAY THEME:", overlayInfo.theme);
 
     return (
         <SpinSection
             id={overlayId}
             initialQuery={overlayInfo.spin_query ?? ""}
+            initialTheme={(overlayInfo.theme as OverlayTheme) || "default"}
         />
     );
 }

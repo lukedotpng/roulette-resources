@@ -30,7 +30,7 @@ export default function MainSection() {
             <div
                 data-active={spinManager.noMissionsSelectedAlertActive}
                 aria-hidden={spinManager.noMissionsSelectedAlertActive}
-                className="absolute -top-36 z-10 rounded-md bg-red-500 p-4 font-bold text-white shadow-xl shadow-black transition-[top] ease-in-out data-[active=true]:visible data-[active=true]:top-20"
+                className="fixed -top-36 z-10 rounded-md bg-red-500 p-4 font-bold text-white shadow-xl shadow-black transition-[top] ease-in-out data-[active=true]:visible data-[active=true]:top-20"
             >
                 {"Please select missions"}
             </div>
@@ -86,7 +86,10 @@ export default function MainSection() {
                         setMissionPool={spinManager.setMissionPool}
                     />
                 )}
-                <SpinOptions settings={spinManager.settings} />
+                <SpinOptions
+                    settings={spinManager.settings}
+                    overlayId={spinManager.overlayId}
+                />
             </div>
             {spinManager.settings.showTips &&
                 spinManager.currentSpin !== undefined && (

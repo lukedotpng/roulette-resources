@@ -1,6 +1,7 @@
 import { Missions } from "@/globals";
 import {
     Mission,
+    OverlayTheme,
     Spin,
     SpinSettings,
     SpinTarget,
@@ -35,10 +36,7 @@ export function useSpinManager() {
     );
     const [queueIndex, setQueueIndex] = useState(0);
     const [lastMissionSpun, setLastMissionSpun] = useState<Mission>();
-    const [overlayId, setOverlayId] = useLocalState(
-        "overlayId",
-        crypto.randomUUID(),
-    );
+    const [overlayId] = useLocalState("overlayId", crypto.randomUUID());
 
     // Settings
     const [dontRepeatMission, setDontRepeatMission] = useLocalState(
@@ -72,9 +70,33 @@ export function useSpinManager() {
     function ToggleStreamOverlayActive() {
         setStreamOverlayActive(!streamOverlayActive);
         if (!streamOverlayActive) {
-            InitializeSpinOverlay(overlayId);
+            fetch(`/api/spin/overlay/${overlayId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query: query, theme: overlayTheme }),
+            });
+            InitializeSpinOverlay(overlayId, query);
         }
     }
+    const [overlayTheme, setOverlayTheme] = useLocalState<OverlayTheme>(
+        "overlayTheme",
+        "default",
+    );
+    function SetOverlayTheme(theme: OverlayTheme) {
+        setOverlayTheme(theme);
+        if (streamOverlayActive) {
+            fetch(`/api/spin/overlay/${overlayId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ query: query, theme: theme }),
+            });
+        }
+    }
+
     const settings: SpinSettings = {
         dontRepeatMissions: dontRepeatMission,
         ToggleDontRepeatMissions: ToggleDontRepeatMission,
@@ -90,6 +112,8 @@ export function useSpinManager() {
         ToggleUpdateQuery,
         streamOverlayActive,
         ToggleStreamOverlayActive,
+        overlayTheme,
+        SetOverlayTheme,
     };
 
     // Utilities
@@ -273,7 +297,7 @@ export function useSpinManager() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ query: newQuery }),
+                body: JSON.stringify({ query: newQuery, theme: overlayTheme }),
             });
         }
     }, [currentSpin]);
@@ -296,5 +320,6 @@ export function useSpinManager() {
         settings,
         noMissionsSelectedAlertActive,
         query,
+        overlayId,
     };
 }

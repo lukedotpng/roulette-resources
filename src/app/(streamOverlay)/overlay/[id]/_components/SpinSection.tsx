@@ -1,16 +1,29 @@
 "use client";
 
+import { GetSpinFromQuery } from "@/lib/SpinQueryUtils";
+
+import { OverlayTheme, Spin } from "@/types";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
+import SmallMaps from "./SmallMaps";
+import LargeMaps from "./LargeMaps";
+import Berlin from "./Berlin";
+import TextOnly from "./TextOnly";
 
 export default function SpinSection({
     id,
     initialQuery,
+    initialTheme,
 }: {
     id: string;
     initialQuery: string;
+    initialTheme: OverlayTheme;
 }) {
-    const [query, setQuery] = useState(initialQuery);
+    // const [query, setQuery] = useState(initialQuery);
+    const [spin, setSpin] = useState<Spin | undefined>(
+        GetSpinFromQuery(initialQuery, false),
+    );
+    const [theme, setTheme] = useState<OverlayTheme>(initialTheme);
 
     useEffect(() => {
         const channel = supabase
@@ -25,8 +38,11 @@ export default function SpinSection({
                 },
                 (payload) => {
                     const newQuery = payload.new["spin_query"];
+                    const newTheme = payload.new["theme"];
                     if (newQuery) {
-                        setQuery(newQuery);
+                        // setQuery(newQuery);
+                        setTheme(newTheme);
+                        setSpin(GetSpinFromQuery(newQuery, false));
                     }
                 },
             )
@@ -37,5 +53,21 @@ export default function SpinSection({
         };
     }, []);
 
-    return <h1 className="m-10 text-center text-5xl text-white">{query}</h1>;
+    if (!spin) {
+        return <h1 className="text-5xl text-white">{"Error finding spin"}</h1>;
+    }
+
+    console.log(theme);
+
+    if (theme === "text_only") {
+        return <TextOnly spin={spin} />;
+    }
+
+    if (spin.mission === "berlin") {
+        return <Berlin spin={spin} />;
+    } else if (Object.keys(spin.info).length > 2) {
+        return <LargeMaps spin={spin} />;
+    } else {
+        return <SmallMaps spin={spin} />;
+    }
 }

@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 import z from "zod";
 
-export async function InitializeSpinOverlay(id: string) {
+export async function InitializeSpinOverlay(id: string, spin: string) {
     console.log("Creating Spin Overlay at", id);
 
     const initSpinOverlayScheme = z.object({
@@ -23,7 +23,7 @@ export async function InitializeSpinOverlay(id: string) {
     }
 
     db.insert(overlaySchema)
-        .values({ id: id, spin_query: "" })
+        .values({ id: id, spin_query: spin })
         .catch((e) => console.error("SPIN OVERLAY CREATION:", e));
 
     revalidatePath("/overlay/" + id);

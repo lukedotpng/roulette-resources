@@ -215,6 +215,8 @@ export type TargetSpinResources = {
     [key in SpinTarget]?: SpinResources;
 };
 
+export type OverlayTheme = "default" | "text_only";
+
 export type SpinSettings = {
     dontRepeatMissions: boolean;
     ToggleDontRepeatMissions: () => void;
@@ -230,4 +232,6 @@ export type SpinSettings = {
     ToggleUpdateQuery: () => void;
     streamOverlayActive: boolean;
     ToggleStreamOverlayActive: () => void;
+    overlayTheme: OverlayTheme;
+    SetOverlayTheme: (theme: OverlayTheme) => void;
 };

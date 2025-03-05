@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: Promise<{ id: string }> },
+    { params }: { params: Promise<{ id: string; theme: string }> },
 ) {
     const id = (await params).id;
     const body = await request.json();
@@ -25,8 +25,10 @@ export async function POST(
 
     const query = body["query"];
 
+    const theme = body["theme"] || "default";
+
     db.update(overlaySchema)
-        .set({ spin_query: query })
+        .set({ spin_query: query, theme: theme })
         .where(eq(overlaySchema.id, id))
         .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
 
