@@ -37,4 +37,6 @@ export async function UpdateSpinOverlay(
         .set({ spin_query: query, theme: theme })
         .where(eq(overlaySchema.id, id))
         .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
+
+    revalidatePath("/overlay/" + id);
 }
