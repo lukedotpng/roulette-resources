@@ -15,14 +15,12 @@ export default async function Header() {
     }
 
     return (
-        <header className="flex h-8 items-center justify-between bg-white sm:h-9 md:h-10">
+        <header className="flex h-6 items-center justify-between bg-white text-xs sm:h-9 sm:text-base md:h-10 md:text-xl">
             <Link href="/" prefetch={true}>
-                <h1 className="px-2 text-base font-extrabold sm:text-lg md:text-2xl">
-                    Rou|Re
-                </h1>
+                <h1 className="px-2 font-extrabold">Rou|Re</h1>
             </Link>
             <div className="flex-1"></div>
-            <nav className="h-full self-center text-xs font-bold sm:text-sm md:text-base">
+            <nav className="h-full self-center font-bold">
                 <NavDropdown
                     season="Season 1"
                     maps={[
@@ -57,6 +55,9 @@ export default async function Header() {
                         "Mendoza",
                     ]}
                 />
+                <button className="h-full w-fit px-2 font-bold outline-hidden hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white sm:w-32 md:w-40">
+                    <Link href={"/spin"}>{"Spin"}</Link>
+                </button>
             </nav>
             <div className="px-4">
                 {!signedIn ? (
