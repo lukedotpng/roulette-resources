@@ -34,7 +34,7 @@ export async function UpdateSpinOverlay(
     console.log("Updating Spin at", id);
 
     db.update(overlaySchema)
-        .set({ spin_query: query, theme: theme })
+        .set({ id: id, spin_query: query, theme: theme })
         .where(eq(overlaySchema.id, id))
         .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
 
