@@ -18,7 +18,6 @@ export default function SmallMaps({ spin }: { spin: Spin }) {
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];
-                console.log(targetSpinInfo);
 
                 if (!targetSpinInfo) {
                     return;

@@ -21,7 +21,6 @@ export default function SpinTipsSection({
     const [targetSpinInfo, setTargetSpinInfo] = useState<TargetSpinResources>();
 
     useEffect(() => {
-        console.log(query);
         setTargetSpinInfo(data);
     }, [data]);
 

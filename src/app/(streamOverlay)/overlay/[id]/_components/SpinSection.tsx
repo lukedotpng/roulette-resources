@@ -57,8 +57,6 @@ export default function SpinSection({
         return <h1 className="text-5xl text-white">{"Error finding spin"}</h1>;
     }
 
-    console.log(theme);
-
     if (theme === "text_only") {
         return <TextOnly spin={spin} />;
     }

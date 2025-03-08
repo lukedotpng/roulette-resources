@@ -7,7 +7,7 @@ import {
 
 export function GetRandomMission(missionPool: Mission[]): Mission {
     if (!missionPool || missionPool.length === 0) {
-        console.log("ERROR:", "Mission pool is empty");
+        console.error("ERROR:", "Mission pool is empty");
         return Missions[Math.floor(Math.random() * Missions.length)];
     }
 

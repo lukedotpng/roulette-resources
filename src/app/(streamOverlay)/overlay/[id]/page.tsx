@@ -23,8 +23,6 @@ export default async function Page({
         );
     }
 
-    console.log("OVERLAY THEME:", overlayInfo.theme);
-
     return (
         <SpinSection
             id={overlayId}

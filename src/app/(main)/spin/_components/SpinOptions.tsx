@@ -28,8 +28,6 @@ export default function SpinOptions({
         }
     }
 
-    console.log(overlayId);
-
     return (
         <>
             <div

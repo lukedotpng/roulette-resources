@@ -106,7 +106,6 @@ export default function TargetSpinCard({
                                 categoryToEdit,
                                 updatedValue,
                             );
-                            console.log(updatedValue);
                         }}
                         dialogActive={editDialogActive}
                         setDialogActive={setEditDialogActive}

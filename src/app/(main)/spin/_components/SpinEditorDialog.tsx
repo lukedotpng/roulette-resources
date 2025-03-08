@@ -196,12 +196,13 @@ function DisguiseOptionList({
     options: string[];
     HandleClick: (option: string) => void;
 }) {
-    options.sort((a, b) => (a < b ? 0 : 1));
+    const sortedOptions = [...options];
+    sortedOptions.sort((a, b) => (a < b ? 0 : 1));
 
     return (
         <section className="mx-1 mb-2 flex h-fit flex-col border-zinc-900 text-[.6rem] sm:text-base">
             <div className="grid grid-cols-2 gap-1">
-                {options.map((option) => {
+                {sortedOptions.map((option) => {
                     return (
                         <div
                             key={option}
