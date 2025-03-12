@@ -1,4 +1,4 @@
-import { Isolation } from "@/types";
+import { Route } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -8,80 +8,56 @@ import {
 } from "@radix-ui/react-dialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DeleteIsolationAction } from "../IsolationActions";
+import { DeleteRouteAction } from "../RouteActions";
 
-export default function IsolationCard({
-    isolation,
-    handleIsolationEditTrigger,
+export default function RouteCard({
+    route,
+    handleRouteEditTrigger,
 }: {
-    isolation: Isolation;
-    handleIsolationEditTrigger: (isolation: Isolation, isNew: boolean) => void;
+    route: Route;
+    handleRouteEditTrigger: (route: Route, isNew: boolean) => void;
 }) {
-    // const link = isolation.video_link;
-    // const youtubeIdRegex =
-    //     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
-
-    // const videoIdMatch = link.match(youtubeIdRegex);
-    // if (videoIdMatch === null || videoIdMatch.length < 8) {
-    //     return;
-    // }
-
-    // const videoId = videoIdMatch[7];
-
     const session = useSession();
 
-    const [
-        deleteIsolationConfirmationOpen,
-        setDeleteIsolationConfirmationOpen,
-    ] = useState(false);
+    const [deleteRouteConfirmationOpen, setDeleteRouteConfirmationOpen] =
+        useState(false);
+
+    const link = route.video_link;
+    const youtubeIdRegex =
+        /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
+
+    const videoIdMatch = link.match(youtubeIdRegex);
+    if (videoIdMatch === null || videoIdMatch.length < 8) {
+        return;
+    }
+    const videoId = videoIdMatch[7];
 
     return (
         <div className="w-80 bg-white p-3 text-zinc-900 sm:w-[25rem] md:w-[30rem] lg:w-[35rem]">
             <div className="relative flex flex-col gap-2">
-                <p className="self-center font-bold">{isolation.name}</p>
-                <p>
-                    <strong>Starts: </strong>
-                    {isolation.starts}
+                <p className="self-center text-[1.1em] font-bold">
+                    {route.name}
                 </p>
-                <p>
-                    <strong>Requires: </strong>
-                    {isolation.requires}
-                </p>
-                <p>
-                    <strong>Timings: </strong>
-                    {isolation.timings}
-                </p>
-                {isolation.notes && (
+                {route.notes && (
                     <p>
                         <strong>Notes: </strong>
-                        {isolation.notes}
+                        {route.notes}
                     </p>
                 )}
-                <a
-                    className="w-fit font-bold underline"
-                    href={isolation.video_link}
-                    target="_blank"
-                >
-                    Watch video here
-                </a>
-                {/* <div className="flex w-[560px] flex-col gap-5">
+                <div className="flex w-full flex-col gap-5">
                     <iframe
-                        className="first:pt-5"
+                        className="mt-3 aspect-video"
                         key={link}
-                        width="560"
-                        height="315"
                         src={`https://www.youtube-nocookie.com/embed/${videoId}`}
                         allow="clipboard-write; picture-in-picture"
                         referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
                     />
-                </div> */}
+                </div>
                 {session.data?.user?.admin && (
                     <div className="absolute top-1 right-1 flex gap-3">
                         <button
-                            onClick={() =>
-                                handleIsolationEditTrigger(isolation, false)
-                            }
+                            onClick={() => handleRouteEditTrigger(route, false)}
                             className="group"
                         >
                             <svg
@@ -95,9 +71,7 @@ export default function IsolationCard({
                         </button>
                         <button
                             className="group"
-                            onClick={() =>
-                                setDeleteIsolationConfirmationOpen(true)
-                            }
+                            onClick={() => setDeleteRouteConfirmationOpen(true)}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -109,9 +83,9 @@ export default function IsolationCard({
                             </svg>
                         </button>
                         <Dialog
-                            open={deleteIsolationConfirmationOpen}
+                            open={deleteRouteConfirmationOpen}
                             onOpenChange={() => {
-                                setDeleteIsolationConfirmationOpen(false);
+                                setDeleteRouteConfirmationOpen(false);
                             }}
                         >
                             <DialogPortal>
@@ -124,7 +98,7 @@ export default function IsolationCard({
                                         <button
                                             className="flex-1 rounded-bl-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                             onClick={() =>
-                                                setDeleteIsolationConfirmationOpen(
+                                                setDeleteRouteConfirmationOpen(
                                                     false,
                                                 )
                                             }
@@ -134,8 +108,8 @@ export default function IsolationCard({
                                         <button
                                             className="flex-1 rounded-br-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                             onClick={async () => {
-                                                await DeleteIsolationAction(
-                                                    isolation.id,
+                                                await DeleteRouteAction(
+                                                    route.id,
                                                 );
                                             }}
                                         >

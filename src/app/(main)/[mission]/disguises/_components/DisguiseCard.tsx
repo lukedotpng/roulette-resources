@@ -17,7 +17,7 @@ export default function DisguiseCard({ disguise }: { disguise: Disguise }) {
         useState(false);
 
     return (
-        <div className="w-80 bg-white p-2 text-zinc-900 sm:w-[30rem] md:w-[35rem] md:p-5">
+        <div className="w-80 bg-white p-2 text-zinc-900 sm:w-[25rem] md:w-[30rem] md:p-5 lg:w-[35rem]">
             <div className="flex flex-col gap-2">
                 {disguise.hitmaps_link && (
                     <a
@@ -81,7 +81,7 @@ export default function DisguiseCard({ disguise }: { disguise: Disguise }) {
                                         >
                                             <DialogPortal>
                                                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                                                <DialogContent className="fixed left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                                                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                                                     <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
                                                         Are you sure you want to
                                                         delete?

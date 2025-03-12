@@ -38,7 +38,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     }, [activeDisguiseId, activeDisguise, disguises]);
 
     return (
-        <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-xl">
+        <section className="flex flex-col items-center gap-5 text-sm sm:flex-row sm:items-start sm:text-base md:text-lg">
             <DropdownMenu modal={false}>
                 <div className="flex flex-col">
                     <Image

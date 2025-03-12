@@ -60,6 +60,17 @@ export const isolationSchema = pgTable("roulette-resources-isolations", {
     visible: boolean().notNull(),
 });
 
+export const routeSchema = pgTable("roulette-resources-routes", {
+    id: uuid()
+        .primaryKey()
+        .$defaultFn(() => randomUUID()),
+    map: text().notNull(),
+    name: text().notNull(),
+    notes: text(),
+    video_link: text().notNull(),
+    visible: boolean().notNull(),
+});
+
 export const itemSchema = pgTable("roulette-resources-items", {
     id: uuid().primaryKey(),
     map: text().notNull(),

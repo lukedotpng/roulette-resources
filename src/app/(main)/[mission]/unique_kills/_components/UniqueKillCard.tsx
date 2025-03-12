@@ -9,6 +9,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteUniqueKillAction } from "../UniqueKillActions";
+import { MethodIDToDisplayText } from "@/lib/FormattingUtils";
 
 export default function UniqueKillCard({
     killType,
@@ -31,14 +32,14 @@ export default function UniqueKillCard({
     ] = useState(false);
 
     return (
-        <div className="w-80 bg-white text-zinc-900 sm:w-[30rem] md:w-[35rem]">
+        <div className="w-80 bg-white text-zinc-900 sm:w-[25rem] md:w-[30rem]">
             <button
                 data-active={!collapsed}
-                className="group flex w-full items-center justify-between p-3 text-[1.3em] font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
+                className="group flex w-full items-center justify-between p-2 font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:p-3 sm:data-[active=true]:border-b-4"
                 onClick={() => setCollapsed(!collapsed)}
             >
-                <div></div>
-                <p>{UniqueKillIDToDisplayText(killType)}</p>
+                <div className="h-4 w-4"></div>
+                <p>{MethodIDToDisplayText(killType)}</p>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 320 512"
@@ -61,7 +62,7 @@ export default function UniqueKillCard({
                                 className="relative border-t-4 border-zinc-900 p-3 first:border-0"
                             >
                                 {uniqueKillMethod.name && (
-                                    <p className="text-center text-[1.1em] font-bold">
+                                    <p className="text-center font-bold">
                                         {uniqueKillMethod.name}
                                     </p>
                                 )}
@@ -99,7 +100,7 @@ export default function UniqueKillCard({
                                     </a>
                                 )}
                                 {session.data?.user?.admin && (
-                                    <div className="absolute right-1 top-3 flex gap-3">
+                                    <div className="absolute top-3 right-1 flex gap-3">
                                         <button
                                             onClick={() =>
                                                 handleUniqueKillEditTrigger(
@@ -147,7 +148,7 @@ export default function UniqueKillCard({
                                         >
                                             <DialogPortal>
                                                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                                                <DialogContent className="fixed left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                                                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                                                     <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
                                                         Are you sure you want to
                                                         delete?
@@ -189,16 +190,4 @@ export default function UniqueKillCard({
             )}
         </div>
     );
-}
-
-function UniqueKillIDToDisplayText(uniqueKill: string) {
-    let uniqueKillDisplayText = "";
-    const words = uniqueKill.split("_");
-
-    for (const word of words) {
-        uniqueKillDisplayText +=
-            word.charAt(0).toUpperCase() + word.slice(1) + " ";
-    }
-
-    return uniqueKillDisplayText;
 }

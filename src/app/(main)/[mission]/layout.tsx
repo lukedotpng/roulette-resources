@@ -1,4 +1,4 @@
-import MissionInfoNav from "./(items)/_components/MissionInfoNav";
+import MissionInfoNav from "./_components/MissionInfoNav";
 
 export default async function Page({
     params,
@@ -10,8 +10,8 @@ export default async function Page({
     const { mission } = await params;
 
     return (
-        <main className="gap- flex flex-1 flex-col items-center pb-5 text-xl text-white sm:text-2xl md:gap-5 md:text-3xl">
-            <h1 className="w-full p-4 pb-0 font-bold">
+        <main className="flex flex-1 flex-col items-center gap-3 pb-5 text-xs text-white sm:text-base md:gap-5 md:text-xl">
+            <h1 className="w-full p-2 pb-0 font-bold sm:p-4 sm:pb-0">
                 {MapIDToDisplayText(mission)}
             </h1>
             <MissionInfoNav mission={mission} />

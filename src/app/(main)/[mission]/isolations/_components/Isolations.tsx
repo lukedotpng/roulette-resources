@@ -55,7 +55,7 @@ export default function Isolations({
     }
 
     return (
-        <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
+        <section className="flex flex-col items-center gap-5 text-sm sm:text-base md:flex-row md:items-start md:text-lg">
             <DropdownMenu modal={false}>
                 <div className="flex flex-col">
                     <Image
@@ -100,7 +100,7 @@ export default function Isolations({
                                 ></Image>
                                 <DropdownMenuItem
                                     data-active={target === activeTargetId}
-                                    className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
+                                    className="w-full bg-white px-2 py-2 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-4 data-[active=true]:border-red-500 data-[active=true]:pl-1 sm:px-4 sm:py-3 sm:data-[active=true]:border-l-8 sm:data-[active=true]:pl-2"
                                     onClick={() => {
                                         setActiveTargetId(target);
                                         router.replace(`?disguise=${target}`);
@@ -133,7 +133,7 @@ export default function Isolations({
                 })}
                 {session.data?.user?.admin && (
                     <button
-                        className="w-full bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        className="w-full rounded-b-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                         onClick={() =>
                             handleIsolationEditTrigger(
                                 {

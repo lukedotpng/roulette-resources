@@ -4,6 +4,7 @@ import {
     disguiseVideoSchema,
     isolationSchema,
     itemSchema,
+    routeSchema,
     uniqueKillSchema,
 } from "./server/db/schema";
 
@@ -11,8 +12,8 @@ export type DisguiseVideo = InferSelectModel<typeof disguiseVideoSchema>;
 export type Disguise = InferSelectModel<typeof disguiseSchema> & {
     disguiseVideoSchema: DisguiseVideo[];
 };
-
 export type Isolation = InferSelectModel<typeof isolationSchema>;
+export type Route = InferSelectModel<typeof routeSchema>;
 export type Item = InferSelectModel<typeof itemSchema>;
 export type UniqueKill = InferSelectModel<typeof uniqueKillSchema>;
 

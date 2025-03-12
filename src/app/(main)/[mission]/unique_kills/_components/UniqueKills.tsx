@@ -59,7 +59,7 @@ export default function UniqueKills({
     }
 
     return (
-        <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
+        <section className="flex flex-col items-center gap-3 text-sm sm:text-base md:flex-row md:items-start md:gap-5 md:text-lg">
             <DropdownMenu modal={false}>
                 <div className="flex flex-col">
                     <Image
@@ -117,7 +117,7 @@ export default function UniqueKills({
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>
-            <div className="flex flex-col gap-4 text-xs sm:text-sm md:text-base">
+            <div className="flex flex-col gap-2 text-xs sm:gap-4 sm:text-sm md:text-base">
                 {UniqueKillTypes.map((uniqueKillType, index) => {
                     const filteredUniqueKills = uniqueKills.filter(
                         (uniqueKill) => {
@@ -146,7 +146,7 @@ export default function UniqueKills({
                 })}
                 {session.data?.user?.admin && (
                     <button
-                        className="w-full items-center justify-between bg-white p-3 text-[1.3em] font-bold text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
+                        className="w-full items-center justify-between rounded-lg bg-white p-3 font-bold text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
                         onClick={() => {
                             handleUniqueKillEditTrigger(
                                 {
