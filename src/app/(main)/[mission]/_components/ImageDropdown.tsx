@@ -37,7 +37,7 @@ export default function ImageDropdown({
                     className="hidden w-60 border-4 border-b-0 border-white md:block"
                 />
                 <DropdownMenuTrigger asChild>
-                    <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:bg-red-500 group-data-[state=open]:text-white hover:bg-red-500 hover:text-white sm:py-3">
+                    <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:bg-red-500 group-data-[state=open]:text-white hover:bg-red-500 hover:text-white">
                         <p>{OptionFormatter(activeOption)}</p>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -51,14 +51,19 @@ export default function ImageDropdown({
                 </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent
-                className="flex max-h-96 min-h-fit w-60 flex-col overflow-scroll shadow-lg shadow-black"
+                className="z-20 flex max-h-96 min-h-fit w-60 flex-col overflow-scroll rounded-b-lg shadow-lg shadow-black"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
             >
-                {optionList.map((option) => {
+                <div className="pointer-events-none absolute top-0 z-10 h-2 w-full bg-gradient-to-b from-zinc-900/50 to-transparent"></div>
+                {optionList.map((option, index) => {
                     return (
-                        <div key={option}>
+                        <div
+                            key={option}
+                            data-last={index === optionList.length - 1}
+                            className="group relative"
+                        >
                             <Image
                                 src={`${optionImageRootPath}/${option}.webp`}
                                 width={693}
@@ -67,10 +72,10 @@ export default function ImageDropdown({
                                 alt={OptionFormatter(option)}
                                 aria-hidden="true"
                                 className="invisible absolute h-0"
-                            ></Image>
+                            />
                             <DropdownMenuItem
                                 data-active={option === activeOption}
-                                className="w-full bg-white px-4 py-3 text-left text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
+                                className="w-full cursor-pointer bg-white px-4 py-3 text-left text-zinc-900 outline-none group-data-[last=true]:rounded-b-lg hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
                                 onClick={() => {
                                     SetActiveOption(option);
                                     router.replace(`?o=${option}`);
