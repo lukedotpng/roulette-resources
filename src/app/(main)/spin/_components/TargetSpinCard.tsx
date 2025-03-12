@@ -5,7 +5,7 @@ import {
     MethodIDToDisplayText,
     MethodImagePathFormatter,
     DisguiseImagePathFormatter,
-} from "@/lib/SpinUtils";
+} from "@/lib/FormattingUtils";
 import {
     Mission,
     SpinInfo,

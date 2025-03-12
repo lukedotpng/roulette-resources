@@ -10,7 +10,7 @@ import {
     GetConditionFromIndex,
     GetMissionDisguiseFromIndex,
 } from "./SpinUtils";
-import { Missions } from "@/globals";
+import { Missions } from "@/lib/globals";
 
 export function GetSpinFromQuery(
     query: string,

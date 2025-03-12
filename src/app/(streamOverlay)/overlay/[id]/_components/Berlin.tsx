@@ -4,7 +4,7 @@ import {
     MethodIDToDisplayText,
     MethodImagePathFormatter,
     TargetIDToDisplayText,
-} from "@/lib/SpinUtils";
+} from "@/lib/FormattingUtils";
 import { Spin, SpinInfo } from "@/types";
 import Image from "next/image";
 

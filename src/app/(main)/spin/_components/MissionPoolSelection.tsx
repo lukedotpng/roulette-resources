@@ -21,8 +21,8 @@ import {
     SeasonThreeMissions,
     SeasonTwoMissions,
 } from "../SpinGlobals";
-import { Missions } from "@/globals";
-import { MapIDToDisplayText } from "../../../../lib/SpinUtils";
+import { Missions } from "@/lib/globals";
+import { MissionIDToDisplayText } from "@/lib/FormattingUtils";
 
 export default function MissionPoolSelection({
     missionPool,
@@ -141,7 +141,7 @@ export default function MissionPoolSelection({
                                         }}
                                     >
                                         <h2 className="font-bold">
-                                            {MapIDToDisplayText(season)}
+                                            {MissionIDToDisplayText(season)}
                                         </h2>
                                     </button>
                                     {seasonMissionList.map((mission) => {
@@ -162,7 +162,9 @@ export default function MissionPoolSelection({
                                                     });
                                                 }}
                                             >
-                                                {MapIDToDisplayText(mission)}
+                                                {MissionIDToDisplayText(
+                                                    mission,
+                                                )}
                                             </button>
                                         );
                                     })}

@@ -1,4 +1,4 @@
-import { Missions } from "@/globals";
+import { Missions } from "@/lib/globals";
 import {
     Mission,
     OverlayTheme,

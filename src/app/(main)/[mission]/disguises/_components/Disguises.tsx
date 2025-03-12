@@ -14,7 +14,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import DisguiseCard from "./DisguiseCard";
 import DisguiseVideoEditorDialog from "./DisguiseVideoEditorDialog";
-import { DisguiseIDToDisplayText } from "@/globals";
+import { DisguiseIDToDisplayText } from "@/lib/FormattingUtils";
 import { useSession } from "next-auth/react";
 
 export default function Disguises({ disguises }: { disguises: Disguise[] }) {
@@ -51,7 +51,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                         className="hidden w-60 border-4 border-b-0 border-white sm:block"
                     />
                     <DropdownMenuTrigger asChild>
-                        <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 hover:bg-red-500 hover:text-white group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[state=open]:bg-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:text-white sm:py-3">
+                        <button className="group flex h-fit w-60 items-center justify-between bg-white px-4 py-1 text-left text-zinc-900 group-data-[active=true]:border-l-8 group-data-[active=true]:border-red-500 group-data-[active=true]:pl-2 group-data-[state=open]:bg-red-500 group-data-[state=open]:text-white hover:bg-red-500 hover:text-white sm:py-3">
                             <p>{DisguiseIDToDisplayText(activeDisguise.id)}</p>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,7 @@
-import { MethodIDToDisplayText, TargetIDToDisplayText } from "@/lib/SpinUtils";
+import {
+    MethodIDToDisplayText,
+    TargetIDToDisplayText,
+} from "@/lib/FormattingUtils";
 import { Mission, SpinResources, TargetSpinResources } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";

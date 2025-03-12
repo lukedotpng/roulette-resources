@@ -1,4 +1,4 @@
-import { Missions } from "@/globals";
+import { Missions } from "@/lib/globals";
 import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
 import { SpinInfo, SpinTarget } from "@/types";

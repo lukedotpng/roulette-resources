@@ -1,6 +1,6 @@
 "use client";
 
-import { UniqueKillTypes } from "@/globals";
+import { UniqueKillTypes } from "@/lib/globals";
 import { Mission, Target, UniqueKill } from "@/types";
 import {
     DropdownMenu,

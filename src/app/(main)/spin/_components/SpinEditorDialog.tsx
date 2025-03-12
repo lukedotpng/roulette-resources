@@ -10,7 +10,7 @@ import {
     DisguiseIDToDisplayText,
     DisguiseImagePathFormatter,
     MethodIDToDisplayText,
-} from "../../../../lib/SpinUtils";
+} from "@/lib/FormattingUtils";
 import { Mission, SpinTarget, SpinUpdateAction } from "@/types";
 import {
     MissionDisguisesList,

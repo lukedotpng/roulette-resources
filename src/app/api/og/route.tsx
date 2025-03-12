@@ -1,4 +1,4 @@
-import { Missions } from "@/globals";
+import { Missions } from "@/lib/globals";
 import { ImageResponse } from "next/og";
 import SpinInfoSection from "./SpinInfoSection";
 import { SpinInfo } from "@/types";

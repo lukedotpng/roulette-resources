@@ -2,7 +2,7 @@ import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,
     TargetIDToDisplayText,
-} from "@/lib/SpinUtils";
+} from "@/lib/FormattingUtils";
 import { Spin, SpinInfo } from "@/types";
 
 export default function TextOnly({ spin }: { spin: Spin }) {

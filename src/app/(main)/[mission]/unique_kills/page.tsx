@@ -2,7 +2,7 @@ import { db } from "@/server/db";
 import { uniqueKillSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import UniqueKills from "./_components/UniqueKills";
-import { BerlinUniqueKillTypes, MissionTargetsList } from "@/globals";
+import { BerlinUniqueKillTypes, MissionTargetsList } from "@/lib/globals";
 import { Mission } from "@/types";
 import BerlinUniqueKills from "./_components/BerlinUniqueKills";
 import { SessionProvider } from "next-auth/react";
