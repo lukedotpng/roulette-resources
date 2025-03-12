@@ -55,7 +55,7 @@ export default async function Header() {
                         "Mendoza",
                     ]}
                 />
-                <button className="h-full w-fit px-2 font-bold outline-hidden hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white sm:w-32 md:w-40">
+                <button className="h-full w-fit px-4 font-bold outline-hidden hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white">
                     <Link href={"/spin"}>{"Spin"}</Link>
                 </button>
             </nav>

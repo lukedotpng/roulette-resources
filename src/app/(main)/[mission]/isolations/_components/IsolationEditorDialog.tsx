@@ -77,11 +77,11 @@ export default function IsolationEditorDialog({
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
-                    <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
+                    <DialogTitle className="w-full p-3 text-center font-bold">
                         {`${isNew ? "Create" : "Edit"} Isolation`}
                     </DialogTitle>
                     <form
-                        className="p-3 text-sm sm:text-xl"
+                        className="p-3"
                         action={async (formData: FormData) => {
                             if (isNew) {
                                 await CreateIsolationAction(formData);
@@ -205,7 +205,7 @@ export default function IsolationEditorDialog({
                         {hasBeenEdited && (
                             <button
                                 type="submit"
-                                className="mt-2 w-32 rounded-md border-2 border-red-500 bg-white p-1 text-sm font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:text-xl"
+                                className="mt-2 w-32 rounded-md border-2 border-red-500 bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
                             >
                                 Save
                             </button>

@@ -33,8 +33,8 @@ export default function Routes({
     }
 
     return (
-        <section className="flex flex-col items-center gap-5 text-sm sm:text-lg md:flex-row md:items-start md:text-xl">
-            <div className="flex flex-col gap-2 text-xs sm:text-sm md:text-base">
+        <section className="flex w-full flex-col items-center gap-5 md:flex-row md:items-start">
+            <div className="flex w-full flex-col items-center gap-2 px-4">
                 {routes === null || routes.length === 0 ? (
                     <h1>No data for this map :(</h1>
                 ) : (
@@ -53,7 +53,7 @@ export default function Routes({
                 )}
                 {session.data?.user?.admin && (
                     <button
-                        className="w-full bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        className="w-full rounded-b-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white sm:w-[25rem] md:w-[35rem]"
                         onClick={() =>
                             handleRouteEditTrigger(
                                 {

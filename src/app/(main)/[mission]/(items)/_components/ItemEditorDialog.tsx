@@ -54,11 +54,11 @@ export default function ItemEditorDialog({
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
-                    <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
+                    <DialogTitle className="w-full p-3 text-center text-[1.1em] font-bold">
                         Edit Item
                     </DialogTitle>
                     <form
-                        className="p-3 text-sm sm:text-xl"
+                        className="p-3"
                         action={async (formData: FormData) => {
                             await UpdateItemAction(formData);
                             setEditDialogActive(false);

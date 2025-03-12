@@ -39,11 +39,11 @@ export default function DisguiseVideoEditorDialog({
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-3 sm:w-[30rem]">
-                    <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
+                    <DialogTitle className="w-full p-3 text-center font-bold">
                         {`Add New Video For "${DisguiseIDToDisplayText(disguise.id)}"`}
                     </DialogTitle>
                     <form
-                        className="flex flex-col gap-2 text-sm sm:text-xl"
+                        className="flex flex-col gap-2"
                         action={async (formData: FormData) => {
                             await NewDisguiseVideoAction(formData);
                             setEditDialogActive(false);
@@ -74,7 +74,7 @@ export default function DisguiseVideoEditorDialog({
                         {canSave && (
                             <button
                                 type="submit"
-                                className="w-32 rounded-md border-2 border-red-500 bg-white p-1 text-sm font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:text-xl"
+                                className="w-32 rounded-md border-2 border-red-500 bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
                             >
                                 Save
                             </button>

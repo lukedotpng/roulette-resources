@@ -33,26 +33,22 @@ export default function Items({
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-3 p-3">
-            <div className="flex flex-wrap justify-center gap-3 md:gap-5">
-                <ItemCard
-                    type="Melee"
-                    items={items.filter((item) => item.type === "melee")}
-                    handleItemEditTrigger={handleItemEditTrigger}
-                />
-                <div className="flex flex-col gap-3 md:gap-5">
-                    <ItemCard
-                        type="Weapons"
-                        items={items.filter((item) => item.type === "weapon")}
-                        handleItemEditTrigger={handleItemEditTrigger}
-                    />
-                    <ItemCard
-                        type="Utility"
-                        items={items.filter((item) => item.type === "utility")}
-                        handleItemEditTrigger={handleItemEditTrigger}
-                    />
-                </div>
-            </div>
+        <div className="flex w-full max-w-[64rem] flex-col flex-wrap items-center gap-2 px-5 sm:p-0 md:max-h-[50rem]">
+            <ItemCard
+                type="Melee"
+                items={items.filter((item) => item.type === "melee")}
+                handleItemEditTrigger={handleItemEditTrigger}
+            />
+            <ItemCard
+                type="Weapons"
+                items={items.filter((item) => item.type === "weapon")}
+                handleItemEditTrigger={handleItemEditTrigger}
+            />
+            <ItemCard
+                type="Utility"
+                items={items.filter((item) => item.type === "utility")}
+                handleItemEditTrigger={handleItemEditTrigger}
+            />
             {editDialogActive && (
                 <ItemEditorDialog
                     item={currentItemToEdit}
