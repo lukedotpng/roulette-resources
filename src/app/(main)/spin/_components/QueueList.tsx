@@ -27,6 +27,8 @@ export default function QueueList({
     const queueIsSeason2 = QueueIsSeason2(missionQueue);
     const queueIsSeason3 = QueueIsSeason3(missionQueue);
 
+    let rowLength = 7;
+
     if (queueIsTrilogy) {
         const season1Row = missionQueue.slice(0, 6);
         const season2Row = missionQueue.slice(6, 14);
@@ -37,8 +39,22 @@ export default function QueueList({
     } else if (queueIsSeason1 || queueIsSeason2 || queueIsSeason3) {
         missionQueueRows.push([...missionQueue]);
     } else {
-        for (let i = 0; i < missionQueueLength; i += 7) {
-            const tempRow = missionQueue.slice(i, i + 7);
+        const rowCount = Math.floor(missionQueueLength / 2) > 7 ? 3 : 2;
+        rowLength = Math.ceil(missionQueueLength / rowCount);
+
+        for (let i = 0; i < rowCount; i++) {
+            const rowStartIndex = i * rowLength;
+            const rowEndIndex = rowLength + rowStartIndex;
+
+            if (missionQueueLength - rowStartIndex < rowLength) {
+                const tempRow = missionQueue.slice(
+                    rowStartIndex,
+                    missionQueueLength,
+                );
+                missionQueueRows.push(tempRow);
+                break;
+            }
+            const tempRow = missionQueue.slice(rowStartIndex, rowEndIndex);
             missionQueueRows.push(tempRow);
         }
     }
@@ -46,9 +62,13 @@ export default function QueueList({
     return (
         <div className="flex w-full max-w-[48rem] flex-col gap-0 text-[.7em] sm:gap-2 sm:text-[.8em]">
             {missionQueueRows.map((row, rowIndex) => {
-                const rowOffset = queueIsTrilogy
-                    ? [0, 6, 14][rowIndex]
-                    : row.length * rowIndex;
+                let rowOffset = 0;
+
+                if (queueIsTrilogy) {
+                    rowOffset = [0, 6, 14][rowIndex];
+                } else {
+                    rowOffset = rowLength * rowIndex;
+                }
 
                 return (
                     <div

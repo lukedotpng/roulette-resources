@@ -37,7 +37,7 @@ export function useSpinManager() {
         "queue",
         [],
     );
-    const [queueIndex, setQueueIndex] = useState(0);
+    const [queueIndex, setQueueIndex] = useLocalState("queueIndex", 0);
     const [lastMissionSpun, setLastMissionSpun] = useState<Mission>();
     const [overlayId] = useLocalState("overlayId", crypto.randomUUID());
 
@@ -120,9 +120,8 @@ export function useSpinManager() {
     useEffect(() => {
         if (queueMode) {
             if (missionQueue.length === 0) {
-                setMissionQueue(["paris"]);
+                setCurrentSpin(undefined);
                 setQueueIndex(0);
-                setCurrentSpin(GenerateSpin("paris"));
             } else {
                 setCurrentSpin(GenerateSpin(missionQueue[0]));
             }
@@ -249,7 +248,7 @@ export function useSpinManager() {
     }
     function GenerateNextSpin() {
         const nextIndex = queueIndex + 1;
-        if (nextIndex === missionQueue.length) {
+        if (nextIndex >= missionQueue.length) {
             return;
         }
         setQueueIndex(nextIndex);
@@ -275,7 +274,12 @@ export function useSpinManager() {
 
     useEffect(() => {
         if (!currentSpin && !query) {
-            if (missionPool.length === 0) {
+            if (queueMode) {
+                if (missionQueue.length > 0) {
+                    setQueueIndex(0);
+                    setCurrentSpin(GenerateSpin(missionQueue[0]));
+                }
+            } else if (missionPool.length === 0) {
                 setCurrentSpin(
                     GenerateSpin(
                         Missions[Math.floor(Missions.length * Math.random())],
