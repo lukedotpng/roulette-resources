@@ -41,12 +41,15 @@ export default function MissionSwitcher({
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="z-10 mt-2 flex h-0 w-80 sm:w-[32rem]"
+                className="z-10 mt-2 flex h-fit w-[22rem] gap-2 sm:w-[32rem]"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
             >
-                <div className="flex h-fit flex-1 flex-col">
+                <div className="flex h-fit flex-1 flex-col rounded-sm bg-white shadow-xl shadow-black">
+                    <h2 className="text-center text-[1.05em] font-bold underline">
+                        {"Season 1"}
+                    </h2>
                     {SeasonOneMissions.map((mission) => {
                         return (
                             <button
@@ -55,14 +58,17 @@ export default function MissionSwitcher({
                                     setDropdownOpen(false);
                                     HandleMissionSwitch(mission);
                                 }}
-                                className="bg-white px-1 py-2 text-black first:rounded-tl-sm last:rounded-bl-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
+                                className="bg-white px-1 py-2 text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
                             >
                                 {MissionIDToDisplayText(mission)}
                             </button>
                         );
                     })}
                 </div>
-                <div className="flex h-fit flex-1 flex-col">
+                <div className="flex h-fit flex-1 flex-col rounded-sm bg-white shadow-xl shadow-black">
+                    <h2 className="text-center text-[1.05em] font-bold underline">
+                        {"Season 2"}
+                    </h2>
                     {SeasonTwoMissions.map((mission) => {
                         return (
                             <button
@@ -78,7 +84,10 @@ export default function MissionSwitcher({
                         );
                     })}
                 </div>
-                <div className="flex h-fit flex-1 flex-col">
+                <div className="flex h-fit flex-1 flex-col rounded-sm bg-white shadow-xl shadow-black">
+                    <h2 className="text-center text-[1.05em] font-bold underline">
+                        {"Season 3"}
+                    </h2>
                     {SeasonThreeMissions.map((mission) => {
                         return (
                             <button
@@ -87,7 +96,7 @@ export default function MissionSwitcher({
                                     setDropdownOpen(false);
                                     HandleMissionSwitch(mission);
                                 }}
-                                className="bg-white px-1 py-2 text-black first:rounded-tr-sm last:rounded-br-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
+                                className="bg-white px-1 py-2 text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
                             >
                                 {MissionIDToDisplayText(mission)}
                             </button>
