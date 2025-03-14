@@ -39,23 +39,28 @@ export default function QueueList({
     } else if (queueIsSeason1 || queueIsSeason2 || queueIsSeason3) {
         missionQueueRows.push([...missionQueue]);
     } else {
-        const rowCount = Math.floor(missionQueueLength / 2) > 7 ? 3 : 2;
-        rowLength = Math.ceil(missionQueueLength / rowCount);
+        if (missionQueueLength <= 8) {
+            missionQueueRows.push([...missionQueue]);
+            rowLength = missionQueueLength;
+        } else {
+            const rowCount = Math.floor(missionQueueLength / 2) > 7 ? 3 : 2;
+            rowLength = Math.ceil(missionQueueLength / rowCount);
 
-        for (let i = 0; i < rowCount; i++) {
-            const rowStartIndex = i * rowLength;
-            const rowEndIndex = rowLength + rowStartIndex;
+            for (let i = 0; i < rowCount; i++) {
+                const rowStartIndex = i * rowLength;
+                const rowEndIndex = rowLength + rowStartIndex;
 
-            if (missionQueueLength - rowStartIndex < rowLength) {
-                const tempRow = missionQueue.slice(
-                    rowStartIndex,
-                    missionQueueLength,
-                );
+                if (missionQueueLength - rowStartIndex < rowLength) {
+                    const tempRow = missionQueue.slice(
+                        rowStartIndex,
+                        missionQueueLength,
+                    );
+                    missionQueueRows.push(tempRow);
+                    break;
+                }
+                const tempRow = missionQueue.slice(rowStartIndex, rowEndIndex);
                 missionQueueRows.push(tempRow);
-                break;
             }
-            const tempRow = missionQueue.slice(rowStartIndex, rowEndIndex);
-            missionQueueRows.push(tempRow);
         }
     }
 

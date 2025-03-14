@@ -122,6 +122,7 @@ export function useSpinManager() {
                 setCurrentSpin(undefined);
                 setQueueIndex(0);
             } else {
+                setQueueIndex(0);
                 setCurrentSpin(GenerateSpin(missionQueue[0]));
             }
         }
