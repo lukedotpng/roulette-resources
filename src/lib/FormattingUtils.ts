@@ -1,18 +1,61 @@
 import { Mission, SpinTarget } from "@/types";
 
-export function MissionIDToDisplayText(map: string) {
-    let mapDisplayText = "";
-    const words = map.split("_");
+export function MissionIDToDisplayText(mission: string) {
+    let missionDisplayText = "";
+    const words = mission.split("_");
 
     for (const word of words) {
         let parsedWord = word.charAt(0).toUpperCase() + word.slice(1) + " ";
         if (parsedWord == "Of ") {
             parsedWord = parsedWord.toLowerCase();
         }
-        mapDisplayText += parsedWord;
+        missionDisplayText += parsedWord;
     }
 
-    return mapDisplayText;
+    return missionDisplayText;
+}
+
+export function MissionIDToShortDisplayText(mission: string) {
+    switch (mission) {
+        case "paris":
+            return "PAR";
+        case "sapienza":
+            return "SAP";
+        case "marrakesh":
+            return "MAR";
+        case "bangkok":
+            return "BKK";
+        case "colorado":
+            return "COL";
+        case "hokkaido":
+            return "HOK";
+        case "miami":
+            return "MIA";
+        case "santa_fortuna":
+            return "SFA";
+        case "mumbai":
+            return "MUM";
+        case "whittleton_creek":
+            return "WCK";
+        case "ambrose_island":
+            return "AMB";
+        case "isle_of_sgail":
+            return "SGA";
+        case "new_york":
+            return "NYC";
+        case "haven_island":
+            return "HAV";
+        case "dubai":
+            return "DUB";
+        case "dartmoor":
+            return "DAR";
+        case "berlin":
+            return "BER";
+        case "chongqing":
+            return "CHO";
+        case "mendoza":
+            return "MEN";
+    }
 }
 
 export function MethodIDToDisplayText(item: string | undefined) {

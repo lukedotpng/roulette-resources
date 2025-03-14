@@ -10,6 +10,7 @@ import { useSpinManager } from "../useSpinManager";
 import SpinTipsSection from "./SpinTipsSection";
 import SpinOptions from "./SpinOptions";
 import MissionPoolSelection from "./MissionPoolSelection";
+import QueueList from "./QueueList";
 
 export default function MainSection() {
     const [isMounted, setIsMounted] = useState(false);
@@ -47,12 +48,22 @@ export default function MainSection() {
                 />
             )}
             {spinManager.currentSpin && (
-                <SpinInfoSection
-                    spin={spinManager.currentSpin}
-                    HandleSpinUpdate={spinManager.HandleSpinUpdate}
-                    HandleSpinEdit={spinManager.HandleSpinEdit}
-                    settings={spinManager.settings}
-                />
+                <>
+                    {spinManager.queueMode &&
+                        spinManager.settings.showQueueList && (
+                            <QueueList
+                                queueIndex={spinManager.queueIndex}
+                                UpdateQueueIndex={spinManager.UpdateQueueIndex}
+                                missionQueue={spinManager.missionQueue}
+                            />
+                        )}
+                    <SpinInfoSection
+                        spin={spinManager.currentSpin}
+                        HandleSpinUpdate={spinManager.HandleSpinUpdate}
+                        HandleSpinEdit={spinManager.HandleSpinEdit}
+                        settings={spinManager.settings}
+                    />
+                </>
             )}
             <button
                 className="group flex h-6 w-fit items-center justify-start bg-white px-1 text-zinc-900 sm:h-8 sm:px-2 md:h-10"

@@ -97,6 +97,16 @@ export default function SpinOptions({
                             </button>
                             <button
                                 className="group flex w-fit items-center border-zinc-900 bg-white text-zinc-900"
+                                onClick={settings.ToggleShowQueueList}
+                                data-active={settings.showQueueList}
+                            >
+                                <div className="m-1 border-2 border-zinc-900 bg-white p-2 group-data-[active=true]:bg-red-500"></div>
+                                <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                                    {"Show Queue List"}
+                                </span>
+                            </button>
+                            <button
+                                className="group flex w-fit items-center border-zinc-900 bg-white text-zinc-900"
                                 onClick={settings.ToggleStreamOverlayActive}
                                 data-active={settings.streamOverlayActive}
                             >

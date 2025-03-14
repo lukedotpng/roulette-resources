@@ -65,6 +65,10 @@ export function useSpinManager() {
     function ToggleCanAlwaysEditNTKO() {
         setCanAlwaysEditNTKO(!canAlwaysEditNTKO);
     }
+    const [showQueueList, setShowQueueList] = useLocalState("showQueue", false);
+    function ToggleShowQueueList() {
+        setShowQueueList(!showQueueList);
+    }
     const [updateQuery, setUpdateQuery] = useLocalState("updateURL", true);
     function ToggleUpdateQuery() {
         setUpdateQuery(!updateQuery);
@@ -99,6 +103,8 @@ export function useSpinManager() {
         ToggleManualMode,
         canAlwaysEditNTKO,
         ToggleCanAlwaysEditNTKO,
+        showQueueList,
+        ToggleShowQueueList,
         updateQuery,
         ToggleUpdateQuery,
         streamOverlayActive,
@@ -257,6 +263,10 @@ export function useSpinManager() {
         setQueueIndex(prevIndex);
         setCurrentSpin(GenerateSpin(missionQueue[prevIndex]));
     }
+    function UpdateQueueIndex(index: number) {
+        setQueueIndex(index);
+        setCurrentSpin(GenerateSpin(missionQueue[index]));
+    }
 
     function UpdateSpin(spin: Spin) {
         setCurrentSpin(spin);
@@ -295,11 +305,13 @@ export function useSpinManager() {
         RegenerateSpin,
         GenerateNextSpin,
         GeneratePreviousSpin,
+        UpdateQueueIndex,
         spinLegal,
         queueMode,
         ToggleQueueMode,
         missionQueue,
         setMissionQueue,
+        queueIndex,
         missionPool,
         setMissionPool,
         settings,
