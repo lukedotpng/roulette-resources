@@ -11,6 +11,8 @@ import SpinTipsSection from "./SpinTipsSection";
 import SpinOptions from "./SpinOptions";
 import MissionPoolSelection from "./MissionPoolSelection";
 import QueueList from "./QueueList";
+import MissionSwitcher from "./MissionSwitcher";
+import { Mission } from "@/types";
 
 export default function MainSection() {
     const [isMounted, setIsMounted] = useState(false);
@@ -49,6 +51,14 @@ export default function MainSection() {
             )}
             {spinManager.currentSpin && (
                 <>
+                    {!spinManager.queueMode && (
+                        <MissionSwitcher
+                            currentMission={spinManager.currentSpin.mission}
+                            HandleMissionSwitch={(mission: Mission) =>
+                                spinManager.GenerateMissionSpin(mission)
+                            }
+                        />
+                    )}
                     {spinManager.queueMode &&
                         spinManager.settings.showQueueList && (
                             <QueueList

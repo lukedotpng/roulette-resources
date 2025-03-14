@@ -153,6 +153,12 @@ export function useSpinManager() {
         setLastMissionSpun(spin.mission);
         setCurrentSpin(spin);
     }
+    function GenerateMissionSpin(mission: Mission) {
+        if (currentSpin) {
+            setLastMissionSpun(currentSpin.mission);
+        }
+        setCurrentSpin(GenerateSpin(mission));
+    }
     function HandleSpinUpdate(target: SpinTarget, action: SpinUpdateAction) {
         if (!currentSpin) {
             return;
@@ -303,6 +309,7 @@ export function useSpinManager() {
     return {
         currentSpin,
         GenerateRandomSpin,
+        GenerateMissionSpin,
         HandleSpinUpdate,
         HandleSpinEdit,
         RegenerateSpin,
