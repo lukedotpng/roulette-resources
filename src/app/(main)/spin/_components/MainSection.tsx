@@ -65,24 +65,14 @@ export default function MainSection() {
                     />
                 </>
             )}
-            <button
-                className="group flex h-6 w-fit items-center justify-start bg-white px-1 text-zinc-900 sm:h-8 sm:px-2 md:h-10"
-                onClick={spinManager.settings.ToggleManualMode}
-                data-active={spinManager.settings.manualMode}
-            >
-                <div className="mr-2 aspect-square h-4 border-2 border-zinc-900 bg-white group-data-[active=true]:bg-red-500"></div>
-                <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
-                    {"Manual Mode"}
-                </span>
-            </button>
-            <div className="flex h-6 flex-wrap justify-center gap-4 sm:h-8 md:h-10">
+            <div className="flex h-5 w-full flex-wrap justify-center gap-2 sm:h-8 sm:gap-4">
                 <button
-                    className="group flex h-full w-fit items-center justify-start bg-white p-1 text-zinc-900"
+                    className="group flex w-24 items-center justify-center bg-white text-zinc-900 sm:w-36"
                     onClick={spinManager.ToggleQueueMode}
                     data-active={spinManager.queueMode}
                 >
-                    <div className="mr-2 aspect-square h-4 border-2 border-zinc-900 bg-white group-data-[active=true]:bg-red-500"></div>
-                    <span className="text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                    <div className="ml-1 aspect-square h-3 border-1 border-zinc-900 bg-white group-data-[active=true]:bg-red-500 sm:ml-2 sm:h-4 sm:border-2"></div>
+                    <span className="flex-1 text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
                         {"Queue Mode"}
                     </span>
                 </button>
@@ -97,6 +87,16 @@ export default function MainSection() {
                         setMissionPool={spinManager.setMissionPool}
                     />
                 )}
+                <button
+                    className="group flex w-20 items-center justify-center bg-white text-zinc-900 sm:w-28"
+                    onClick={spinManager.settings.ToggleManualMode}
+                    data-active={spinManager.settings.manualMode}
+                >
+                    <div className="ml-1 aspect-square h-3 border-1 border-zinc-900 bg-white group-data-[active=true]:bg-red-500 sm:ml-2 sm:h-4 sm:border-2"></div>
+                    <span className="flex-1 text-nowrap underline decoration-transparent decoration-2 group-hover:decoration-red-500">
+                        {"Edit Spin"}
+                    </span>
+                </button>
                 <SpinOptions
                     settings={spinManager.settings}
                     overlayId={spinManager.overlayId}

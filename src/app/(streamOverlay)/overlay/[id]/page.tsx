@@ -4,7 +4,6 @@ import { db } from "@/server/db";
 import { overlaySchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import SpinSection from "./_components/SpinSection";
-import { OverlayTheme } from "@/types";
 
 export default async function Page({
     params,
@@ -27,7 +26,7 @@ export default async function Page({
         <SpinSection
             id={overlayId}
             initialQuery={overlayInfo.spin_query ?? ""}
-            initialTheme={(overlayInfo.theme as OverlayTheme) || "default"}
+            initialTheme={overlayInfo.theme || "default"}
         />
     );
 }

@@ -91,7 +91,7 @@ export default function MissionPoolSelection({
 
     return (
         <Dialog>
-            <DialogTrigger className="h-full w-fit bg-white px-1 text-zinc-900 hover:bg-red-500 hover:text-white sm:px-2">
+            <DialogTrigger className="w-24 bg-white text-zinc-900 hover:bg-red-500 hover:text-white sm:w-32">
                 Select Missions
             </DialogTrigger>
             <DialogPortal>

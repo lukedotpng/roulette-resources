@@ -1,7 +1,6 @@
 import { Missions } from "@/lib/globals";
 import {
     Mission,
-    OverlayTheme,
     Spin,
     SpinSettings,
     SpinTarget,
@@ -81,11 +80,11 @@ export function useSpinManager() {
             UpdateSpinOverlay(overlayId, query, overlayTheme);
         }
     }
-    const [overlayTheme, setOverlayTheme] = useLocalState<OverlayTheme>(
+    const [overlayTheme, setOverlayTheme] = useLocalState(
         "overlayTheme",
         "default",
     );
-    function SetOverlayTheme(theme: OverlayTheme) {
+    function SetOverlayTheme(theme: string) {
         setOverlayTheme(theme);
         if (streamOverlayActive) {
             UpdateSpinOverlay(overlayId, query, theme);

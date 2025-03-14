@@ -2,7 +2,7 @@
 
 import { GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 
-import { OverlayTheme, Spin } from "@/types";
+import { Spin } from "@/types";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 import SmallMaps from "./SmallMaps";
@@ -17,13 +17,13 @@ export default function SpinSection({
 }: {
     id: string;
     initialQuery: string;
-    initialTheme: OverlayTheme;
+    initialTheme: string;
 }) {
     // const [query, setQuery] = useState(initialQuery);
     const [spin, setSpin] = useState<Spin | undefined>(
         GetSpinFromQuery(initialQuery, false),
     );
-    const [theme, setTheme] = useState<OverlayTheme>(initialTheme);
+    const [theme, setTheme] = useState(initialTheme);
 
     useEffect(() => {
         const channel = supabase
