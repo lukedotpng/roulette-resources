@@ -28,7 +28,7 @@ export default function MissionSwitcher({
             onOpenChange={setDropdownOpen}
         >
             <DropdownMenuTrigger asChild>
-                <button className="group flex w-full max-w-[48rem] items-center justify-center gap-1 text-[1.1em] font-bold text-white outline-hidden">
+                <button className="group flex items-center justify-center gap-1 text-[1.1em] font-bold text-white outline-hidden">
                     <span>{MissionIDToDisplayText(currentMission)}</span>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

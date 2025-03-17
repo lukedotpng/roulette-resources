@@ -10,7 +10,7 @@ export default function TextOnly({ spin }: { spin: Spin }) {
         <main
             id="container"
             data-singletarget={Object.keys(spin.info).length === 1}
-            className="flex w-full flex-col text-lg text-white"
+            className="flex w-full flex-col text-[45px] text-white"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];

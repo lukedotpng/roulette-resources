@@ -25,7 +25,15 @@ export function useSpinManager() {
 
     // State
     const [queueIndex, setQueueIndex] = useLocalState("queueIndex", 0);
-    const [overlayId] = useLocalState("overlayId", crypto.randomUUID());
+    const [overlayId, setOverlayId] = useLocalState(
+        "overlayId",
+        crypto.randomUUID(),
+    );
+    async function RegenerateOverlayId(newId: string) {
+        setOverlayId(newId);
+        await InitializeSpinOverlay(newId, query);
+    }
+
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
         useState(false);
     function AlertNoMissionsInPool() {
@@ -170,7 +178,7 @@ export function useSpinManager() {
 
     // Update overlay on spin/query or theme change
     useEffect(() => {
-        if (!options.streamOverlayActive.val) {
+        if (options.streamOverlayActive.val) {
             InitializeSpinOverlay(overlayId, query);
             UpdateSpinOverlay(overlayId, query, options.overlayTheme.val);
         }
@@ -206,9 +214,6 @@ export function useSpinManager() {
     }, [options.queueMode.val]);
 
     useEffect(() => {
-        console.log(currentSpin);
-        console.log(query);
-
         if (!currentSpin && !query) {
             if (options.queueMode.val) {
                 if (options.missionQueue.val.length > 0) {
@@ -255,5 +260,6 @@ export function useSpinManager() {
         noMissionsSelectedAlertActive,
         query,
         overlayId,
+        RegenerateOverlayId,
     };
 }

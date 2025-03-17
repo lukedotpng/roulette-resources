@@ -16,18 +16,32 @@ import MissionQueueSelection from "./MissionQueueSelection";
 export default function SpinOptionsSection({
     options,
     overlayId,
+    RegenerateOverlayId,
 }: {
     options: SpinOptions;
     overlayId: string;
+    RegenerateOverlayId: (newId: string) => void;
 }) {
     const [copiedToClipboardAlertActive, setCopiedToClipboardAlertActive] =
         useState(false);
+    const [
+        newLinkCopiedToClipboardAlertActive,
+        setNewLinkCopiedToClipboardAlertActive,
+    ] = useState(false);
 
     function EnableCopiedToClipboardAlert() {
         if (!copiedToClipboardAlertActive) {
             setCopiedToClipboardAlertActive(true);
             setTimeout(() => {
                 setCopiedToClipboardAlertActive(false);
+            }, 1500);
+        }
+    }
+    function EnableNewLinkCopiedToClipboardAlert() {
+        if (!newLinkCopiedToClipboardAlertActive) {
+            setNewLinkCopiedToClipboardAlertActive(true);
+            setTimeout(() => {
+                setNewLinkCopiedToClipboardAlertActive(false);
             }, 1500);
         }
     }
@@ -113,25 +127,48 @@ export default function SpinOptionsSection({
                                 }
                                 activeState={options.streamOverlayActive.val}
                             />
-                            <button
-                                className="group w-full items-center border-2 border-zinc-900 bg-white py-0.5 text-center text-zinc-900"
-                                data-copyalertactive={
-                                    copiedToClipboardAlertActive
-                                }
-                                onClick={() => {
-                                    EnableCopiedToClipboardAlert();
-                                    navigator.clipboard.writeText(
-                                        `https://roulette.luke.town/overlay/${overlayId}`,
-                                    );
-                                }}
-                            >
-                                <span className="inline w-full decoration-red-500 decoration-2 group-data-[copyalertactive=true]:hidden hover:underline">
-                                    {"Copy Overlay Link"}
-                                </span>
-                                <span className="hidden w-full group-data-[copyalertactive=true]:inline">
-                                    {"Copied!"}
-                                </span>
-                            </button>
+                            <div className="flex w-full gap-2">
+                                <button
+                                    className="group w-full items-center border-2 border-zinc-900 bg-white py-0.5 text-center text-zinc-900"
+                                    data-copyalertactive={
+                                        copiedToClipboardAlertActive
+                                    }
+                                    onClick={() => {
+                                        EnableCopiedToClipboardAlert();
+                                        navigator.clipboard.writeText(
+                                            `https://roulette.luke.town/overlay/${overlayId}`,
+                                        );
+                                    }}
+                                >
+                                    <span className="inline w-full decoration-red-500 decoration-2 group-hover:underline group-data-[copyalertactive=true]:hidden">
+                                        {"Copy Overlay Link"}
+                                    </span>
+                                    <span className="hidden w-full group-data-[copyalertactive=true]:inline">
+                                        {"Copied!"}
+                                    </span>
+                                </button>
+                                <button
+                                    className="group w-full items-center border-2 border-zinc-900 bg-white py-0.5 text-center text-zinc-900"
+                                    data-copyalertactive={
+                                        newLinkCopiedToClipboardAlertActive
+                                    }
+                                    onClick={() => {
+                                        const newId = crypto.randomUUID();
+                                        RegenerateOverlayId(newId);
+                                        EnableNewLinkCopiedToClipboardAlert();
+                                        navigator.clipboard.writeText(
+                                            `https://roulette.luke.town/overlay/${newId}`,
+                                        );
+                                    }}
+                                >
+                                    <span className="inline w-full decoration-red-500 decoration-2 group-hover:underline group-data-[copyalertactive=true]:hidden">
+                                        {"Regenerate Spin Link"}
+                                    </span>
+                                    <span className="hidden w-full group-data-[copyalertactive=true]:inline">
+                                        {"New Link Copied!"}
+                                    </span>
+                                </button>
+                            </div>
                             <SpinOptionsChoiceSelector
                                 label="Overlay Theme"
                                 options={[

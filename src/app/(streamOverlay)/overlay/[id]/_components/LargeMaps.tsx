@@ -13,7 +13,7 @@ export default function LargeMaps({ spin }: { spin: Spin }) {
     return (
         <main
             id="container"
-            className="flex h-[600px] w-[1300px] flex-wrap text-xs"
+            className="flex h-[600px] w-[1300px] flex-wrap justify-end text-sm"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];
@@ -67,7 +67,7 @@ export default function LargeMaps({ spin }: { spin: Spin }) {
                                         width={693}
                                         height={517}
                                         quality={10}
-                                        className="h-full w-[40%] border-l-2 border-white object-cover object-center"
+                                        className="h-full w-[30%] border-l-2 border-white object-cover object-center"
                                     />
                                 </div>
                                 <div className="flex flex-1 items-center justify-between border-t-[1px] border-white bg-zinc-900">
@@ -97,7 +97,7 @@ export default function LargeMaps({ spin }: { spin: Spin }) {
                                         width={693}
                                         height={517}
                                         quality={10}
-                                        className="h-full w-[40%] border-l-2 border-white object-cover object-center"
+                                        className="h-full w-[30%] border-l-2 border-white object-cover object-center"
                                     />
                                 </div>
                                 {targetSpinInfo.ntko && (

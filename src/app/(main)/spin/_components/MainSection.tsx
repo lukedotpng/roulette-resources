@@ -27,7 +27,7 @@ export default function MainSection() {
     }
 
     return (
-        <main className="m-3 flex flex-col items-center gap-3 text-xs sm:m-5 sm:gap-5 sm:text-base">
+        <main className="m-3 flex flex-col items-center gap-2 text-xs sm:m-5 sm:gap-3 sm:text-base">
             {spinManager.options.queueMode.val ? (
                 <MissionQueueSpinControls
                     GenerateNextSpin={spinManager.GenerateNextSpin}
@@ -71,6 +71,7 @@ export default function MainSection() {
             <SpinOptionsSection
                 options={spinManager.options}
                 overlayId={spinManager.overlayId}
+                RegenerateOverlayId={spinManager.RegenerateOverlayId}
             />
 
             {spinManager.options.showTips.val &&

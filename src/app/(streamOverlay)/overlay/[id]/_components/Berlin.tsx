@@ -12,7 +12,7 @@ export default function Berlin({ spin }: { spin: Spin }) {
     return (
         <main
             id="container"
-            className="flex h-[600px] w-[1300px] flex-wrap justify-center text-xs"
+            className="flex h-[600px] w-[1300px] flex-wrap justify-end text-sm"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];
@@ -29,6 +29,13 @@ export default function Berlin({ spin }: { spin: Spin }) {
                             <h1 className="w-full bg-white py-1 text-center text-[2em] font-bold text-zinc-900">
                                 {TargetIDToDisplayText(target)}
                             </h1>
+                            {targetSpinInfo.ntko && (
+                                <div className="w-full bg-red-500 py-0.5 text-center text-[1.75em] font-bold">
+                                    <span className="decoration-2">
+                                        No Target Pacification
+                                    </span>
+                                </div>
+                            )}
                             <div className="flex flex-1 items-center justify-between bg-zinc-900">
                                 <div className="flex h-full w-full flex-col items-start justify-center p-2">
                                     <div className="px-1">
@@ -54,8 +61,8 @@ export default function Berlin({ spin }: { spin: Spin }) {
                                     }
                                     width={693}
                                     height={517}
-                                    quality={10}
-                                    className="h-full w-[40%] border-l-2 border-white object-cover object-center"
+                                    quality={50}
+                                    className="h-full w-[30%] border-l-2 border-white object-cover object-center"
                                 />
                             </div>
                             <div className="flex flex-1 items-center justify-between border-t-[1px] border-white bg-zinc-900">
@@ -84,16 +91,9 @@ export default function Berlin({ spin }: { spin: Spin }) {
                                     width={693}
                                     height={517}
                                     quality={10}
-                                    className="h-full w-[40%] border-l-2 border-white object-cover object-center"
+                                    className="h-full w-[30%] border-l-2 border-white object-cover object-center"
                                 />
                             </div>
-                            {targetSpinInfo.ntko && (
-                                <div className="w-full bg-red-500 py-1 text-center text-[1.75em] font-bold">
-                                    <span className="decoration-2">
-                                        No Target Pacification
-                                    </span>
-                                </div>
-                            )}
                         </div>
                     </div>
                 );
