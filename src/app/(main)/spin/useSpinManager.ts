@@ -13,7 +13,7 @@ import {
     InitializeSpinOverlay,
     UpdateSpinOverlay,
 } from "../../(streamOverlay)/OverlayActions";
-import { CreateSpinQuery } from "@/lib/SpinQueryUtils";
+import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 import { useSpinOptions } from "./useSpinOptions";
 
 export function useSpinManager() {
@@ -49,9 +49,6 @@ export function useSpinManager() {
             mission !== undefined
                 ? mission
                 : GetRandomMission(options.missionPool.val);
-
-        console.log(mission);
-        console.log(missionToSpin);
 
         while (
             mission === undefined &&
@@ -205,12 +202,13 @@ export function useSpinManager() {
                     GenerateSpin(options.missionQueue.val[queueIndex]),
                 );
             }
-        } else {
-            NewSpin();
         }
     }, [options.queueMode.val]);
 
     useEffect(() => {
+        console.log(currentSpin);
+        console.log(query);
+
         if (!currentSpin && !query) {
             if (options.queueMode.val) {
                 if (options.missionQueue.val.length > 0) {
@@ -229,6 +227,9 @@ export function useSpinManager() {
         }
 
         if (!currentSpin) {
+            if (query && !options.queueMode.val) {
+                setCurrentSpin(GetSpinFromQuery(query, false));
+            }
             return;
         }
 
