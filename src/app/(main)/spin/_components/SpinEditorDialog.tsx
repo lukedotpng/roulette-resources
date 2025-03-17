@@ -25,14 +25,14 @@ export default function SpinEditorDialog({
     mission,
     target,
     categoryToEdit,
-    HandleSpinEdit,
+    EditSpin,
     dialogActive,
     setDialogActive,
 }: {
     mission: Mission;
     target: SpinTarget;
     categoryToEdit: SpinUpdateAction;
-    HandleSpinEdit: (updatedValue: string) => void;
+    EditSpin: (updatedValue: string) => void;
     dialogActive: boolean;
     setDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -66,27 +66,27 @@ export default function SpinEditorDialog({
                                     title={"Melees"}
                                     target={target}
                                     options={meleeOptions}
-                                    HandleClick={HandleSpinEdit}
+                                    HandleClick={EditSpin}
                                 />
                             )}
                             <MethodOptionList
                                 title={"Weapons"}
                                 target={target}
                                 options={weaponOptions}
-                                HandleClick={HandleSpinEdit}
+                                HandleClick={EditSpin}
                             />
                             <MethodOptionList
                                 title={"Unique Kills"}
                                 target={target}
                                 options={uniqueKillOptions}
-                                HandleClick={HandleSpinEdit}
+                                HandleClick={EditSpin}
                             />
                         </div>
                     ) : (
                         <DisguiseOptionList
                             mission={mission}
                             options={disguises}
-                            HandleClick={HandleSpinEdit}
+                            HandleClick={EditSpin}
                         />
                     )}
                 </DialogContent>

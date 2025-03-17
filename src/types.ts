@@ -216,23 +216,27 @@ export type TargetSpinResources = {
     [key in SpinTarget]?: SpinResources;
 };
 
-export type SpinSettings = {
-    dontRepeatMissions: boolean;
-    ToggleDontRepeatMissions: () => void;
-    showTips: boolean;
-    ToggleShowTips: () => void;
-    layoutMode: string;
-    SetLayoutMode: (layout: string) => void;
-    manualMode: boolean;
-    ToggleManualMode: () => void;
-    canAlwaysEditNTKO: boolean;
-    ToggleCanAlwaysEditNTKO: () => void;
-    showQueueList: boolean;
-    ToggleShowQueueList: () => void;
-    updateQuery: boolean;
-    ToggleUpdateQuery: () => void;
-    streamOverlayActive: boolean;
-    ToggleStreamOverlayActive: () => void;
-    overlayTheme: string;
-    SetOverlayTheme: (theme: string) => void;
+export type ToggleOption = {
+    val: boolean;
+    Toggle: () => void;
+};
+
+export type Option<T> = {
+    val: T;
+    Set: (value: T) => void;
+};
+
+export type SpinOptions = {
+    missionPool: Option<Mission[]>;
+    missionQueue: Option<Mission[]>;
+    queueMode: ToggleOption;
+    dontRepeatMissions: ToggleOption;
+    showTips: ToggleOption;
+    layoutMode: Option<string>;
+    manualMode: ToggleOption;
+    canAlwaysEditNTKO: ToggleOption;
+    showQueueList: ToggleOption;
+    updateQuery: ToggleOption;
+    streamOverlayActive: ToggleOption;
+    overlayTheme: Option<string>;
 };

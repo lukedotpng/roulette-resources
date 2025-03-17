@@ -1,4 +1,4 @@
-import { SpinSettings } from "@/types";
+import { SpinOptions } from "@/types";
 import Image from "next/image";
 import { useState, useRef } from "react";
 
@@ -7,15 +7,15 @@ export default function TargetSpinCardRow({
     info,
     imageSrc,
     HandleSpinUpdate,
-    HandleSpinEdit,
-    settings,
+    EditSpin,
+    options,
 }: {
     title: string;
     info: string;
     imageSrc: string;
     HandleSpinUpdate: () => void;
-    HandleSpinEdit: () => void;
-    settings: SpinSettings;
+    EditSpin: () => void;
+    options: SpinOptions;
 }) {
     const [spinAnimationActive, setSpinAnimationActive] = useState(false);
 
@@ -40,11 +40,8 @@ export default function TargetSpinCardRow({
                         {info}
                     </h1>
                 </div>
-                {settings.manualMode ? (
-                    <button
-                        className="aspect-square h-full"
-                        onClick={HandleSpinEdit}
-                    >
+                {options.manualMode.val ? (
+                    <button className="aspect-square h-full" onClick={EditSpin}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"

@@ -1,6 +1,7 @@
 import {
     Mission,
     MissionPoolOptions,
+    Option,
     Season,
     SeasonPoolSelected,
 } from "@/types";
@@ -13,7 +14,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@radix-ui/react-dialog";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     MissionPoolOptionsList,
     SeasonOneMissions,
@@ -26,10 +27,8 @@ import { MissionIDToDisplayText } from "@/lib/FormattingUtils";
 
 export default function MissionPoolSelection({
     missionPool,
-    setMissionPool,
 }: {
-    missionPool: Mission[];
-    setMissionPool: Dispatch<SetStateAction<Mission[]>>;
+    missionPool: Option<Mission[]>;
 }) {
     const seasonsList: Season[] = ["season_1", "season_2", "season_3"];
 
@@ -44,8 +43,11 @@ export default function MissionPoolSelection({
         });
         return missionPoolOptions;
     }
+
     const [missionsPoolOptions, setMissionsPoolOptions] =
-        useState<MissionPoolOptions>(InitializeMissionPoolOptions(missionPool));
+        useState<MissionPoolOptions>(
+            InitializeMissionPoolOptions(missionPool.val),
+        );
 
     const [seasonsSelected, setSeasonsSelected] = useState<SeasonPoolSelected>(
         SeasonPoolSelectedList,
@@ -86,7 +88,7 @@ export default function MissionPoolSelection({
             }
         });
 
-        setMissionPool(updatedMissionPool);
+        missionPool.Set(updatedMissionPool);
     }, [missionsPoolOptions]);
 
     return (

@@ -9,7 +9,7 @@ import {
 import {
     Mission,
     SpinInfo,
-    SpinSettings,
+    SpinOptions,
     SpinTarget,
     SpinUpdateAction,
 } from "@/types";
@@ -22,16 +22,16 @@ export default function TargetSpinCard({
     spin,
     target,
     mission,
-    settings,
-    HandleSpinUpdate,
-    HandleSpinEdit,
+    options,
+    RespinCondition,
+    EditSpin,
 }: {
     spin: SpinInfo;
     target: SpinTarget;
     mission: Mission;
-    settings: SpinSettings;
-    HandleSpinUpdate: (target: SpinTarget, action: SpinUpdateAction) => void;
-    HandleSpinEdit: (
+    options: SpinOptions;
+    RespinCondition: (target: SpinTarget, action: SpinUpdateAction) => void;
+    EditSpin: (
         target: SpinTarget,
         action: SpinUpdateAction,
         newValue: string,
@@ -67,11 +67,11 @@ export default function TargetSpinCard({
                             spin[target]?.condition || "No Method",
                             target,
                         )}
-                        settings={settings}
+                        options={options}
                         HandleSpinUpdate={() =>
-                            HandleSpinUpdate(target, "condition")
+                            RespinCondition(target, "condition")
                         }
-                        HandleSpinEdit={() => {
+                        EditSpin={() => {
                             setCategoryToEdit("condition");
                             setEditDialogActive(true);
                         }}
@@ -86,11 +86,11 @@ export default function TargetSpinCard({
                             spin[target]?.disguise || "No Disguise",
                             mission,
                         )}
-                        settings={settings}
+                        options={options}
                         HandleSpinUpdate={() =>
-                            HandleSpinUpdate(target, "disguise")
+                            RespinCondition(target, "disguise")
                         }
-                        HandleSpinEdit={() => {
+                        EditSpin={() => {
                             setCategoryToEdit("disguise");
                             setEditDialogActive(true);
                         }}
@@ -99,13 +99,9 @@ export default function TargetSpinCard({
                         mission={mission}
                         target={target}
                         categoryToEdit={categoryToEdit}
-                        HandleSpinEdit={(updatedValue) => {
+                        EditSpin={(updatedValue) => {
                             setEditDialogActive(false);
-                            HandleSpinEdit(
-                                target,
-                                categoryToEdit,
-                                updatedValue,
-                            );
+                            EditSpin(target, categoryToEdit, updatedValue);
                         }}
                         dialogActive={editDialogActive}
                         setDialogActive={setEditDialogActive}
@@ -113,8 +109,8 @@ export default function TargetSpinCard({
                 </div>
             </div>
             {(spin[target]?.ntko ||
-                settings.manualMode ||
-                settings.canAlwaysEditNTKO) && (
+                options.manualMode.val ||
+                options.canAlwaysEditNTKO.val) && (
                 <div
                     data-active={spin[target]?.ntko}
                     className="group relative border-t-[1px] border-white bg-zinc-900 py-0.5 text-center text-[.9em] font-bold data-[active=true]:bg-red-500 sm:border-t-2 sm:py-1 sm:text-[1em]"
@@ -124,7 +120,7 @@ export default function TargetSpinCard({
                     </span>
                     <button
                         className="absolute top-0 right-2 h-full fill-white"
-                        onClick={() => HandleSpinUpdate(target, "toggle_ntko")}
+                        onClick={() => RespinCondition(target, "toggle_ntko")}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

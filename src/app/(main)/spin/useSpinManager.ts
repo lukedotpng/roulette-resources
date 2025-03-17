@@ -1,11 +1,5 @@
 import { Missions } from "@/lib/globals";
-import {
-    Mission,
-    Spin,
-    SpinSettings,
-    SpinTarget,
-    SpinUpdateAction,
-} from "@/types";
+import { Mission, Spin, SpinTarget, SpinUpdateAction } from "@/types";
 import { useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
 import {
@@ -20,147 +14,65 @@ import {
     UpdateSpinOverlay,
 } from "../../(streamOverlay)/OverlayActions";
 import { CreateSpinQuery } from "@/lib/SpinQueryUtils";
+import { useSpinOptions } from "./useSpinOptions";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin>();
 
     const [spinLegal] = useState(false);
 
-    // Options
-    const [missionPool, setMissionPool] = useLocalState<Mission[]>(
-        "pool",
-        Missions,
-    );
-    const [queueMode, setQueueMode] = useLocalState("queueActive", false);
-    const [missionQueue, setMissionQueue] = useLocalState<Mission[]>(
-        "queue",
-        [],
-    );
+    const options = useSpinOptions();
+
+    // State
     const [queueIndex, setQueueIndex] = useLocalState("queueIndex", 0);
-    const [lastMissionSpun, setLastMissionSpun] = useState<Mission>();
     const [overlayId] = useLocalState("overlayId", crypto.randomUUID());
-
-    // Settings
-    const [dontRepeatMission, setDontRepeatMission] = useLocalState(
-        "noRepeat",
-        false,
-    );
-    function ToggleDontRepeatMission() {
-        setDontRepeatMission(!dontRepeatMission);
-    }
-    const [showTips, setShowTips] = useLocalState("showTips", false);
-    function ToggleShowTips() {
-        setShowTips(!showTips);
-    }
-    const [layoutMode, setLayoutMode] = useLocalState("layout", "row");
-    function SetLayoutMode(layoutMode: string) {
-        setLayoutMode(layoutMode);
-    }
-    const [manualMode, setManualMode] = useState(false);
-    function ToggleManualMode() {
-        setManualMode(!manualMode);
-    }
-    const [canAlwaysEditNTKO, setCanAlwaysEditNTKO] = useState(false);
-    function ToggleCanAlwaysEditNTKO() {
-        setCanAlwaysEditNTKO(!canAlwaysEditNTKO);
-    }
-    const [showQueueList, setShowQueueList] = useLocalState("showQueue", false);
-    function ToggleShowQueueList() {
-        setShowQueueList(!showQueueList);
-    }
-    const [updateQuery, setUpdateQuery] = useLocalState("updateURL", true);
-    function ToggleUpdateQuery() {
-        setUpdateQuery(!updateQuery);
-    }
-    const [streamOverlayActive, setStreamOverlayActive] = useState(false);
-    function ToggleStreamOverlayActive() {
-        setStreamOverlayActive(!streamOverlayActive);
-        if (!streamOverlayActive) {
-            InitializeSpinOverlay(overlayId, query);
-            UpdateSpinOverlay(overlayId, query, overlayTheme);
-        }
-    }
-    const [overlayTheme, setOverlayTheme] = useLocalState(
-        "overlayTheme",
-        "default",
-    );
-    function SetOverlayTheme(theme: string) {
-        setOverlayTheme(theme);
-        if (streamOverlayActive) {
-            UpdateSpinOverlay(overlayId, query, theme);
-        }
-    }
-
-    const settings: SpinSettings = {
-        dontRepeatMissions: dontRepeatMission,
-        ToggleDontRepeatMissions: ToggleDontRepeatMission,
-        showTips: showTips,
-        ToggleShowTips: ToggleShowTips,
-        layoutMode: layoutMode,
-        SetLayoutMode: SetLayoutMode,
-        manualMode: manualMode,
-        ToggleManualMode,
-        canAlwaysEditNTKO,
-        ToggleCanAlwaysEditNTKO,
-        showQueueList,
-        ToggleShowQueueList,
-        updateQuery,
-        ToggleUpdateQuery,
-        streamOverlayActive,
-        ToggleStreamOverlayActive,
-        overlayTheme,
-        SetOverlayTheme,
-    };
-
-    // Utilities
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
         useState(false);
+    function AlertNoMissionsInPool() {
+        setNoMissionsSelectedAlertActive(true);
 
-    useEffect(() => {
-        if (queueMode) {
-            if (missionQueue.length === 0) {
-                setCurrentSpin(undefined);
-                setQueueIndex(0);
-            } else {
-                setQueueIndex(0);
-                setCurrentSpin(GenerateSpin(missionQueue[0]));
-            }
+        if (!noMissionsSelectedAlertActive) {
+            setTimeout(() => {
+                setNoMissionsSelectedAlertActive(false);
+            }, 1500);
         }
-    }, [missionQueue, setMissionQueue]);
+        return;
+    }
 
-    function GenerateRandomSpin() {
-        if (missionPool.length === 0) {
-            setNoMissionsSelectedAlertActive(true);
-
-            if (!noMissionsSelectedAlertActive) {
-                setTimeout(() => {
-                    setNoMissionsSelectedAlertActive(false);
-                }, 1500);
-            }
-            return;
+    // General Spin Management
+    function NewSpin(mission?: Mission) {
+        if (options.missionPool.val.length === 0) {
+            AlertNoMissionsInPool();
         }
 
-        let randomMission = GetRandomMission(missionPool);
+        let missionToSpin =
+            mission !== undefined
+                ? mission
+                : GetRandomMission(options.missionPool.val);
+
+        console.log(mission);
+        console.log(missionToSpin);
+
         while (
-            lastMissionSpun === randomMission &&
-            dontRepeatMission &&
-            missionPool.length > 1
+            mission === undefined &&
+            currentSpin !== undefined &&
+            options.dontRepeatMissions.val &&
+            options.missionPool.val.length > 1 &&
+            currentSpin.mission === missionToSpin
         ) {
-            randomMission = GetRandomMission(missionPool);
+            missionToSpin = GetRandomMission(options.missionPool.val);
         }
 
-        const spin: Spin = GenerateSpin(randomMission);
+        const spin: Spin = GenerateSpin(missionToSpin);
 
-        setLastMissionSpun(spin.mission);
         setCurrentSpin(spin);
     }
-    function GenerateMissionSpin(mission: Mission) {
+    function Respin() {
         if (currentSpin) {
-            setLastMissionSpun(currentSpin.mission);
+            setCurrentSpin(GenerateSpin(currentSpin.mission));
         }
-        setCurrentSpin(GenerateSpin(mission));
     }
-    function HandleSpinUpdate(target: SpinTarget, action: SpinUpdateAction) {
+    function RespinCondition(target: SpinTarget, action: SpinUpdateAction) {
         if (!currentSpin) {
             return;
         }
@@ -194,7 +106,9 @@ export function useSpinManager() {
             return;
         }
     }
-    function HandleSpinEdit(
+
+    // Editing Management
+    function EditSpin(
         target: SpinTarget,
         action: SpinUpdateAction,
         newValue: string,
@@ -230,35 +144,14 @@ export function useSpinManager() {
         }
     }
 
-    function ToggleQueueMode() {
-        const updatedQueueMode = !queueMode;
-        setQueueMode(updatedQueueMode);
-
-        if (updatedQueueMode) {
-            if (missionQueue.length === 0) {
-                setMissionQueue(["paris"]);
-                setQueueIndex(0);
-                setCurrentSpin(GenerateSpin("paris"));
-            } else {
-                setCurrentSpin(GenerateSpin(missionQueue[0]));
-            }
-        }
-    }
-
-    function RegenerateSpin() {
-        if (!currentSpin) {
-            return;
-        }
-        const newSpin = GenerateSpin(currentSpin.mission);
-        setCurrentSpin(newSpin);
-    }
+    // Queue Management
     function GenerateNextSpin() {
         const nextIndex = queueIndex + 1;
-        if (nextIndex >= missionQueue.length) {
+        if (nextIndex >= options.missionQueue.val.length) {
             return;
         }
         setQueueIndex(nextIndex);
-        setCurrentSpin(GenerateSpin(missionQueue[nextIndex]));
+        setCurrentSpin(GenerateSpin(options.missionQueue.val[nextIndex]));
     }
     function GeneratePreviousSpin() {
         const prevIndex = queueIndex - 1;
@@ -266,33 +159,72 @@ export function useSpinManager() {
             return;
         }
         setQueueIndex(prevIndex);
-        setCurrentSpin(GenerateSpin(missionQueue[prevIndex]));
+        setCurrentSpin(GenerateSpin(options.missionQueue.val[prevIndex]));
     }
     function UpdateQueueIndex(index: number) {
         setQueueIndex(index);
-        setCurrentSpin(GenerateSpin(missionQueue[index]));
+        setCurrentSpin(GenerateSpin(options.missionQueue.val[index]));
     }
 
     function UpdateSpin(spin: Spin) {
         setCurrentSpin(spin);
     }
-    const query = useSpinQuery(currentSpin, UpdateSpin, settings);
+    const query = useSpinQuery(currentSpin, UpdateSpin, options);
+
+    // Update overlay on spin/query or theme change
+    useEffect(() => {
+        if (!options.streamOverlayActive.val) {
+            InitializeSpinOverlay(overlayId, query);
+            UpdateSpinOverlay(overlayId, query, options.overlayTheme.val);
+        }
+    }, [options.streamOverlayActive.val, options.overlayTheme.val]);
+
+    // Restart queue index when mission queue is updated
+    useEffect(() => {
+        if (options.queueMode) {
+            if (options.missionQueue.val.length === 0) {
+                setCurrentSpin(undefined);
+                setQueueIndex(0);
+            } else {
+                setCurrentSpin(
+                    GenerateSpin(options.missionQueue.val[queueIndex]),
+                );
+            }
+        }
+    }, [options.missionQueue.val]);
+
+    // Restart queue when Queue Mode is turned on, and sets mission queue to trilogy if empty
+    useEffect(() => {
+        if (options.queueMode.val) {
+            if (options.missionQueue.val.length === 0) {
+                options.missionQueue.Set(Missions);
+                setQueueIndex(0);
+                setCurrentSpin(GenerateSpin("paris"));
+            } else {
+                setCurrentSpin(
+                    GenerateSpin(options.missionQueue.val[queueIndex]),
+                );
+            }
+        } else {
+            NewSpin();
+        }
+    }, [options.queueMode.val]);
 
     useEffect(() => {
         if (!currentSpin && !query) {
-            if (queueMode) {
-                if (missionQueue.length > 0) {
+            if (options.queueMode.val) {
+                if (options.missionQueue.val.length > 0) {
                     setQueueIndex(0);
-                    setCurrentSpin(GenerateSpin(missionQueue[0]));
+                    setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
                 }
-            } else if (missionPool.length === 0) {
+            } else if (options.missionPool.val.length === 0) {
                 setCurrentSpin(
                     GenerateSpin(
                         Missions[Math.floor(Missions.length * Math.random())],
                     ),
                 );
             } else {
-                GenerateRandomSpin();
+                NewSpin();
             }
         }
 
@@ -302,30 +234,23 @@ export function useSpinManager() {
 
         const newQuery = CreateSpinQuery(currentSpin);
 
-        if (streamOverlayActive) {
-            UpdateSpinOverlay(overlayId, newQuery, overlayTheme);
+        if (options.streamOverlayActive.val) {
+            UpdateSpinOverlay(overlayId, newQuery, options.overlayTheme.val);
         }
     }, [currentSpin]);
 
     return {
         currentSpin,
-        GenerateRandomSpin,
-        GenerateMissionSpin,
-        HandleSpinUpdate,
-        HandleSpinEdit,
-        RegenerateSpin,
+        NewSpin,
+        Respin,
+        RespinCondition,
+        EditSpin,
         GenerateNextSpin,
         GeneratePreviousSpin,
         UpdateQueueIndex,
         spinLegal,
-        queueMode,
-        ToggleQueueMode,
-        missionQueue,
-        setMissionQueue,
         queueIndex,
-        missionPool,
-        setMissionPool,
-        settings,
+        options,
         noMissionsSelectedAlertActive,
         query,
         overlayId,

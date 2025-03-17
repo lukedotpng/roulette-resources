@@ -1,7 +1,7 @@
 import {
     Spin,
     SpinInfo,
-    SpinSettings,
+    SpinOptions,
     SpinTarget,
     SpinUpdateAction,
 } from "@/types";
@@ -9,22 +9,22 @@ import TargetSpinCard from "./TargetSpinCard";
 
 export default function SpinInfoSection({
     spin,
-    HandleSpinUpdate,
-    HandleSpinEdit,
-    settings,
+    RespinCondition,
+    EditSpin,
+    options,
 }: {
     spin: Spin;
-    HandleSpinUpdate: (target: SpinTarget, action: SpinUpdateAction) => void;
-    HandleSpinEdit: (
+    RespinCondition: (target: SpinTarget, action: SpinUpdateAction) => void;
+    EditSpin: (
         target: SpinTarget,
         action: SpinUpdateAction,
         newValue: string,
     ) => void;
-    settings: SpinSettings;
+    options: SpinOptions;
 }) {
     return (
         <section
-            data-row={settings.layoutMode === "row"}
+            data-row={options.layoutMode.val === "row"}
             className="flex w-full gap-2 data-[row=false]:flex-col data-[row=false]:items-center data-[row=true]:flex-row data-[row=true]:flex-wrap data-[row=true]:items-start data-[row=true]:justify-center"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
@@ -34,9 +34,9 @@ export default function SpinInfoSection({
                         spin={spin.info}
                         target={target}
                         mission={spin.mission}
-                        HandleSpinUpdate={HandleSpinUpdate}
-                        HandleSpinEdit={HandleSpinEdit}
-                        settings={settings}
+                        RespinCondition={RespinCondition}
+                        EditSpin={EditSpin}
+                        options={options}
                     />
                 );
             })}
