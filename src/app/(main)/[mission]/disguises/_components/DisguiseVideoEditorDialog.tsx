@@ -11,7 +11,7 @@ import {
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { NewDisguiseVideoAction } from "../DisguiseActions";
-import { DisguiseIDToDisplayText } from "@/lib/FormattingUtils";
+import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function DisguiseVideoEditorDialog({
     disguise,

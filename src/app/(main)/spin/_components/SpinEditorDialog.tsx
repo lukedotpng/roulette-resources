@@ -10,14 +10,14 @@ import {
     DisguiseIDToDisplayText,
     DisguiseImagePathFormatter,
     MethodIDToDisplayText,
-} from "@/lib/FormattingUtils";
+} from "@/utils/FormattingUtils";
 import { Mission, SpinTarget, SpinUpdateAction } from "@/types";
 import {
     MissionDisguisesList,
     MissionSpinInfoList,
     TargetUniqueKillsList,
     weapons,
-} from "../SpinGlobals";
+} from "../utils/SpinGlobals";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 

@@ -1,4 +1,4 @@
-import { MissionIDToDisplayText } from "@/lib/FormattingUtils";
+import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import { Mission } from "@/types";
 import {
     DropdownMenu,
@@ -9,7 +9,7 @@ import {
     SeasonOneMissions,
     SeasonThreeMissions,
     SeasonTwoMissions,
-} from "../SpinGlobals";
+} from "../utils/SpinGlobals";
 import { useState } from "react";
 
 export default function MissionSwitcher({

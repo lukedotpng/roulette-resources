@@ -21,9 +21,9 @@ import {
     SeasonPoolSelectedList,
     SeasonThreeMissions,
     SeasonTwoMissions,
-} from "../SpinGlobals";
-import { Missions } from "@/lib/globals";
-import { MissionIDToDisplayText } from "@/lib/FormattingUtils";
+} from "../utils/SpinGlobals";
+import { Missions } from "@/utils/globals";
+import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function MissionPoolSelection({
     missionPool,

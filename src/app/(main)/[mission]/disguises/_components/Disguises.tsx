@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import DisguiseCard from "./DisguiseCard";
 import DisguiseVideoEditorDialog from "./DisguiseVideoEditorDialog";
-import { DisguiseIDToDisplayText } from "@/lib/FormattingUtils";
+import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
 import { useSession } from "next-auth/react";
 import ImageDropdown from "../../_components/ImageDropdown";
 

@@ -9,7 +9,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteUniqueKillAction } from "../UniqueKillActions";
-import { MethodIDToDisplayText } from "@/lib/FormattingUtils";
+import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function UniqueKillCard({
     killType,

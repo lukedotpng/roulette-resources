@@ -14,7 +14,7 @@ import {
     CreateUniqueKillAction,
     UpdateUniqueKillAction,
 } from "../UniqueKillActions";
-import { MethodIDToDisplayText } from "@/lib/FormattingUtils";
+import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,

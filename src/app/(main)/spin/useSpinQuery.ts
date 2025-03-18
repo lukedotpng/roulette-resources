@@ -1,7 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Spin, SpinOptions } from "@/types";
-import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
+import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQueryUtils";
 
 export function useSpinQuery(
     currentSpin: Spin | undefined,

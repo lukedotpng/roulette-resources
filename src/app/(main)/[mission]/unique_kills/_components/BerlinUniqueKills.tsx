@@ -5,7 +5,7 @@ import { BerlinUniqueKill, UniqueKill } from "@/types";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import ImageDropdown from "../../_components/ImageDropdown";
-import { MethodIDToDisplayText } from "@/lib/FormattingUtils";
+import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function BerlinUniqueKills({
     uniqueKillTypes,

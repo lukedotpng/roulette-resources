@@ -1,4 +1,4 @@
-import { Missions } from "@/lib/globals";
+import { Missions } from "@/utils/globals";
 import { Mission, Option } from "@/types";
 import {
     Dialog,
@@ -8,12 +8,12 @@ import {
     DialogContent,
     DialogTitle,
 } from "@radix-ui/react-dialog";
-import { MissionIDToDisplayText } from "@/lib/FormattingUtils";
+import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import {
     SeasonOneMissions,
     SeasonTwoMissions,
     SeasonThreeMissions,
-} from "../SpinGlobals";
+} from "../utils/SpinGlobals";
 
 export default function MissionQueueSelection({
     missionQueue,

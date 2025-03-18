@@ -1,4 +1,4 @@
-import { MissionIDToDisplayText } from "@/lib/FormattingUtils";
+import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import MissionInfoNav from "./_components/MissionInfoNav";
 
 export default async function Page({

@@ -1,7 +1,7 @@
 import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,
-} from "@/lib/FormattingUtils";
+} from "@/utils/FormattingUtils";
 import { Mission, SpinResources, TargetSpinResources } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";

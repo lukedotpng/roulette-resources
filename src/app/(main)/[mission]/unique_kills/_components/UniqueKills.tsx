@@ -8,7 +8,7 @@ import UniqueKillCard from "./UniqueKillCard";
 import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
 import { useSession } from "next-auth/react";
 import ImageDropdown from "../../_components/ImageDropdown";
-import { TargetIDToDisplayText } from "@/lib/FormattingUtils";
+import { TargetIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function UniqueKills({
     targets,

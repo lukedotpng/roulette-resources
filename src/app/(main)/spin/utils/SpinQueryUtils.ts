@@ -1,16 +1,12 @@
-import { SpinMissionTargetsList } from "@/app/(main)/spin/SpinGlobals";
-import { GenerateSpin } from "@/app/(main)/spin/SpinManager";
-import { Mission, Spin, SpinInfo } from "@/types";
 import {
-    GetRandomMission,
-    GetMissionIndex,
-    GetConditionIndex,
-    GetMissionDisguiseIndex,
-    GetMissionFromIndex,
-    GetConditionFromIndex,
-    GetMissionDisguiseFromIndex,
-} from "./SpinUtils";
-import { Missions } from "@/lib/globals";
+    KillMethodOptions,
+    MissionDisguisesList,
+    SpinMissionTargetsList,
+} from "./SpinGlobals";
+import { GenerateSpin } from "./SpinGenerationUtils";
+import { Mission, Spin, SpinInfo } from "@/types";
+import { GetRandomMission } from "./SpinUtils";
+import { Missions } from "@/utils/globals";
 
 export function GetSpinFromQuery(
     query: string,
@@ -120,4 +116,29 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
     });
 
     return { mission: mission, info: spinInfo };
+}
+
+function GetMissionIndex(mission: Mission): number {
+    return Missions.indexOf(mission);
+}
+function GetMissionFromIndex(index: number): Mission {
+    return Missions[index];
+}
+
+function GetConditionIndex(condition: string): number {
+    return KillMethodOptions.indexOf(condition);
+}
+function GetConditionFromIndex(index: number): string {
+    return KillMethodOptions[index];
+}
+
+function GetMissionDisguiseIndex(disguise: string, mission: Mission): number {
+    const disguiseList = MissionDisguisesList[mission];
+
+    return disguiseList.indexOf(disguise);
+}
+function GetMissionDisguiseFromIndex(index: number, mission: Mission): string {
+    const disguiseList = MissionDisguisesList[mission];
+
+    return disguiseList[index];
 }

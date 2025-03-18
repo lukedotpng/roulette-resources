@@ -1,5 +1,5 @@
-import { Missions } from "@/lib/globals";
-import { useLocalState } from "@/lib/useLocalState";
+import { Missions } from "@/utils/globals";
+import { useLocalState } from "@/utils/useLocalState";
 import { Mission, SpinOptions } from "@/types";
 import { useState } from "react";
 

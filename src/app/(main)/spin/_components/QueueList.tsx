@@ -1,14 +1,14 @@
 "use client";
 
-import { MissionIDToShortDisplayText } from "@/lib/FormattingUtils";
-import { Missions } from "@/lib/globals";
+import { MissionIDToShortDisplayText } from "@/utils/FormattingUtils";
+import { Missions } from "@/utils/globals";
 import { Mission } from "@/types";
 import { Fragment } from "react";
 import {
     SeasonOneMissions,
     SeasonThreeMissions,
     SeasonTwoMissions,
-} from "../SpinGlobals";
+} from "../utils/SpinGlobals";
 
 export default function QueueList({
     queueIndex,

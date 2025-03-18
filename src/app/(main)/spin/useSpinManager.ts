@@ -1,4 +1,4 @@
-import { Missions } from "@/lib/globals";
+import { Missions } from "@/utils/globals";
 import { Mission, Spin, SpinTarget, SpinUpdateAction } from "@/types";
 import { useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
@@ -6,16 +6,19 @@ import {
     GenerateSpin,
     RegenerateCondition,
     RegenerateDisguise,
-} from "./SpinManager";
-import { GetRandomMission } from "@/lib/SpinUtils";
-import { useLocalState } from "@/lib/useLocalState";
+} from "./utils/SpinGenerationUtils";
+import { GetRandomMission } from "@/app/(main)/spin/utils/SpinUtils";
+import { useLocalState } from "@/utils/useLocalState";
 import {
     InitializeSpinOverlay,
     UpdateSpinOverlay,
 } from "../../(streamOverlay)/OverlayActions";
-import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
+import {
+    CreateSpinQuery,
+    GetSpinFromQuery,
+} from "@/app/(main)/spin/utils/SpinQueryUtils";
 import { useSpinOptions } from "./useSpinOptions";
-import { SpinIsLegal } from "./SpinRules";
+import { SpinIsLegal } from "./utils/SpinCheckUtils";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin>();
