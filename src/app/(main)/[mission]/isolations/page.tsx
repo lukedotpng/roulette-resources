@@ -1,6 +1,6 @@
 import { Mission } from "@/types";
 import Isolations from "./_components/Isolations";
-import { MissionTargetsList } from "@/lib/globals";
+import { MissionTargetsList } from "@/utils/globals";
 import { db } from "@/server/db";
 import { isolationSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";

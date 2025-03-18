@@ -1,4 +1,4 @@
-import { GetSpinFromQuery } from "@/lib/SpinQueryUtils";
+import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
 import { db } from "@/server/db";
 import {
     disguiseSchema,

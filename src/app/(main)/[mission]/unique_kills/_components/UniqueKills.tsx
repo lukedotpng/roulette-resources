@@ -1,6 +1,6 @@
 "use client";
 
-import { UniqueKillTypes } from "@/lib/globals";
+import { UniqueKillTypes } from "@/utils/globals";
 import { Mission, Target, UniqueKill } from "@/types";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";

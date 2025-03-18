@@ -1,8 +1,8 @@
-import { Missions } from "@/lib/globals";
+import { Missions } from "@/utils/globals";
 import { ImageResponse } from "next/og";
 import SpinInfoSection from "./SpinInfoSection";
 import { SpinInfo } from "@/types";
-import { GetSpinFromQuery } from "@/lib/SpinQueryUtils";
+import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
 
 export async function GET(request: Request) {
     const spinQuery = new URL(request.url).searchParams.get("s") || "";

@@ -1,7 +1,5 @@
 "use client";
 
-import { GetSpinFromQuery } from "@/lib/SpinQueryUtils";
-
 import { Spin } from "@/types";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
@@ -9,6 +7,7 @@ import SmallMaps from "./SmallMaps";
 import LargeMaps from "./LargeMaps";
 import Berlin from "./Berlin";
 import TextOnly from "./TextOnly";
+import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
 
 export default function SpinSection({
     id,
