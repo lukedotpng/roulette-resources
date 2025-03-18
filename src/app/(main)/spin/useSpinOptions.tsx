@@ -33,6 +33,13 @@ export function useSpinOptions() {
     function ToggleDontRepeatMission() {
         setDontRepeatMission(!dontRepeatMission);
     }
+    const [warnForIllegalSpins, setWarnForIllegalSpins] = useLocalState(
+        "warnIllegal",
+        true,
+    );
+    function ToggleWarnForIllegalSpins() {
+        setWarnForIllegalSpins(!warnForIllegalSpins);
+    }
     const [showTips, setShowTips] = useLocalState("showTips", false);
     function ToggleShowTips() {
         setShowTips(!showTips);
@@ -85,6 +92,10 @@ export function useSpinOptions() {
         dontRepeatMissions: {
             val: dontRepeatMission,
             Toggle: ToggleDontRepeatMission,
+        },
+        warnForIllegalSpins: {
+            val: warnForIllegalSpins,
+            Toggle: ToggleWarnForIllegalSpins,
         },
         showTips: { val: showTips, Toggle: ToggleShowTips },
         layoutMode: { val: layoutMode, Set: SetLayoutMode },

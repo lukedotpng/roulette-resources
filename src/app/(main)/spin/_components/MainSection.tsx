@@ -62,12 +62,14 @@ export default function MainSection() {
                         )}
                     <SpinInfoSection
                         spin={spinManager.currentSpin}
+                        spinLegal={spinManager.spinLegal}
                         RespinCondition={spinManager.RespinCondition}
                         EditSpin={spinManager.EditSpin}
                         options={spinManager.options}
                     />
                 </>
             )}
+
             <SpinOptionsSection
                 options={spinManager.options}
                 overlayId={spinManager.overlayId}

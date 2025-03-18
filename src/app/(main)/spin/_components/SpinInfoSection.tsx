@@ -9,11 +9,13 @@ import TargetSpinCard from "./TargetSpinCard";
 
 export default function SpinInfoSection({
     spin,
+    spinLegal,
     RespinCondition,
     EditSpin,
     options,
 }: {
     spin: Spin;
+    spinLegal: boolean;
     RespinCondition: (target: SpinTarget, action: SpinUpdateAction) => void;
     EditSpin: (
         target: SpinTarget,
@@ -40,6 +42,12 @@ export default function SpinInfoSection({
                     />
                 );
             })}
+            {!spinLegal && options.warnForIllegalSpins.val && (
+                <p className="h-6 rounded-sm bg-white px-5 text-center text-[.9em] font-bold text-zinc-900">
+                    <span className="text-red-500">{"WARNING: "}</span>
+                    {"This spin is not legal under current RR rules"}
+                </p>
+            )}
         </section>
     );
 }

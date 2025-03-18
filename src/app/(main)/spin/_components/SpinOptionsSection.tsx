@@ -99,6 +99,13 @@ export default function SpinOptionsSection({
                                 activeState={options.dontRepeatMissions.val}
                             />
                             <SpinOptionsToggle
+                                label={"Show Warning On Illegal Spins"}
+                                onClickHandler={
+                                    options.warnForIllegalSpins.Toggle
+                                }
+                                activeState={options.warnForIllegalSpins.val}
+                            />
+                            <SpinOptionsToggle
                                 label={"Update URL On Spin"}
                                 onClickHandler={options.updateQuery.Toggle}
                                 activeState={options.updateQuery.val}

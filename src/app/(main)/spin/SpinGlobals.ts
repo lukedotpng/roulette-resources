@@ -37,7 +37,7 @@ export const sniperConditionList = [
     "sniper_rifle",
     "silenced_sniper_rifle",
 ];
-const uniqueKills = [
+export const uniqueKills = [
     "drowning",
     "falling_object",
     "fall",
@@ -775,153 +775,153 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     paris: {
         disguises: parisDisguises,
         conditions: {
-            melee: parisMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: parisMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     sapienza: {
         disguises: sapienzaDisguises,
         conditions: {
-            melee: sapienzaMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: sapienzaMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     marrakesh: {
         disguises: marrakeshDisguises,
         conditions: {
-            melee: marrakeshMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: marrakeshMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     bangkok: {
         disguises: bangkokDisguises,
         conditions: {
-            melee: bangkokMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: bangkokMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     colorado: {
         disguises: coloradoDisguises,
         conditions: {
-            melee: coloradoMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: coloradoMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     hokkaido: {
         disguises: hokkaidoDisguises,
         conditions: {
-            melee: hokkaidoMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: hokkaidoMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     miami: {
         disguises: miamiDisguises,
         conditions: {
-            melee: miamiMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: miamiMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     santa_fortuna: {
         disguises: santaFortunaDisguises,
         conditions: {
-            melee: santaFortunaMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: santaFortunaMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     mumbai: {
         disguises: mumbaiDisguises,
         conditions: {
-            melee: mumbaiMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: mumbaiMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     whittleton_creek: {
         disguises: whittletonCreekDisguises,
         conditions: {
-            melee: whittletonCreekMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: whittletonCreekMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     ambrose_island: {
         disguises: ambroseIslandDisguises,
         conditions: {
-            melee: ambroseIslandMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: ambroseIslandMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     isle_of_sgail: {
         disguises: isleOfSgailDisguises,
         conditions: {
-            melee: isleOfSgailMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: isleOfSgailMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     new_york: {
         disguises: newYorkDisguises,
         conditions: {
-            melee: newYorkMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: newYorkMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     haven_island: {
         disguises: havenIslandDisguises,
         conditions: {
-            melee: havenIslandMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: havenIslandMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     dubai: {
         disguises: dubaiDisguises,
         conditions: {
-            melee: dubaiMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: dubaiMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     dartmoor: {
         disguises: dartmoorDisguises,
         conditions: {
-            melee: dartmoorMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: dartmoorMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     berlin: {
         disguises: berlinDisguises,
         conditions: {
-            melee: berlinMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: berlinMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     chongqing: {
         disguises: chongqingDisguises,
         conditions: {
-            melee: chongqingMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: chongqingMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
     mendoza: {
         disguises: mendozaDisguises,
         conditions: {
-            melee: mendozaMelees,
-            weapon: weapons,
-            unique_kill: uniqueKills,
+            melees: mendozaMelees,
+            weapons: weapons,
+            unique_kills: uniqueKills,
         },
     },
 };

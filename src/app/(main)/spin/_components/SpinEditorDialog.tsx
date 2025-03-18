@@ -36,13 +36,13 @@ export default function SpinEditorDialog({
     dialogActive: boolean;
     setDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
-    const meleeOptions = MissionSpinInfoList[mission].conditions.melee;
+    const meleeOptions = MissionSpinInfoList[mission].conditions.melees;
     const weaponOptions = weapons;
     const uniqueKillOptions =
         target === "erich_soders"
             ? [...TargetUniqueKillsList[target]]
             : [
-                  ...MissionSpinInfoList[mission].conditions.unique_kill,
+                  ...MissionSpinInfoList[mission].conditions.unique_kills,
                   ...TargetUniqueKillsList[target],
               ];
 

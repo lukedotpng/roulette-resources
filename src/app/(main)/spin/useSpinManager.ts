@@ -15,11 +15,12 @@ import {
 } from "../../(streamOverlay)/OverlayActions";
 import { CreateSpinQuery, GetSpinFromQuery } from "@/lib/SpinQueryUtils";
 import { useSpinOptions } from "./useSpinOptions";
+import { SpinIsLegal } from "./SpinRules";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin>();
 
-    const [spinLegal] = useState(false);
+    const [spinLegal, setSpinLegal] = useState(false);
 
     const options = useSpinOptions();
 
@@ -83,22 +84,12 @@ export function useSpinManager() {
         }
 
         if (action === "condition") {
-            const res = RegenerateCondition(currentSpin, target);
-            const updatedSpin = structuredClone(currentSpin);
-            if (updatedSpin.info[target]) {
-                updatedSpin.info[target].condition = res.condition;
-                updatedSpin.info[target].ntko = res.isNoKO;
-            }
-
+            const updatedSpin = RegenerateCondition(currentSpin, target);
             setCurrentSpin(updatedSpin);
             return;
         }
         if (action === "disguise") {
-            const disguise = RegenerateDisguise(currentSpin, target);
-            const updatedSpin = structuredClone(currentSpin);
-            if (updatedSpin.info[target]) {
-                updatedSpin.info[target].disguise = disguise;
-            }
+            const updatedSpin = RegenerateDisguise(currentSpin, target);
             setCurrentSpin(updatedSpin);
             return;
         }
@@ -239,6 +230,7 @@ export function useSpinManager() {
         }
 
         const newQuery = CreateSpinQuery(currentSpin);
+        setSpinLegal(SpinIsLegal(currentSpin));
 
         if (options.streamOverlayActive.val) {
             UpdateSpinOverlay(overlayId, newQuery, options.overlayTheme.val);

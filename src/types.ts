@@ -108,7 +108,7 @@ export type BerlinUniqueKill =
 
 export type MissionSpinInfoElement = "disguises" | "conditions";
 
-export type ConditionType = "melee" | "weapon" | "unique_kill";
+export type ConditionType = "melees" | "weapons" | "unique_kills";
 
 export type TargetConditions = {
     [key in ConditionType]: string[];
@@ -237,6 +237,7 @@ export type SpinOptions = {
     canAlwaysEditNTKO: ToggleOption;
     showQueueList: ToggleOption;
     updateQuery: ToggleOption;
+    warnForIllegalSpins: ToggleOption;
     streamOverlayActive: ToggleOption;
     overlayTheme: Option<string>;
 };
