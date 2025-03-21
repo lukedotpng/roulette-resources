@@ -41,7 +41,7 @@ export default function MissionSwitcher({
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="z-10 mt-2 flex h-fit w-[22rem] gap-2 sm:w-[32rem]"
+                className="z-10 mt-2 flex h-fit w-[22rem] gap-2 text-zinc-900 sm:w-[32rem]"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
@@ -58,7 +58,7 @@ export default function MissionSwitcher({
                                     setDropdownOpen(false);
                                     HandleMissionSwitch(mission);
                                 }}
-                                className="bg-white px-1 py-2 text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
+                                className="bg-white px-1 py-2 text-zinc-900 last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
                             >
                                 {MissionIDToDisplayText(mission)}
                             </button>
@@ -77,7 +77,7 @@ export default function MissionSwitcher({
                                     setDropdownOpen(false);
                                     HandleMissionSwitch(mission);
                                 }}
-                                className="bg-white px-1 py-2 text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
+                                className="bg-white px-1 py-2 text-zinc-900 last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
                             >
                                 {MissionIDToDisplayText(mission)}
                             </button>
@@ -96,7 +96,7 @@ export default function MissionSwitcher({
                                     setDropdownOpen(false);
                                     HandleMissionSwitch(mission);
                                 }}
-                                className="bg-white px-1 py-2 text-black last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
+                                className="bg-white px-1 py-2 text-zinc-900 last:rounded-b-sm hover:cursor-pointer hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white"
                             >
                                 {MissionIDToDisplayText(mission)}
                             </button>

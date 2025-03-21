@@ -111,6 +111,9 @@ function MethodOptionList({
             <h2 className="text-center font-bold">{title}</h2>
             <div className="flex flex-col gap-1">
                 {options.map((option) => {
+                    if (option === "explosive") {
+                        return;
+                    }
                     return (
                         <div key={option} className="border-zinc-900">
                             <button
@@ -123,14 +126,20 @@ function MethodOptionList({
                                         HandleClick("remote_" + option);
                                         return;
                                     }
+                                    if (
+                                        option === "explosive" &&
+                                        target === "erich_soders"
+                                    ) {
+                                        HandleClick("explosion");
+                                        return;
+                                    }
                                     HandleClick(option);
                                 }}
                             >
                                 {MethodIDToDisplayText(option)}
                             </button>
                             {title === "Weapons" &&
-                                (option === "explosive" &&
-                                target !== "erich_soders" ? (
+                                (option === "explosive" ? (
                                     <div className="mx-1 mb-1 flex border-2 border-t-0 border-zinc-900 text-[.9em]">
                                         <button
                                             className="flex-1 bg-white px-2 text-zinc-900 hover:bg-red-500 hover:text-white"

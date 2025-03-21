@@ -18,6 +18,26 @@ export const weapons = [
     "shotgun",
     "explosive",
 ];
+export const weaponsWithModifiers = [
+    "pistol",
+    "silenced_pistol",
+    "loud_pistol",
+    "sniper_rifle",
+    "silenced_sniper_rifle",
+    "loud_sniper_rifle",
+    "assault_rifle",
+    "silenced_assault_rifle",
+    "loud_assault_rifle",
+    "smg",
+    "silenced_smg",
+    "loud_smg",
+    "shotgun",
+    "silenced_shotgun",
+    "loud_shotgun",
+    "remote_explosive",
+    "loud_explosive",
+    "impact_explosive",
+];
 export const weaponModifierPrefix = ["loud_", "silenced_", ""];
 export const explosiveModifierPrefix = ["remote_", "loud_", "impact_"];
 export const pistolConditionList = ["loud_pistol", "pistol", "silenced_pistol"];
@@ -37,6 +57,17 @@ export const sniperConditionList = [
     "sniper_rifle",
     "silenced_sniper_rifle",
 ];
+export const largeWeaponsList = [
+    ...assaultRifleConditionList,
+    ...shotgunConditionList,
+    ...sniperConditionList,
+];
+export const explosiveConditionList = [
+    "remote_explosive",
+    "loud_explosive",
+    "impact_explosive",
+];
+
 export const uniqueKills = [
     "drowning",
     "falling_object",

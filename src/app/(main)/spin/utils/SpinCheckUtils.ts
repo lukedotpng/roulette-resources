@@ -1,8 +1,4 @@
-// TODO:
-// - MOVE SPIN RULE CHECKS EACH INTO OWN FUNCTION
-// - CLEAN UP CheckValidSpin FUNCTION
-
-import { Mission, Spin, SpinTarget } from "@/types";
+import { Mission, Spin, SpinCheckResult, SpinTarget } from "@/types";
 import {
     assaultRifleConditionList,
     pistolConditionList,
@@ -15,7 +11,7 @@ import {
     uniqueKills,
 } from "./SpinGlobals";
 
-export function SpinIsLegal(spin: Spin): boolean {
+export function SpinIsLegal(spin: Spin): SpinCheckResult {
     const spinTargets = SpinMissionTargetsList[spin.mission];
 
     const disguisesSpun: string[] = [];
@@ -24,15 +20,24 @@ export function SpinIsLegal(spin: Spin): boolean {
     for (const target of spinTargets) {
         const targetSpinInfo = spin.info[target];
         if (!targetSpinInfo) {
-            return false;
+            return {
+                legal: false,
+                reason: "error_checking_legality",
+            };
         }
 
         if (disguisesSpun.includes(targetSpinInfo.disguise)) {
-            return false;
+            return {
+                legal: false,
+                reason: "repeat_disguise",
+            };
         }
 
         if (TargetConditionIsBanned(target, targetSpinInfo.condition)) {
-            return false;
+            return {
+                legal: false,
+                reason: "condition_banned",
+            };
         }
 
         if (
@@ -43,7 +48,22 @@ export function SpinIsLegal(spin: Spin): boolean {
                 targetSpinInfo.disguise,
             )
         ) {
-            return false;
+            return {
+                legal: false,
+                reason: "condition_banned_with_disguise",
+            };
+        }
+
+        if (ConditionRepeats(targetSpinInfo.condition, conditionsSpun)) {
+            if (
+                targetSpinInfo.condition !== "electrocution" ||
+                spin.mission !== "hokkaido"
+            ) {
+                return {
+                    legal: false,
+                    reason: "repeat_condition",
+                };
+            }
         }
 
         if (
@@ -53,21 +73,29 @@ export function SpinIsLegal(spin: Spin): boolean {
                 conditionsSpun,
             )
         ) {
-            return false;
+            return {
+                legal: false,
+                reason: "repeat_condition",
+            };
         }
 
         if (
             targetSpinInfo.ntko &&
             !CanBeNTKO(target, targetSpinInfo.condition)
         ) {
-            return false;
+            return {
+                legal: false,
+                reason: "illegal_ntko",
+            };
         }
 
         conditionsSpun.push(targetSpinInfo.condition);
         disguisesSpun.push(targetSpinInfo.disguise);
     }
 
-    return true;
+    return {
+        legal: true,
+    };
 }
 
 // Check for basic target specific bans

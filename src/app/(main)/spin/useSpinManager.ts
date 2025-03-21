@@ -233,7 +233,7 @@ export function useSpinManager() {
         }
 
         const newQuery = CreateSpinQuery(currentSpin);
-        setSpinLegal(SpinIsLegal(currentSpin));
+        setSpinLegal(SpinIsLegal(currentSpin).legal);
 
         if (options.streamOverlayActive.val) {
             UpdateSpinOverlay(overlayId, newQuery, options.overlayTheme.val);

@@ -241,3 +241,29 @@ export type SpinOptions = {
     streamOverlayActive: ToggleOption;
     overlayTheme: Option<string>;
 };
+
+export type SpinIllegalReason =
+    | "error_checking_legality"
+    | "repeat_condition"
+    | "repeat_disguise"
+    | "condition_banned"
+    | "condition_banned_with_disguise"
+    | "illegal_ntko";
+
+export type SpinCheckResult = {
+    legal: boolean;
+    reason?: SpinIllegalReason;
+    reason_info?: string;
+};
+
+export type TargetSpinStats = {
+    meleesCount: number;
+    uniqueKillsCount: number;
+    weaponsCount: number;
+    largeWeaponCount: number;
+    ntkoCount: number;
+};
+
+export type SpinStats = {
+    [key in SpinTarget]?: TargetSpinStats;
+};
