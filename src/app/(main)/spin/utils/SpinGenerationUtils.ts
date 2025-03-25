@@ -37,8 +37,8 @@ export function GenerateSpin(mission: Mission): Spin {
 
     for (let i = 0; i < targets.length; i++) {
         spinInfo[targets[i]] = { condition: "", disguise: "", ntko: false };
-        // reorderedTargets[i] = targets[indexList[i]];
-        reorderedTargets[i] = targets[i];
+        reorderedTargets[i] = targets[indexList[i]];
+        // reorderedTargets[i] = targets[i];
     }
 
     const disguisesSpun: string[] = [];
