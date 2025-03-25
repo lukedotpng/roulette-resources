@@ -56,12 +56,12 @@ export function GenerateSpin(mission: Mission): Spin {
             largeWeaponSpun,
         );
         spinInfo[target].condition = condition;
+        spinInfo[target].ntko = isNoKO;
+
         conditionsSpun.push(condition);
         if (largeWeaponsList.includes(condition)) {
             largeWeaponSpun = true;
         }
-
-        spinInfo[target].ntko = isNoKO;
     });
 
     const disguisesSpun: string[] = [];
@@ -214,7 +214,8 @@ function GetRandomCondition(
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
     let isNoKO = false;
     if (conditionType !== "unique_kills") {
-        isNoKO = CanBeNTKO(target, condition) && Math.random() <= 0.25;
+        isNoKO =
+            CanBeNTKO(target, condition).ntkoLegal && Math.random() <= 0.25;
     }
 
     return { condition, isNoKO };

@@ -144,6 +144,7 @@ export default function SpinStatsSection({
             const res = SpinIsLegal(spin);
 
             if (!res.legal) {
+                console.log(res.reason_info);
                 currIllegalSpinCount++;
             }
         }

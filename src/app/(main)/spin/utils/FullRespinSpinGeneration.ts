@@ -117,7 +117,8 @@ function GetRandomCondition(conditions: TargetConditions, target: SpinTarget) {
     }
 
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
-    const isNoKO = CanBeNTKO(target, condition) && Math.random() <= 0.25;
+    const isNoKO =
+        CanBeNTKO(target, condition).ntkoLegal && Math.random() <= 0.25;
 
     // Log info if somehow no condition is found
     if (!condition) {
