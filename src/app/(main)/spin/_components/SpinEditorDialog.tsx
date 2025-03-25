@@ -111,7 +111,7 @@ function MethodOptionList({
             <h2 className="text-center font-bold">{title}</h2>
             <div className="flex flex-col gap-1">
                 {options.map((option) => {
-                    if (option === "explosive") {
+                    if (option === "explosive" && target === "erich_soders") {
                         return;
                     }
                     return (

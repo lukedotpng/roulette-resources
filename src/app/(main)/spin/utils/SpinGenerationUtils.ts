@@ -211,7 +211,8 @@ function GetRandomCondition(
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
     let isNoKO = false;
     if (conditionType !== "unique_kills") {
-        isNoKO = CanBeNTKO(target, condition) && Math.random() <= 0.25;
+        isNoKO =
+            CanBeNTKO(target, condition).ntkoLegal && Math.random() <= 0.25;
     }
 
     return { condition, isNoKO };

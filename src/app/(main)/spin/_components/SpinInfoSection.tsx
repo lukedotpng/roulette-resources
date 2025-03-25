@@ -1,5 +1,6 @@
 import {
     Spin,
+    SpinCheckResult,
     SpinInfo,
     SpinOptions,
     SpinTarget,
@@ -15,7 +16,7 @@ export default function SpinInfoSection({
     options,
 }: {
     spin: Spin;
-    spinLegal: boolean;
+    spinLegal: SpinCheckResult;
     RespinCondition: (target: SpinTarget, action: SpinUpdateAction) => void;
     EditSpin: (
         target: SpinTarget,
@@ -42,12 +43,14 @@ export default function SpinInfoSection({
                     />
                 );
             })}
-            {!spinLegal && options.warnForIllegalSpins.val && (
-                <p className="h-6 rounded-sm bg-white px-5 text-center text-[.9em] font-bold text-zinc-900">
-                    <span className="text-red-500">{"WARNING: "}</span>
-                    {"This spin is not legal under current RR rules"}
-                </p>
-            )}
+            {spinLegal &&
+                !spinLegal.legal &&
+                options.warnForIllegalSpins.val && (
+                    <p className="flex h-6 items-center gap-1 rounded-sm bg-white px-3 text-center text-[.9em] font-bold text-zinc-900">
+                        <span className="text-red-500">{"WARNING: "}</span>
+                        <span>{spinLegal.reason_info}</span>
+                    </p>
+                )}
         </section>
     );
 }

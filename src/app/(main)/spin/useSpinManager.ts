@@ -1,5 +1,11 @@
 import { Missions } from "@/utils/globals";
-import { Mission, Spin, SpinTarget, SpinUpdateAction } from "@/types";
+import {
+    Mission,
+    Spin,
+    SpinCheckResult,
+    SpinTarget,
+    SpinUpdateAction,
+} from "@/types";
 import { useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
 import {
@@ -23,7 +29,9 @@ import { SpinIsLegal } from "./utils/SpinCheckUtils";
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin>();
 
-    const [spinLegal, setSpinLegal] = useState(false);
+    const [spinLegal, setSpinLegal] = useState<SpinCheckResult>({
+        legal: true,
+    });
 
     const options = useSpinOptions();
 
@@ -233,7 +241,7 @@ export function useSpinManager() {
         }
 
         const newQuery = CreateSpinQuery(currentSpin);
-        setSpinLegal(SpinIsLegal(currentSpin).legal);
+        setSpinLegal(SpinIsLegal(currentSpin));
 
         if (options.streamOverlayActive.val) {
             UpdateSpinOverlay(overlayId, newQuery, options.overlayTheme.val);

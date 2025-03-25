@@ -1,6 +1,7 @@
 import { Mission, Spin, SpinCheckResult, SpinTarget } from "@/types";
 import {
     assaultRifleConditionList,
+    explosiveConditionList,
     pistolConditionList,
     shotgunConditionList,
     smgConditionList,
@@ -10,6 +11,11 @@ import {
     TargetUniqueKillsList,
     uniqueKills,
 } from "./SpinGlobals";
+import {
+    DisguiseIDToDisplayText,
+    MethodIDToDisplayText,
+    TargetIDToDisplayText,
+} from "@/utils/FormattingUtils";
 
 export function SpinIsLegal(spin: Spin): SpinCheckResult {
     const spinTargets = SpinMissionTargetsList[spin.mission];
@@ -35,6 +41,7 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             return {
                 legal: false,
                 reason: "repeat_disguise",
+                reason_info: `The "${DisguiseIDToDisplayText(targetSpinInfo.disguise)}" disguise repeats somewhere in the spin`,
             };
         }
 
@@ -42,20 +49,21 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             return {
                 legal: false,
                 reason: "condition_banned",
+                reason_info: `${MethodIDToDisplayText(targetSpinInfo.condition)} is banned for ${TargetIDToDisplayText(target)}`,
             };
         }
 
-        if (
-            ConditionIsBannedWithDisguise(
-                spin.mission,
-                target,
-                targetSpinInfo.condition,
-                targetSpinInfo.disguise,
-            )
-        ) {
+        const conditionBannedWithDisguise = ConditionIsBannedWithDisguise(
+            spin.mission,
+            target,
+            targetSpinInfo.condition,
+            targetSpinInfo.disguise,
+        );
+        if (conditionBannedWithDisguise.isBanned) {
             return {
                 legal: false,
                 reason: "condition_banned_with_disguise",
+                reason_info: conditionBannedWithDisguise.reason,
             };
         }
 
@@ -67,6 +75,7 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
                 return {
                     legal: false,
                     reason: "repeat_condition",
+                    reason_info: `The "${MethodIDToDisplayText(targetSpinInfo.condition)}" kill repeats somewhere in the spin`,
                 };
             }
         }
@@ -81,17 +90,20 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             return {
                 legal: false,
                 reason: "repeat_condition",
+                reason_info:
+                    "Yuki and Soders cannot both have Explosion/Explosive kills",
             };
         }
 
-        if (
-            targetSpinInfo.ntko &&
-            !CanBeNTKO(target, targetSpinInfo.condition)
-        ) {
-            return {
-                legal: false,
-                reason: "illegal_ntko",
-            };
+        if (targetSpinInfo.ntko) {
+            const canBeNTKO = CanBeNTKO(target, targetSpinInfo.condition);
+            if (!canBeNTKO.ntkoLegal) {
+                return {
+                    legal: false,
+                    reason: "illegal_ntko",
+                    reason_info: canBeNTKO.reason,
+                };
+            }
         }
 
         conditionsSpun.push(targetSpinInfo.condition);
@@ -117,7 +129,7 @@ export function ConditionIsBannedWithDisguise(
     target: SpinTarget,
     condition: string,
     disguise: string,
-) {
+): { isBanned: boolean; reason: string } {
     const trapKills = [
         "explosion_accident",
         "remote_explosive",
@@ -133,7 +145,10 @@ export function ConditionIsBannedWithDisguise(
         target === "claus_strandberg" &&
         !trapKills.includes(condition)
     ) {
-        return true;
+        return {
+            isBanned: true,
+            reason: `Claus cannot have "${MethodIDToDisplayText(condition)}" with the "Prisoner" disguise. Must be a remote kill`,
+        };
     }
     // Bangkok Stalker trap kills check
     if (
@@ -141,7 +156,10 @@ export function ConditionIsBannedWithDisguise(
         disguise === "stalker" &&
         !trapKills.includes(condition)
     ) {
-        return true;
+        return {
+            isBanned: true,
+            reason: `"${MethodIDToDisplayText(condition)}" is not allowed with the "Stalker" disguise. Must be a remote kill`,
+        };
     }
     // Miami Sierra shoot the car as Moses Lee
     if (
@@ -149,7 +167,10 @@ export function ConditionIsBannedWithDisguise(
         disguise === "moses_lee" &&
         condition === "shoot_the_car"
     ) {
-        return true;
+        return {
+            isBanned: true,
+            reason: `Sierra cannot have the "Shoot The Car" kill with "Moses Lee" disguise`,
+        };
     }
     // Dubai Marcus drowning in skydiving suit
     if (
@@ -157,7 +178,10 @@ export function ConditionIsBannedWithDisguise(
         disguise === "skydiving_suit" &&
         condition === "drowning"
     ) {
-        return true;
+        return {
+            isBanned: true,
+            reason: `Marcus cannot have a "Drowning" kill with the Skydiving Suit disguise`,
+        };
     }
     // Isle of Sgail Knights Armor trap kills check
     if (
@@ -165,8 +189,16 @@ export function ConditionIsBannedWithDisguise(
         disguise === "knights_armor" &&
         !trapKills.includes(condition)
     ) {
-        return true;
+        return {
+            isBanned: true,
+            reason: `"${MethodIDToDisplayText(condition)}" is not allowed with the "Knight's Armor" disguise. Must be a remote kill`,
+        };
     }
+
+    return {
+        isBanned: false,
+        reason: "",
+    };
 }
 
 export function ExplosionConditionRepeatsOnHokkaido(
@@ -241,6 +273,11 @@ export function ConditionRepeats(
             sniperConditionList.includes(targetCondition)
         ) {
             return true;
+        } else if (
+            explosiveConditionList.includes(pastCondition) &&
+            explosiveConditionList.includes(targetCondition)
+        ) {
+            return true;
         }
     }
 
@@ -269,36 +306,54 @@ export function CanBeNTKO(
     target: SpinTarget,
     condition: string,
     // Condition check for general unique kills
-) {
+): { ntkoLegal: boolean; reason: string } {
     if (
         condition === "explosive" ||
         condition === "remote_explosive" ||
         condition === "loud_explosive" ||
         condition === "impact_explosive"
     ) {
-        return false;
+        return {
+            ntkoLegal: false,
+            reason: "Explosive kills cannot have the NTKO complication",
+        };
     }
 
     // Soders can never have NTKO
     if (target === "erich_soders") {
-        return false;
+        return {
+            ntkoLegal: false,
+            reason: "Soders cannot have the NTKO complication",
+        };
     }
 
     // Penelope no loud NTKO
     if (target === "penelope_graves" && condition.includes("loud")) {
-        return false;
+        return {
+            ntkoLegal: false,
+            reason: "Penelope cannot have loud kills with the NTKO complication",
+        };
     }
 
     // Dawood no loud NTKO
     if (target === "dawood_rangan" && condition.includes("loud")) {
-        return false;
+        return {
+            ntkoLegal: false,
+            reason: "Dawood cannot have loud kills with the NTKO complication",
+        };
     }
 
     const allUniqueKills = [...uniqueKills, ...TargetUniqueKillsList[target]];
 
     if (allUniqueKills.includes(condition)) {
-        return false;
+        return {
+            ntkoLegal: false,
+            reason: "Unique kills can't have the NTKO complication",
+        };
     }
 
-    return true;
+    return {
+        ntkoLegal: false,
+        reason: "",
+    };
 }
