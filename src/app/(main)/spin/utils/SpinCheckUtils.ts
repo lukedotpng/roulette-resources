@@ -353,7 +353,7 @@ export function CanBeNTKO(
     }
 
     return {
-        ntkoLegal: false,
+        ntkoLegal: true,
         reason: "",
     };
 }
