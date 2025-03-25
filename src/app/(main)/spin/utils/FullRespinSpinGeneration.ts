@@ -35,7 +35,8 @@ export function GenerateSpin(mission: Mission): Spin {
 
     for (let i = 0; i < targets.length; i++) {
         spinInfo[targets[i]] = { condition: "", disguise: "", ntko: false };
-        reorderedTargets[i] = targets[indexList[i]];
+        // reorderedTargets[i] = targets[indexList[i]];
+        reorderedTargets[i] = targets[i];
     }
 
     do {
@@ -127,52 +128,4 @@ function GetRandomCondition(conditions: TargetConditions, target: SpinTarget) {
     }
 
     return { condition, isNoKO };
-}
-
-export function RegenerateCondition(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MissionSpinInfoList[spin.mission];
-
-    const updatedSpin = structuredClone(spin);
-
-    do {
-        if (!updatedSpin.info[target]) {
-            return spin;
-        }
-
-        const { condition, isNoKO } = GetRandomCondition(
-            spinInfoOptions.conditions,
-            target,
-        );
-
-        updatedSpin.info[target].condition = condition;
-        updatedSpin.info[target].ntko = isNoKO;
-    } while (
-        !SpinIsLegal(updatedSpin).legal ||
-        updatedSpin.info[target].condition === spin.info[target]?.condition
-    );
-
-    return updatedSpin;
-}
-
-export function RegenerateDisguise(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MissionSpinInfoList[spin.mission];
-
-    const updatedSpin = structuredClone(spin);
-
-    do {
-        console.log("REGENERATE DISGUISE: Respinning");
-        if (!updatedSpin.info[target]) {
-            console.log("REGENERATE DISGUISE: Target info not found");
-            return spin;
-        }
-
-        const disguise = GetRandomDisguise(spinInfoOptions.disguises);
-
-        updatedSpin.info[target].disguise = disguise;
-    } while (
-        !SpinIsLegal(updatedSpin).legal ||
-        updatedSpin.info[target].disguise === spin.info[target]?.disguise
-    );
-
-    return updatedSpin;
 }

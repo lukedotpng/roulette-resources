@@ -16,7 +16,7 @@ import {
     largeWeaponsList,
     explosiveConditionList,
 } from "./SpinGlobals";
-import { CanBeNTKO, SpinIsLegal } from "./SpinCheckUtils";
+import { CanBeNTKO } from "./SpinCheckUtils";
 
 export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];
@@ -37,24 +37,9 @@ export function GenerateSpin(mission: Mission): Spin {
 
     for (let i = 0; i < targets.length; i++) {
         spinInfo[targets[i]] = { condition: "", disguise: "", ntko: false };
-        // reorderedTargets[i] = targets[indexList[i]];
-        reorderedTargets[i] = targets[i];
+        reorderedTargets[i] = targets[indexList[i]];
+        // reorderedTargets[i] = targets[i];
     }
-
-    const disguisesSpun: string[] = [];
-    reorderedTargets.forEach((target) => {
-        if (!spinInfo[target]) {
-            return;
-        }
-
-        const targetDisguise = GetRandomDisguise(
-            spinInfoOptions.disguises,
-            disguisesSpun,
-        );
-
-        spinInfo[target].disguise = targetDisguise;
-        disguisesSpun.push(targetDisguise);
-    });
 
     const conditionsSpun: string[] = [];
     let largeWeaponSpun = false;
@@ -69,7 +54,6 @@ export function GenerateSpin(mission: Mission): Spin {
             target,
             conditionsSpun,
             largeWeaponSpun,
-            spinInfo[target].disguise,
         );
         spinInfo[target].condition = condition;
         conditionsSpun.push(condition);
@@ -80,30 +64,79 @@ export function GenerateSpin(mission: Mission): Spin {
         spinInfo[target].ntko = isNoKO;
     });
 
+    const disguisesSpun: string[] = [];
+    reorderedTargets.forEach((target) => {
+        if (!spinInfo[target]) {
+            return;
+        }
+
+        const targetDisguise = GetRandomDisguise(
+            spinInfoOptions.disguises,
+            disguisesSpun,
+            target,
+            spinInfo[target].condition,
+        );
+
+        spinInfo[target].disguise = targetDisguise;
+        disguisesSpun.push(targetDisguise);
+    });
+
     return { mission: mission, info: spinInfo };
 }
 
 function GetRandomDisguise(
     disguiseList: string[],
     disguisesSpun: string[],
+    target: SpinTarget,
+    condition: string,
 ): string {
-    // ~26ms per 100,000 spins
-    // const validDisguises = disguiseList.filter((disguise) => {
-    //     if (disguisesSpun.includes(disguise)) {
-    //         return false;
-    //     }
-    //     return true;
-    // });
+    const legalDisguiseList = disguiseList.filter((disguise) => {
+        if (disguisesSpun.includes(disguise)) {
+            return false;
+        }
 
-    // return validDisguises[Math.floor(Math.random() * validDisguises.length)];
+        const noMeleesOrRemoteForced =
+            (disguise === "prisoner" && target === "claus_strandberg") ||
+            disguise === "stalker" ||
+            disguise === "knights_armor";
 
-    // ~6ms per 100,000 spins
-    let disguise =
-        disguiseList[Math.floor(Math.random() * disguiseList.length)];
-    while (disguisesSpun.includes(disguise)) {
-        disguise =
-            disguiseList[Math.floor(Math.random() * disguiseList.length)];
-    }
+        const trapKills = [
+            "explosion_accident",
+            "consumed_poison",
+            "fire",
+            "electrocution",
+            "remote_explosive",
+        ];
+
+        // Check for trap kill restricted disguises
+        if (noMeleesOrRemoteForced) {
+            if (!trapKills.includes(condition)) {
+                return false;
+            }
+        }
+
+        // Specific condition+disguise checks
+        if (
+            disguise === "moses_lee" &&
+            condition === "shoot_the_car" &&
+            target === "sierra_knox"
+        ) {
+            return false;
+        }
+        if (
+            disguise === "skydiving_suit" &&
+            condition === "drowning" &&
+            target === "marcus_stuyvesant"
+        ) {
+            return false;
+        }
+
+        return true;
+    });
+
+    const disguise =
+        legalDisguiseList[Math.floor(Math.random() * legalDisguiseList.length)];
+
     return disguise;
 }
 
@@ -112,35 +145,22 @@ function GetRandomCondition(
     target: SpinTarget,
     conditionsSpun: string[],
     largeWeaponSpun: boolean,
-    disguise: string,
 ) {
-    const noMeleesOrRemoteForced =
-        target === "erich_soders" ||
-        (disguise === "prisoner" && target === "claus_strandberg") ||
-        disguise === "stalker" ||
-        disguise === "knights_armor";
-
     const conditionTypeList: ConditionType[] = [
         "unique_kills",
         "weapons",
         "melees",
     ];
-    let conditionTypeSize = 3;
-    // Remove possibility of melees if Soders or disguise is remote only
-    if (noMeleesOrRemoteForced) {
-        conditionTypeSize = 2;
-    }
 
     // Get which condition type to choose from
-    let conditionType: ConditionType =
-        conditionTypeList[Math.floor(Math.random() * conditionTypeSize)];
+    const conditionType: ConditionType =
+        conditionTypeList[Math.floor(Math.random() * 3)];
     let conditionOptions: string[];
 
     // Condition type check cut ~550ms per 100,000 spins for Paris
     if (conditionType === "unique_kills") {
         conditionOptions = GetLegalUniqueKills(
             target,
-            disguise,
             conditions.unique_kills,
             conditionsSpun,
         );
@@ -148,23 +168,10 @@ function GetRandomCondition(
         // Filter previously spun weapons, counting modfied weapons as equal to regual weapons (i.e "silenced_pistol" === "pistol")
         conditionOptions = GetLegalWeapons(
             target,
-            disguise,
             conditions.weapons,
             conditionsSpun,
             largeWeaponSpun,
         );
-        // If no weopons available. only allow picking from unique kills
-        // This mainly will happen when a disguise forces remote kills,
-        // and the previous target(s) picked an explosive condition
-        if (conditionOptions.length === 0) {
-            conditionType = "unique_kills";
-            conditionOptions = GetLegalUniqueKills(
-                target,
-                disguise,
-                conditions.unique_kills,
-                conditionsSpun,
-            );
-        }
     } else {
         // Filter previously spun melees
         conditionOptions = conditions.melees.filter((melee) => {
@@ -186,16 +193,12 @@ function GetRandomCondition(
     }
     // Add "remote_" , "impact_", or "loud_" prefix if condition is explosive
     else if (condition === "explosive") {
-        if (noMeleesOrRemoteForced) {
-            condition = "remote_explosive";
-        } else {
-            const modifierPrefix =
-                explosiveModifierPrefix[
-                    Math.floor(Math.random() * explosiveModifierPrefix.length)
-                ];
+        const modifierPrefix =
+            explosiveModifierPrefix[
+                Math.floor(Math.random() * explosiveModifierPrefix.length)
+            ];
 
-            condition = modifierPrefix + condition;
-        }
+        condition = modifierPrefix + condition;
     }
 
     // Log info if somehow no condition is found
@@ -219,7 +222,6 @@ function GetRandomCondition(
 
 function GetLegalUniqueKills(
     target: SpinTarget,
-    disguise: string,
     uniqueKillsArr: string[],
     conditionsSpun: string[],
 ) {
@@ -240,13 +242,6 @@ function GetLegalUniqueKills(
             return true;
         });
     }
-
-    const trapKills = [
-        "explosion_accident",
-        "consumed_poison",
-        "fire",
-        "electrocution",
-    ];
 
     const legalUniqueKills = [
         ...uniqueKillsArr,
@@ -274,38 +269,12 @@ function GetLegalUniqueKills(
             return false;
         }
 
-        // Check for trap kill restricted disguises
-        if (disguise === "prisoner" && target === "claus_strandberg") {
-            if (!trapKills.includes(uniqueKill)) {
-                return false;
-            }
-        }
-        if (disguise === "stalker") {
-            if (!trapKills.includes(uniqueKill)) {
-                return false;
-            }
-        }
-        if (disguise === "knights_armor") {
-            if (!trapKills.includes(uniqueKill)) {
-                return false;
-            }
-        }
-
-        // Specific condition+disguise checks
-        if (disguise === "moses_lee" && uniqueKill === "shoot_the_car") {
-            return false;
-        }
-        if (disguise === "skydiving_suit" && uniqueKill === "drowning") {
-            return false;
-        }
-
         return true;
     });
 }
 
 function GetLegalWeapons(
     target: SpinTarget,
-    disguise: string,
     weaponsArr: string[],
     conditionsSpun: string[],
     largeWeaponSpun: boolean,
@@ -313,19 +282,6 @@ function GetLegalWeapons(
     return weaponsArr.filter((weapon) => {
         if (largeWeaponsList.includes(weapon) && largeWeaponSpun) {
             return false;
-        }
-
-        // Check for trap kill restricted disguises
-        if (weapon !== "explosive") {
-            if (disguise === "prisoner" && target === "claus_strandberg") {
-                return false;
-            }
-            if (disguise === "stalker") {
-                return false;
-            }
-            if (disguise === "knights_armor") {
-                return false;
-            }
         }
 
         // Filter out explosive for Soders in weapon kills
@@ -352,64 +308,4 @@ function GetLegalWeapons(
 
         return true;
     });
-}
-
-export function RegenerateCondition(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MissionSpinInfoList[spin.mission];
-    const updatedSpin = structuredClone(spin);
-
-    const conditionsSpun: string[] = [];
-    let largeWeaponSpun = false;
-    const targets = Object.keys(updatedSpin.info) as SpinTarget[];
-    for (const currTarget of targets) {
-        if (currTarget === target || !updatedSpin.info[currTarget]) {
-            continue;
-        }
-        conditionsSpun.push(updatedSpin.info[currTarget].condition);
-        if (largeWeaponsList.includes(updatedSpin.info[currTarget].condition)) {
-            largeWeaponSpun = true;
-        }
-    }
-
-    do {
-        if (!updatedSpin.info[target]) {
-            return spin;
-        }
-
-        const { condition, isNoKO } = GetRandomCondition(
-            spinInfoOptions.conditions,
-            target,
-            conditionsSpun,
-            largeWeaponSpun,
-            updatedSpin.info[target].disguise,
-        );
-
-        updatedSpin.info[target].condition = condition;
-        updatedSpin.info[target].ntko = isNoKO;
-    } while (
-        updatedSpin.info[target].condition === spin.info[target]?.condition
-    );
-
-    return updatedSpin;
-}
-
-export function RegenerateDisguise(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MissionSpinInfoList[spin.mission];
-
-    const updatedSpin = structuredClone(spin);
-
-    do {
-        if (!updatedSpin.info[target]) {
-            return spin;
-        }
-
-        const disguise = GetRandomDisguise(spinInfoOptions.disguises, []);
-
-        updatedSpin.info[target].disguise = disguise;
-    } while (
-        !SpinIsLegal(updatedSpin).legal ||
-        updatedSpin.info[target].disguise === spin.info[target]?.disguise
-    );
-
-    return updatedSpin;
 }

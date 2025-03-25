@@ -256,14 +256,34 @@ export type SpinCheckResult = {
     reason_info?: string;
 };
 
+export type DisguiseStats = {
+    disguise: string;
+    count: number;
+};
+
+export type KillMethodStats = {
+    method: string;
+    count: number;
+};
+
 export type TargetSpinStats = {
     meleesCount: number;
     uniqueKillsCount: number;
     weaponsCount: number;
     largeWeaponCount: number;
+    trapKillCount: number;
     ntkoCount: number;
+    disguises: { [key: string]: DisguiseStats };
+    killMethods: { [key: string]: KillMethodStats };
+};
+
+export type SpinGenStats = {
+    title: string;
+    time: number;
 };
 
 export type SpinStats = {
-    [key in SpinTarget]?: TargetSpinStats;
+    count: number;
+    illegalSpinCount: number;
+    targets: { [key in SpinTarget]?: TargetSpinStats };
 };

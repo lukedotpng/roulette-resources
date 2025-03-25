@@ -19,11 +19,16 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
 
     for (const target of spinTargets) {
         const targetSpinInfo = spin.info[target];
+
         if (!targetSpinInfo) {
             return {
                 legal: false,
                 reason: "error_checking_legality",
             };
+        }
+
+        if (targetSpinInfo.condition === "" || targetSpinInfo.disguise === "") {
+            continue;
         }
 
         if (disguisesSpun.includes(targetSpinInfo.disguise)) {
@@ -260,19 +265,17 @@ export function ConditionRepeats(
     return false;
 }
 
-export function CanBeNTKO(target: SpinTarget, condition: string) {
+export function CanBeNTKO(
+    target: SpinTarget,
+    condition: string,
     // Condition check for general unique kills
-    if (uniqueKills.includes(condition)) {
-        return false;
-    }
-
-    // Condition check for target specific unique kills
-    const targetSpecificUniqueKills = TargetUniqueKillsList[target];
-    if (targetSpecificUniqueKills.includes(condition)) {
-        return false;
-    }
-
-    if (condition.endsWith("explosive")) {
+) {
+    if (
+        condition === "explosive" ||
+        condition === "remote_explosive" ||
+        condition === "loud_explosive" ||
+        condition === "impact_explosive"
+    ) {
         return false;
     }
 
@@ -288,6 +291,12 @@ export function CanBeNTKO(target: SpinTarget, condition: string) {
 
     // Dawood no loud NTKO
     if (target === "dawood_rangan" && condition.includes("loud")) {
+        return false;
+    }
+
+    const allUniqueKills = [...uniqueKills, ...TargetUniqueKillsList[target]];
+
+    if (allUniqueKills.includes(condition)) {
         return false;
     }
 
