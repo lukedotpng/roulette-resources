@@ -26,8 +26,10 @@ import { Missions } from "@/utils/globals";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function MissionPoolSelection({
+    className,
     missionPool,
 }: {
+    className: string;
     missionPool: Option<Mission[]>;
 }) {
     const seasonsList: Season[] = ["season_1", "season_2", "season_3"];
@@ -93,8 +95,15 @@ export default function MissionPoolSelection({
 
     return (
         <Dialog>
-            <DialogTrigger className="w-24 bg-white text-zinc-900 hover:bg-red-500 hover:text-white sm:w-32">
-                Select Missions
+            <DialogTrigger className={className}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="h-[.875rem] w-full fill-zinc-900 group-hover:fill-white sm:h-[1.4rem]"
+                >
+                    {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                    <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                </svg>
             </DialogTrigger>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />

@@ -193,7 +193,7 @@ function DisguisesStatsRow({
                 </th>
                 {(Object.keys(stats.targets) as SpinTarget[]).map((target) => {
                     const targetStats = stats.targets[target];
-                    if (!targetStats) {
+                    if (!targetStats || !targetStats.disguises) {
                         return;
                     }
 

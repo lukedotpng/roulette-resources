@@ -25,6 +25,11 @@ export function useSpinOptions() {
         const updatedQueueMode = !queueMode;
         setQueueMode(updatedQueueMode);
     }
+    const [matchMode, setMatchMode] = useLocalState("matchMode", false);
+    function ToggleMatchMode() {
+        const updatedMatchMode = !matchMode;
+        setMatchMode(updatedMatchMode);
+    }
 
     const [dontRepeatMission, setDontRepeatMission] = useLocalState(
         "noRepeat",
@@ -88,6 +93,10 @@ export function useSpinOptions() {
         queueMode: {
             val: queueMode,
             Toggle: ToggleQueueMode,
+        },
+        matchMode: {
+            val: matchMode,
+            Toggle: ToggleMatchMode,
         },
         dontRepeatMissions: {
             val: dontRepeatMission,

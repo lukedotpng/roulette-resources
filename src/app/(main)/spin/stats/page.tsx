@@ -4,6 +4,7 @@ import { Mission } from "@/types";
 import { useState } from "react";
 import { GenerateSpin } from "../utils/SpinGenerationUtils";
 import { GenerateSpin as KillMethodFirstGenerateSpin } from "../utils/KillMethodFirstSpinGeneration";
+import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/RespinConditionSpinGeneration";
 // import { GenerateSpin as FullRespinGenerateSpin } from "../utils/FullRespinSpinGeneration";
 // import { GenerateSpin as PartialRespinGenerateSpin } from "../utils/PartialRespinSpinGeneration";
 
@@ -30,6 +31,11 @@ export default function Page() {
                 title="Kill Then Disguise"
                 mission={mission}
                 GenerateSpin={KillMethodFirstGenerateSpin}
+            />
+            <SpinStatsSection
+                title="Respin Condition"
+                mission={mission}
+                GenerateSpin={RespinConditionGenerateSpin}
             />
             {/* <SpinStatsSection
                 title="Respin each target on illegal condition"

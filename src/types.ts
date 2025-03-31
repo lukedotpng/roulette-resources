@@ -230,6 +230,7 @@ export type SpinOptions = {
     missionPool: Option<Mission[]>;
     missionQueue: Option<Mission[]>;
     queueMode: ToggleOption;
+    matchMode: ToggleOption;
     dontRepeatMissions: ToggleOption;
     showTips: ToggleOption;
     layoutMode: Option<string>;

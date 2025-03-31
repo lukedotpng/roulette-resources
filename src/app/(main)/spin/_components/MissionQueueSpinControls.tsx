@@ -8,34 +8,34 @@ export default function MissionQueueSpinControls({
     Respin: () => void;
 }) {
     return (
-        <div className="flex items-center gap-1">
+        <div className="flex h-6 items-center gap-1 sm:h-8">
             <button
-                className="group h-8 w-10 bg-white hover:bg-red-500 sm:h-10 sm:w-16"
+                className="group h-full w-8 bg-white hover:bg-red-500 sm:w-10"
                 onClick={GeneratePreviousSpin}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="h-full w-full fill-zinc-900 p-2 group-hover:fill-white"
+                    className="h-[60%] w-full fill-zinc-900 group-hover:fill-white"
                 >
                     {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
                     <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
                 </svg>
             </button>
             <button
-                className="h-8 w-32 bg-white font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:h-10 sm:w-40"
+                className="h-full w-32 bg-white font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:w-40"
                 onClick={Respin}
             >
                 {"Respin"}
             </button>
             <button
-                className="group h-8 w-10 bg-white hover:bg-red-500 sm:h-10 sm:w-16"
+                className="group h-full w-8 bg-white hover:bg-red-500 sm:w-10"
                 onClick={GenerateNextSpin}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="h-full w-full fill-zinc-900 p-2 group-hover:fill-white"
+                    className="h-[60%] w-full fill-zinc-900 group-hover:fill-white"
                 >
                     {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
                     <path

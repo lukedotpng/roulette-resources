@@ -20,7 +20,7 @@ export default async function Header() {
                 <h1 className="px-2 font-extrabold">Rou|Re</h1>
             </Link>
             <div className="flex-1"></div>
-            <nav className="h-full self-center font-bold">
+            <nav className="h-full self-center text-[.9em] font-bold">
                 <NavDropdown
                     season="Season 1"
                     maps={[
