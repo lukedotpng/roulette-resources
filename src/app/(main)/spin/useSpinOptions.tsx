@@ -20,7 +20,7 @@ export function useSpinOptions() {
         setMissionQueue(updatedQueue);
     }
 
-    const [queueMode, setQueueMode] = useLocalState("queueActive", false);
+    const [queueMode, setQueueMode] = useState(false);
     function ToggleQueueMode() {
         const updatedQueueMode = !queueMode;
         setQueueMode(updatedQueueMode);

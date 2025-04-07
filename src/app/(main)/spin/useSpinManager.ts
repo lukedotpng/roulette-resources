@@ -210,10 +210,9 @@ export function useSpinManager() {
 
     // Restart queue index when mission queue is updated
     useEffect(() => {
-        if (options.queueMode) {
+        if (options.queueMode.val) {
             if (options.missionQueue.val.length === 0) {
                 setCurrentSpin(null);
-                setQueueIndex(0);
             } else {
                 setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
             }
@@ -226,13 +225,11 @@ export function useSpinManager() {
         if (options.queueMode.val) {
             if (options.missionQueue.val.length === 0) {
                 options.missionQueue.Set(Missions);
-                setQueueIndex(0);
                 setCurrentSpin(GenerateSpin("paris"));
             } else {
-                setCurrentSpin(
-                    GenerateSpin(options.missionQueue.val[queueIndex]),
-                );
+                setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
             }
+            setQueueIndex(0);
         }
     }, [options.queueMode.val]);
 
