@@ -45,6 +45,11 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
         return null;
     }
 
+    // If it is an old spin query, use the old parser
+    if (spinQuery[0] === "m") {
+        return OldParseSpinQuery(spinQuery);
+    }
+
     const missionId = spinQuery.slice(0, 2);
     const mission = SpinInfoIdMap[missionId] as Mission;
 
