@@ -2,5 +2,4 @@
 
 ### TODO
 
--   [ ] Create UI outline
--   [ ] Attatch current data to UI
+-   [ ] Update README :P
