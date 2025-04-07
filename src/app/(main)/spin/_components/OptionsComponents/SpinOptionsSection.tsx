@@ -125,114 +125,138 @@ export default function SpinOptionsSection({
                 </DialogTrigger>
                 <DialogPortal>
                     <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                    <DialogContent className="fixed top-1/2 left-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white sm:w-[30rem]">
-                        <DialogTitle className="mt-2 w-full text-center text-[1.1em] font-bold">
+                    <DialogContent className="fixed top-1/2 left-1/2 max-h-[50rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white px-4 py-2 sm:w-[30rem]">
+                        <DialogTitle className="w-full pb-2 text-left text-[1.1em] font-bold">
                             {"Options"}
                         </DialogTitle>
-                        <section className="mx-4 my-2 flex flex-col gap-2">
-                            <SpinOptionsToggle
-                                label={"Don't Repeat Maps"}
-                                onClickHandler={
-                                    options.dontRepeatMissions.Toggle
-                                }
-                                activeState={options.dontRepeatMissions.val}
-                            />
-                            <SpinOptionsToggle
-                                label={"Show Warning On Illegal Spins"}
-                                onClickHandler={
-                                    options.warnForIllegalSpins.Toggle
-                                }
-                                activeState={options.warnForIllegalSpins.val}
-                            />
-                            <SpinOptionsToggle
-                                label={"Update URL On Spin"}
-                                onClickHandler={options.updateQuery.Toggle}
-                                activeState={options.updateQuery.val}
-                            />
-                            <SpinOptionsToggle
-                                label={"Show Tips"}
-                                onClickHandler={options.showTips.Toggle}
-                                activeState={options.showTips.val}
-                            />
-                            <SpinOptionsToggle
-                                label={"Can Always Edit No Target KO"}
-                                onClickHandler={
-                                    options.canAlwaysEditNTKO.Toggle
-                                }
-                                activeState={options.canAlwaysEditNTKO.val}
-                            />
-                            <SpinOptionsToggle
-                                label={"Show Queue List"}
-                                onClickHandler={options.showQueueList.Toggle}
-                                activeState={options.showQueueList.val}
-                            />
-                            <SpinOptionsToggle
-                                label={"Enable Stream Overlay (1300x600)"}
-                                onClickHandler={
-                                    options.streamOverlayActive.Toggle
-                                }
-                                activeState={options.streamOverlayActive.val}
-                            />
-                            <div className="flex w-full gap-2">
-                                <button
-                                    className="group w-full items-center border-2 border-zinc-900 bg-white py-0.5 text-center text-zinc-900"
-                                    data-copyalertactive={
-                                        copiedToClipboardAlertActive
+                        <section className="flex flex-col gap-2">
+                            <div className="flex flex-col gap-2 rounded-md border-2 px-2 py-1">
+                                <h2 className="text-center text-[1.05em] font-bold">
+                                    {"General"}
+                                </h2>
+                                <SpinOptionsToggle
+                                    label={"Don't Repeat Maps"}
+                                    onClickHandler={
+                                        options.dontRepeatMissions.Toggle
                                     }
-                                    onClick={() => {
-                                        EnableCopiedToClipboardAlert();
-                                        navigator.clipboard.writeText(
-                                            `https://roulette.luke.town/overlay/${overlayId}`,
-                                        );
-                                    }}
-                                >
-                                    <span className="inline w-full decoration-red-500 decoration-2 group-hover:underline group-data-[copyalertactive=true]:hidden">
-                                        {"Copy Overlay Link"}
-                                    </span>
-                                    <span className="hidden w-full group-data-[copyalertactive=true]:inline">
-                                        {"Copied!"}
-                                    </span>
-                                </button>
-                                <button
-                                    className="group w-full items-center border-2 border-zinc-900 bg-white py-0.5 text-center text-zinc-900"
-                                    data-copyalertactive={
-                                        newLinkCopiedToClipboardAlertActive
+                                    activeState={options.dontRepeatMissions.val}
+                                />
+                                <SpinOptionsToggle
+                                    label={"Update URL On Spin"}
+                                    onClickHandler={options.updateQuery.Toggle}
+                                    activeState={options.updateQuery.val}
+                                />
+                                <SpinOptionsToggle
+                                    label={"Can Always Edit No Target KO"}
+                                    onClickHandler={
+                                        options.canAlwaysEditNTKO.Toggle
                                     }
-                                    onClick={() => {
-                                        const newId = crypto.randomUUID();
-                                        RegenerateOverlayId(newId);
-                                        EnableNewLinkCopiedToClipboardAlert();
-                                        navigator.clipboard.writeText(
-                                            `https://roulette.luke.town/overlay/${newId}`,
-                                        );
-                                    }}
-                                >
-                                    <span className="inline w-full decoration-red-500 decoration-2 group-hover:underline group-data-[copyalertactive=true]:hidden">
-                                        {"Regenerate Spin Link"}
-                                    </span>
-                                    <span className="hidden w-full group-data-[copyalertactive=true]:inline">
-                                        {"New Link Copied!"}
-                                    </span>
-                                </button>
+                                    activeState={options.canAlwaysEditNTKO.val}
+                                />
+                                <SpinOptionsToggle
+                                    label={"Show Full Queue List"}
+                                    onClickHandler={
+                                        options.showQueueList.Toggle
+                                    }
+                                    activeState={options.showQueueList.val}
+                                />
+                                <SpinOptionsChoiceSelector
+                                    label="Layout Mode"
+                                    options={[
+                                        { id: "row", display: "Row" },
+                                        { id: "col", display: "Column" },
+                                    ]}
+                                    onClickHandler={options.layoutMode.Set}
+                                    activeOption={options.layoutMode.val}
+                                />
                             </div>
-                            <SpinOptionsChoiceSelector
-                                label="Overlay Theme"
-                                options={[
-                                    { id: "default", display: "Default" },
-                                    { id: "text_only", display: "Text Only" },
-                                ]}
-                                onClickHandler={options.overlayTheme.Set}
-                                activeOption={options.overlayTheme.val}
-                            />
-                            <SpinOptionsChoiceSelector
-                                label="Layout Mode"
-                                options={[
-                                    { id: "row", display: "Row" },
-                                    { id: "col", display: "Column" },
-                                ]}
-                                onClickHandler={options.layoutMode.Set}
-                                activeOption={options.layoutMode.val}
-                            />
+                            <div className="flex flex-col gap-2 rounded-md border-2 px-2 py-1">
+                                <h2 className="text-center text-[1.05em] font-bold">
+                                    {"Help"}
+                                </h2>
+                                <SpinOptionsToggle
+                                    label={"Show Tips"}
+                                    onClickHandler={options.showTips.Toggle}
+                                    activeState={options.showTips.val}
+                                />
+                                <SpinOptionsToggle
+                                    label={"Show Warning On Illegal Spins"}
+                                    onClickHandler={
+                                        options.warnForIllegalSpins.Toggle
+                                    }
+                                    activeState={
+                                        options.warnForIllegalSpins.val
+                                    }
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2 rounded-md border-2 px-2 py-1">
+                                <h2 className="text-center text-[1.05em] font-bold">
+                                    {"Stream Overlay"}
+                                </h2>
+                                <SpinOptionsToggle
+                                    label={"Enable Stream Overlay (1300x650)"}
+                                    onClickHandler={
+                                        options.streamOverlayActive.Toggle
+                                    }
+                                    activeState={
+                                        options.streamOverlayActive.val
+                                    }
+                                />
+                                <div className="flex w-full gap-2">
+                                    <button
+                                        className="group w-full items-center border-1 border-zinc-900 bg-white py-0.5 text-center text-zinc-900 sm:border-2"
+                                        data-copyalertactive={
+                                            copiedToClipboardAlertActive
+                                        }
+                                        onClick={() => {
+                                            EnableCopiedToClipboardAlert();
+                                            navigator.clipboard.writeText(
+                                                `https://roulette.luke.town/overlay/${overlayId}`,
+                                            );
+                                        }}
+                                    >
+                                        <span className="inline w-full decoration-red-500 decoration-2 group-hover:underline group-data-[copyalertactive=true]:hidden">
+                                            {"Copy Link"}
+                                        </span>
+                                        <span className="hidden w-full group-data-[copyalertactive=true]:inline">
+                                            {"Copied!"}
+                                        </span>
+                                    </button>
+                                    <button
+                                        className="group w-full items-center border-1 border-zinc-900 bg-white py-0.5 text-center text-zinc-900 sm:border-2"
+                                        data-copyalertactive={
+                                            newLinkCopiedToClipboardAlertActive
+                                        }
+                                        onClick={() => {
+                                            const newId = crypto.randomUUID();
+                                            RegenerateOverlayId(newId);
+                                            EnableNewLinkCopiedToClipboardAlert();
+                                            navigator.clipboard.writeText(
+                                                `https://roulette.luke.town/overlay/${newId}`,
+                                            );
+                                        }}
+                                    >
+                                        <span className="inline w-full decoration-red-500 decoration-2 group-hover:underline group-data-[copyalertactive=true]:hidden">
+                                            {"Regenerate Link"}
+                                        </span>
+                                        <span className="hidden w-full group-data-[copyalertactive=true]:inline">
+                                            {"New Link Copied!"}
+                                        </span>
+                                    </button>
+                                </div>
+                                <SpinOptionsChoiceSelector
+                                    label="Theme"
+                                    options={[
+                                        { id: "default", display: "Default" },
+                                        {
+                                            id: "text_only",
+                                            display: "Text Only",
+                                        },
+                                    ]}
+                                    onClickHandler={options.overlayTheme.Set}
+                                    activeOption={options.overlayTheme.val}
+                                />
+                            </div>
                         </section>
                     </DialogContent>
                 </DialogPortal>

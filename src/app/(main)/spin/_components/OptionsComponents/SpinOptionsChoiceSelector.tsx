@@ -11,12 +11,12 @@ export default function SpinOptionsChoiceSelector({
 }) {
     return (
         <div className="items-center">
-            <h3 className="w-full text-left font-bold">{label}</h3>
-            <div className="flex">
+            <h3 className="w-full text-left font-semibold">{label}</h3>
+            <div className="flex gap-2">
                 {options.map((option, index) => (
                     <button
                         key={index}
-                        className="group flex flex-1 items-center border-2 border-zinc-900 bg-white py-0.5 text-zinc-900 data-[active=true]:bg-red-500 data-[active=true]:text-white sm:py-1"
+                        className="group w-full items-center border-1 border-zinc-900 bg-white py-0.5 text-center text-zinc-900 data-[active=true]:bg-red-500 data-[active=true]:text-white sm:border-2"
                         onClick={() => onClickHandler(option.id)}
                         data-active={activeOption === option.id}
                     >
