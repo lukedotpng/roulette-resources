@@ -17,7 +17,7 @@ export default function ItemCard({
     }
 
     return (
-        <div className="h-fit w-full max-w-[48%] min-w-[20rem] bg-white p-2 text-zinc-900">
+        <div className="mb-4 h-fit w-full max-w-[30rem] min-w-[20rem] break-inside-avoid bg-white p-2 text-zinc-900">
             <h2 className="text-center text-[1.2em] font-bold">{type}</h2>
             {items.map((item) => {
                 return (
