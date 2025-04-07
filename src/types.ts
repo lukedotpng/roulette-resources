@@ -231,6 +231,7 @@ export type SpinOptions = {
     missionQueue: Option<Mission[]>;
     queueMode: ToggleOption;
     matchMode: ToggleOption;
+    simRecords: Option<MatchSimRecord[]>;
     dontRepeatMissions: ToggleOption;
     showTips: ToggleOption;
     layoutMode: Option<string>;
@@ -287,4 +288,11 @@ export type SpinStats = {
     count: number;
     illegalSpinCount: number;
     targets: { [key in SpinTarget]?: TargetSpinStats };
+};
+
+export type MatchSimRecord = {
+    mission: Mission;
+    spinId: string;
+    time: number; // in ms
+    date: number; // in ms
 };

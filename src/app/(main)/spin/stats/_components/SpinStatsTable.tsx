@@ -1,5 +1,3 @@
-"use client";
-
 import { Mission, SpinStats, SpinTarget, TargetSpinStats } from "@/types";
 import {
     DisguiseIDToDisplayText,

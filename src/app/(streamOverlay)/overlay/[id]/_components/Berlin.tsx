@@ -7,12 +7,21 @@ import {
 } from "@/utils/FormattingUtils";
 import { Spin, SpinInfo } from "@/types";
 import Image from "next/image";
+import DefaultThemeTimer from "./DefaultThemeTimer";
 
-export default function Berlin({ spin }: { spin: Spin }) {
+export default function Berlin({
+    spin,
+    startTime,
+    matchActive,
+}: {
+    spin: Spin;
+    startTime: number;
+    matchActive: boolean;
+}) {
     return (
         <main
             id="container"
-            className="flex h-[600px] w-[1300px] flex-wrap justify-end text-sm"
+            className="relative flex h-[600px] w-[1300px] flex-wrap justify-end text-sm"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];
@@ -98,6 +107,10 @@ export default function Berlin({ spin }: { spin: Spin }) {
                     </div>
                 );
             })}
+            <DefaultThemeTimer
+                startTime={startTime}
+                matchActive={matchActive}
+            />
         </main>
     );
 }

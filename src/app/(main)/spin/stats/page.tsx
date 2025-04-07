@@ -8,7 +8,7 @@ import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/RespinCond
 // import { GenerateSpin as FullRespinGenerateSpin } from "../utils/FullRespinSpinGeneration";
 // import { GenerateSpin as PartialRespinGenerateSpin } from "../utils/PartialRespinSpinGeneration";
 
-import MissionSwitcher from "../_components/MissionSwitcher";
+import MissionSwitcher from "../_components/PoolComponents/MissionSwitcher";
 import SpinStatsSection from "./_components/SpinStatsSection";
 
 export default function Page() {

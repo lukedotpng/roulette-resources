@@ -149,3 +149,32 @@ export function MethodImagePathFormatter(
 export function DisguiseImagePathFormatter(disguise: string, mission: Mission) {
     return "/disguises/" + mission + "-" + disguise + ".webp";
 }
+
+export function MillisecondsToTimeString(
+    ms: number,
+    showMs: boolean = true,
+): string {
+    const hours = Math.floor(ms / 1000 / (60 * 60));
+    const minutes = Math.floor(((ms / 1000) % (60 * 60)) / 60);
+    const seconds = Math.floor(ms / 1000) % 60;
+    const msLeftOver = ms % 1000;
+
+    const hoursString = hours.toString();
+    const minutesString =
+        minutes < 10
+            ? minutes > 0
+                ? "0" + minutes
+                : "00"
+            : minutes > 0
+              ? minutes.toString()
+              : "00";
+    const secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
+    const msString =
+        msLeftOver < 100
+            ? msLeftOver < 10
+                ? "00" + msLeftOver
+                : "0" + msLeftOver
+            : msLeftOver.toString();
+
+    return `${hours > 0 ? hoursString + ":" : ""}${minutesString}:${secondsString}${showMs ? `.${msString}` : ""}`;
+}

@@ -1,5 +1,3 @@
-"use client";
-
 import { MissionIDToShortDisplayText } from "@/utils/FormattingUtils";
 import { Missions } from "@/utils/globals";
 import { Mission } from "@/types";
@@ -8,7 +6,7 @@ import {
     SeasonOneMissions,
     SeasonThreeMissions,
     SeasonTwoMissions,
-} from "../utils/SpinGlobals";
+} from "../../utils/SpinGlobals";
 
 export default function QueueList({
     queueIndex,

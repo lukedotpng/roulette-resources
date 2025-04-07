@@ -19,10 +19,12 @@ export default function SpinSection({
     initialTheme: string;
 }) {
     // const [query, setQuery] = useState(initialQuery);
-    const [spin, setSpin] = useState<Spin | undefined>(
+    const [spin, setSpin] = useState<Spin | null>(
         GetSpinFromQuery(initialQuery, false),
     );
     const [theme, setTheme] = useState(initialTheme);
+    const [startTime, setStartTime] = useState<number>(-1);
+    const [matchActive, setMatchActive] = useState(false);
 
     useEffect(() => {
         const channel = supabase
@@ -38,10 +40,22 @@ export default function SpinSection({
                 (payload) => {
                     const newQuery = payload.new["spin_query"];
                     const newTheme = payload.new["theme"];
+                    const startTime = payload.new["spin_start_time"];
+                    const matchActive = payload.new["match_active"];
+
+                    console.log(payload.new);
+
                     if (newQuery) {
                         // setQuery(newQuery);
                         setTheme(newTheme);
                         setSpin(GetSpinFromQuery(newQuery, false));
+                    }
+
+                    if (startTime) {
+                        setStartTime(startTime);
+                    }
+                    if (matchActive !== undefined) {
+                        setMatchActive(matchActive);
                     }
                 },
             )
@@ -57,14 +71,38 @@ export default function SpinSection({
     }
 
     if (theme === "text_only") {
-        return <TextOnly spin={spin} />;
+        return (
+            <TextOnly
+                spin={spin}
+                startTime={startTime}
+                matchActive={matchActive}
+            />
+        );
     }
 
     if (spin.mission === "berlin") {
-        return <Berlin spin={spin} />;
+        return (
+            <Berlin
+                spin={spin}
+                startTime={startTime}
+                matchActive={matchActive}
+            />
+        );
     } else if (Object.keys(spin.info).length > 2) {
-        return <LargeMaps spin={spin} />;
+        return (
+            <LargeMaps
+                spin={spin}
+                startTime={startTime}
+                matchActive={matchActive}
+            />
+        );
     } else {
-        return <SmallMaps spin={spin} />;
+        return (
+            <SmallMaps
+                spin={spin}
+                startTime={startTime}
+                matchActive={matchActive}
+            />
+        );
     }
 }

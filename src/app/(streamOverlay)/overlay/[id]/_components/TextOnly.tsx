@@ -4,8 +4,17 @@ import {
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
 import { Spin, SpinInfo } from "@/types";
+import TextThemeTimer from "./TextThemeTimer";
 
-export default function TextOnly({ spin }: { spin: Spin }) {
+export default function TextOnly({
+    spin,
+    startTime,
+    matchActive,
+}: {
+    spin: Spin;
+    startTime: number;
+    matchActive: boolean;
+}) {
     return (
         <main
             id="container"
@@ -42,6 +51,7 @@ export default function TextOnly({ spin }: { spin: Spin }) {
                     </div>
                 );
             })}
+            <TextThemeTimer startTime={startTime} matchActive={matchActive} />
         </main>
     );
 }

@@ -13,7 +13,7 @@ import {
     SeasonOneMissions,
     SeasonTwoMissions,
     SeasonThreeMissions,
-} from "../utils/SpinGlobals";
+} from "../../utils/SpinGlobals";
 
 export default function MissionQueueSelection({
     className,

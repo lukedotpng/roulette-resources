@@ -1,6 +1,6 @@
 import { Missions } from "@/utils/globals";
 import { useLocalState } from "@/utils/useLocalState";
-import { Mission, SpinOptions } from "@/types";
+import { MatchSimRecord, Mission, SpinOptions } from "@/types";
 import { useState } from "react";
 
 export function useSpinOptions() {
@@ -25,10 +25,17 @@ export function useSpinOptions() {
         const updatedQueueMode = !queueMode;
         setQueueMode(updatedQueueMode);
     }
-    const [matchMode, setMatchMode] = useLocalState("matchMode", false);
+    const [matchMode, setMatchMode] = useState(false);
     function ToggleMatchMode() {
         const updatedMatchMode = !matchMode;
         setMatchMode(updatedMatchMode);
+    }
+    const [simRecords, setSimRecords] = useLocalState<MatchSimRecord[]>(
+        "simRecords",
+        [],
+    );
+    function SetSimRecords(updatedRecords: MatchSimRecord[]) {
+        setSimRecords(updatedRecords);
     }
 
     const [dontRepeatMission, setDontRepeatMission] = useLocalState(
@@ -97,6 +104,10 @@ export function useSpinOptions() {
         matchMode: {
             val: matchMode,
             Toggle: ToggleMatchMode,
+        },
+        simRecords: {
+            val: simRecords,
+            Set: SetSimRecords,
         },
         dontRepeatMissions: {
             val: dontRepeatMission,

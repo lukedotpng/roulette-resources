@@ -8,13 +8,22 @@ import {
 } from "@/utils/FormattingUtils";
 import { Spin, SpinInfo } from "@/types";
 import Image from "next/image";
+import DefaultThemeTimer from "./DefaultThemeTimer";
 
-export default function SmallMaps({ spin }: { spin: Spin }) {
+export default function SmallMaps({
+    spin,
+    startTime,
+    matchActive,
+}: {
+    spin: Spin;
+    startTime: number;
+    matchActive: boolean;
+}) {
     return (
         <main
             id="container"
             data-singletarget={Object.keys(spin.info).length === 1}
-            className="flex h-[600px] w-[1300px] data-[singletarget=true]:flex-row-reverse"
+            className="relative flex h-[600px] w-[1300px] data-[singletarget=true]:flex-row-reverse"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];
@@ -113,6 +122,10 @@ export default function SmallMaps({ spin }: { spin: Spin }) {
                     </div>
                 );
             })}
+            <DefaultThemeTimer
+                startTime={startTime}
+                matchActive={matchActive}
+            />
         </main>
     );
 }

@@ -1,16 +1,19 @@
 "use client";
 
-import SpinInfoSection from "./SpinInfoSection";
-import MissionQueueSpinControls from "./MissionQueueSpinControls";
-import RandomMissionSpinControls from "./RandomMissionSpinControls";
+import SpinInfoSection from "./SpinComponents/SpinInfoSection";
+import MissionQueueSpinControls from "./QueueComponents/MissionQueueSpinControls";
+import RandomMissionSpinControls from "./PoolComponents/RandomMissionSpinControls";
 
 import { useEffect, useState } from "react";
 import { useSpinManager } from "../useSpinManager";
 import SpinTipsSection from "./SpinTipsSection";
-import QueueList from "./QueueList";
-import MissionSwitcher from "./MissionSwitcher";
+import QueueList from "./QueueComponents/QueueList";
+import MissionSwitcher from "./PoolComponents/MissionSwitcher";
 import { Mission } from "@/types";
-import SpinOptionsSection from "./SpinOptionsSection";
+import SpinOptionsSection from "./OptionsComponents/SpinOptionsSection";
+import MatchTimerSection from "./MatchComponents/MatchTimerSection";
+import SpinInfoMatchPlaceholder from "./MatchComponents/SpinInfoMatchPlaceholder";
+import SimpleQueueList from "./QueueComponents/SimpleQueueList";
 
 export default function MainSection() {
     const [isMounted, setIsMounted] = useState(false);
@@ -51,7 +54,7 @@ export default function MainSection() {
                         />
                     )}
                     {spinManager.options.queueMode.val &&
-                        spinManager.options.showQueueList.val && (
+                        (spinManager.options.showQueueList.val ? (
                             <QueueList
                                 queueIndex={spinManager.queueIndex}
                                 UpdateQueueIndex={spinManager.UpdateQueueIndex}
@@ -59,30 +62,57 @@ export default function MainSection() {
                                     spinManager.options.missionQueue.val
                                 }
                             />
-                        )}
-                    <SpinInfoSection
-                        spin={spinManager.currentSpin}
-                        spinLegal={spinManager.spinLegal}
-                        RespinCondition={spinManager.RespinCondition}
-                        EditSpin={spinManager.EditSpin}
-                        options={spinManager.options}
-                    />
+                        ) : (
+                            <SimpleQueueList
+                                queueIndex={spinManager.queueIndex}
+                                UpdateQueueIndex={spinManager.UpdateQueueIndex}
+                                missionQueue={
+                                    spinManager.options.missionQueue.val
+                                }
+                            />
+                        ))}
+                    {spinManager.options.matchMode.val && (
+                        <MatchTimerSection
+                            matchActive={spinManager.matchActive}
+                            currentSpin={spinManager.currentSpin}
+                            StartMatch={spinManager.StartMatch}
+                            StopMatch={spinManager.StopMatch}
+                            overlayId={spinManager.overlayId}
+                            overlayKey={spinManager.overlayKey}
+                            options={spinManager.options}
+                        />
+                    )}
+                    {spinManager.options.matchMode.val &&
+                    !spinManager.matchActive ? (
+                        <SpinInfoMatchPlaceholder
+                            mission={spinManager.currentSpin.mission}
+                            options={spinManager.options}
+                        />
+                    ) : (
+                        <SpinInfoSection
+                            spin={spinManager.currentSpin}
+                            spinLegal={spinManager.spinLegal}
+                            RespinCondition={spinManager.RespinCondition}
+                            EditSpin={spinManager.EditSpin}
+                            options={spinManager.options}
+                        />
+                    )}
                 </>
             )}
 
             <SpinOptionsSection
                 options={spinManager.options}
+                currentSpin={spinManager.currentSpin}
                 overlayId={spinManager.overlayId}
                 RegenerateOverlayId={spinManager.RegenerateOverlayId}
             />
 
-            {spinManager.options.showTips.val &&
-                spinManager.currentSpin !== undefined && (
-                    <SpinTipsSection
-                        query={spinManager.query}
-                        mission={spinManager.currentSpin.mission}
-                    />
-                )}
+            {spinManager.options.showTips.val && spinManager.currentSpin && (
+                <SpinTipsSection
+                    query={spinManager.query}
+                    mission={spinManager.currentSpin.mission}
+                />
+            )}
 
             <div
                 data-active={spinManager.noMissionsSelectedAlertActive}

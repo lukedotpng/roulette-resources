@@ -17,7 +17,7 @@ import {
     MissionSpinInfoList,
     TargetUniqueKillsList,
     weapons,
-} from "../utils/SpinGlobals";
+} from "../../utils/SpinGlobals";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 

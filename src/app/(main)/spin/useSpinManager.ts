@@ -18,6 +18,7 @@ import { useLocalState } from "@/utils/useLocalState";
 import {
     InitializeSpinOverlay,
     UpdateSpinOverlay,
+    UpdateSpinOverlayMatchStatus,
 } from "../../(streamOverlay)/OverlayActions";
 import {
     CreateSpinQuery,
@@ -27,7 +28,7 @@ import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheckUtils";
 
 export function useSpinManager() {
-    const [currentSpin, setCurrentSpin] = useState<Spin>();
+    const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
 
     const [spinLegal, setSpinLegal] = useState<SpinCheckResult>({
         legal: true,
@@ -36,14 +37,27 @@ export function useSpinManager() {
     const options = useSpinOptions();
 
     // State
+    const [matchActive, setMatchActive] = useState(false);
+    function StartMatch() {
+        setMatchActive(true);
+    }
+    function StopMatch() {
+        Respin();
+        setMatchActive(false);
+    }
+
     const [queueIndex, setQueueIndex] = useLocalState("queueIndex", 0);
     const [overlayId, setOverlayId] = useLocalState(
         "overlayId",
         crypto.randomUUID(),
     );
+    const [overlayKey, setOverlayKey] = useLocalState("overlayKey", Date.now());
+
     async function RegenerateOverlayId(newId: string) {
         setOverlayId(newId);
-        await InitializeSpinOverlay(newId, query);
+        const newKey = Date.now();
+        setOverlayKey(newKey);
+        await InitializeSpinOverlay(newId, newKey, query);
     }
 
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
@@ -72,7 +86,7 @@ export function useSpinManager() {
 
         while (
             mission === undefined &&
-            currentSpin !== undefined &&
+            currentSpin &&
             options.dontRepeatMissions.val &&
             options.missionPool.val.length > 1 &&
             currentSpin.mission === missionToSpin
@@ -176,13 +190,21 @@ export function useSpinManager() {
     function UpdateSpin(spin: Spin) {
         setCurrentSpin(spin);
     }
-    const query = useSpinQuery(currentSpin, UpdateSpin, options);
+    const query = useSpinQuery(currentSpin, UpdateSpin, matchActive, options);
 
     // Update overlay on spin/query or theme change
     useEffect(() => {
-        if (options.streamOverlayActive.val) {
-            InitializeSpinOverlay(overlayId, query);
-            UpdateSpinOverlay(overlayId, query, options.overlayTheme.val);
+        if (
+            options.streamOverlayActive.val &&
+            (!options.matchMode.val || (options.matchMode.val && matchActive))
+        ) {
+            InitializeSpinOverlay(overlayId, overlayKey, query);
+            UpdateSpinOverlay(
+                overlayId,
+                overlayKey,
+                query,
+                options.overlayTheme.val,
+            );
         }
     }, [options.streamOverlayActive.val, options.overlayTheme.val]);
 
@@ -190,13 +212,12 @@ export function useSpinManager() {
     useEffect(() => {
         if (options.queueMode) {
             if (options.missionQueue.val.length === 0) {
-                setCurrentSpin(undefined);
+                setCurrentSpin(null);
                 setQueueIndex(0);
             } else {
-                setCurrentSpin(
-                    GenerateSpin(options.missionQueue.val[queueIndex]),
-                );
+                setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
             }
+            setQueueIndex(0);
         }
     }, [options.missionQueue.val]);
 
@@ -214,6 +235,45 @@ export function useSpinManager() {
             }
         }
     }, [options.queueMode.val]);
+
+    // Respin when match mode is enabled to prevent controlling the spin
+    useEffect(() => {
+        if (options.matchMode.val) {
+            Respin();
+        }
+    }, [options.matchMode.val]);
+
+    // Update overlay when match is active
+    useEffect(() => {
+        if (!options.matchMode.val) {
+            UpdateSpinOverlayMatchStatus(
+                overlayId,
+                overlayKey,
+                query,
+                options.matchMode.val,
+                -1,
+            );
+            return;
+        }
+        if (currentSpin && options.streamOverlayActive.val) {
+            if (matchActive) {
+                UpdateSpinOverlayMatchStatus(
+                    overlayId,
+                    overlayKey,
+                    query,
+                    matchActive,
+                    Date.now(),
+                );
+            } else {
+                UpdateSpinOverlayMatchStatus(
+                    overlayId,
+                    overlayKey,
+                    query,
+                    matchActive,
+                );
+            }
+        }
+    }, [matchActive, options.matchMode.val]);
 
     useEffect(() => {
         if (!currentSpin && !query) {
@@ -243,8 +303,17 @@ export function useSpinManager() {
         const newQuery = CreateSpinQuery(currentSpin);
         setSpinLegal(SpinIsLegal(currentSpin));
 
-        if (options.streamOverlayActive.val) {
-            UpdateSpinOverlay(overlayId, newQuery, options.overlayTheme.val);
+        if (options.matchMode.val) {
+            setMatchActive(false);
+        }
+
+        if (options.streamOverlayActive.val && !options.matchMode.val) {
+            UpdateSpinOverlay(
+                overlayId,
+                overlayKey,
+                newQuery,
+                options.overlayTheme.val,
+            );
         }
     }, [currentSpin]);
 
@@ -259,10 +328,14 @@ export function useSpinManager() {
         UpdateQueueIndex,
         spinLegal,
         queueIndex,
+        matchActive,
+        StartMatch,
+        StopMatch,
         options,
         noMissionsSelectedAlertActive,
         query,
         overlayId,
+        overlayKey,
         RegenerateOverlayId,
     };
 }

@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { relations } from "drizzle-orm";
-import { boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 export const userSchema = pgTable("roulette-resources-users", {
     username: text().primaryKey(),
@@ -98,6 +98,9 @@ export const uniqueKillSchema = pgTable("roulette-resources-unique_kills", {
 
 export const overlaySchema = pgTable("roulette-resources-overlays", {
     id: uuid().primaryKey(),
+    key: integer().notNull(),
     spin_query: text(),
     theme: text(),
+    spin_start_time: integer(),
+    match_active: boolean(),
 });

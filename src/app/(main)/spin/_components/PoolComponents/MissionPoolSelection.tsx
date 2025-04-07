@@ -21,7 +21,7 @@ import {
     SeasonPoolSelectedList,
     SeasonThreeMissions,
     SeasonTwoMissions,
-} from "../utils/SpinGlobals";
+} from "../../utils/SpinGlobals";
 import { Missions } from "@/utils/globals";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 

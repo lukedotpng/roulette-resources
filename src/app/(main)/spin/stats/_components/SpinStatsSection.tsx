@@ -1,5 +1,3 @@
-"use client";
-
 import { Mission, Spin, SpinStats } from "@/types";
 import { useEffect, useState } from "react";
 import { SpinIsLegal } from "../../utils/SpinCheckUtils";
