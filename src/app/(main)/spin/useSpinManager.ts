@@ -19,10 +19,7 @@ import {
     UpdateSpinOverlay,
     UpdateSpinOverlayMatchStatus,
 } from "../../(streamOverlay)/OverlayActions";
-import {
-    CreateSpinQuery,
-    GetSpinFromQuery,
-} from "@/app/(main)/spin/utils/SpinQueryUtils";
+import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheckUtils";
 
