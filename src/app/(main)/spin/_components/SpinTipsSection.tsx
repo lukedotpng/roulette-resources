@@ -2,7 +2,12 @@ import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import { Mission, SpinResources, TargetSpinResources } from "@/types";
+import {
+    Mission,
+    SpinOptions,
+    SpinResources,
+    TargetSpinResources,
+} from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -12,9 +17,13 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json());
 export default function SpinTipsSection({
     query,
     mission,
+    options,
+    matchActive,
 }: {
     query: string;
     mission: Mission;
+    options: SpinOptions;
+    matchActive: boolean;
 }) {
     const { data, error, isLoading } = useSWR<TargetSpinResources>(
         "/api/spin/info?s=" + query,
@@ -39,6 +48,14 @@ export default function SpinTipsSection({
         return (
             <section className="flex w-full flex-wrap justify-center gap-3 text-xs text-white sm:text-base">
                 <h2>{"Error fetching data, this feels like your fault :/"}</h2>
+            </section>
+        );
+    }
+
+    if (options.matchMode.val && !matchActive) {
+        return (
+            <section className="flex w-full flex-wrap justify-center gap-3 text-xs text-white sm:text-base">
+                <h2>{"Tips will show once the match starts"}</h2>
             </section>
         );
     }
