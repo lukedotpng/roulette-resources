@@ -193,10 +193,11 @@ export function useSpinManager() {
 
     // Update overlay on spin/query or theme change
     useEffect(() => {
-        if (
-            options.streamOverlayActive.val &&
-            (!options.matchMode.val || (options.matchMode.val && matchActive))
-        ) {
+        if (!options.streamOverlayActive.val) {
+            return;
+        }
+
+        if (!options.matchMode.val || (options.matchMode.val && matchActive)) {
             InitializeSpinOverlay(overlayId, overlayKey, query);
             UpdateSpinOverlay(
                 overlayId,
@@ -216,6 +217,10 @@ export function useSpinManager() {
 
     // Update overlay when match is active
     useEffect(() => {
+        if (!options.streamOverlayActive.val) {
+            return;
+        }
+
         if (!options.matchMode.val) {
             UpdateSpinOverlayMatchStatus(
                 overlayId,
@@ -226,7 +231,7 @@ export function useSpinManager() {
             );
             return;
         }
-        if (currentSpin && options.streamOverlayActive.val) {
+        if (currentSpin) {
             if (matchActive) {
                 UpdateSpinOverlayMatchStatus(
                     overlayId,
@@ -247,27 +252,7 @@ export function useSpinManager() {
     }, [matchActive, options.matchMode.val]);
 
     useEffect(() => {
-        // if (!currentSpin && !query) {
-        //     if (options.queueMode.val) {
-        //         if (options.missionQueue.val.length > 0) {
-        //             options.queueIndex.Set(0);
-        //             setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
-        //         }
-        //     } else if (options.missionPool.val.length === 0) {
-        //         // setCurrentSpin(
-        //         //     GenerateSpin(
-        //         //         Missions[Math.floor(Missions.length * Math.random())],
-        //         //     ),
-        //         // );
-        //     } else {
-        //         NewSpin();
-        //     }
-        // }
-
         if (!currentSpin) {
-            if (query && !options.queueMode.val) {
-                setCurrentSpin(GetSpinFromQuery(query, false));
-            }
             return;
         }
 

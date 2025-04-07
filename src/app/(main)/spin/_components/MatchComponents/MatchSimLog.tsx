@@ -102,7 +102,7 @@ export default function MatchSimLog({
             </DialogTrigger>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/4 left-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 rounded-lg bg-white p-3 sm:w-[30rem]">
+                <DialogContent className="fixed top-1/4 left-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 overflow-y-scroll rounded-lg bg-white p-3 sm:w-[30rem]">
                     <DialogTitle className="flex w-full items-center justify-between pb-3 text-[1.15em]">
                         <span className="flex-1 font-bold">
                             {"Match Sim Log"}
