@@ -1,9 +1,13 @@
 import { Missions } from "@/utils/globals";
 import { useLocalState } from "@/utils/useLocalState";
-import { MatchSimRecord, Mission, SpinOptions } from "@/types";
+import { MatchSimRecord, Mission, Spin, SpinOptions } from "@/types";
 import { useState } from "react";
+import { GenerateSpin } from "./utils/SpinGenerationUtils";
 
-export function useSpinOptions() {
+export function useSpinOptions(
+    currentSpin: Spin | null,
+    setCurrentSpin: (spin: Spin | null) => void,
+) {
     // Options
     const [missionPool, setMissionPool] = useLocalState<Mission[]>(
         "pool",
@@ -17,12 +21,43 @@ export function useSpinOptions() {
         [],
     );
     function SetMissionQueue(updatedQueue: Mission[]) {
+        if (updatedQueue.length === 0) {
+            setCurrentSpin(null);
+        } else {
+            setCurrentSpin(GenerateSpin(updatedQueue[0]));
+        }
+        setQueueIndex(0);
         setMissionQueue(updatedQueue);
     }
+    const [queueIndex, setQueueIndex] = useLocalState("queueIndex", 0);
+    function SetQueueIndex(updatedQueueIndex: number) {
+        setQueueIndex(updatedQueueIndex);
+    }
 
-    const [queueMode, setQueueMode] = useState(false);
+    const [queueMode, setQueueMode] = useLocalState("queueActive", false);
     function ToggleQueueMode() {
         const updatedQueueMode = !queueMode;
+
+        if (updatedQueueMode) {
+            if (missionQueue.length === 0) {
+                setMissionQueue(Missions);
+                setCurrentSpin(GenerateSpin("paris"));
+            } else {
+                setCurrentSpin(GenerateSpin(missionQueue[0]));
+            }
+            setQueueIndex(0);
+        } else {
+            if (!currentSpin) {
+                const mission =
+                    missionPool.length > 0
+                        ? missionPool[
+                              Math.floor(Math.random() * missionPool.length)
+                          ]
+                        : "paris";
+                setCurrentSpin(GenerateSpin(mission));
+            }
+        }
+
         setQueueMode(updatedQueueMode);
     }
     const [matchMode, setMatchMode] = useState(false);
@@ -96,6 +131,10 @@ export function useSpinOptions() {
         missionQueue: {
             val: missionQueue,
             Set: SetMissionQueue,
+        },
+        queueIndex: {
+            val: queueIndex,
+            Set: SetQueueIndex,
         },
         queueMode: {
             val: queueMode,

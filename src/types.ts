@@ -229,6 +229,7 @@ export type Option<T> = {
 export type SpinOptions = {
     missionPool: Option<Mission[]>;
     missionQueue: Option<Mission[]>;
+    queueIndex: Option<number>;
     queueMode: ToggleOption;
     matchMode: ToggleOption;
     simRecords: Option<MatchSimRecord[]>;

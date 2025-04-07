@@ -56,7 +56,7 @@ export default function MainSection() {
                     {spinManager.options.queueMode.val &&
                         (spinManager.options.showQueueList.val ? (
                             <QueueList
-                                queueIndex={spinManager.queueIndex}
+                                queueIndex={spinManager.options.queueIndex.val}
                                 UpdateQueueIndex={spinManager.UpdateQueueIndex}
                                 missionQueue={
                                     spinManager.options.missionQueue.val
@@ -64,7 +64,7 @@ export default function MainSection() {
                             />
                         ) : (
                             <SimpleQueueList
-                                queueIndex={spinManager.queueIndex}
+                                queueIndex={spinManager.options.queueIndex.val}
                                 UpdateQueueIndex={spinManager.UpdateQueueIndex}
                                 missionQueue={
                                     spinManager.options.missionQueue.val

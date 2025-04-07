@@ -2,6 +2,8 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Spin, SpinOptions } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQueryUtils";
+import { GenerateSpin } from "./utils/SpinGenerationUtils";
+import { Missions } from "@/utils/globals";
 
 export function useSpinQuery(
     currentSpin: Spin | null,
@@ -24,6 +26,39 @@ export function useSpinQuery(
         setQuery(newQuery);
         if (newSpin && newQuery !== currentSpinQuery) {
             UpdateSpin(newSpin);
+        } else if (!newSpin) {
+            if (options.queueMode.val) {
+                if (options.missionQueue.val.length > 0) {
+                    UpdateSpin(
+                        GenerateSpin(
+                            options.missionQueue.val[options.queueIndex.val],
+                        ),
+                    );
+                } else {
+                    options.missionQueue.Set(Missions);
+                }
+            } else {
+                if (options.missionPool.val.length > 0) {
+                    UpdateSpin(
+                        GenerateSpin(
+                            options.missionPool.val[
+                                Math.floor(
+                                    Math.random() *
+                                        options.missionPool.val.length,
+                                )
+                            ],
+                        ),
+                    );
+                } else {
+                    UpdateSpin(
+                        GenerateSpin(
+                            Missions[
+                                Math.floor(Math.random() * Missions.length)
+                            ],
+                        ),
+                    );
+                }
+            }
         }
     }, [searchParams]);
 

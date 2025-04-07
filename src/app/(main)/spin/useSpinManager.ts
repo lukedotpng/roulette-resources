@@ -1,4 +1,3 @@
-import { Missions } from "@/utils/globals";
 import {
     Mission,
     Spin,
@@ -34,7 +33,7 @@ export function useSpinManager() {
         legal: true,
     });
 
-    const options = useSpinOptions();
+    const options = useSpinOptions(currentSpin, setCurrentSpin);
 
     // State
     const [matchActive, setMatchActive] = useState(false);
@@ -46,7 +45,6 @@ export function useSpinManager() {
         setMatchActive(false);
     }
 
-    const [queueIndex, setQueueIndex] = useLocalState("queueIndex", 0);
     const [overlayId, setOverlayId] = useLocalState(
         "overlayId",
         crypto.randomUUID(),
@@ -77,6 +75,7 @@ export function useSpinManager() {
     function NewSpin(mission?: Mission) {
         if (options.missionPool.val.length === 0) {
             AlertNoMissionsInPool();
+            return;
         }
 
         let missionToSpin =
@@ -167,23 +166,23 @@ export function useSpinManager() {
 
     // Queue Management
     function GenerateNextSpin() {
-        const nextIndex = queueIndex + 1;
+        const nextIndex = options.queueIndex.val + 1;
         if (nextIndex >= options.missionQueue.val.length) {
             return;
         }
-        setQueueIndex(nextIndex);
+        options.queueIndex.Set(nextIndex);
         setCurrentSpin(GenerateSpin(options.missionQueue.val[nextIndex]));
     }
     function GeneratePreviousSpin() {
-        const prevIndex = queueIndex - 1;
+        const prevIndex = options.queueIndex.val - 1;
         if (prevIndex < 0) {
             return;
         }
-        setQueueIndex(prevIndex);
+        options.queueIndex.Set(prevIndex);
         setCurrentSpin(GenerateSpin(options.missionQueue.val[prevIndex]));
     }
     function UpdateQueueIndex(index: number) {
-        setQueueIndex(index);
+        options.queueIndex.Set(index);
         setCurrentSpin(GenerateSpin(options.missionQueue.val[index]));
     }
 
@@ -207,31 +206,6 @@ export function useSpinManager() {
             );
         }
     }, [options.streamOverlayActive.val, options.overlayTheme.val]);
-
-    // Restart queue index when mission queue is updated
-    useEffect(() => {
-        if (options.queueMode.val) {
-            if (options.missionQueue.val.length === 0) {
-                setCurrentSpin(null);
-            } else {
-                setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
-            }
-            setQueueIndex(0);
-        }
-    }, [options.missionQueue.val]);
-
-    // Restart queue when Queue Mode is turned on, and sets mission queue to trilogy if empty
-    useEffect(() => {
-        if (options.queueMode.val) {
-            if (options.missionQueue.val.length === 0) {
-                options.missionQueue.Set(Missions);
-                setCurrentSpin(GenerateSpin("paris"));
-            } else {
-                setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
-            }
-            setQueueIndex(0);
-        }
-    }, [options.queueMode.val]);
 
     // Respin when match mode is enabled to prevent controlling the spin
     useEffect(() => {
@@ -273,22 +247,22 @@ export function useSpinManager() {
     }, [matchActive, options.matchMode.val]);
 
     useEffect(() => {
-        if (!currentSpin && !query) {
-            if (options.queueMode.val) {
-                if (options.missionQueue.val.length > 0) {
-                    setQueueIndex(0);
-                    setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
-                }
-            } else if (options.missionPool.val.length === 0) {
-                setCurrentSpin(
-                    GenerateSpin(
-                        Missions[Math.floor(Missions.length * Math.random())],
-                    ),
-                );
-            } else {
-                NewSpin();
-            }
-        }
+        // if (!currentSpin && !query) {
+        //     if (options.queueMode.val) {
+        //         if (options.missionQueue.val.length > 0) {
+        //             options.queueIndex.Set(0);
+        //             setCurrentSpin(GenerateSpin(options.missionQueue.val[0]));
+        //         }
+        //     } else if (options.missionPool.val.length === 0) {
+        //         // setCurrentSpin(
+        //         //     GenerateSpin(
+        //         //         Missions[Math.floor(Missions.length * Math.random())],
+        //         //     ),
+        //         // );
+        //     } else {
+        //         NewSpin();
+        //     }
+        // }
 
         if (!currentSpin) {
             if (query && !options.queueMode.val) {
@@ -324,7 +298,6 @@ export function useSpinManager() {
         GeneratePreviousSpin,
         UpdateQueueIndex,
         spinLegal,
-        queueIndex,
         matchActive,
         StartMatch,
         StopMatch,
