@@ -102,8 +102,8 @@ export default function MatchSimLog({
             </DialogTrigger>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/4 left-1/2 max-h-[30rem] w-[90%] -translate-x-1/2 overflow-y-scroll rounded-lg bg-white p-3 sm:w-[30rem]">
-                    <DialogTitle className="flex w-full items-center justify-between pb-3 text-[1.15em]">
+                <DialogContent className="fixed top-1/5 left-1/2 w-[90%] -translate-x-1/2 rounded-lg bg-white sm:w-[30rem]">
+                    <DialogTitle className="flex w-full items-center justify-between p-3 pb-0 text-[1.15em]">
                         <span className="flex-1 font-bold">
                             {"Match Sim Log"}
                         </span>
@@ -114,8 +114,8 @@ export default function MatchSimLog({
                         />
                         <div className="flex-1"></div>
                     </DialogTitle>
-                    <div className="flex flex-col gap-3">
-                        <ul className="flex w-full flex-col gap-3">
+                    <div className="flex max-h-[25rem] flex-col gap-3 overflow-y-scroll p-3 sm:max-h-[30rem]">
+                        <ul className="flex h-full w-full flex-col gap-3 overflow-y-scroll">
                             {GetSimRecordsForMission().map((record, index) => {
                                 const spin = ParseSpinQuery(record.spinId);
 
