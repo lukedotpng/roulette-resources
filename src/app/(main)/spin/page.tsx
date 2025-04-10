@@ -3,7 +3,6 @@ import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
 import { SpinInfo, SpinTarget } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQueryUtils";
-import { Suspense } from "react";
 import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,
@@ -64,15 +63,5 @@ export async function generateMetadata({
 }
 
 export default function Page() {
-    return (
-        <Suspense
-            fallback={
-                <main className="m-3 flex flex-col items-center gap-3 text-xs sm:m-5 sm:gap-5 sm:text-base">
-                    <h1>{"loading..."}</h1>
-                </main>
-            }
-        >
-            <MainSection />
-        </Suspense>
-    );
+    return <MainSection />;
 }

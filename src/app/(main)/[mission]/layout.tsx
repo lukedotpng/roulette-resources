@@ -1,5 +1,8 @@
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import MissionInfoNav from "./_components/MissionInfoNav";
+import { Missions } from "@/utils/globals";
+import { Mission } from "@/types";
+import { notFound } from "next/navigation";
 
 export default async function Page({
     params,
@@ -9,6 +12,10 @@ export default async function Page({
     children: Readonly<React.ReactNode>;
 }) {
     const { mission } = await params;
+
+    if (!Missions.includes(mission as Mission)) {
+        notFound();
+    }
 
     return (
         <main className="flex flex-1 flex-col items-center gap-3 pb-5 text-white md:gap-5">

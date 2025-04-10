@@ -5,6 +5,25 @@
     --color-foreground: var(--foreground);
 }
 
+@theme {
+    --animate-ellipsis: ellipsis 1s linear infinite;
+
+    @keyframes ellipsis {
+        0% {
+            content: "";
+        }
+        33% {
+            content: ".";
+        }
+        66% {
+            content: "..";
+        }
+        100% {
+            content: "...";
+        }
+    }
+}
+
 button {
     cursor: pointer;
 }
