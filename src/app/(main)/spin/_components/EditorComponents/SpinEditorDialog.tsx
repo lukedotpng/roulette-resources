@@ -36,13 +36,13 @@ export default function SpinEditorDialog({
     dialogActive: boolean;
     setDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
-    const meleeOptions = MissionSpinInfoList[mission].conditions.melees;
+    const meleeOptions = MissionSpinInfoList[mission].killMethods.melees;
     const weaponOptions = weapons;
     const uniqueKillOptions =
         target === "erich_soders"
             ? [...TargetUniqueKillsList[target]]
             : [
-                  ...MissionSpinInfoList[mission].conditions.unique_kills,
+                  ...MissionSpinInfoList[mission].killMethods.unique_kills,
                   ...TargetUniqueKillsList[target],
               ];
 
@@ -57,9 +57,9 @@ export default function SpinEditorDialog({
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 max-h-[70%] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white sm:max-h-[90%] sm:w-[35rem]">
                     <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
-                        {`Choose a ${categoryToEdit === "condition" ? "Method" : "Disguise"}`}
+                        {`Choose a ${categoryToEdit === "killMethod" ? "Method" : "Disguise"}`}
                     </DialogTitle>
-                    {categoryToEdit === "condition" ? (
+                    {categoryToEdit === "killMethod" ? (
                         <div className="flex justify-center">
                             {target !== "erich_soders" && (
                                 <MethodOptionList

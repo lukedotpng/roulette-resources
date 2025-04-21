@@ -101,19 +101,19 @@ export default function TargetSpinCard({
                                 }}
                             >
                                 {ItemIDToDisplayText(
-                                    spinInfo[target]?.condition,
+                                    spinInfo[target]?.killMethod,
                                 )}
                             </div>
                         </div>
 
                         <img
                             src={MethodImagePathFormatter(
-                                spinInfo[target]?.condition,
+                                spinInfo[target]?.killMethod,
                                 target,
                             )}
                             width={48}
                             height={48}
-                            alt={spinInfo[target]?.condition ?? "No Condition"}
+                            alt={spinInfo[target]?.killMethod ?? "No Condition"}
                             style={{
                                 height: "100%",
                                 width: "100px",

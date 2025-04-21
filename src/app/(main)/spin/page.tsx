@@ -32,7 +32,7 @@ export async function generateMetadata({
 
     let description = "";
     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target: SpinTarget) => {
-        description += `${TargetIDToDisplayText(target)}: ${MethodIDToDisplayText(spin.info[target]?.condition)} / ${DisguiseIDToDisplayText(spin.info[target]?.disguise)}\n`;
+        description += `${TargetIDToDisplayText(target)}: ${MethodIDToDisplayText(spin.info[target]?.killMethod)} / ${DisguiseIDToDisplayText(spin.info[target]?.disguise)}\n`;
     });
 
     return {

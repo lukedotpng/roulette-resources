@@ -60,7 +60,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         const disguisesInSpin: Disguise[] = [];
         const uniqueKillsInSpin: UniqueKill[] = [];
 
-        const currentCondition = spin.info[target]?.condition || "";
+        const currentCondition = spin.info[target]?.killMethod || "";
         const currentDisguise = spin.info[target]?.disguise || "";
         const isNtko = spin.info[target]?.ntko || false;
 

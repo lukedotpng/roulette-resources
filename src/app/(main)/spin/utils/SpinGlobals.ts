@@ -1,6 +1,6 @@
 import {
     SpinMissionTargets,
-    TargetBannedConditions,
+    TargetBannedKillMethods,
     MissionSpinOptions,
     TargetUniqueKills,
     Mission,
@@ -40,29 +40,33 @@ export const weaponsWithModifiers = [
 ];
 export const weaponModifierPrefix = ["loud_", "silenced_", ""];
 export const explosiveModifierPrefix = ["remote_", "loud_", "impact_"];
-export const pistolConditionList = ["loud_pistol", "pistol", "silenced_pistol"];
-export const smgConditionList = ["loud_smg", "smg", "silenced_smg"];
-export const assaultRifleConditionList = [
+export const pistolKillMethodList = [
+    "loud_pistol",
+    "pistol",
+    "silenced_pistol",
+];
+export const smgKillMethodList = ["loud_smg", "smg", "silenced_smg"];
+export const assaultRifleKillMethodList = [
     "loud_assault_rifle",
     "assault_rifle",
     "silenced_assault_rifle",
 ];
-export const shotgunConditionList = [
+export const shotgunKillMethodList = [
     "loud_shotgun",
     "shotgun",
     "silenced_shotgun",
 ];
-export const sniperConditionList = [
+export const sniperKillMethodList = [
     "loud_sniper_rifle",
     "sniper_rifle",
     "silenced_sniper_rifle",
 ];
 export const largeWeaponsList = [
-    ...assaultRifleConditionList,
-    ...shotgunConditionList,
-    ...sniperConditionList,
+    ...assaultRifleKillMethodList,
+    ...shotgunKillMethodList,
+    ...sniperKillMethodList,
 ];
-export const explosiveConditionList = [
+export const explosiveKillMethodList = [
     "remote_explosive",
     "loud_explosive",
     "impact_explosive",
@@ -755,7 +759,7 @@ export const SpinMissionTargetsList: SpinMissionTargets = {
     mendoza: ["don_yates", "tamara_vidal"],
 } as const;
 
-export const TargetBannedConditionsList: TargetBannedConditions = {
+export const TargetBannedKillMethodsList: TargetBannedKillMethods = {
     viktor_novikov: ["fire"],
     dalia_margolis: ["fire"],
     silvio_caruso: ["fire", "consumed_poison"],
@@ -805,7 +809,7 @@ export const TargetBannedConditionsList: TargetBannedConditions = {
 export const MissionSpinInfoList: MissionSpinOptions = {
     paris: {
         disguises: parisDisguises,
-        conditions: {
+        killMethods: {
             melees: parisMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -813,7 +817,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     sapienza: {
         disguises: sapienzaDisguises,
-        conditions: {
+        killMethods: {
             melees: sapienzaMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -821,7 +825,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     marrakesh: {
         disguises: marrakeshDisguises,
-        conditions: {
+        killMethods: {
             melees: marrakeshMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -829,7 +833,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     bangkok: {
         disguises: bangkokDisguises,
-        conditions: {
+        killMethods: {
             melees: bangkokMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -837,7 +841,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     colorado: {
         disguises: coloradoDisguises,
-        conditions: {
+        killMethods: {
             melees: coloradoMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -845,7 +849,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     hokkaido: {
         disguises: hokkaidoDisguises,
-        conditions: {
+        killMethods: {
             melees: hokkaidoMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -853,7 +857,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     miami: {
         disguises: miamiDisguises,
-        conditions: {
+        killMethods: {
             melees: miamiMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -861,7 +865,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     santa_fortuna: {
         disguises: santaFortunaDisguises,
-        conditions: {
+        killMethods: {
             melees: santaFortunaMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -869,7 +873,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     mumbai: {
         disguises: mumbaiDisguises,
-        conditions: {
+        killMethods: {
             melees: mumbaiMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -877,7 +881,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     whittleton_creek: {
         disguises: whittletonCreekDisguises,
-        conditions: {
+        killMethods: {
             melees: whittletonCreekMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -885,7 +889,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     ambrose_island: {
         disguises: ambroseIslandDisguises,
-        conditions: {
+        killMethods: {
             melees: ambroseIslandMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -893,7 +897,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     isle_of_sgail: {
         disguises: isleOfSgailDisguises,
-        conditions: {
+        killMethods: {
             melees: isleOfSgailMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -901,7 +905,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     new_york: {
         disguises: newYorkDisguises,
-        conditions: {
+        killMethods: {
             melees: newYorkMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -909,7 +913,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     haven_island: {
         disguises: havenIslandDisguises,
-        conditions: {
+        killMethods: {
             melees: havenIslandMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -917,7 +921,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     dubai: {
         disguises: dubaiDisguises,
-        conditions: {
+        killMethods: {
             melees: dubaiMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -925,7 +929,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     dartmoor: {
         disguises: dartmoorDisguises,
-        conditions: {
+        killMethods: {
             melees: dartmoorMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -933,7 +937,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     berlin: {
         disguises: berlinDisguises,
-        conditions: {
+        killMethods: {
             melees: berlinMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -941,7 +945,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     chongqing: {
         disguises: chongqingDisguises,
-        conditions: {
+        killMethods: {
             melees: chongqingMelees,
             weapons: weapons,
             unique_kills: uniqueKills,
@@ -949,7 +953,7 @@ export const MissionSpinInfoList: MissionSpinOptions = {
     },
     mendoza: {
         disguises: mendozaDisguises,
-        conditions: {
+        killMethods: {
             melees: mendozaMelees,
             weapons: weapons,
             unique_kills: uniqueKills,

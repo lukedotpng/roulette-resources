@@ -25,8 +25,8 @@ export default function SpinStatsTable({
     const [meleesActive, setMeleesActive] = useState(false);
 
     const disguises = MissionSpinInfoList[mission].disguises;
-    const melees = MissionSpinInfoList[mission].conditions.melees;
-    let uniqueKills = MissionSpinInfoList[mission].conditions.unique_kills;
+    const melees = MissionSpinInfoList[mission].killMethods.melees;
+    let uniqueKills = MissionSpinInfoList[mission].killMethods.unique_kills;
     const targets = SpinMissionTargetsList[mission];
     for (const target of targets) {
         uniqueKills = [...uniqueKills, ...TargetUniqueKillsList[target]];

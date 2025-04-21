@@ -39,7 +39,7 @@ export default function TargetSpinCard({
 }) {
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [categoryToEdit, setCategoryToEdit] =
-        useState<SpinUpdateAction>("condition");
+        useState<SpinUpdateAction>("killMethod");
 
     return (
         <div className="w-full max-w-[48rem] border-2 border-white text-white">
@@ -60,20 +60,54 @@ export default function TargetSpinCard({
                     <TargetSpinCardRow
                         title="Method"
                         info={
-                            MethodIDToDisplayText(spin[target]?.condition) ??
+                            MethodIDToDisplayText(spin[target]?.killMethod) ??
                             "No Method"
                         }
                         imageSrc={MethodImagePathFormatter(
-                            spin[target]?.condition || "No Method",
+                            spin[target]?.killMethod || "No Method",
                             target,
                         )}
                         options={options}
                         HandleSpinUpdate={() =>
-                            RespinCondition(target, "condition")
+                            RespinCondition(target, "killMethod")
                         }
                         EditSpin={() => {
-                            setCategoryToEdit("condition");
+                            setCategoryToEdit("killMethod");
                             setEditDialogActive(true);
+                        }}
+                        LockCondition={() => {
+                            if (spin[target] === undefined) {
+                                return;
+                            }
+                            const updatedLockedConditions = structuredClone(
+                                options.lockedConditions.val,
+                            );
+                            if (updatedLockedConditions[target] === undefined) {
+                                updatedLockedConditions[target] = {
+                                    killMethod: "",
+                                    disguise: "",
+                                    ntko: false,
+                                };
+                            }
+
+                            // Only set lock condition if no condition is locked,
+                            // remove lock if there is a current condition
+                            if (
+                                updatedLockedConditions[target].killMethod ===
+                                ""
+                            ) {
+                                updatedLockedConditions[target].killMethod =
+                                    spin[target].killMethod;
+                                updatedLockedConditions[target].ntko =
+                                    spin[target].ntko;
+                            } else {
+                                updatedLockedConditions[target].killMethod = "";
+                                updatedLockedConditions[target].ntko = false;
+                            }
+
+                            options.lockedConditions.Set(
+                                updatedLockedConditions,
+                            );
                         }}
                     />
                     <TargetSpinCardRow
@@ -93,6 +127,36 @@ export default function TargetSpinCard({
                         EditSpin={() => {
                             setCategoryToEdit("disguise");
                             setEditDialogActive(true);
+                        }}
+                        LockCondition={() => {
+                            if (spin[target] === undefined) {
+                                return;
+                            }
+                            const updatedLockedConditions = structuredClone(
+                                options.lockedConditions.val,
+                            );
+                            if (updatedLockedConditions[target] === undefined) {
+                                updatedLockedConditions[target] = {
+                                    killMethod: "",
+                                    disguise: "",
+                                    ntko: false,
+                                };
+                            }
+
+                            // Only set lock condition if no condition is locked,
+                            // remove lock if there is a current condition
+                            if (
+                                updatedLockedConditions[target].disguise === ""
+                            ) {
+                                updatedLockedConditions[target].disguise =
+                                    spin[target].disguise;
+                            } else {
+                                updatedLockedConditions[target].disguise = "";
+                            }
+
+                            options.lockedConditions.Set(
+                                updatedLockedConditions,
+                            );
                         }}
                     />
                     <SpinEditorDialog

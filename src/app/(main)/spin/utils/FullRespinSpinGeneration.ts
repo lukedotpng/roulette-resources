@@ -1,10 +1,10 @@
 import {
-    ConditionType,
+    KillMethodType,
     Mission,
     Spin,
     SpinInfo,
     SpinTarget,
-    TargetConditions,
+    TargetKillMethods,
 } from "@/types";
 import {
     SpinMissionTargetsList,
@@ -34,23 +34,23 @@ export function GenerateSpin(mission: Mission): Spin {
     }
 
     for (let i = 0; i < targets.length; i++) {
-        spinInfo[targets[i]] = { condition: "", disguise: "", ntko: false };
+        spinInfo[targets[i]] = { killMethod: "", disguise: "", ntko: false };
         // reorderedTargets[i] = targets[indexList[i]];
         reorderedTargets[i] = targets[i];
     }
 
     do {
         targets.forEach((target) => {
-            spinInfo[target] = { disguise: "", condition: "", ntko: false };
+            spinInfo[target] = { disguise: "", killMethod: "", ntko: false };
 
             const targetDisguise = GetRandomDisguise(spinInfoOptions.disguises);
             spinInfo[target].disguise = targetDisguise;
 
             const { condition, isNoKO } = GetRandomCondition(
-                spinInfoOptions.conditions,
+                spinInfoOptions.killMethods,
                 target,
             );
-            spinInfo[target].condition = condition;
+            spinInfo[target].killMethod = condition;
             spinInfo[target].ntko = isNoKO;
         });
     } while (!SpinIsLegal({ mission: mission, info: spinInfo }).legal);
@@ -62,8 +62,11 @@ function GetRandomDisguise(disguiseList: string[]): string {
     return disguiseList[Math.floor(Math.random() * disguiseList.length)];
 }
 
-function GetRandomCondition(conditions: TargetConditions, target: SpinTarget) {
-    const conditionTypeList: ConditionType[] = [
+function GetRandomCondition(
+    killMethods: TargetKillMethods,
+    target: SpinTarget,
+) {
+    const killMethodTypeList: KillMethodType[] = [
         "weapons",
         "unique_kills",
         "melees",
@@ -75,10 +78,10 @@ function GetRandomCondition(conditions: TargetConditions, target: SpinTarget) {
     }
 
     // Get which condition type to choose from
-    const conditionType: ConditionType =
-        conditionTypeList[Math.floor(Math.random() * conditionTypeSize)];
+    const killMethodType: KillMethodType =
+        killMethodTypeList[Math.floor(Math.random() * conditionTypeSize)];
 
-    const updatedConditions = structuredClone(conditions);
+    const updatedConditions = structuredClone(killMethods);
 
     // Modfiy possible conditions for Soders
     if (target === "erich_soders") {
@@ -88,11 +91,11 @@ function GetRandomCondition(conditions: TargetConditions, target: SpinTarget) {
     } else {
         updatedConditions.unique_kills = [
             ...TargetUniqueKillsList[target],
-            ...conditions.unique_kills,
+            ...killMethods.unique_kills,
         ];
     }
 
-    const conditionOptions: string[] = updatedConditions[conditionType];
+    const conditionOptions: string[] = updatedConditions[killMethodType];
 
     let condition =
         conditionOptions[Math.floor(Math.random() * conditionOptions.length)];
@@ -124,7 +127,7 @@ function GetRandomCondition(conditions: TargetConditions, target: SpinTarget) {
     if (!condition) {
         console.log("TARGET CONDITION:", condition);
         console.log("CONDITIONS LIST:", conditionOptions);
-        console.log("CONDITIONS TYPE:", conditionType);
+        console.log("CONDITIONS TYPE:", killMethodType);
         console.log("CUSTOM CONDITIONS:", updatedConditions);
     }
 

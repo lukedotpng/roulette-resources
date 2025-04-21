@@ -197,7 +197,7 @@ export default function MatchSimLog({
                                                             <span>
                                                                 <span>
                                                                     {MethodIDToDisplayText(
-                                                                        targetSpinInfo.condition,
+                                                                        targetSpinInfo.killMethod,
                                                                     )}
                                                                 </span>
                                                             </span>

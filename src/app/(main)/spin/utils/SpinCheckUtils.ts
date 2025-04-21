@@ -1,13 +1,13 @@
 import { Mission, Spin, SpinCheckResult, SpinTarget } from "@/types";
 import {
-    assaultRifleConditionList,
-    explosiveConditionList,
-    pistolConditionList,
-    shotgunConditionList,
-    smgConditionList,
-    sniperConditionList,
+    assaultRifleKillMethodList,
+    explosiveKillMethodList,
+    pistolKillMethodList,
+    shotgunKillMethodList,
+    smgKillMethodList,
+    sniperKillMethodList,
     SpinMissionTargetsList,
-    TargetBannedConditionsList,
+    TargetBannedKillMethodsList,
     TargetUniqueKillsList,
     uniqueKills,
 } from "./SpinGlobals";
@@ -33,7 +33,10 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             };
         }
 
-        if (targetSpinInfo.condition === "" || targetSpinInfo.disguise === "") {
+        if (
+            targetSpinInfo.killMethod === "" ||
+            targetSpinInfo.disguise === ""
+        ) {
             continue;
         }
 
@@ -45,37 +48,37 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             };
         }
 
-        if (TargetConditionIsBanned(target, targetSpinInfo.condition)) {
+        if (TargetKillMethodIsBanned(target, targetSpinInfo.killMethod)) {
             return {
                 legal: false,
                 reason: "condition_banned",
-                reason_info: `${MethodIDToDisplayText(targetSpinInfo.condition)} is banned for ${TargetIDToDisplayText(target)}`,
+                reason_info: `${MethodIDToDisplayText(targetSpinInfo.killMethod)} is banned for ${TargetIDToDisplayText(target)}`,
             };
         }
 
         const conditionBannedWithDisguise = ConditionIsBannedWithDisguise(
             spin.mission,
             target,
-            targetSpinInfo.condition,
+            targetSpinInfo.killMethod,
             targetSpinInfo.disguise,
         );
         if (conditionBannedWithDisguise.isBanned) {
             return {
                 legal: false,
-                reason: "condition_banned_with_disguise",
+                reason: "kill_method_banned_with_disguise",
                 reason_info: conditionBannedWithDisguise.reason,
             };
         }
 
-        if (ConditionRepeats(targetSpinInfo.condition, conditionsSpun)) {
+        if (KillMethodRepeats(targetSpinInfo.killMethod, conditionsSpun)) {
             if (
-                targetSpinInfo.condition !== "electrocution" ||
+                targetSpinInfo.killMethod !== "electrocution" ||
                 spin.mission !== "hokkaido"
             ) {
                 return {
                     legal: false,
-                    reason: "repeat_condition",
-                    reason_info: `The "${MethodIDToDisplayText(targetSpinInfo.condition)}" kill repeats somewhere in the spin`,
+                    reason: "repeat_kill_method",
+                    reason_info: `The "${MethodIDToDisplayText(targetSpinInfo.killMethod)}" kill repeats somewhere in the spin`,
                 };
             }
         }
@@ -83,20 +86,20 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
         if (
             spin.mission === "hokkaido" &&
             ExplosionConditionRepeatsOnHokkaido(
-                targetSpinInfo.condition,
+                targetSpinInfo.killMethod,
                 conditionsSpun,
             )
         ) {
             return {
                 legal: false,
-                reason: "repeat_condition",
+                reason: "repeat_kill_method",
                 reason_info:
                     "Yuki and Soders cannot both have Explosion/Explosive kills",
             };
         }
 
         if (targetSpinInfo.ntko) {
-            const canBeNTKO = CanBeNTKO(target, targetSpinInfo.condition);
+            const canBeNTKO = CanBeNTKO(target, targetSpinInfo.killMethod);
             if (!canBeNTKO.ntkoLegal) {
                 return {
                     legal: false,
@@ -106,7 +109,7 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             }
         }
 
-        conditionsSpun.push(targetSpinInfo.condition);
+        conditionsSpun.push(targetSpinInfo.killMethod);
         disguisesSpun.push(targetSpinInfo.disguise);
     }
 
@@ -116,8 +119,11 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
 }
 
 // Check for basic target specific bans
-export function TargetConditionIsBanned(target: SpinTarget, condition: string) {
-    if (TargetBannedConditionsList[target].includes(condition)) {
+export function TargetKillMethodIsBanned(
+    target: SpinTarget,
+    condition: string,
+) {
+    if (TargetBannedKillMethodsList[target].includes(condition)) {
         return true;
     }
 
@@ -232,68 +238,68 @@ export function ExplosionConditionRepeatsOnHokkaido(
     return false;
 }
 
-export function ConditionRepeats(
-    targetCondition: string,
-    conditionsSpun: string[],
+export function KillMethodRepeats(
+    targetKillMethod: string,
+    killMethodsSpun: string[],
 ) {
     // Basic repeat check
-    if (conditionsSpun.includes(targetCondition)) {
+    if (killMethodsSpun.includes(targetKillMethod)) {
         return true;
     }
 
     // Check conditions for weapon repeats
-    for (const pastCondition of conditionsSpun) {
+    for (const pastKillMethod of killMethodsSpun) {
         if (
             // PISTOL CHECKS
-            pistolConditionList.includes(pastCondition) &&
-            pistolConditionList.includes(targetCondition)
+            pistolKillMethodList.includes(pastKillMethod) &&
+            pistolKillMethodList.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // SMG CHECKS
-            smgConditionList.includes(pastCondition) &&
-            smgConditionList.includes(targetCondition)
+            smgKillMethodList.includes(pastKillMethod) &&
+            smgKillMethodList.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // ASSAULT RIFLE CHECKS
-            assaultRifleConditionList.includes(pastCondition) &&
-            assaultRifleConditionList.includes(targetCondition)
+            assaultRifleKillMethodList.includes(pastKillMethod) &&
+            assaultRifleKillMethodList.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // SHOTGUN CHECKS
-            shotgunConditionList.includes(pastCondition) &&
-            shotgunConditionList.includes(targetCondition)
+            shotgunKillMethodList.includes(pastKillMethod) &&
+            shotgunKillMethodList.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // SNIPER CHECKS
-            sniperConditionList.includes(pastCondition) &&
-            sniperConditionList.includes(targetCondition)
+            sniperKillMethodList.includes(pastKillMethod) &&
+            sniperKillMethodList.includes(targetKillMethod)
         ) {
             return true;
         } else if (
-            explosiveConditionList.includes(pastCondition) &&
-            explosiveConditionList.includes(targetCondition)
+            explosiveKillMethodList.includes(pastKillMethod) &&
+            explosiveKillMethodList.includes(targetKillMethod)
         ) {
             return true;
         }
     }
 
-    const bigWeaponsConditionList = [
-        ...assaultRifleConditionList,
-        ...shotgunConditionList,
-        ...sniperConditionList,
+    const bigWeaponsKillMethodList = [
+        ...assaultRifleKillMethodList,
+        ...shotgunKillMethodList,
+        ...sniperKillMethodList,
     ];
     const conditionIsBigWeapon =
-        bigWeaponsConditionList.includes(targetCondition);
+        bigWeaponsKillMethodList.includes(targetKillMethod);
 
     if (conditionIsBigWeapon) {
-        for (const pastCondition of conditionsSpun) {
-            const pastConditionIsBigWeapon =
-                bigWeaponsConditionList.includes(pastCondition);
-            if (pastConditionIsBigWeapon && conditionIsBigWeapon) {
+        for (const pastKillMethod of killMethodsSpun) {
+            const pastKillMethodIsBigWeapon =
+                bigWeaponsKillMethodList.includes(pastKillMethod);
+            if (pastKillMethodIsBigWeapon && conditionIsBigWeapon) {
                 return true;
             }
         }
@@ -304,14 +310,14 @@ export function ConditionRepeats(
 
 export function CanBeNTKO(
     target: SpinTarget,
-    condition: string,
+    killMethod: string,
     // Condition check for general unique kills
 ): { ntkoLegal: boolean; reason: string } {
     if (
-        condition === "explosive" ||
-        condition === "remote_explosive" ||
-        condition === "loud_explosive" ||
-        condition === "impact_explosive"
+        killMethod === "explosive" ||
+        killMethod === "remote_explosive" ||
+        killMethod === "loud_explosive" ||
+        killMethod === "impact_explosive"
     ) {
         return {
             ntkoLegal: false,
@@ -328,7 +334,7 @@ export function CanBeNTKO(
     }
 
     // Penelope no loud NTKO
-    if (target === "penelope_graves" && condition.includes("loud")) {
+    if (target === "penelope_graves" && killMethod.includes("loud")) {
         return {
             ntkoLegal: false,
             reason: "Penelope cannot have loud kills with the NTKO complication",
@@ -336,7 +342,7 @@ export function CanBeNTKO(
     }
 
     // Dawood no loud NTKO
-    if (target === "dawood_rangan" && condition.includes("loud")) {
+    if (target === "dawood_rangan" && killMethod.includes("loud")) {
         return {
             ntkoLegal: false,
             reason: "Dawood cannot have loud kills with the NTKO complication",
@@ -345,7 +351,7 @@ export function CanBeNTKO(
 
     const allUniqueKills = [...uniqueKills, ...TargetUniqueKillsList[target]];
 
-    if (allUniqueKills.includes(condition)) {
+    if (allUniqueKills.includes(killMethod)) {
         return {
             ntkoLegal: false,
             reason: "Unique kills can't have the NTKO complication",

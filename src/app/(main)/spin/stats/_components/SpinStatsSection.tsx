@@ -78,13 +78,13 @@ export default function SpinStatsSection({
                     "remote_explosive",
                 ];
                 if (
-                    trapKills.includes(targetSpinInfo.condition) &&
+                    trapKills.includes(targetSpinInfo.killMethod) &&
                     target !== "erich_soders"
                 ) {
                     currSpinStats.targets[target].trapKillCount++;
                 }
 
-                if (largeWeaponsList.includes(targetSpinInfo.condition)) {
+                if (largeWeaponsList.includes(targetSpinInfo.killMethod)) {
                     currSpinStats.targets[target].largeWeaponCount++;
                 }
 
@@ -93,20 +93,20 @@ export default function SpinStatsSection({
                 }
 
                 const missionMelees = [
-                    ...MissionSpinInfoList[mission].conditions.melees,
+                    ...MissionSpinInfoList[mission].killMethods.melees,
                 ];
                 const targetUniqueKills = [...TargetUniqueKillsList[target]];
 
-                if (missionMelees.includes(targetSpinInfo.condition)) {
+                if (missionMelees.includes(targetSpinInfo.killMethod)) {
                     currSpinStats.targets[target].meleesCount++;
                 }
                 if (
-                    uniqueKills.includes(targetSpinInfo.condition) ||
-                    targetUniqueKills.includes(targetSpinInfo.condition)
+                    uniqueKills.includes(targetSpinInfo.killMethod) ||
+                    targetUniqueKills.includes(targetSpinInfo.killMethod)
                 ) {
                     currSpinStats.targets[target].uniqueKillsCount++;
                 }
-                if (weaponsWithModifiers.includes(targetSpinInfo.condition)) {
+                if (weaponsWithModifiers.includes(targetSpinInfo.killMethod)) {
                     currSpinStats.targets[target].weaponsCount++;
                 }
 
@@ -126,16 +126,16 @@ export default function SpinStatsSection({
 
                 if (
                     currSpinStats.targets[target].killMethods[
-                        targetSpinInfo.condition
+                        targetSpinInfo.killMethod
                     ]
                 ) {
                     currSpinStats.targets[target].killMethods[
-                        targetSpinInfo.condition
+                        targetSpinInfo.killMethod
                     ].count++;
                 } else {
                     currSpinStats.targets[target].killMethods[
-                        targetSpinInfo.condition
-                    ] = { method: targetSpinInfo.condition, count: 0 };
+                        targetSpinInfo.killMethod
+                    ] = { method: targetSpinInfo.killMethod, count: 0 };
                 }
             }
 

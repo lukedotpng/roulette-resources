@@ -1,10 +1,10 @@
 import {
-    ConditionType,
+    KillMethodType,
     Mission,
     Spin,
     SpinInfo,
     SpinTarget,
-    TargetConditions,
+    TargetKillMethods,
 } from "@/types";
 import {
     SpinMissionTargetsList,
@@ -12,9 +12,9 @@ import {
     TargetUniqueKillsList,
     weaponModifierPrefix,
     explosiveModifierPrefix,
-    TargetBannedConditionsList,
+    TargetBannedKillMethodsList,
     largeWeaponsList,
-    explosiveConditionList,
+    explosiveKillMethodList,
 } from "./SpinGlobals";
 import { CanBeNTKO, SpinIsLegal } from "./SpinCheckUtils";
 
@@ -36,7 +36,7 @@ export function GenerateSpin(mission: Mission): Spin {
     }
 
     for (let i = 0; i < targets.length; i++) {
-        spinInfo[targets[i]] = { condition: "", disguise: "", ntko: false };
+        spinInfo[targets[i]] = { killMethod: "", disguise: "", ntko: false };
         reorderedTargets[i] = targets[indexList[i]];
         // reorderedTargets[i] = targets[i];
     }
@@ -64,16 +64,16 @@ export function GenerateSpin(mission: Mission): Spin {
             return;
         }
 
-        const { condition, isNoKO } = GetRandomCondition(
-            spinInfoOptions.conditions,
+        const { killMethod, isNoKO } = GetRandomCondition(
+            spinInfoOptions.killMethods,
             target,
             conditionsSpun,
             largeWeaponSpun,
             spinInfo[target].disguise,
         );
-        spinInfo[target].condition = condition;
-        conditionsSpun.push(condition);
-        if (largeWeaponsList.includes(condition)) {
+        spinInfo[target].killMethod = killMethod;
+        conditionsSpun.push(killMethod);
+        if (largeWeaponsList.includes(killMethod)) {
             largeWeaponSpun = true;
         }
 
@@ -108,7 +108,7 @@ function GetRandomDisguise(
 }
 
 function GetRandomCondition(
-    conditions: TargetConditions,
+    killMethods: TargetKillMethods,
     target: SpinTarget,
     conditionsSpun: string[],
     largeWeaponSpun: boolean,
@@ -120,7 +120,7 @@ function GetRandomCondition(
         disguise === "stalker" ||
         disguise === "knights_armor";
 
-    const conditionTypeList: ConditionType[] = [
+    const conditionTypeList: KillMethodType[] = [
         "unique_kills",
         "weapons",
         "melees",
@@ -132,7 +132,7 @@ function GetRandomCondition(
     }
 
     // Get which condition type to choose from
-    let conditionType: ConditionType =
+    let conditionType: KillMethodType =
         conditionTypeList[Math.floor(Math.random() * conditionTypeSize)];
     let conditionOptions: string[];
 
@@ -141,7 +141,7 @@ function GetRandomCondition(
         conditionOptions = GetLegalUniqueKills(
             target,
             disguise,
-            conditions.unique_kills,
+            killMethods.unique_kills,
             conditionsSpun,
         );
     } else if (conditionType === "weapons") {
@@ -149,7 +149,7 @@ function GetRandomCondition(
         conditionOptions = GetLegalWeapons(
             target,
             disguise,
-            conditions.weapons,
+            killMethods.weapons,
             conditionsSpun,
             largeWeaponSpun,
         );
@@ -161,61 +161,61 @@ function GetRandomCondition(
             conditionOptions = GetLegalUniqueKills(
                 target,
                 disguise,
-                conditions.unique_kills,
+                killMethods.unique_kills,
                 conditionsSpun,
             );
         }
     } else {
         // Filter previously spun melees
-        conditionOptions = conditions.melees.filter((melee) => {
+        conditionOptions = killMethods.melees.filter((melee) => {
             return !conditionsSpun.includes(melee);
         });
     }
 
-    let condition =
+    let killMethod =
         conditionOptions[Math.floor(Math.random() * conditionOptions.length)];
 
     // Add "silenced_" , "loud_", or no prefix if condition is a firearm
-    if (conditionType === "weapons" && condition !== "explosive") {
+    if (conditionType === "weapons" && killMethod !== "explosive") {
         const modifierPrefix =
             weaponModifierPrefix[
                 Math.floor(Math.random() * weaponModifierPrefix.length)
             ];
 
-        condition = modifierPrefix + condition;
+        killMethod = modifierPrefix + killMethod;
     }
     // Add "remote_" , "impact_", or "loud_" prefix if condition is explosive
-    else if (condition === "explosive") {
+    else if (killMethod === "explosive") {
         if (noMeleesOrRemoteForced) {
-            condition = "remote_explosive";
+            killMethod = "remote_explosive";
         } else {
             const modifierPrefix =
                 explosiveModifierPrefix[
                     Math.floor(Math.random() * explosiveModifierPrefix.length)
                 ];
 
-            condition = modifierPrefix + condition;
+            killMethod = modifierPrefix + killMethod;
         }
     }
 
     // Log info if somehow no condition is found
-    if (!condition) {
+    if (!killMethod) {
         console.log("TARGET:", target);
-        console.log("TARGET CONDITION:", condition);
+        console.log("TARGET CONDITION:", killMethod);
         console.log("CONDITIONS TYPE:", conditionType);
         console.log("CONDITIONS LIST:", conditionOptions);
         console.log("CONDITIONS SPUN:", conditionsSpun);
-        console.log("CUSTOM CONDITIONS:", conditions);
+        console.log("CUSTOM CONDITIONS:", killMethods);
     }
 
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
     let isNoKO = false;
     if (conditionType !== "unique_kills") {
         isNoKO =
-            CanBeNTKO(target, condition).ntkoLegal && Math.random() <= 0.25;
+            CanBeNTKO(target, killMethod).ntkoLegal && Math.random() <= 0.25;
     }
 
-    return { condition, isNoKO };
+    return { killMethod, isNoKO };
 }
 
 function GetLegalUniqueKills(
@@ -233,7 +233,7 @@ function GetLegalUniqueKills(
                     return false;
                 }
                 for (const condition of conditionsSpun) {
-                    if (explosiveConditionList.includes(condition)) {
+                    if (explosiveKillMethodList.includes(condition)) {
                         return false;
                     }
                 }
@@ -256,7 +256,7 @@ function GetLegalUniqueKills(
 
     // Filter out banned kills, and previously spun kills
     return legalUniqueKills.filter((uniqueKill) => {
-        if (TargetBannedConditionsList[target].includes(uniqueKill)) {
+        if (TargetBannedKillMethodsList[target].includes(uniqueKill)) {
             return false;
         }
 
@@ -366,8 +366,10 @@ export function RegenerateCondition(spin: Spin, target: SpinTarget): Spin {
         if (currTarget === target || !updatedSpin.info[currTarget]) {
             continue;
         }
-        conditionsSpun.push(updatedSpin.info[currTarget].condition);
-        if (largeWeaponsList.includes(updatedSpin.info[currTarget].condition)) {
+        conditionsSpun.push(updatedSpin.info[currTarget].killMethod);
+        if (
+            largeWeaponsList.includes(updatedSpin.info[currTarget].killMethod)
+        ) {
             largeWeaponSpun = true;
         }
     }
@@ -377,18 +379,18 @@ export function RegenerateCondition(spin: Spin, target: SpinTarget): Spin {
             return spin;
         }
 
-        const { condition, isNoKO } = GetRandomCondition(
-            spinInfoOptions.conditions,
+        const { killMethod, isNoKO } = GetRandomCondition(
+            spinInfoOptions.killMethods,
             target,
             conditionsSpun,
             largeWeaponSpun,
             updatedSpin.info[target].disguise,
         );
 
-        updatedSpin.info[target].condition = condition;
+        updatedSpin.info[target].killMethod = killMethod;
         updatedSpin.info[target].ntko = isNoKO;
     } while (
-        updatedSpin.info[target].condition === spin.info[target]?.condition
+        updatedSpin.info[target].killMethod === spin.info[target]?.killMethod
     );
 
     return updatedSpin;

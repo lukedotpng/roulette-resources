@@ -57,20 +57,20 @@ export default function LargeMaps({
                                             </p>
                                             <h1 className="flex-1 text-[2em] font-bold">
                                                 {MethodIDToDisplayText(
-                                                    targetSpinInfo.condition,
+                                                    targetSpinInfo.killMethod,
                                                 ) ?? "No Method"}
                                             </h1>
                                         </div>
                                     </div>
                                     <Image
                                         src={MethodImagePathFormatter(
-                                            targetSpinInfo.condition ||
+                                            targetSpinInfo.killMethod ||
                                                 "No Method",
                                             target,
                                         )}
                                         alt={
                                             MethodIDToDisplayText(
-                                                targetSpinInfo.condition,
+                                                targetSpinInfo.killMethod,
                                             ) ?? "No Method"
                                         }
                                         width={693}
@@ -100,7 +100,7 @@ export default function LargeMaps({
                                         )}
                                         alt={
                                             DisguiseIDToDisplayText(
-                                                targetSpinInfo.condition,
+                                                targetSpinInfo.killMethod,
                                             ) ?? "No Method"
                                         }
                                         width={693}

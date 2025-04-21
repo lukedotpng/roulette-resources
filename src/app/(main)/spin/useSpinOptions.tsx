@@ -1,6 +1,13 @@
 import { Missions } from "@/utils/globals";
 import { useLocalState } from "@/utils/useLocalState";
-import { MatchSimRecord, Mission, Spin, SpinOptions } from "@/types";
+import {
+    LockedTargetConditions,
+    MatchSimRecord,
+    Mission,
+    Spin,
+    SpinOptions,
+    SpinTarget,
+} from "@/types";
 import { useState } from "react";
 import { GenerateSpin } from "./utils/SpinGenerationUtils";
 
@@ -123,6 +130,31 @@ export function useSpinOptions(
         setOverlayTheme(theme);
     }
 
+    const [lockedConditions, setLockedConditions] =
+        useState<LockedTargetConditions>({});
+    function SetLockedConditions(
+        updatedLockedConditions: LockedTargetConditions,
+    ) {
+        const filteredLockedConditions: LockedTargetConditions = {};
+        const targets = Object.keys(updatedLockedConditions) as SpinTarget[];
+        for (const target of targets) {
+            if (updatedLockedConditions[target] === undefined) {
+                console.log(target);
+                continue;
+            }
+
+            // Remove newly blank locked conditions
+            if (
+                updatedLockedConditions[target].killMethod !== "" ||
+                updatedLockedConditions[target].disguise !== ""
+            ) {
+                filteredLockedConditions[target] =
+                    updatedLockedConditions[target];
+            }
+        }
+        setLockedConditions(filteredLockedConditions);
+    }
+
     const settings: SpinOptions = {
         missionPool: {
             val: missionPool,
@@ -170,6 +202,10 @@ export function useSpinOptions(
             Toggle: ToggleStreamOverlayActive,
         },
         overlayTheme: { val: overlayTheme, Set: SetOverlayTheme },
+        lockedConditions: {
+            val: lockedConditions,
+            Set: SetLockedConditions,
+        },
     };
     return settings;
 }

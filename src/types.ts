@@ -106,22 +106,22 @@ export type BerlinUniqueKill =
     | "consumed"
     | "live_kills";
 
-export type MissionSpinInfoElement = "disguises" | "conditions";
+export type MissionSpinInfoElement = "disguises" | "killMethods";
 
-export type ConditionType = "melees" | "weapons" | "unique_kills";
+export type KillMethodType = "melees" | "weapons" | "unique_kills";
 
-export type TargetConditions = {
-    [key in ConditionType]: string[];
+export type TargetKillMethods = {
+    [key in KillMethodType]: string[];
 };
 
-export type TargetBannedConditions = {
+export type TargetBannedKillMethods = {
     [key in SpinTarget]: string[];
 };
 
 export type MissionSpinOptions = {
     [key in Mission]: {
         disguises: string[];
-        conditions: TargetConditions;
+        killMethods: TargetKillMethods;
     };
 };
 
@@ -179,7 +179,15 @@ export type Spin = {
 export type SpinInfo = {
     [key in SpinTarget]?: {
         disguise: string;
-        condition: string;
+        killMethod: string;
+        ntko: boolean;
+    };
+};
+
+export type LockedTargetConditions = {
+    [key in SpinTarget]?: {
+        disguise: string;
+        killMethod: string;
         ntko: boolean;
     };
 };
@@ -204,7 +212,7 @@ export type MissionDisguises = {
     [key in Mission]: string[];
 };
 
-export type SpinUpdateAction = "condition" | "disguise" | "toggle_ntko";
+export type SpinUpdateAction = "killMethod" | "disguise" | "toggle_ntko";
 
 export type SpinResources = {
     items: Item[];
@@ -243,14 +251,15 @@ export type SpinOptions = {
     warnForIllegalSpins: ToggleOption;
     streamOverlayActive: ToggleOption;
     overlayTheme: Option<string>;
+    lockedConditions: Option<LockedTargetConditions>;
 };
 
 export type SpinIllegalReason =
     | "error_checking_legality"
-    | "repeat_condition"
+    | "repeat_kill_method"
     | "repeat_disguise"
     | "condition_banned"
-    | "condition_banned_with_disguise"
+    | "kill_method_banned_with_disguise"
     | "illegal_ntko";
 
 export type SpinCheckResult = {

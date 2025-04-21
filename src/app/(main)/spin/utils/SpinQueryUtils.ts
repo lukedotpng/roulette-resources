@@ -23,7 +23,7 @@ export function CreateSpinQuery(spin: Spin) {
             return "err";
         }
 
-        const conditionId = SpinInfoIdMap[targetSpin.condition];
+        const conditionId = SpinInfoIdMap[targetSpin.killMethod];
         const disguiseId = SpinInfoIdMap[targetSpin.disguise];
 
         if (!conditionId || !disguiseId) {
@@ -92,7 +92,7 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
         const ntko = ntkoId === "1";
 
         spinInfo[target] = {
-            condition: condition,
+            killMethod: condition,
             disguise: disguise,
             ntko: ntko,
         };
@@ -133,7 +133,7 @@ export function OldCreateSpinQuery(spin: Spin) {
 
     spinTargets.forEach((target, index) => {
         const targetSpin = spin.info[target];
-        const conditionIndex = GetConditionIndex(targetSpin?.condition ?? "");
+        const conditionIndex = GetConditionIndex(targetSpin?.killMethod ?? "");
         const disguiseIndex = GetMissionDisguiseIndex(
             targetSpin?.disguise ?? "",
             spin.mission,
@@ -201,7 +201,7 @@ export function OldParseSpinQuery(spinQuery: string): Spin | null {
         }
 
         spinInfo[target] = {
-            condition: condition,
+            killMethod: condition,
             disguise: disguise,
             ntko: ntko,
         };

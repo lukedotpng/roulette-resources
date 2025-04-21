@@ -22,6 +22,7 @@ import {
 import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheckUtils";
+import { SpinMissionTargetsList } from "./utils/SpinGlobals";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
@@ -95,8 +96,33 @@ export function useSpinManager() {
         setCurrentSpin(spin);
     }
     function Respin() {
-        if (currentSpin) {
+        if (currentSpin === null) {
+            return;
+        }
+
+        const targetsWithLockedConditions = Object.keys(
+            options.lockedConditions.val,
+        );
+
+        if (targetsWithLockedConditions.length === 0) {
             setCurrentSpin(GenerateSpin(currentSpin.mission));
+        } else {
+            const targets = SpinMissionTargetsList[currentSpin.mission];
+            for (const target of targets) {
+                const targetKillMethodLocked =
+                    options.lockedConditions.val[target] &&
+                    options.lockedConditions.val[target].killMethod !== "";
+                const targetDisguiseLocked =
+                    options.lockedConditions.val[target] &&
+                    options.lockedConditions.val[target].disguise !== "";
+
+                if (!targetKillMethodLocked) {
+                    RespinCondition(target, "killMethod");
+                }
+                if (!targetDisguiseLocked) {
+                    RespinCondition(target, "disguise");
+                }
+            }
         }
     }
     function RespinCondition(target: SpinTarget, action: SpinUpdateAction) {
@@ -104,7 +130,7 @@ export function useSpinManager() {
             return;
         }
 
-        if (action === "condition") {
+        if (action === "killMethod") {
             const updatedSpin = RegenerateCondition(currentSpin, target);
             setCurrentSpin(updatedSpin);
             return;
@@ -134,10 +160,10 @@ export function useSpinManager() {
             return;
         }
 
-        if (action === "condition") {
+        if (action === "killMethod") {
             const updatedSpin = structuredClone(currentSpin);
             if (updatedSpin.info[target]) {
-                updatedSpin.info[target].condition = newValue;
+                updatedSpin.info[target].killMethod = newValue;
             }
 
             setCurrentSpin(updatedSpin);

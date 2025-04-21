@@ -30,7 +30,7 @@ export default function TextOnly({
                             <span className="font-bold">{`${TargetIDToDisplayText(target)}: `}</span>
                             <span>
                                 {MethodIDToDisplayText(
-                                    targetSpinInfo?.condition,
+                                    targetSpinInfo?.killMethod,
                                 )}
                             </span>
                             <span>{" / "}</span>
