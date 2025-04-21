@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
 import {
     GenerateSpin,
-    RegenerateCondition,
     RegenerateDisguise,
+    RegenerateKillMethod,
 } from "./utils/SpinGenerationUtils";
 import { GetRandomMission } from "@/app/(main)/spin/utils/SpinUtils";
 import { useLocalState } from "@/utils/useLocalState";
@@ -26,12 +26,23 @@ import { SpinMissionTargetsList } from "./utils/SpinGlobals";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
+    function SetCurrentSpin(updatedSpin: Spin | null) {
+        if (
+            updatedSpin !== null &&
+            currentSpin !== null &&
+            updatedSpin.mission !== currentSpin.mission
+        ) {
+            options.lockedConditions.Set({});
+        }
+
+        setCurrentSpin(updatedSpin);
+    }
 
     const [spinLegal, setSpinLegal] = useState<SpinCheckResult>({
         legal: true,
     });
 
-    const options = useSpinOptions(currentSpin, setCurrentSpin);
+    const options = useSpinOptions(currentSpin, SetCurrentSpin);
 
     // State
     const [matchActive, setMatchActive] = useState(false);
@@ -93,7 +104,7 @@ export function useSpinManager() {
 
         const spin: Spin = GenerateSpin(missionToSpin);
 
-        setCurrentSpin(spin);
+        SetCurrentSpin(spin);
     }
     function Respin() {
         if (currentSpin === null) {
@@ -105,24 +116,30 @@ export function useSpinManager() {
         );
 
         if (targetsWithLockedConditions.length === 0) {
-            setCurrentSpin(GenerateSpin(currentSpin.mission));
+            SetCurrentSpin(GenerateSpin(currentSpin.mission));
         } else {
             const targets = SpinMissionTargetsList[currentSpin.mission];
+            let updatedSpin: Spin = structuredClone(currentSpin);
+
             for (const target of targets) {
+                const lockedTargetConditions =
+                    options.lockedConditions.val[target];
                 const targetKillMethodLocked =
-                    options.lockedConditions.val[target] &&
-                    options.lockedConditions.val[target].killMethod !== "";
+                    lockedTargetConditions !== undefined &&
+                    lockedTargetConditions.killMethod !== "";
                 const targetDisguiseLocked =
-                    options.lockedConditions.val[target] &&
-                    options.lockedConditions.val[target].disguise !== "";
+                    lockedTargetConditions !== undefined &&
+                    lockedTargetConditions.disguise !== "";
 
                 if (!targetKillMethodLocked) {
-                    RespinCondition(target, "killMethod");
+                    updatedSpin = RegenerateKillMethod(updatedSpin, target);
                 }
                 if (!targetDisguiseLocked) {
-                    RespinCondition(target, "disguise");
+                    updatedSpin = RegenerateDisguise(updatedSpin, target);
                 }
             }
+
+            SetCurrentSpin(updatedSpin);
         }
     }
     function RespinCondition(target: SpinTarget, action: SpinUpdateAction) {
@@ -131,13 +148,13 @@ export function useSpinManager() {
         }
 
         if (action === "killMethod") {
-            const updatedSpin = RegenerateCondition(currentSpin, target);
-            setCurrentSpin(updatedSpin);
+            const updatedSpin = RegenerateKillMethod(currentSpin, target);
+            SetCurrentSpin(updatedSpin);
             return;
         }
         if (action === "disguise") {
             const updatedSpin = RegenerateDisguise(currentSpin, target);
-            setCurrentSpin(updatedSpin);
+            SetCurrentSpin(updatedSpin);
             return;
         }
         if (action === "toggle_ntko") {
@@ -145,7 +162,7 @@ export function useSpinManager() {
             if (updatedSpin.info[target]) {
                 updatedSpin.info[target].ntko = !updatedSpin.info[target].ntko;
             }
-            setCurrentSpin(updatedSpin);
+            SetCurrentSpin(updatedSpin);
             return;
         }
     }
@@ -166,7 +183,7 @@ export function useSpinManager() {
                 updatedSpin.info[target].killMethod = newValue;
             }
 
-            setCurrentSpin(updatedSpin);
+            SetCurrentSpin(updatedSpin);
             return;
         }
         if (action === "disguise") {
@@ -174,7 +191,7 @@ export function useSpinManager() {
             if (updatedSpin.info[target]) {
                 updatedSpin.info[target].disguise = newValue;
             }
-            setCurrentSpin(updatedSpin);
+            SetCurrentSpin(updatedSpin);
             return;
         }
         if (action === "toggle_ntko") {
@@ -182,7 +199,7 @@ export function useSpinManager() {
             if (updatedSpin.info[target]) {
                 updatedSpin.info[target].ntko = !updatedSpin.info[target].ntko;
             }
-            setCurrentSpin(updatedSpin);
+            SetCurrentSpin(updatedSpin);
             return;
         }
     }
@@ -194,7 +211,7 @@ export function useSpinManager() {
             return;
         }
         options.queueIndex.Set(nextIndex);
-        setCurrentSpin(GenerateSpin(options.missionQueue.val[nextIndex]));
+        SetCurrentSpin(GenerateSpin(options.missionQueue.val[nextIndex]));
     }
     function GeneratePreviousSpin() {
         const prevIndex = options.queueIndex.val - 1;
@@ -202,15 +219,15 @@ export function useSpinManager() {
             return;
         }
         options.queueIndex.Set(prevIndex);
-        setCurrentSpin(GenerateSpin(options.missionQueue.val[prevIndex]));
+        SetCurrentSpin(GenerateSpin(options.missionQueue.val[prevIndex]));
     }
     function UpdateQueueIndex(index: number) {
         options.queueIndex.Set(index);
-        setCurrentSpin(GenerateSpin(options.missionQueue.val[index]));
+        SetCurrentSpin(GenerateSpin(options.missionQueue.val[index]));
     }
 
     function UpdateSpin(spin: Spin) {
-        setCurrentSpin(spin);
+        SetCurrentSpin(spin);
     }
     const query = useSpinQuery(currentSpin, UpdateSpin, matchActive, options);
 

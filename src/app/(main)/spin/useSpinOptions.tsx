@@ -13,7 +13,7 @@ import { GenerateSpin } from "./utils/SpinGenerationUtils";
 
 export function useSpinOptions(
     currentSpin: Spin | null,
-    setCurrentSpin: (spin: Spin | null) => void,
+    SetCurrentSpin: (spin: Spin | null) => void,
 ) {
     // Options
     const [missionPool, setMissionPool] = useLocalState<Mission[]>(
@@ -29,9 +29,9 @@ export function useSpinOptions(
     );
     function SetMissionQueue(updatedQueue: Mission[]) {
         if (updatedQueue.length === 0) {
-            setCurrentSpin(null);
+            SetCurrentSpin(null);
         } else {
-            setCurrentSpin(GenerateSpin(updatedQueue[0]));
+            SetCurrentSpin(GenerateSpin(updatedQueue[0]));
         }
         setQueueIndex(0);
         setMissionQueue(updatedQueue);
@@ -48,9 +48,9 @@ export function useSpinOptions(
         if (updatedQueueMode) {
             if (missionQueue.length === 0) {
                 setMissionQueue(Missions);
-                setCurrentSpin(GenerateSpin("paris"));
+                SetCurrentSpin(GenerateSpin("paris"));
             } else {
-                setCurrentSpin(GenerateSpin(missionQueue[0]));
+                SetCurrentSpin(GenerateSpin(missionQueue[0]));
             }
             setQueueIndex(0);
         } else {
@@ -61,7 +61,7 @@ export function useSpinOptions(
                               Math.floor(Math.random() * missionPool.length)
                           ]
                         : "paris";
-                setCurrentSpin(GenerateSpin(mission));
+                SetCurrentSpin(GenerateSpin(mission));
             }
         }
 

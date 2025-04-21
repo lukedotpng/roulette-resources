@@ -16,7 +16,7 @@ import {
     largeWeaponsList,
     explosiveKillMethodList,
 } from "./SpinGlobals";
-import { CanBeNTKO, SpinIsLegal } from "./SpinCheckUtils";
+import { CanBeNTKO } from "./SpinCheckUtils";
 
 export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];
@@ -355,7 +355,7 @@ function GetLegalWeapons(
     });
 }
 
-export function RegenerateCondition(spin: Spin, target: SpinTarget): Spin {
+export function RegenerateKillMethod(spin: Spin, target: SpinTarget): Spin {
     const spinInfoOptions = MissionSpinInfoList[spin.mission];
     const updatedSpin = structuredClone(spin);
 
@@ -401,18 +401,26 @@ export function RegenerateDisguise(spin: Spin, target: SpinTarget): Spin {
 
     const updatedSpin = structuredClone(spin);
 
+    const disguisesSpun = [];
+    const targets = Object.keys(updatedSpin.info) as SpinTarget[];
+    for (const currTarget of targets) {
+        if (spin.info[currTarget]) {
+            disguisesSpun.push(spin.info[currTarget].disguise);
+        }
+    }
+
     do {
         if (!updatedSpin.info[target]) {
             return spin;
         }
 
-        const disguise = GetRandomDisguise(spinInfoOptions.disguises, []);
+        const disguise = GetRandomDisguise(
+            spinInfoOptions.disguises,
+            disguisesSpun,
+        );
 
         updatedSpin.info[target].disguise = disguise;
-    } while (
-        !SpinIsLegal(updatedSpin).legal ||
-        updatedSpin.info[target].disguise === spin.info[target]?.disguise
-    );
+    } while (updatedSpin.info[target].disguise === spin.info[target]?.disguise);
 
     return updatedSpin;
 }
