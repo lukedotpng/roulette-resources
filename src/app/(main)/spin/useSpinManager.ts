@@ -28,9 +28,10 @@ export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
     function SetCurrentSpin(updatedSpin: Spin | null) {
         if (
-            updatedSpin !== null &&
-            currentSpin !== null &&
-            updatedSpin.mission !== currentSpin.mission
+            (updatedSpin !== null &&
+                currentSpin !== null &&
+                updatedSpin.mission !== currentSpin.mission) ||
+            options.matchMode.val
         ) {
             options.lockedConditions.Set({});
         }

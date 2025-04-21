@@ -70,6 +70,11 @@ export function useSpinOptions(
     const [matchMode, setMatchMode] = useState(false);
     function ToggleMatchMode() {
         const updatedMatchMode = !matchMode;
+
+        if (updatedMatchMode) {
+            setLockedConditions({});
+        }
+
         setMatchMode(updatedMatchMode);
     }
     const [simRecords, setSimRecords] = useLocalState<MatchSimRecord[]>(
