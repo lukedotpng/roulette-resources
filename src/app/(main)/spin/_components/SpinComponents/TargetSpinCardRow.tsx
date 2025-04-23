@@ -9,6 +9,7 @@ export default function TargetSpinCardRow({
     HandleSpinUpdate,
     EditSpin,
     LockCondition,
+    conditionLocked,
     options,
 }: {
     title: string;
@@ -17,11 +18,10 @@ export default function TargetSpinCardRow({
     HandleSpinUpdate: () => void;
     EditSpin: () => void;
     LockCondition: () => void;
+    conditionLocked: boolean;
     options: SpinOptions;
 }) {
     const [spinAnimationActive, setSpinAnimationActive] = useState(false);
-
-    const [conditionLocked, setConditionLocked] = useState(false);
 
     const respinAnimationTimeout = useRef<NodeJS.Timeout>(undefined);
 
@@ -45,6 +45,7 @@ export default function TargetSpinCardRow({
                     </h1>
                 </div>
                 {!options.matchMode.val &&
+                    !conditionLocked &&
                     (options.manualMode.val ? (
                         <button
                             className="w-4 fill-white hover:fill-red-500 sm:w-6"
@@ -88,10 +89,8 @@ export default function TargetSpinCardRow({
                 />
                 {!options.matchMode.val && (
                     <button
-                        className="group absolute right-0 bottom-0 flex w-4 flex-col items-center justify-end fill-white hover:fill-red-500 data-[conditionlocked=true]:h-full data-[conditionlocked=true]:w-full data-[conditionlocked=true]:p-3 data-[conditionlocked=true]:opacity-60 data-[conditionlocked=true]:hover:opacity-100 sm:w-6 sm:data-[conditionlocked=true]:p-5"
+                        className="group absolute right-0 bottom-0 flex h-full w-full flex-col items-center justify-end fill-white p-1 hover:fill-red-500 data-[conditionlocked=true]:opacity-65 data-[conditionlocked=true]:hover:opacity-100"
                         onClick={() => {
-                            setConditionLocked(!conditionLocked);
-                            console.log("yo");
                             LockCondition();
                         }}
                         data-conditionlocked={conditionLocked}
@@ -99,7 +98,7 @@ export default function TargetSpinCardRow({
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 576 512"
-                            className="block group-data-[conditionlocked=true]:hidden"
+                            className="block w-4 self-end group-data-[conditionlocked=true]:hidden sm:w-6"
                         >
                             {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
                             <path d="M352 144c0-44.2 35.8-80 80-80s80 35.8 80 80l0 48c0 17.7 14.3 32 32 32s32-14.3 32-32l0-48C576 64.5 511.5 0 432 0S288 64.5 288 144l0 48L64 192c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-192c0-35.3-28.7-64-64-64l-32 0 0-48z" />
@@ -107,7 +106,7 @@ export default function TargetSpinCardRow({
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 448 512"
-                            className="hidden group-data-[conditionlocked=true]:block"
+                            className="hidden w-10 stroke-black stroke-3 group-data-[conditionlocked=true]:block sm:w-10"
                         >
                             {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
                             <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />

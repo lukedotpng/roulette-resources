@@ -41,6 +41,19 @@ export default function TargetSpinCard({
     const [categoryToEdit, setCategoryToEdit] =
         useState<SpinUpdateAction>("killMethod");
 
+    const killMethodLocked =
+        options.lockedConditions.val[target] !== undefined &&
+        options.lockedConditions.val[target].killMethod !== "";
+
+    const disguiseLocked =
+        options.lockedConditions.val[target] !== undefined &&
+        options.lockedConditions.val[target].disguise !== "";
+
+    const showNtkoBar =
+        spin[target]?.ntko ||
+        (!killMethodLocked &&
+            (options.manualMode.val || options.canAlwaysEditNTKO.val));
+
     return (
         <div className="w-full max-w-[48rem] border-2 border-white text-white">
             <div className="flex h-24 w-full text-white sm:h-36">
@@ -109,6 +122,7 @@ export default function TargetSpinCard({
                                 updatedLockedConditions,
                             );
                         }}
+                        conditionLocked={killMethodLocked}
                     />
                     <TargetSpinCardRow
                         title="Disguise"
@@ -158,6 +172,7 @@ export default function TargetSpinCard({
                                 updatedLockedConditions,
                             );
                         }}
+                        conditionLocked={disguiseLocked}
                     />
                     <SpinEditorDialog
                         mission={mission}
@@ -172,9 +187,7 @@ export default function TargetSpinCard({
                     />
                 </div>
             </div>
-            {(spin[target]?.ntko ||
-                options.manualMode.val ||
-                options.canAlwaysEditNTKO.val) && (
+            {showNtkoBar && (
                 <div
                     data-active={spin[target]?.ntko}
                     className="group relative border-t-[1px] border-white bg-zinc-900 py-0.5 text-center text-[.9em] font-bold data-[active=true]:bg-red-500 sm:border-t-2 sm:py-1 sm:text-[1em]"
@@ -182,7 +195,7 @@ export default function TargetSpinCard({
                     <span className="decoration-2 group-data-[active=false]:line-through">
                         No Target Pacification
                     </span>
-                    {!options.matchMode.val && (
+                    {!options.matchMode.val && !killMethodLocked && (
                         <button
                             className="absolute top-0 right-2 h-full fill-white"
                             onClick={() =>
