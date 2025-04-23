@@ -337,6 +337,7 @@ const santaFortunaMelees = [
     "barber_razor",
     "fiber_wire",
     "neck_snap",
+    "sacrificial_knife",
 ];
 const santaFortunaDisguises = [
     "suit",
@@ -489,6 +490,7 @@ const isleOfSgailMelees = [
     "starfish",
     "fiber_wire",
     "neck_snap",
+    "sacrificial_knife",
 ];
 const isleOfSgailDisguises = [
     "suit",
@@ -1838,4 +1840,6 @@ export const SpinInfoIdMap: { [key: string]: string } = {
     chongqing: "ax",
     ay: "mendoza",
     mendoza: "ay",
+    az: "sacrificial_knife",
+    sacrificial_knife: "az",
 } as const;

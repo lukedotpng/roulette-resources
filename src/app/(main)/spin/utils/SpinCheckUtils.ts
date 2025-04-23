@@ -127,6 +127,10 @@ export function TargetKillMethodIsBanned(
         return true;
     }
 
+    if (condition === "sacrificial_knife") {
+        return true;
+    }
+
     return false;
 }
 

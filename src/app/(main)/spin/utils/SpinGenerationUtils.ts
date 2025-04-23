@@ -168,7 +168,9 @@ function GetRandomCondition(
     } else {
         // Filter previously spun melees
         conditionOptions = killMethods.melees.filter((melee) => {
-            return !conditionsSpun.includes(melee);
+            return (
+                !conditionsSpun.includes(melee) || melee !== "sacrificial_knife"
+            );
         });
     }
 
