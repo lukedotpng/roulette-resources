@@ -13,8 +13,8 @@ import {
     weapons,
     weaponModifierPrefix,
     explosiveModifierPrefix,
-} from "./SpinGlobals";
-import { CanBeNTKO, SpinIsLegal } from "./SpinCheckUtils";
+} from "../SpinGlobals";
+import { CanBeNTKO, SpinIsLegal } from "../SpinCheckUtils";
 
 export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];
@@ -35,30 +35,18 @@ export function GenerateSpin(mission: Mission): Spin {
 
     for (let i = 0; i < targets.length; i++) {
         spinInfo[targets[i]] = { killMethod: "", disguise: "", ntko: false };
-        reorderedTargets[i] = targets[indexList[i]];
-        // reorderedTargets[i] = targets[i];
+        // reorderedTargets[i] = targets[indexList[i]];
+        reorderedTargets[i] = targets[i];
     }
 
-    const disguisesSpun: string[] = [];
-    reorderedTargets.forEach((target) => {
-        if (!spinInfo[target]) {
-            return;
-        }
-
-        let targetDisguise = "";
-
-        do {
-            targetDisguise = GetRandomDisguise(spinInfoOptions.disguises);
-            spinInfo[target].disguise = targetDisguise;
-        } while (disguisesSpun.includes(targetDisguise));
-        disguisesSpun.push(targetDisguise);
-    });
-
-    reorderedTargets.forEach((target) => {
+    targets.forEach((target) => {
         do {
             if (!spinInfo[target]) {
                 return;
             }
+
+            const targetDisguise = GetRandomDisguise(spinInfoOptions.disguises);
+            spinInfo[target].disguise = targetDisguise;
 
             const { killMethod, isNoKO } = GetRandomCondition(
                 spinInfoOptions.killMethods,
@@ -76,23 +64,26 @@ function GetRandomDisguise(disguiseList: string[]): string {
     return disguiseList[Math.floor(Math.random() * disguiseList.length)];
 }
 
-function GetRandomCondition(conditions: TargetKillMethods, target: SpinTarget) {
+function GetRandomCondition(
+    killMethods: TargetKillMethods,
+    target: SpinTarget,
+) {
     const killMethodTypeList: KillMethodType[] = [
         "weapons",
         "unique_kills",
         "melees",
     ];
-    let killMethodTypeSize = 3;
+    let conditionTypeSize = 3;
     // Remove possibility of melees if Soders
     if (target === "erich_soders") {
-        killMethodTypeSize = 2;
+        conditionTypeSize = 2;
     }
 
     // Get which condition type to choose from
     const killMethodType: KillMethodType =
-        killMethodTypeList[Math.floor(Math.random() * killMethodTypeSize)];
+        killMethodTypeList[Math.floor(Math.random() * conditionTypeSize)];
 
-    const updatedKillMethods = structuredClone(conditions);
+    const updatedKillMethods = structuredClone(killMethods);
 
     // Modfiy possible conditions for Soders
     if (target === "erich_soders") {
@@ -102,7 +93,7 @@ function GetRandomCondition(conditions: TargetKillMethods, target: SpinTarget) {
     } else {
         updatedKillMethods.unique_kills = [
             ...TargetUniqueKillsList[target],
-            ...conditions.unique_kills,
+            ...killMethods.unique_kills,
         ];
     }
 

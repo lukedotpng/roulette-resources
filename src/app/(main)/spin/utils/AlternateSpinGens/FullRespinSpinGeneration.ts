@@ -13,8 +13,8 @@ import {
     weapons,
     weaponModifierPrefix,
     explosiveModifierPrefix,
-} from "./SpinGlobals";
-import { CanBeNTKO, SpinIsLegal } from "./SpinCheckUtils";
+} from "../SpinGlobals";
+import { CanBeNTKO, SpinIsLegal } from "../SpinCheckUtils";
 
 export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];
@@ -39,23 +39,21 @@ export function GenerateSpin(mission: Mission): Spin {
         reorderedTargets[i] = targets[i];
     }
 
-    targets.forEach((target) => {
-        do {
-            if (!spinInfo[target]) {
-                return;
-            }
+    do {
+        targets.forEach((target) => {
+            spinInfo[target] = { disguise: "", killMethod: "", ntko: false };
 
             const targetDisguise = GetRandomDisguise(spinInfoOptions.disguises);
             spinInfo[target].disguise = targetDisguise;
 
-            const { killMethod, isNoKO } = GetRandomCondition(
+            const { condition, isNoKO } = GetRandomCondition(
                 spinInfoOptions.killMethods,
                 target,
             );
-            spinInfo[target].killMethod = killMethod;
+            spinInfo[target].killMethod = condition;
             spinInfo[target].ntko = isNoKO;
-        } while (!SpinIsLegal({ mission: mission, info: spinInfo }).legal);
-    });
+        });
+    } while (!SpinIsLegal({ mission: mission, info: spinInfo }).legal);
 
     return { mission: mission, info: spinInfo };
 }
@@ -83,55 +81,55 @@ function GetRandomCondition(
     const killMethodType: KillMethodType =
         killMethodTypeList[Math.floor(Math.random() * conditionTypeSize)];
 
-    const updatedKillMethods = structuredClone(killMethods);
+    const updatedConditions = structuredClone(killMethods);
 
     // Modfiy possible conditions for Soders
     if (target === "erich_soders") {
-        updatedKillMethods.unique_kills = TargetUniqueKillsList[target];
+        updatedConditions.unique_kills = TargetUniqueKillsList[target];
         // Remove explosive on weapon kills list, it is considered a unique kill here :P
-        updatedKillMethods.weapons.pop();
+        updatedConditions.weapons.pop();
     } else {
-        updatedKillMethods.unique_kills = [
+        updatedConditions.unique_kills = [
             ...TargetUniqueKillsList[target],
             ...killMethods.unique_kills,
         ];
     }
 
-    const killMethodOptions: string[] = updatedKillMethods[killMethodType];
+    const conditionOptions: string[] = updatedConditions[killMethodType];
 
-    let killMethod =
-        killMethodOptions[Math.floor(Math.random() * killMethodOptions.length)];
+    let condition =
+        conditionOptions[Math.floor(Math.random() * conditionOptions.length)];
 
     // Add "silenced_" , "loud_", or no prefix if condition is a firearm
-    if (weapons.includes(killMethod) && killMethod !== "explosive") {
+    if (weapons.includes(condition) && condition !== "explosive") {
         const modifierPrefix =
             weaponModifierPrefix[
                 Math.floor(Math.random() * weaponModifierPrefix.length)
             ];
 
-        killMethod = modifierPrefix + killMethod;
+        condition = modifierPrefix + condition;
     }
     // Add "remote_" , "impact_", or "loud_" prefix if condition is explosive
-    else if (killMethod === "explosive") {
+    else if (condition === "explosive") {
         const modifierPrefix =
             explosiveModifierPrefix[
                 Math.floor(Math.random() * explosiveModifierPrefix.length)
             ];
 
-        killMethod = modifierPrefix + killMethod;
+        condition = modifierPrefix + condition;
     }
 
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
     const isNoKO =
-        CanBeNTKO(target, killMethod).ntkoLegal && Math.random() <= 0.25;
+        CanBeNTKO(target, condition).ntkoLegal && Math.random() <= 0.25;
 
     // Log info if somehow no condition is found
-    if (!killMethod) {
-        console.log("TARGET CONDITION:", killMethod);
-        console.log("CONDITIONS LIST:", killMethodOptions);
+    if (!condition) {
+        console.log("TARGET CONDITION:", condition);
+        console.log("CONDITIONS LIST:", conditionOptions);
         console.log("CONDITIONS TYPE:", killMethodType);
-        console.log("CUSTOM CONDITIONS:", updatedKillMethods);
+        console.log("CUSTOM CONDITIONS:", updatedConditions);
     }
 
-    return { killMethod, isNoKO };
+    return { condition, isNoKO };
 }

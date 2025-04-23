@@ -3,8 +3,8 @@
 import { Mission } from "@/types";
 import { useState } from "react";
 import { GenerateSpin } from "../utils/SpinGenerationUtils";
-import { GenerateSpin as KillMethodFirstGenerateSpin } from "../utils/KillMethodFirstSpinGeneration";
-import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/RespinConditionSpinGeneration";
+import { GenerateSpin as KillMethodFirstGenerateSpin } from "../utils/AlternateSpinGens/KillMethodFirstSpinGeneration";
+import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/AlternateSpinGens/RespinConditionSpinGeneration";
 // import { GenerateSpin as FullRespinGenerateSpin } from "../utils/FullRespinSpinGeneration";
 // import { GenerateSpin as PartialRespinGenerateSpin } from "../utils/PartialRespinSpinGeneration";
 
