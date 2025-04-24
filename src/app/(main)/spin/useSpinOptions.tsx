@@ -9,7 +9,7 @@ import {
     SpinTarget,
 } from "@/types";
 import { useState } from "react";
-import { GenerateSpin } from "./utils/SpinGenerationUtils";
+import { GenerateSpin } from "./utils/SpinGeneration";
 
 export function useSpinOptions(
     currentSpin: Spin | null,
@@ -160,6 +160,14 @@ export function useSpinOptions(
         setLockedConditions(filteredLockedConditions);
     }
 
+    const [playCustomRules, setPlayCustomRules] = useLocalState(
+        "playCustomRules",
+        false,
+    );
+    function TogglePlayCustomRules() {
+        setPlayCustomRules(!playCustomRules);
+    }
+
     const settings: SpinOptions = {
         missionPool: {
             val: missionPool,
@@ -210,6 +218,10 @@ export function useSpinOptions(
         lockedConditions: {
             val: lockedConditions,
             Set: SetLockedConditions,
+        },
+        playCustomRules: {
+            val: playCustomRules,
+            Toggle: TogglePlayCustomRules,
         },
     };
     return settings;

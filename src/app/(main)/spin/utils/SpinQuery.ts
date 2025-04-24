@@ -4,7 +4,7 @@ import {
     SpinInfoIdMap,
     SpinMissionTargetsList,
 } from "./SpinGlobals";
-import { GenerateSpin } from "./SpinGenerationUtils";
+import { GenerateSpin } from "./SpinGeneration";
 import { Mission, Spin, SpinInfo } from "@/types";
 import { GetRandomMission } from "./SpinUtils";
 import { Missions } from "@/utils/globals";

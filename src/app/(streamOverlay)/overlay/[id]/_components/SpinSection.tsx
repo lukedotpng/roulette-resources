@@ -7,7 +7,7 @@ import SmallMaps from "./SmallMaps";
 import LargeMaps from "./LargeMaps";
 import Berlin from "./Berlin";
 import TextOnly from "./TextOnly";
-import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
+import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
 
 export default function SpinSection({
     id,

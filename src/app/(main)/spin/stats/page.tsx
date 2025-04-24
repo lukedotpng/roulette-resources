@@ -2,7 +2,7 @@
 
 import { Mission } from "@/types";
 import { useState } from "react";
-import { GenerateSpin } from "../utils/SpinGenerationUtils";
+import { GenerateSpin } from "../utils/SpinGeneration";
 import { GenerateSpin as KillMethodFirstGenerateSpin } from "../utils/AlternateSpinGens/KillMethodFirstSpinGeneration";
 import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/AlternateSpinGens/RespinConditionSpinGeneration";
 // import { GenerateSpin as FullRespinGenerateSpin } from "../utils/FullRespinSpinGeneration";

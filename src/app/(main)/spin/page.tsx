@@ -2,7 +2,7 @@ import { Missions } from "@/utils/globals";
 import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
 import { SpinInfo, SpinTarget } from "@/types";
-import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQueryUtils";
+import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
 import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,

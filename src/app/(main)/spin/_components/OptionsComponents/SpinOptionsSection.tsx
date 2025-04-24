@@ -169,6 +169,13 @@ export default function SpinOptionsSection({
                                     onClickHandler={options.layoutMode.Set}
                                     activeOption={options.layoutMode.val}
                                 />
+                                {/* <SpinOptionsToggle
+                                    label={"Use Custom Rules"}
+                                    onClickHandler={
+                                        options.playCustomRules.Toggle
+                                    }
+                                    activeState={options.playCustomRules.val}
+                                /> */}
                             </div>
                             <div className="flex flex-col gap-2 rounded-md border-2 px-2 py-1">
                                 <h2 className="text-center text-[1.05em] font-bold">

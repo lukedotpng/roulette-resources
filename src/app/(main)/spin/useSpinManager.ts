@@ -11,7 +11,8 @@ import {
     GenerateSpin,
     RegenerateDisguise,
     RegenerateKillMethod,
-} from "./utils/SpinGenerationUtils";
+} from "./utils/SpinGeneration";
+import { GenerateSpin as CustomRulesGenerateSpin } from "@/app/(main)/spin/_components/CustomRulesComponents/CustomRuleSpinGenerator";
 import { GetRandomMission } from "@/app/(main)/spin/utils/SpinUtils";
 import { useLocalState } from "@/utils/useLocalState";
 import {
@@ -19,9 +20,9 @@ import {
     UpdateSpinOverlay,
     UpdateSpinOverlayMatchStatus,
 } from "../../(streamOverlay)/OverlayActions";
-import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQueryUtils";
+import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { useSpinOptions } from "./useSpinOptions";
-import { SpinIsLegal } from "./utils/SpinCheckUtils";
+import { SpinIsLegal } from "./utils/SpinCheck";
 import { SpinMissionTargetsList } from "./utils/SpinGlobals";
 
 export function useSpinManager() {
@@ -103,9 +104,13 @@ export function useSpinManager() {
             missionToSpin = GetRandomMission(options.missionPool.val);
         }
 
-        const spin: Spin = GenerateSpin(missionToSpin);
-
-        SetCurrentSpin(spin);
+        if (options.playCustomRules.val) {
+            const spin: Spin = CustomRulesGenerateSpin(missionToSpin);
+            SetCurrentSpin(spin);
+        } else {
+            const spin: Spin = GenerateSpin(missionToSpin);
+            SetCurrentSpin(spin);
+        }
     }
     function Respin() {
         if (currentSpin === null) {
@@ -117,7 +122,13 @@ export function useSpinManager() {
         );
 
         if (targetsWithLockedConditions.length === 0) {
-            SetCurrentSpin(GenerateSpin(currentSpin.mission));
+            if (options.playCustomRules.val) {
+                const spin: Spin = CustomRulesGenerateSpin(currentSpin.mission);
+                SetCurrentSpin(spin);
+            } else {
+                const spin: Spin = GenerateSpin(currentSpin.mission);
+                SetCurrentSpin(spin);
+            }
         } else {
             const targets = SpinMissionTargetsList[currentSpin.mission];
             let updatedSpin: Spin = structuredClone(currentSpin);

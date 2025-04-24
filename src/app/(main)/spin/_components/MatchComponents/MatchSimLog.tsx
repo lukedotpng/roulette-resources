@@ -14,7 +14,7 @@ import {
     MillisecondsToTimeString,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import { ParseSpinQuery } from "../../utils/SpinQueryUtils";
+import { ParseSpinQuery } from "../../utils/SpinQuery";
 import { SpinMissionTargetsList } from "../../utils/SpinGlobals";
 import MissionSwitcher from "../PoolComponents/MissionSwitcher";
 import Link from "next/link";

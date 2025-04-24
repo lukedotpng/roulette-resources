@@ -16,7 +16,7 @@ import {
     largeWeaponsList,
     explosiveKillMethodList,
 } from "./SpinGlobals";
-import { CanBeNTKO } from "./SpinCheckUtils";
+import { CanBeNTKO } from "./SpinCheck";
 
 export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];

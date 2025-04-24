@@ -14,7 +14,7 @@ import {
     weaponModifierPrefix,
     explosiveModifierPrefix,
 } from "../SpinGlobals";
-import { CanBeNTKO, SpinIsLegal } from "../SpinCheckUtils";
+import { CanBeNTKO, SpinIsLegal } from "../SpinCheck";
 
 export function GenerateSpin(mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];

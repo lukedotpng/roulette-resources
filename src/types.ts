@@ -252,6 +252,7 @@ export type SpinOptions = {
     streamOverlayActive: ToggleOption;
     overlayTheme: Option<string>;
     lockedConditions: Option<LockedTargetConditions>;
+    playCustomRules: ToggleOption;
 };
 
 export type SpinIllegalReason =
