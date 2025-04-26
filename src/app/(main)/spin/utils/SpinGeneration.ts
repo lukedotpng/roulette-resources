@@ -177,14 +177,16 @@ function GetRandomCondition(
     let killMethod =
         conditionOptions[Math.floor(Math.random() * conditionOptions.length)];
 
-    // Add "silenced_" , "loud_", or no prefix if condition is a firearm
+    // 50% chance to add "silenced_" or "loud_" prefix if condition is a firearm
     if (conditionType === "weapons" && killMethod !== "explosive") {
-        const modifierPrefix =
-            weaponModifierPrefix[
-                Math.floor(Math.random() * weaponModifierPrefix.length)
-            ];
-
-        killMethod = modifierPrefix + killMethod;
+        const addPrefix = Math.random() < 0.5;
+        if (addPrefix) {
+            if (Math.random() < 0.5) {
+                killMethod = "loud_" + killMethod;
+            } else {
+                killMethod = "silenced_" + killMethod;
+            }
+        }
     }
     // Add "remote_" , "impact_", or "loud_" prefix if condition is explosive
     else if (killMethod === "explosive") {
