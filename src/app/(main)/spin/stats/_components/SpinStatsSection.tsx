@@ -36,7 +36,7 @@ export default function SpinStatsSection({
         const spinList: Spin[] = [];
         const targets = SpinMissionTargetsList[mission];
         const currSpinStats: SpinStats = {
-            count: 1000000,
+            count: 100000,
             illegalSpinCount: 0,
             targets: {},
         };
