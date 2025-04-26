@@ -70,6 +70,29 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             };
         }
 
+        const bigWeaponsKillMethodList = [
+            ...assaultRifleKillMethodList,
+            ...shotgunKillMethodList,
+            ...sniperKillMethodList,
+        ];
+        const conditionIsBigWeapon = bigWeaponsKillMethodList.includes(
+            targetSpinInfo.killMethod,
+        );
+
+        if (conditionIsBigWeapon) {
+            for (const pastKillMethod of conditionsSpun) {
+                const pastKillMethodIsBigWeapon =
+                    bigWeaponsKillMethodList.includes(pastKillMethod);
+                if (pastKillMethodIsBigWeapon && conditionIsBigWeapon) {
+                    return {
+                        legal: false,
+                        reason: "repeat_kill_method",
+                        reason_info: `Cannot have two large firearms in a spin`,
+                    };
+                }
+            }
+        }
+
         if (KillMethodRepeats(targetSpinInfo.killMethod, conditionsSpun)) {
             if (
                 targetSpinInfo.killMethod !== "electrocution" ||
