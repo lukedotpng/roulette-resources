@@ -7,14 +7,10 @@ import {
     TargetKillMethods,
 } from "@/types";
 import {
-    explosiveModifierPrefix,
     MissionSpinInfoList,
     sodersUniqueKills,
     SpinMissionTargetsList,
-    TargetUniqueKillsList,
     uniqueKills,
-    weaponModifierPrefix,
-    weapons,
     weaponsWithModifiers,
 } from "../../utils/SpinGlobals";
 import { ImprovRuleset } from "./CustomRuleManager";
@@ -259,7 +255,7 @@ function GetFilteredKillMethods(
 ): string[] {
     const targetInfo = ruleset.targets && ruleset.targets[target];
 
-    let killMethodsCantRepeat =
+    const killMethodsCantRepeat =
         ruleset.conditions !== undefined &&
         ruleset.conditions.global.killMethodsCantRepeat;
 

@@ -1,4 +1,3 @@
-import { KillMethodType, Mission } from "@/types";
 import { Ruleset } from "./CustomRuleTypes";
 import { Melees } from "../../utils/SpinGlobals";
 

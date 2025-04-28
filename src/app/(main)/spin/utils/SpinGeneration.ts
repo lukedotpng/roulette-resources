@@ -10,7 +10,6 @@ import {
     SpinMissionTargetsList,
     MissionSpinInfoList,
     TargetUniqueKillsList,
-    weaponModifierPrefix,
     explosiveModifierPrefix,
     TargetBannedKillMethodsList,
     largeWeaponsList,

@@ -7,21 +7,6 @@ import {
     DialogTrigger,
 } from "@radix-ui/react-dialog";
 
-import {
-    DisguiseIDToDisplayText,
-    DisguiseImagePathFormatter,
-    MethodIDToDisplayText,
-} from "@/utils/FormattingUtils";
-import { Mission, SpinTarget, SpinUpdateAction } from "@/types";
-import {
-    MissionDisguisesList,
-    MissionSpinInfoList,
-    TargetUniqueKillsList,
-    weapons,
-} from "../../utils/SpinGlobals";
-import { Dispatch, SetStateAction } from "react";
-import Image from "next/image";
-
 export default function CustomRuleEditorDialog() {
     return (
         <Dialog>
