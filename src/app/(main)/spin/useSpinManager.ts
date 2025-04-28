@@ -104,6 +104,11 @@ export function useSpinManager() {
             missionToSpin = GetRandomMission(options.missionPool.val);
         }
 
+        if (missionToSpin === currentSpin?.mission) {
+            Respin();
+            return;
+        }
+
         if (options.playCustomRules.val) {
             const spin: Spin = CustomRulesGenerateSpin(missionToSpin);
             SetCurrentSpin(spin);
