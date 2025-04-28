@@ -83,6 +83,15 @@ export const uniqueKills = [
     "injected_poison",
 ];
 
+export const sodersUniqueKills = [
+    "throw_the_heart_in_the_trash",
+    "shoot_the_heart",
+    "electrocution",
+    "explosion",
+    "poison_stem_cells",
+    "robot_arms",
+];
+
 // Paris
 const parisMelees = [
     "scissors",
@@ -1842,4 +1851,28 @@ export const SpinInfoIdMap: { [key: string]: string } = {
     mendoza: "ay",
     az: "sacrificial_knife",
     sacrificial_knife: "az",
+    b0: "any",
+    any: "b0",
 } as const;
+
+export const Melees = [
+    ...parisMelees,
+    ...sapienzaMelees,
+    ...marrakeshMelees,
+    ...bangkokMelees,
+    ...coloradoMelees,
+    ...hokkaidoMelees,
+    ...miamiMelees,
+    ...santaFortunaMelees,
+    ...mumbaiMelees,
+    ...whittletonCreekMelees,
+    ...ambroseIslandMelees,
+    ...isleOfSgailMelees,
+    ...newYorkMelees,
+    ...havenIslandMelees,
+    ...dubaiMelees,
+    ...dartmoorMelees,
+    ...berlinMelees,
+    ...chongqingMelees,
+    ...mendozaMelees,
+];

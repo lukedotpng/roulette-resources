@@ -59,7 +59,7 @@ export function MissionIDToShortDisplayText(mission: string) {
 }
 
 export function MethodIDToDisplayText(item: string | undefined) {
-    if (!item) {
+    if (item === undefined) {
         return "Err No Condition";
     }
     let itemDisplayText = "";

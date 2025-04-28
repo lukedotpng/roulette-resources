@@ -168,9 +168,15 @@ function GetRandomCondition(
     } else {
         // Filter previously spun melees
         conditionOptions = killMethods.melees.filter((melee) => {
-            return (
-                !conditionsSpun.includes(melee) || melee !== "sacrificial_knife"
-            );
+            if (conditionsSpun.includes(melee)) {
+                return false;
+            }
+
+            if (melee === "sacrificial_knife") {
+                return false;
+            }
+
+            return true;
         });
     }
 
@@ -297,10 +303,18 @@ function GetLegalUniqueKills(
         }
 
         // Specific condition+disguise checks
-        if (disguise === "moses_lee" && uniqueKill === "shoot_the_car") {
+        if (
+            target === "sierra_knox" &&
+            disguise === "moses_lee" &&
+            uniqueKill === "shoot_the_car"
+        ) {
             return false;
         }
-        if (disguise === "skydiving_suit" && uniqueKill === "drowning") {
+        if (
+            target === "marcus_stuyvesant" &&
+            disguise === "skydiving_suit" &&
+            uniqueKill === "drowning"
+        ) {
             return false;
         }
 

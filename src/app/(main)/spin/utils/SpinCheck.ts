@@ -207,7 +207,7 @@ export function ConditionIsBannedWithDisguise(
     }
     // Dubai Marcus drowning in skydiving suit
     if (
-        mission === "dubai" &&
+        target === "marcus_stuyvesant" &&
         disguise === "skydiving_suit" &&
         condition === "drowning"
     ) {

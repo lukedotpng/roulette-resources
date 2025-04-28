@@ -23,11 +23,14 @@ export function CreateSpinQuery(spin: Spin) {
             return "err";
         }
 
-        const conditionId = SpinInfoIdMap[targetSpin.killMethod];
-        const disguiseId = SpinInfoIdMap[targetSpin.disguise];
+        let conditionId = SpinInfoIdMap[targetSpin.killMethod];
+        let disguiseId = SpinInfoIdMap[targetSpin.disguise];
 
-        if (!conditionId || !disguiseId) {
-            return "err";
+        if (!conditionId) {
+            conditionId = "b0"; // b0 => "Any"
+        }
+        if (!disguiseId) {
+            disguiseId = "b0"; // b0 => "Any"
         }
 
         spinQuery += `${conditionId}${disguiseId}`;
