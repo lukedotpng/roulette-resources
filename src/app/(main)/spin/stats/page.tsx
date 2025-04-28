@@ -3,6 +3,7 @@
 import { Mission } from "@/types";
 import { useState } from "react";
 import { GenerateSpin } from "../utils/SpinGeneration";
+// import { GenerateSpin as CustomGenerateSpin } from "../_components/CustomRulesComponents/CustomRuleSpinGenerator";
 import { GenerateSpin as KillMethodFirstGenerateSpin } from "../utils/AlternateSpinGens/KillMethodFirstSpinGeneration";
 import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/AlternateSpinGens/RespinConditionSpinGeneration";
 // import { GenerateSpin as FullRespinGenerateSpin } from "../utils/FullRespinSpinGeneration";
@@ -27,6 +28,11 @@ export default function Page() {
                 mission={mission}
                 GenerateSpin={GenerateSpin}
             />
+            {/* <SpinStatsSection
+                title="Custom"
+                mission={mission}
+                GenerateSpin={CustomGenerateSpin}
+            /> */}
             <SpinStatsSection
                 title="Kill Then Disguise"
                 mission={mission}

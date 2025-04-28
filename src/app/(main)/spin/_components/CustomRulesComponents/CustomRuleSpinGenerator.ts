@@ -9,13 +9,20 @@ import {
 import {
     explosiveModifierPrefix,
     MissionSpinInfoList,
+    sodersUniqueKills,
     SpinMissionTargetsList,
     TargetUniqueKillsList,
+    uniqueKills,
     weaponModifierPrefix,
     weapons,
+    weaponsWithModifiers,
 } from "../../utils/SpinGlobals";
+import { ImprovRuleset } from "./CustomRuleManager";
+import { Ruleset } from "./CustomRuleTypes";
 
 export function GenerateSpin(mission: Mission): Spin {
+    const ruleset = structuredClone(ImprovRuleset);
+
     const targets = SpinMissionTargetsList[mission];
     const spinInfoOptions = MissionSpinInfoList[mission];
 
@@ -37,84 +44,352 @@ export function GenerateSpin(mission: Mission): Spin {
         reorderedTargets[i] = targets[indexList[i]];
     }
 
+    const disguisesSpun: string[] = [];
     reorderedTargets.forEach((target) => {
         if (!spinInfo[target]) {
             return;
         }
 
-        const targetDisguise = GetRandomDisguise(spinInfoOptions.disguises);
+        const targetDisguise = GetRandomDisguise(
+            spinInfoOptions.disguises,
+            disguisesSpun,
+            ruleset,
+        );
+        disguisesSpun.push(targetDisguise);
         spinInfo[target].disguise = targetDisguise;
     });
 
+    const killMethodsSpun: string[] = [];
     reorderedTargets.forEach((target) => {
         if (!spinInfo[target]) {
             return;
         }
 
         const { killMethod, isNoKO } = GetRandomCondition(
-            spinInfoOptions.killMethods,
+            mission,
             target,
+            spinInfoOptions.killMethods,
+            killMethodsSpun,
+            spinInfo[target].disguise,
+            disguisesSpun,
+            ruleset,
         );
-        spinInfo[target].killMethod = killMethod;
 
+        killMethodsSpun.push(killMethod);
+        spinInfo[target].killMethod = killMethod;
         spinInfo[target].ntko = isNoKO;
     });
 
     return { mission: mission, info: spinInfo };
 }
 
-function GetRandomDisguise(disguiseList: string[]): string {
-    let disguise =
-        disguiseList[Math.floor(Math.random() * disguiseList.length)];
-
+function GetRandomDisguise(
+    disguiseList: string[],
+    disguisesSpun: string[],
+    ruleset: Ruleset,
+): string {
+    let disguise = "";
+    do {
+        disguise =
+            disguiseList[Math.floor(Math.random() * disguiseList.length)];
+    } while (
+        ruleset.conditions.global.disguisesCantRepeat &&
+        disguisesSpun.includes(disguise)
+    );
     return disguise;
 }
 
 function GetRandomCondition(
-    killMethods: TargetKillMethods,
+    mission: Mission,
     target: SpinTarget,
+    killMethods: TargetKillMethods,
+    killMethodsSpun: string[],
+    disguise: string,
+    disguisesSpun: string[],
+    ruleset: Ruleset,
 ) {
-    // const conditionTypeList: KillMethodType[] = [
-    //     "unique_kills",
-    //     "weapons",
-    //     "melees",
-    // ];
+    const targetInfo = ruleset.targets && ruleset.targets[target];
 
-    const killMethodOptions = [
-        ...killMethods.melees,
-        ...killMethods.unique_kills,
-        ...killMethods.weapons,
-        ...TargetUniqueKillsList[target],
-    ];
-    // raw = no modifier yet
-    let rawKillMethod =
-        killMethodOptions[Math.floor(Math.random() * killMethodOptions.length)];
-    let killMethod = rawKillMethod;
+    const remoteForcedInDisguise =
+        targetInfo !== undefined &&
+        targetInfo.remoteForcedDisguises !== undefined &&
+        targetInfo.remoteForcedDisguises.includes(disguise);
 
-    // Add "silenced_" , "loud_", or no prefix if condition is a firearm
-    if (weapons.includes(killMethod) && killMethod !== "explosive") {
-        const modifierPrefix =
-            weaponModifierPrefix[
-                Math.floor(Math.random() * weaponModifierPrefix.length)
-            ];
-
-        killMethod = modifierPrefix + killMethod;
+    // Get all possible melees from regular items to custom kills
+    const allMelees = [...killMethods.melees];
+    if (targetInfo.customKills?.melees) {
+        for (const killMethod of targetInfo.customKills.melees) {
+            allMelees.push(killMethod);
+        }
     }
-    // Add "remote_" , "impact_", or "loud_" prefix if condition is explosive
-    else if (killMethod === "explosive") {
-        const modifierPrefix =
-            explosiveModifierPrefix[
-                Math.floor(Math.random() * explosiveModifierPrefix.length)
-            ];
+    if (ruleset.customKills.melees) {
+        for (const killMethod of ruleset.customKills.melees) {
+            allMelees.push(killMethod);
+        }
+    }
+    // Get only legal melees back, removing banned and repeated (if applicable) kills
+    const filteredMelees = GetFilteredKillMethods(
+        "melees",
+        allMelees,
+        killMethodsSpun,
+        remoteForcedInDisguise,
+        mission,
+        target,
+        disguise,
+        disguisesSpun,
+        ruleset,
+    );
 
-        killMethod = modifierPrefix + killMethod;
+    // Get all possible weapons from regular items to custom kills
+    const allWeapons = [...weaponsWithModifiers];
+    if (targetInfo.customKills?.weapons) {
+        for (const killMethod of targetInfo.customKills.weapons) {
+            allWeapons.push(killMethod);
+        }
+    }
+    if (ruleset.customKills.weapons) {
+        for (const killMethod of ruleset.customKills.weapons) {
+            allWeapons.push(killMethod);
+        }
+    }
+    // Get only legal weapons back, removing banned and repeated (if applicable) kills
+    const filteredWeapons = GetFilteredKillMethods(
+        "weapons",
+        allWeapons,
+        killMethodsSpun,
+        remoteForcedInDisguise,
+        mission,
+        target,
+        disguise,
+        disguisesSpun,
+        ruleset,
+    );
+
+    // Get all possible unique kills from regular items to custom kills
+    const allUniqueKills =
+        target === "erich_soders" ? [...sodersUniqueKills] : [...uniqueKills];
+    if (targetInfo.customKills?.unique_kills) {
+        for (const killMethod of targetInfo.customKills.unique_kills) {
+            allUniqueKills.push(killMethod);
+        }
+    }
+    if (ruleset.customKills.unique_kills) {
+        for (const killMethod of ruleset.customKills.unique_kills) {
+            allUniqueKills.push(killMethod);
+        }
+    }
+    // Get only legal weapons back, removing banned and repeated (if applicable) kills
+    const filteredUniqueKills = GetFilteredKillMethods(
+        "unique_kills",
+        allUniqueKills,
+        killMethodsSpun,
+        remoteForcedInDisguise,
+        mission,
+        target,
+        disguise,
+        disguisesSpun,
+        ruleset,
+    );
+
+    const killMethodTypeList: KillMethodType[] = [];
+    // Add kill types if they are possible
+    if (filteredMelees.length > 0) {
+        killMethodTypeList.push("melees");
+    }
+    if (filteredWeapons.length > 0) {
+        killMethodTypeList.push("weapons");
+    }
+    if (filteredUniqueKills.length > 0) {
+        killMethodTypeList.push("unique_kills");
+    }
+
+    const killMethodType =
+        killMethodTypeList[
+            Math.floor(Math.random() * killMethodTypeList.length)
+        ];
+
+    let killMethod = "Any";
+    switch (killMethodType) {
+        case "melees":
+            killMethod =
+                filteredMelees[
+                    Math.floor(Math.random() * filteredMelees.length)
+                ];
+            break;
+        case "weapons":
+            killMethod =
+                filteredWeapons[
+                    Math.floor(Math.random() * filteredWeapons.length)
+                ];
+            break;
+        case "unique_kills":
+            killMethod =
+                filteredUniqueKills[
+                    Math.floor(Math.random() * filteredUniqueKills.length)
+                ];
+            break;
+    }
+
+    if (killMethod === "Any") {
+        console.log("KILL METHOD TYPE", killMethodType);
+        console.log("MELEES", filteredMelees);
+        console.log("WEAPONS", filteredWeapons);
+        console.log("UNIQUE KILLS", filteredUniqueKills);
     }
 
     // 1/4 chance to add NTKO if possible, doesnt make sense for Soders
     let isNoKO = false;
-    if (target !== "erich_soders") {
+    if (target !== "erich_soders" && IsNTKOValid(target, killMethod, ruleset)) {
         isNoKO = Math.random() <= 0.25;
     }
 
     return { killMethod, isNoKO };
+}
+
+function GetFilteredKillMethods(
+    killMethodType: KillMethodType,
+    killMethods: string[],
+    killMethodsSpun: string[],
+    remoteForced: boolean,
+    mission: Mission,
+    target: SpinTarget,
+    disguise: string,
+    disguisesSpun: string[],
+    ruleset: Ruleset,
+): string[] {
+    const targetInfo = ruleset.targets && ruleset.targets[target];
+
+    let killMethodsCantRepeat =
+        ruleset.conditions !== undefined &&
+        ruleset.conditions.global.killMethodsCantRepeat;
+
+    return killMethods.filter((killMethod) => {
+        if (remoteForced) {
+            if (!ruleset.remoteKillMethods.includes(killMethod)) {
+                return false;
+            }
+        }
+
+        if (targetInfo.bannedKills?.includes(killMethod)) {
+            return false;
+        }
+
+        if (targetInfo.bannedKillsWithDisguise !== undefined) {
+            for (const bannedKillWithDisguise of targetInfo.bannedKillsWithDisguise) {
+                if (bannedKillWithDisguise.disguise === disguise) {
+                    if (bannedKillWithDisguise.kills.includes(killMethod)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        const { killMethod: killMethodNoModifier } =
+            SplitKillMethodModifier(killMethod);
+
+        for (let i = 0; i < killMethodsSpun.length; i++) {
+            if (killMethodsCantRepeat) {
+                const { killMethod: pastKillMethodNoModifier } =
+                    SplitKillMethodModifier(killMethodsSpun[i]);
+
+                if (killMethodNoModifier === pastKillMethodNoModifier) {
+                    return false;
+                }
+            }
+
+            let allComboGroupsCantRepeat = [
+                ...ruleset.conditions.global.conditionCombosGroupsCantRepeat,
+            ];
+            if (ruleset.conditions.missions[mission] !== undefined) {
+                allComboGroupsCantRepeat = [
+                    ...allComboGroupsCantRepeat,
+                    ...ruleset.conditions.missions[mission]
+                        .conditionCombosGroupsCantRepeat,
+                ];
+            }
+
+            for (const conditionComboGroup of allComboGroupsCantRepeat) {
+                let oneComboHasBeenSpun = false;
+                let currentConditionsMatchCombo = false;
+                for (const conditionCombo of conditionComboGroup.combos) {
+                    if (
+                        conditionCombo.disguises.length === 0 &&
+                        conditionCombo.killMethods.length === 0
+                    ) {
+                        continue;
+                    }
+
+                    if (
+                        (conditionCombo.killMethods.length === 0 ||
+                            conditionCombo.killMethods.includes(killMethod)) &&
+                        (conditionCombo.disguises.length === 0 ||
+                            conditionCombo.disguises.includes(disguise))
+                    ) {
+                        currentConditionsMatchCombo = true;
+                    }
+
+                    const killMethodInComboHasBeenSpun =
+                        conditionCombo.killMethods.length === 0 ||
+                        conditionCombo.killMethods.includes(killMethodsSpun[i]);
+                    const disguiseInComboHasBeenSpun =
+                        conditionCombo.disguises.length === 0 ||
+                        conditionCombo.disguises.includes(disguisesSpun[i]);
+
+                    if (
+                        killMethodInComboHasBeenSpun &&
+                        disguiseInComboHasBeenSpun
+                    ) {
+                        oneComboHasBeenSpun = true;
+                    }
+                }
+                if (oneComboHasBeenSpun && currentConditionsMatchCombo) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    });
+}
+
+function SplitKillMethodModifier(killMethod: string) {
+    let killMethodNoModifier = killMethod;
+    let modifier = "";
+    if (
+        killMethod.startsWith("loud_") ||
+        killMethod.startsWith("silenced_") ||
+        killMethod.startsWith("remote_") ||
+        killMethod.startsWith("impact_")
+    ) {
+        let modifierEndIndex = 0;
+        for (const letter of killMethod) {
+            if (letter === "_") {
+                break;
+            }
+            modifierEndIndex++;
+        }
+        killMethodNoModifier = killMethod.slice(modifierEndIndex + 1);
+        modifier = killMethod.slice(0, modifierEndIndex - 1);
+    }
+
+    return { modifier: modifier, killMethod: killMethodNoModifier };
+}
+
+function IsNTKOValid(target: SpinTarget, killMethod: string, ruleset: Ruleset) {
+    if (!ruleset.ntkoValidKills.includes(killMethod)) {
+        return false;
+    }
+
+    if (
+        ruleset.targets[target].ntkoBannedKills === undefined ||
+        ruleset.targets[target].ntkoBannedKills.length === 0
+    ) {
+        return true;
+    }
+
+    if (ruleset.targets[target].ntkoBannedKills.includes(killMethod)) {
+        return false;
+    }
+
+    return true;
 }
