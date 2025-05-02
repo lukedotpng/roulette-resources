@@ -38,7 +38,7 @@ export type ConditionRules = {
         conditionCombosGroupsCantRepeat: ConditionComboGroup[];
     };
     missions: {
-        [key in Mission]?: {
+        [key in Mission]: {
             conditionCombosGroupsCantRepeat: ConditionComboGroup[];
         };
     };

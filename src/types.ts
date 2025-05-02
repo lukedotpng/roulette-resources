@@ -7,6 +7,7 @@ import {
     routeSchema,
     uniqueKillSchema,
 } from "./server/db/schema";
+import { Ruleset } from "./app/(main)/spin/_components/CustomRulesComponents/CustomRuleTypes";
 
 export type DisguiseVideo = InferSelectModel<typeof disguiseVideoSchema>;
 export type Disguise = InferSelectModel<typeof disguiseSchema> & {
@@ -252,6 +253,7 @@ export type SpinOptions = {
     streamOverlayActive: ToggleOption;
     overlayTheme: Option<string>;
     lockedConditions: Option<LockedTargetConditions>;
+    ruleset: Option<Ruleset>;
     playCustomRules: ToggleOption;
 };
 

@@ -110,7 +110,10 @@ export function useSpinManager() {
         }
 
         if (options.playCustomRules.val) {
-            const spin: Spin = CustomRulesGenerateSpin(missionToSpin);
+            const spin: Spin = CustomRulesGenerateSpin(
+                options.ruleset.val,
+                missionToSpin,
+            );
             SetCurrentSpin(spin);
         } else {
             const spin: Spin = GenerateSpin(missionToSpin);
@@ -128,7 +131,10 @@ export function useSpinManager() {
 
         if (targetsWithLockedConditions.length === 0) {
             if (options.playCustomRules.val) {
-                const spin: Spin = CustomRulesGenerateSpin(currentSpin.mission);
+                const spin: Spin = CustomRulesGenerateSpin(
+                    options.ruleset.val,
+                    currentSpin.mission,
+                );
                 SetCurrentSpin(spin);
             } else {
                 const spin: Spin = GenerateSpin(currentSpin.mission);

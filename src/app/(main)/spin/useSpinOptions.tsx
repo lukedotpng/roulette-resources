@@ -10,6 +10,8 @@ import {
 } from "@/types";
 import { useState } from "react";
 import { GenerateSpin } from "./utils/SpinGeneration";
+import { RouletteRivalsRuleset } from "./_components/CustomRulesComponents/CustomRuleManager";
+import { Ruleset } from "./_components/CustomRulesComponents/CustomRuleTypes";
 
 export function useSpinOptions(
     currentSpin: Spin | null,
@@ -160,6 +162,14 @@ export function useSpinOptions(
         setLockedConditions(filteredLockedConditions);
     }
 
+    const [ruleset, setRuleset] = useLocalState(
+        "ruleset",
+        RouletteRivalsRuleset,
+    );
+    function SetRuleset(updatedRuleset: Ruleset) {
+        setRuleset(updatedRuleset);
+    }
+
     const [playCustomRules, setPlayCustomRules] = useLocalState(
         "playCustomRules",
         false,
@@ -218,6 +228,10 @@ export function useSpinOptions(
         lockedConditions: {
             val: lockedConditions,
             Set: SetLockedConditions,
+        },
+        ruleset: {
+            val: ruleset,
+            Set: SetRuleset,
         },
         playCustomRules: {
             val: playCustomRules,

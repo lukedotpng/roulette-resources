@@ -13,7 +13,7 @@ import SpinOptionsChoiceSelector from "./SpinOptionsChoiceSelector";
 import MissionPoolSelection from "../PoolComponents/MissionPoolSelection";
 import MissionQueueSelection from "../QueueComponents/MissionQueueSelection";
 import MatchSimLog from "../MatchComponents/MatchSimLog";
-// import CustomRuleEditorDialog from "../CustomRulesComponents/CustomRuleEditorDialog";
+import CustomRuleEditorDialog from "../CustomRulesComponents/CustomRuleEditorDialog";
 
 export default function SpinOptionsSection({
     options,
@@ -87,7 +87,12 @@ export default function SpinOptionsSection({
                     missionPool={options.missionPool}
                 />
             )}
-            {/* {options.playCustomRules.val && <CustomRuleEditorDialog />} */}
+            {options.playCustomRules.val && (
+                <CustomRuleEditorDialog
+                    ruleset={options.ruleset.val}
+                    SetRuleset={options.ruleset.Set}
+                />
+            )}
             <div className="flex-1"></div>
             <button
                 className="group w-16 border-red-500 bg-white text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 sm:w-24 sm:data-[active=true]:border-b-4"

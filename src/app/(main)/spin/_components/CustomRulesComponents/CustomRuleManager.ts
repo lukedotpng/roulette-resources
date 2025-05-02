@@ -201,6 +201,21 @@ export const RouletteRivalsRuleset: Ruleset = {
             ],
         },
         missions: {
+            paris: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            sapienza: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            marrakesh: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            bangkok: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            colorado: {
+                conditionCombosGroupsCantRepeat: [],
+            },
             hokkaido: {
                 conditionCombosGroupsCantRepeat: [
                     {
@@ -218,6 +233,45 @@ export const RouletteRivalsRuleset: Ruleset = {
                         ],
                     },
                 ],
+            },
+            miami: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            santa_fortuna: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            mumbai: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            whittleton_creek: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            ambrose_island: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            isle_of_sgail: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            new_york: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            haven_island: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            dubai: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            dartmoor: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            berlin: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            chongqing: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            mendoza: {
+                conditionCombosGroupsCantRepeat: [],
             },
         },
     },
@@ -529,6 +583,18 @@ export const ImprovRuleset: Ruleset = {
                     },
                 ],
             },
+            sapienza: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            marrakesh: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            bangkok: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            colorado: {
+                conditionCombosGroupsCantRepeat: [],
+            },
             hokkaido: {
                 conditionCombosGroupsCantRepeat: [
                     {
@@ -546,6 +612,45 @@ export const ImprovRuleset: Ruleset = {
                         ],
                     },
                 ],
+            },
+            miami: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            santa_fortuna: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            mumbai: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            whittleton_creek: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            ambrose_island: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            isle_of_sgail: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            new_york: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            haven_island: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            dubai: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            dartmoor: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            berlin: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            chongqing: {
+                conditionCombosGroupsCantRepeat: [],
+            },
+            mendoza: {
+                conditionCombosGroupsCantRepeat: [],
             },
         },
     },

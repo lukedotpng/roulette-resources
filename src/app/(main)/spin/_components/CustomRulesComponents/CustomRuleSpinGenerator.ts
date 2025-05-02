@@ -13,12 +13,9 @@ import {
     uniqueKills,
     weaponsWithModifiers,
 } from "../../utils/SpinGlobals";
-import { ImprovRuleset } from "./CustomRuleManager";
 import { Ruleset } from "./CustomRuleTypes";
 
-export function GenerateSpin(mission: Mission): Spin {
-    const ruleset = structuredClone(ImprovRuleset);
-
+export function GenerateSpin(ruleset: Ruleset, mission: Mission): Spin {
     const targets = SpinMissionTargetsList[mission];
     const spinInfoOptions = MissionSpinInfoList[mission];
 

@@ -6,11 +6,30 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@radix-ui/react-dialog";
+import { ChangeEvent, useState } from "react";
+import { ImprovRuleset, RouletteRivalsRuleset } from "./CustomRuleManager";
+import { Missions } from "@/utils/globals";
+import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
+import GlobalScopeRules from "./GlobalScope/GlobalScopeRules";
+import { Ruleset } from "./CustomRuleTypes";
+import MissionScopeRules from "./MissionScope/MissionScopeRules";
+import { Mission } from "@/types";
 
-export default function CustomRuleEditorDialog() {
+export default function CustomRuleEditorDialog({
+    ruleset,
+    SetRuleset,
+}: {
+    ruleset: Ruleset;
+    SetRuleset: (updatedRuleset: Ruleset) => void;
+}) {
+    const [currentScope, setCurrentScope] = useState("global");
+
     return (
         <Dialog>
-            <DialogTrigger className="group aspect-square h-full bg-white text-zinc-900 hover:bg-red-500">
+            <DialogTrigger
+                aria-label="Edit Rules"
+                className="group aspect-square h-full bg-white text-zinc-900 hover:bg-red-500"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
@@ -22,19 +41,75 @@ export default function CustomRuleEditorDialog() {
             </DialogTrigger>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/2 left-1/2 max-h-[70%] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white sm:max-h-[90%] sm:w-[35rem]">
-                    <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
-                        {`Edit Rules`}
-                    </DialogTitle>
-                    <section>
-                        {/*
-                        targets: TargetRules;
-                        conditions: ConditionRules;
-                        customKills: GlobalCustomKills;
-                        odds: CustomOdds;
-                        ntkoValidKills: NtkoValidKills;
-                        remoteKillMethods: string[];
-                        */}
+                <DialogContent className="fixed top-1/2 left-1/2 h-[30rem] max-h-[70%] w-[45rem] max-w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white text-zinc-900 sm:max-h-[90%]">
+                    <div className="flex items-center justify-between p-4">
+                        <DialogTitle className="w-28 text-left text-base font-bold sm:w-36 sm:text-xl">
+                            {`Edit Rules`}
+                        </DialogTitle>
+                        <select
+                            className="border-2 border-zinc-900 px-1 decoration-red-500 decoration-2 hover:underline"
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                                setCurrentScope(e.currentTarget.value);
+                            }}
+                        >
+                            <option value={"global"}>{"Global"}</option>
+                            <optgroup label="Missions">
+                                {Missions.map((scope) => {
+                                    return (
+                                        <option key={scope} value={scope}>
+                                            {MissionIDToDisplayText(scope)}
+                                        </option>
+                                    );
+                                })}
+                            </optgroup>
+                        </select>
+                        <select
+                            className="border-2 border-zinc-900 px-1 decoration-red-500 decoration-2 hover:underline"
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                                switch (e.currentTarget.value) {
+                                    case "rouletterivals":
+                                        SetRuleset(
+                                            structuredClone(
+                                                RouletteRivalsRuleset,
+                                            ),
+                                        );
+                                        break;
+                                    case "improv":
+                                        SetRuleset(
+                                            structuredClone(ImprovRuleset),
+                                        );
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                e.currentTarget.value = "default";
+                            }}
+                            defaultValue={"default"}
+                        >
+                            <option value={"default"} disabled hidden>
+                                {"Load Preset"}
+                            </option>
+                            <option value={"rouletterivals"}>
+                                {"Current RR Rules"}
+                            </option>
+                            <option value={"improv"}>{"Improv Rules"}</option>
+                        </select>
+                    </div>
+                    <section className="flex w-full pb-2">
+                        <main className="flex flex-1 flex-col px-3 sm:px-10">
+                            {currentScope === "global" ? (
+                                <GlobalScopeRules
+                                    ruleset={ruleset}
+                                    SetRuleset={SetRuleset}
+                                />
+                            ) : (
+                                <MissionScopeRules
+                                    mission={currentScope as Mission}
+                                    ruleset={ruleset}
+                                    SetRuleset={SetRuleset}
+                                />
+                            )}
+                        </main>
                     </section>
                 </DialogContent>
             </DialogPortal>
