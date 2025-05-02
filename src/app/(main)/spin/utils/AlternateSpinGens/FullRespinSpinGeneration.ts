@@ -120,8 +120,9 @@ function GetRandomCondition(
     }
 
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
+    // dont pass disguise, file will probably be deleted soon anyway
     const isNoKO =
-        CanBeNTKO(target, condition).ntkoLegal && Math.random() <= 0.25;
+        CanBeNTKO(target, condition, "").ntkoLegal && Math.random() <= 0.25;
 
     // Log info if somehow no condition is found
     if (!condition) {

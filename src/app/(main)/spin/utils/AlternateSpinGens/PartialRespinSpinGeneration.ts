@@ -123,7 +123,7 @@ function GetRandomCondition(
 
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
     const isNoKO =
-        CanBeNTKO(target, killMethod).ntkoLegal && Math.random() <= 0.25;
+        CanBeNTKO(target, killMethod, "").ntkoLegal && Math.random() <= 0.25;
 
     // Log info if somehow no condition is found
     if (!killMethod) {

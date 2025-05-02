@@ -122,7 +122,11 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
         }
 
         if (targetSpinInfo.ntko) {
-            const canBeNTKO = CanBeNTKO(target, targetSpinInfo.killMethod);
+            const canBeNTKO = CanBeNTKO(
+                target,
+                targetSpinInfo.killMethod,
+                targetSpinInfo.disguise,
+            );
             if (!canBeNTKO.ntkoLegal) {
                 return {
                     legal: false,
@@ -194,6 +198,18 @@ export function ConditionIsBannedWithDisguise(
             reason: `"${MethodIDToDisplayText(condition)}" is not allowed with the "Stalker" disguise. Must be a remote kill`,
         };
     }
+    // Isle of Sgail Knights Armor trap kills check
+    if (
+        mission === "isle_of_sgail" &&
+        disguise === "knights_armor" &&
+        !trapKills.includes(condition)
+    ) {
+        return {
+            isBanned: true,
+            reason: `"${MethodIDToDisplayText(condition)}" is not allowed with the "Knight's Armor" disguise. Must be a remote kill`,
+        };
+    }
+
     // Miami Sierra shoot the car as Moses Lee
     if (
         mission === "miami" &&
@@ -216,15 +232,15 @@ export function ConditionIsBannedWithDisguise(
             reason: `Marcus cannot have a "Drowning" kill with the Skydiving Suit disguise`,
         };
     }
-    // Isle of Sgail Knights Armor trap kills check
+    // Mumbai Vanya drowning in tailor disguise
     if (
-        mission === "isle_of_sgail" &&
-        disguise === "knights_armor" &&
-        !trapKills.includes(condition)
+        target === "vanya_shah" &&
+        disguise === "tailor" &&
+        condition === "drowning"
     ) {
         return {
             isBanned: true,
-            reason: `"${MethodIDToDisplayText(condition)}" is not allowed with the "Knight's Armor" disguise. Must be a remote kill`,
+            reason: `Vanya cannot have a "Drowning" kill with the Tailor disguise`,
         };
     }
 
@@ -338,6 +354,7 @@ export function KillMethodRepeats(
 export function CanBeNTKO(
     target: SpinTarget,
     killMethod: string,
+    disguise: string,
     // Condition check for general unique kills
 ): { ntkoLegal: boolean; reason: string } {
     if (
@@ -373,6 +390,26 @@ export function CanBeNTKO(
         return {
             ntkoLegal: false,
             reason: "Dawood cannot have loud kills with the NTKO complication",
+        };
+    }
+
+    // Marcus no loud NTKO as skydiving suit
+    if (
+        target === "marcus_stuyvesant" &&
+        killMethod.includes("loud") &&
+        disguise === "skydiving_suit"
+    ) {
+        return {
+            ntkoLegal: false,
+            reason: 'Marcus cannot have loud kills with the NTKO complication in the "Skydiving Suit"',
+        };
+    }
+
+    // Hush no loud NTKO
+    if (target === "hush" && killMethod.includes("loud")) {
+        return {
+            ntkoLegal: false,
+            reason: "Hush cannot have loud kills with the NTKO complication",
         };
     }
 

@@ -214,8 +214,10 @@ function GetRandomCondition(
     // 1/4 chance to add NTKO if possible, some rule checks done in CanBeNTKO
     let isNoKO = false;
     if (conditionType !== "unique_kills") {
+        // dont pass disguise, file will probably be deleted soon anyway
         isNoKO =
-            CanBeNTKO(target, killMethod).ntkoLegal && Math.random() <= 0.25;
+            CanBeNTKO(target, killMethod, "").ntkoLegal &&
+            Math.random() <= 0.25;
     }
 
     return { killMethod, isNoKO };

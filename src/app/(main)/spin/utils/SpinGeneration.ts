@@ -221,7 +221,8 @@ function GetRandomCondition(
     let isNoKO = false;
     if (conditionType !== "unique_kills") {
         isNoKO =
-            CanBeNTKO(target, killMethod).ntkoLegal && Math.random() <= 0.25;
+            CanBeNTKO(target, killMethod, disguise).ntkoLegal &&
+            Math.random() <= 0.25;
     }
 
     return { killMethod, isNoKO };
