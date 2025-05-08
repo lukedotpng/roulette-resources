@@ -1860,10 +1860,10 @@ export const SpinInfoIdMap: { [key: string]: string } = {
     destroy_the_seaplane: "b1",
     b2: "overheat_the_sauna",
     overheat_the_sauna: "b2",
-    feed_to_the_hippo: "b3",
     b3: "feed_to_the_hippo",
-    dump_in_the_cocaine_machine: "b4",
+    feed_to_the_hippo: "b3",
     b4: "dump_in_the_cocaine_machine",
+    dump_in_the_cocaine_machine: "b4",
 } as const;
 
 export const Melees = [
