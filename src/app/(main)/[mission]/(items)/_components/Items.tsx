@@ -33,7 +33,7 @@ export default function Items({
     }
 
     return (
-        <div className="mx-4 columns-1 md:columns-2 xl:columns-3">
+        <div className="m-auto flex flex-wrap items-start justify-center gap-5">
             <ItemCard
                 type="Melee"
                 items={items.filter((item) => item.type === "melee")}
