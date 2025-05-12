@@ -13,12 +13,14 @@ export default function ImageDropdown({
     activeOption,
     optionImageRootPath,
     optionList,
+    optionQueryKey,
     SetActiveOption,
     OptionFormatter,
 }: {
     activeOption: string;
     optionImageRootPath: string;
     optionList: string[];
+    optionQueryKey: string;
     SetActiveOption: (option: string) => void;
     OptionFormatter: (option: string) => string;
 }) {
@@ -78,7 +80,9 @@ export default function ImageDropdown({
                                 className="w-full cursor-pointer bg-white px-4 py-3 text-left text-zinc-900 outline-none group-data-[last=true]:rounded-b-lg hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
                                 onClick={() => {
                                     SetActiveOption(option);
-                                    router.replace(`?o=${option}`);
+                                    router.replace(
+                                        `?${optionQueryKey}=${option}`,
+                                    );
                                 }}
                             >
                                 {OptionFormatter(option)}

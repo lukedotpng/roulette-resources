@@ -8,8 +8,7 @@ export default function MissionInfoNav({ mission }: { mission: string }) {
         <nav className="flex w-full justify-center px-2 text-[1em] font-semibold sm:w-[35rem] sm:text-[1.2em] md:w-[48rem]">
             <NavLink text="General" href={`/${mission}`} />
             <NavLink text="Disguises" href={`/${mission}/disguises`} />
-            <NavLink text="Isolations" href={`/${mission}/isolations`} />
-            <NavLink text="Unique Kills" href={`/${mission}/unique_kills`} />
+            <NavLink text="Targets" href={`/${mission}/targets`} />
             <NavLink text="Routes" href={`/${mission}/routes`} />
         </nav>
     );
