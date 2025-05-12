@@ -2,7 +2,7 @@
 
 import { Item, Mission } from "@/types";
 import ItemCard from "./ItemCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ItemEditorDialog from "./ItemEditorDialog";
 
 export default function Items({
@@ -33,7 +33,10 @@ export default function Items({
     }
 
     return (
-        <div className="m-auto flex flex-wrap items-start justify-center gap-5">
+        <div
+            id="item-card-wrapper"
+            className="flex w-full flex-wrap items-start justify-center gap-3 px-2 sm:gap-5"
+        >
             <ItemCard
                 type="Melee"
                 items={items.filter((item) => item.type === "melee")}
