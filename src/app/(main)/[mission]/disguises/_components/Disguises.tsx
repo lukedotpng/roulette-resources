@@ -42,6 +42,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                 optionList={disguiseIdList}
                 SetActiveOption={setActiveDisguiseId}
                 OptionFormatter={DisguiseIDToDisplayText}
+                optionQueryKey="disguise"
             />
             <div>
                 <DisguiseCard disguise={activeDisguise} />
