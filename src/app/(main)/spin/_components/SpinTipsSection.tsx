@@ -201,8 +201,8 @@ export default function SpinTipsSection({
                                                     <Link
                                                         href={
                                                             mission === "berlin"
-                                                                ? `/${mission}/unique_kills?kill=${method.kill_method}`
-                                                                : `/${mission}/unique_kills?target=${target}`
+                                                                ? `/${mission}/targets?kill=${method.kill_method}`
+                                                                : `/${mission}/targets?target=${target}`
                                                         }
                                                         target="_blank"
                                                         className="text-[1.05em] font-bold underline decoration-red-500 decoration-2"
