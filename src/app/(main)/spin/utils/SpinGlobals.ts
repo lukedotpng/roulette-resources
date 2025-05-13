@@ -7,7 +7,6 @@ import {
     MissionPoolOptions,
     SeasonPoolSelected,
     MissionDisguises,
-    SpinTarget,
 } from "@/types";
 
 // Global

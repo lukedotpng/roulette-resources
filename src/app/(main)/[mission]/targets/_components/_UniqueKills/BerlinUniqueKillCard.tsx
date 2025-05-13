@@ -22,16 +22,16 @@ export default function BerlinUniqueKillCard({
         isNew: boolean,
     ) => void;
 }) {
-    if (uniqueKills.length === 0) {
-        return null;
-    }
-
     const session = useSession();
 
     const [
         deleteUniqueKillConfirmationOpen,
         setDeleteUniqueKillConfirmationOpen,
     ] = useState(false);
+
+    if (uniqueKills.length === 0) {
+        return null;
+    }
 
     return (
         <div className="w-80 bg-white text-zinc-900 sm:w-[30rem] md:w-[35rem]">

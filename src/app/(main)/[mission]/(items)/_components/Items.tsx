@@ -2,7 +2,7 @@
 
 import { Item, Mission } from "@/types";
 import ItemCard from "./ItemCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ItemEditorDialog from "./ItemEditorDialog";
 
 export default function Items({

@@ -19,7 +19,6 @@ import {
     SpinTargets,
     TargetUniqueKillsList,
 } from "@/app/(main)/spin/utils/SpinGlobals";
-import { MissionTargetsList } from "@/utils/globals";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,
@@ -65,7 +64,7 @@ export default function UniqueKillEditorDialog({
     ];
 
     if (SpinTargets.includes(uniqueKill.target)) {
-        let customUniqueKills =
+        const customUniqueKills =
             TargetUniqueKillsList[uniqueKill.target as SpinTarget];
 
         uniqueKillOptions = [...uniqueKillOptions, ...customUniqueKills];

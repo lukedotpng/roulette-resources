@@ -1,11 +1,9 @@
 "use client";
 
-import { Mission, Target, UniqueKill } from "@/types";
+import { UniqueKill } from "@/types";
 import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { UniqueKillTypes } from "@/utils/globals";
-import UniqueKillCard from "./UniqueKillCard";
 import BerlinUniqueKillCard from "./BerlinUniqueKillCard";
 
 export default function BerlinUniqueKills({
