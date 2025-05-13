@@ -27,7 +27,7 @@ export default function ImageDropdown({
     const router = useRouter();
 
     return (
-        <DropdownMenu modal={false}>
+        <DropdownMenu modal={true}>
             <div className="flex flex-col">
                 <Image
                     src={`${optionImageRootPath}/${activeOption}.webp`}
@@ -53,7 +53,7 @@ export default function ImageDropdown({
                 </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent
-                className="z-20 flex max-h-96 min-h-fit w-60 flex-col overflow-scroll rounded-b-lg shadow-lg shadow-black"
+                className="z-20 flex h-fit max-h-96 w-60 flex-col overflow-scroll rounded-b-lg shadow-lg shadow-black"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
