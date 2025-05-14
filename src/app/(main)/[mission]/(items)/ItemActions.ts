@@ -2,20 +2,11 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { itemSchema } from "@/server/db/schema";
+import { itemSchema, updateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import z from "zod";
-
-// const newItemScheme = z.object({
-//     id: z.string(),
-//     map: z.string().min(1),
-//     name: z.string().min(1),
-//     type: z.string().min(1),
-//     quick_look: z.string().min(0),
-//     hitmaps_link: z.string(),
-// });
 
 const updateItemScheme = z.object({
     id: z.string().min(1),
@@ -42,10 +33,33 @@ export async function UpdateItemAction(formData: FormData) {
         return;
     }
 
-    await db
-        .update(itemSchema)
-        .set(formParsed.data)
-        .where(eq(itemSchema.id, formParsed.data.id));
+    let updatedSuccessful = true;
+
+    try {
+        await db
+            .update(itemSchema)
+            .set(formParsed.data)
+            .where(eq(itemSchema.id, formParsed.data.id));
+    } catch {
+        console.error(
+            `ERROR UPDATING ITEM ${formParsed.data.id}: Wouldve been a good update :/`,
+        );
+        updatedSuccessful = false;
+    }
+
+    if (updatedSuccessful) {
+        try {
+            await db.insert(updateLogSchema).values({
+                username: session.user.username,
+                table: "items",
+                row_id: formParsed.data.id,
+                content: JSON.stringify(formParsed.data),
+                is_admin: true,
+            });
+        } catch {
+            console.error("ERROR UPDATING LOG: This feels ironic");
+        }
+    }
 
     revalidatePath("/[mission]/", "page");
 }

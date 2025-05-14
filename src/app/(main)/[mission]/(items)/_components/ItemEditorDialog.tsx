@@ -11,6 +11,7 @@ import {
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { UpdateItemAction } from "../ItemActions";
+import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function ItemEditorDialog({
     item,
@@ -28,6 +29,8 @@ export default function ItemEditorDialog({
     const [itemQuickLook, setItemQuickLook] = useState(item.quick_look);
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
+
+    const officialItemName = item.id.split("-")[1];
 
     useEffect(() => {
         if (
@@ -55,7 +58,7 @@ export default function ItemEditorDialog({
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                     <DialogTitle className="w-full p-3 text-center text-[1.1em] font-bold">
-                        Edit Item
+                        {`Edit "${MethodIDToDisplayText(officialItemName)}"`}
                     </DialogTitle>
                     <form
                         className="p-3"
@@ -66,7 +69,9 @@ export default function ItemEditorDialog({
                     >
                         <fieldset className="">
                             {/* Field for the item name */}
-                            <label className="font-semibold">Name:</label>
+                            <label className="font-semibold">
+                                Display Name:
+                            </label>
                             <input
                                 type="text"
                                 name="name"
@@ -119,7 +124,7 @@ export default function ItemEditorDialog({
                             hidden
                             readOnly
                             name="map"
-                            value={item.map}
+                            value={item.mission}
                             id="map"
                         />
                         {/* Hidden field for Item type */}
@@ -130,15 +135,15 @@ export default function ItemEditorDialog({
                             value={item.type}
                             id="type"
                         />
-
-                        {hasBeenEdited && (
+                        <div className="flex w-full justify-center">
                             <button
                                 type="submit"
-                                className="w-32 rounded-md border-2 border-red-500 bg-white p-1 text-sm font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:text-xl"
+                                className="mt-2 w-32 rounded-md border-2 border-zinc-900 bg-white p-1 text-sm font-bold text-zinc-900 decoration-red-500 decoration-2 not-disabled:hover:border-red-500 not-disabled:hover:bg-red-500 not-disabled:hover:text-white disabled:cursor-not-allowed! disabled:opacity-30 sm:text-xl"
+                                disabled={!hasBeenEdited}
                             >
                                 Save
                             </button>
-                        )}
+                        </div>
                     </form>
                 </DialogContent>
             </DialogPortal>

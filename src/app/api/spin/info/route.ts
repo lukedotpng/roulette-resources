@@ -31,7 +31,7 @@ export async function GET(request: NextRequest): Promise<Response> {
 
     const itemData =
         (await db.query.itemSchema.findMany({
-            where: eq(itemSchema.map, spin.mission),
+            where: eq(itemSchema.mission, spin.mission),
         })) || [];
     const disguiseData = await db.query.disguiseSchema.findMany({
         where: eq(disguiseSchema.map, spin.mission),
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest): Promise<Response> {
     const targetSpinResources = {} as TargetSpinResources;
 
     const filteredItemData = itemData.filter(
-        (item) => item.map == spin.mission,
+        (item) => item.mission == spin.mission,
     );
     const filteredDisguiseData = disguiseData.filter(
         (disguise) => disguise.map == spin.mission,
