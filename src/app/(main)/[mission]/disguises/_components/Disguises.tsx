@@ -1,6 +1,6 @@
 "use client";
 
-import { Disguise } from "@/types";
+import { Disguise, DisguiseVideo } from "@/types";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,7 +24,36 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
     );
     const [activeDisguise, setActiveDisguise] = useState(disguises[0]);
 
+    const [disguiseVideoToEdit, setDisguiseVideoToEdit] =
+        useState<DisguiseVideo>({
+            id: "",
+            notes: "",
+            disguise_id: "",
+            link: "",
+            visible: true,
+        });
     const [editDialogActive, setEditDialogActive] = useState(false);
+    const [disguiseIsNew, setDisguiseIsNew] = useState(false);
+    function SetEditDialogActive(
+        updatedEditDialogActive: boolean,
+        isNew: boolean,
+        disguiseVideo?: DisguiseVideo,
+    ) {
+        setEditDialogActive(updatedEditDialogActive);
+        setDisguiseIsNew(isNew);
+        if (isNew) {
+            const newDisguiseVideo: DisguiseVideo = {
+                id: "",
+                notes: "",
+                disguise_id: activeDisguise.id,
+                link: "",
+                visible: true,
+            };
+            setDisguiseVideoToEdit(newDisguiseVideo);
+        } else if (disguiseVideo !== undefined) {
+            setDisguiseVideoToEdit(disguiseVideo);
+        }
+    }
 
     useEffect(() => {
         for (const disguise of disguises) {
@@ -44,20 +73,25 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                 OptionFormatter={DisguiseIDToDisplayText}
                 optionQueryKey="disguise"
             />
-            <div>
-                <DisguiseCard disguise={activeDisguise} />
+            <div className="flex flex-col gap-2">
+                <DisguiseCard
+                    disguise={activeDisguise}
+                    SetEditDialogActive={SetEditDialogActive}
+                />
                 {session.data?.user?.admin && (
                     <button
-                        className="mt-1 w-full rounded-b-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
-                        onClick={() => setEditDialogActive(true)}
+                        className="w-full rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        onClick={() => SetEditDialogActive(true, true)}
                     >
-                        Add New Video
+                        {"Add New Video"}
                     </button>
                 )}
             </div>
             {editDialogActive && (
                 <DisguiseVideoEditorDialog
                     disguise={activeDisguise}
+                    disguiseVideo={disguiseVideoToEdit}
+                    isNew={disguiseIsNew}
                     editDialogActive={editDialogActive}
                     setEditDialogActive={setEditDialogActive}
                 />

@@ -25,22 +25,23 @@ export const updateLogSchema = pgTable("roulette-resources-update_log", {
     is_admin: boolean().notNull(),
 });
 
-export const disguiseSchema = pgTable("roulette-resources-disguises", {
+export const disguiseSchema = pgTable("dev-roulette-resources-disguises", {
     id: text().primaryKey(),
-    map: text().notNull(),
+    mission: text().notNull(),
     quick_look: text().notNull(),
-    hitmaps_link: text(),
     notes: text(),
+    hitmaps_link: text(),
 });
 
 export const disguiseVideoSchema = pgTable(
-    "roulette-resources-disguise_videos",
+    "dev-roulette-resources-disguise_videos",
     {
         id: uuid().primaryKey().defaultRandom(),
         disguise_id: text()
             .notNull()
             .references(() => disguiseSchema.id),
         link: text().notNull(),
+        notes: text().notNull(),
         visible: boolean().notNull(),
     },
 );

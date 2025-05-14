@@ -34,7 +34,7 @@ export async function GET(request: NextRequest): Promise<Response> {
             where: eq(itemSchema.mission, spin.mission),
         })) || [];
     const disguiseData = await db.query.disguiseSchema.findMany({
-        where: eq(disguiseSchema.map, spin.mission),
+        where: eq(disguiseSchema.mission, spin.mission),
         with: {
             disguiseVideoSchema: true,
         },
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         (item) => item.mission == spin.mission,
     );
     const filteredDisguiseData = disguiseData.filter(
-        (disguise) => disguise.map == spin.mission,
+        (disguise) => disguise.mission == spin.mission,
     );
     const filteredUniqueKillData = uniqueKillData.filter(
         (uniqueKill) => uniqueKill.map == spin.mission,
