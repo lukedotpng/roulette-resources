@@ -15,12 +15,12 @@ export default async function Page({
     const uniqueKills = await db
         .select()
         .from(uniqueKillSchema)
-        .where(eq(uniqueKillSchema.map, mission));
+        .where(eq(uniqueKillSchema.mission, mission));
 
     const isolations = await db
         .select()
         .from(isolationSchema)
-        .where(eq(isolationSchema.map, mission));
+        .where(eq(isolationSchema.mission, mission));
 
     const isolationsDontExist = isolations === null || isolations.length === 0;
     const uniqueKillsDontExist =

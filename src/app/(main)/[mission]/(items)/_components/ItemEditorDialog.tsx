@@ -9,7 +9,7 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
 import { UpdateItemAction } from "../ItemActions";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
@@ -28,11 +28,17 @@ export default function ItemEditorDialog({
     const [itemHitmapsLink, setItemHitmapsLink] = useState(hitmapsLinkAsString);
     const [itemQuickLook, setItemQuickLook] = useState(item.quick_look);
 
+    const quickLookTextAreaRef = useRef<HTMLTextAreaElement>(null);
+
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
     const officialItemName = item.id.split("-")[1];
 
     useEffect(() => {
+        if (typeof window === undefined) {
+            return;
+        }
+
         if (
             itemName !== item.name ||
             itemHitmapsLink !== hitmapsLinkAsString ||
@@ -41,6 +47,12 @@ export default function ItemEditorDialog({
             setHasBeenEdited(true);
         } else {
             setHasBeenEdited(false);
+        }
+
+        if (quickLookTextAreaRef.current !== null) {
+            quickLookTextAreaRef.current.style.height = "0px";
+            const newHeight = quickLookTextAreaRef.current.scrollHeight + 10;
+            quickLookTextAreaRef.current.style.height = newHeight + "px";
         }
     }, [
         itemName,
@@ -84,15 +96,17 @@ export default function ItemEditorDialog({
                         <fieldset className="pt-2">
                             {/* Field for quick look*/}
                             <label className="font-semibold">Quick Look:</label>
-                            <input
-                                type="text"
+                            <textarea
                                 name="quick_look"
                                 value={itemQuickLook}
                                 onChange={(e) =>
                                     setItemQuickLook(e.target.value)
                                 }
-                                className="w-full border-2 border-zinc-900 p-1"
+                                className="h-16 w-full border-2 border-zinc-900 p-1"
                                 id="quick_look"
+                                ref={quickLookTextAreaRef}
+                                rows={3}
+                                maxLength={500}
                             />
                         </fieldset>
                         <fieldset className="pt-2">
@@ -118,14 +132,6 @@ export default function ItemEditorDialog({
                             name="id"
                             value={item.id}
                             id="id"
-                        />
-                        {/* Hidden field for Item Map */}
-                        <input
-                            hidden
-                            readOnly
-                            name="map"
-                            value={item.mission}
-                            id="map"
                         />
                         {/* Hidden field for Item type */}
                         <input

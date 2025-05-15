@@ -40,7 +40,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         },
     });
     const uniqueKillData = await db.query.uniqueKillSchema.findMany({
-        where: eq(uniqueKillSchema.map, spin.mission),
+        where: eq(uniqueKillSchema.mission, spin.mission),
     });
 
     const targetSpinResources = {} as TargetSpinResources;
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         (disguise) => disguise.mission == spin.mission,
     );
     const filteredUniqueKillData = uniqueKillData.filter(
-        (uniqueKill) => uniqueKill.map == spin.mission,
+        (uniqueKill) => uniqueKill.mission == spin.mission,
     );
 
     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {

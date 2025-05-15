@@ -189,9 +189,9 @@ export default function IsolationEditorDialog({
                         <input
                             hidden
                             readOnly
-                            name="map"
-                            value={isolation.map}
-                            id="map"
+                            name="mission"
+                            value={isolation.mission}
+                            id="mission"
                         />
                         {/* Hidden field for Isolation Target */}
                         <input

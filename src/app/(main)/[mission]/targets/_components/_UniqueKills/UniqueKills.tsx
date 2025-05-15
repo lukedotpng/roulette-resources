@@ -25,12 +25,13 @@ export default function UniqueKills({
             id: "",
             target: "",
             kill_method: "",
-            map: mission,
+            mission: mission,
             name: "New Unique Kill",
             requires: "",
             starts: "",
             timings: "",
             notes: "",
+            info: "",
             video_link: "",
             visible: true,
         });
@@ -46,7 +47,7 @@ export default function UniqueKills({
 
     return (
         <>
-            <div className="flex flex-col gap-2 sm:gap-4">
+            <div className="flex flex-col gap-2 sm:gap-2">
                 {UniqueKillTypes.map((uniqueKillType, index) => {
                     const filteredUniqueKills = uniqueKills.filter(
                         (uniqueKill) => {
@@ -62,6 +63,10 @@ export default function UniqueKills({
                         return null;
                     }
 
+                    filteredUniqueKills.sort((a, b) =>
+                        a.name.localeCompare(b.name),
+                    );
+
                     return (
                         <UniqueKillCard
                             key={index}
@@ -75,19 +80,20 @@ export default function UniqueKills({
                 })}
                 {session.data?.user?.admin && (
                     <button
-                        className="w-full items-center justify-between rounded-lg bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:p-2 sm:data-[active=true]:border-b-4"
+                        className="mt-2 w-full items-center justify-between rounded-xl border-4 border-zinc-500 bg-white p-2 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
                         onClick={() => {
                             handleUniqueKillEditTrigger(
                                 {
                                     id: "",
                                     target: activeTarget,
                                     kill_method: "loud_kills",
-                                    map: mission,
+                                    mission: mission,
                                     name: "New Unique Kill",
                                     requires: "",
                                     starts: "",
                                     timings: "",
                                     notes: "",
+                                    info: "",
                                     video_link: "",
                                     visible: true,
                                 },

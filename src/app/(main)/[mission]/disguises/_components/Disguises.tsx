@@ -80,7 +80,7 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
                 />
                 {session.data?.user?.admin && (
                     <button
-                        className="w-full rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        className="w-full rounded-xl border-4 border-zinc-500 bg-white p-2 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
                         onClick={() => SetEditDialogActive(true, true)}
                     >
                         {"Add New Video"}

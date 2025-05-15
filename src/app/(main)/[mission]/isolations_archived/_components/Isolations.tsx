@@ -7,6 +7,7 @@ import { useState } from "react";
 import IsolationEditorDialog from "./IsolationEditorDialog";
 import IsolationCard from "./IsolationCard";
 import ImageDropdown from "../../_components/ImageDropdown";
+import { TargetIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function Isolations({
     targets,
@@ -21,7 +22,7 @@ export default function Isolations({
     const session = useSession();
 
     const [activeTargetId, setActiveTargetId] = useState<Target>(
-        (searchParams.get("o") as Target) ?? targets[0],
+        (searchParams.get("target") as Target) ?? targets[0],
     );
     function SetActiveTarget(targetId: string) {
         setActiveTargetId(targetId as Target);
@@ -33,12 +34,13 @@ export default function Isolations({
         useState<Isolation>({
             id: "",
             target: "",
-            map: mission,
+            mission: mission,
             name: "New Isolation",
             requires: "",
             starts: "",
             timings: "",
             notes: "",
+            info: "",
             video_link: "",
             visible: true,
         });
@@ -85,12 +87,13 @@ export default function Isolations({
                                 {
                                     id: "",
                                     target: activeTargetId,
-                                    map: mission,
+                                    mission: mission,
                                     name: "New Isolation",
                                     requires: "",
                                     starts: "",
                                     timings: "",
                                     notes: "",
+                                    info: "",
                                     video_link: "",
                                     visible: true,
                                 },
@@ -98,7 +101,7 @@ export default function Isolations({
                             )
                         }
                     >
-                        Add New Isolation
+                        {"Add New Isolation"}
                     </button>
                 )}
             </div>
@@ -112,15 +115,4 @@ export default function Isolations({
             )}
         </section>
     );
-}
-
-function TargetIDToDisplayText(target: string) {
-    let targetDisplayText = "";
-    const words = target.split("_");
-
-    for (const word of words) {
-        targetDisplayText += word.charAt(0).toUpperCase() + word.slice(1) + " ";
-    }
-
-    return targetDisplayText;
 }

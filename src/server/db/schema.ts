@@ -25,7 +25,7 @@ export const updateLogSchema = pgTable("roulette-resources-update_log", {
     is_admin: boolean().notNull(),
 });
 
-export const disguiseSchema = pgTable("dev-roulette-resources-disguises", {
+export const disguiseSchema = pgTable("roulette-resources-disguises", {
     id: text().primaryKey(),
     mission: text().notNull(),
     quick_look: text().notNull(),
@@ -34,7 +34,7 @@ export const disguiseSchema = pgTable("dev-roulette-resources-disguises", {
 });
 
 export const disguiseVideoSchema = pgTable(
-    "dev-roulette-resources-disguise_videos",
+    "roulette-resources-disguise_videos",
     {
         id: uuid().primaryKey().defaultRandom(),
         disguise_id: text()
@@ -63,12 +63,13 @@ export const disguiseVideoRelations = relations(
 export const isolationSchema = pgTable("roulette-resources-isolations", {
     id: uuid().primaryKey().defaultRandom(),
     target: text().notNull(),
-    map: text().notNull(),
+    mission: text().notNull(),
     name: text().notNull(),
     requires: text(),
     starts: text(),
     timings: text(),
     notes: text(),
+    info: text().notNull(),
     video_link: text().notNull(),
     visible: boolean().notNull(),
 });
@@ -82,7 +83,7 @@ export const routeSchema = pgTable("roulette-resources-routes", {
     visible: boolean().notNull(),
 });
 
-export const itemSchema = pgTable("dev-roulette-resources-items", {
+export const itemSchema = pgTable("roulette-resources-items", {
     id: text().primaryKey(),
     mission: text().notNull(),
     name: text().notNull(),
@@ -94,13 +95,14 @@ export const itemSchema = pgTable("dev-roulette-resources-items", {
 export const uniqueKillSchema = pgTable("roulette-resources-unique_kills", {
     id: uuid().primaryKey().defaultRandom(),
     target: text().notNull(),
-    map: text().notNull(),
+    mission: text().notNull(),
     kill_method: text().notNull(),
     name: text().notNull(),
     requires: text(),
     starts: text(),
     timings: text(),
     notes: text(),
+    info: text().notNull(),
     video_link: text().notNull(),
     visible: boolean().notNull(),
 });

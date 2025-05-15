@@ -78,7 +78,7 @@ export default function Targets({
                 />
             )}
             <div className="flex flex-col gap-2">
-                <nav className="flex w-80 justify-center gap-10 text-[1em] font-semibold sm:w-[25rem] sm:text-[1.1em] md:w-[30rem] lg:w-[35rem]">
+                <nav className="flex w-80 justify-center text-[1.1em] font-semibold sm:w-[25rem] sm:text-[1.1em] md:w-[30rem] lg:w-[35rem]">
                     <button
                         data-active={activeTab === "isolations"}
                         className="flex-1 bg-white py-1 text-center text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-4 data-[active=true]:border-red-500"
