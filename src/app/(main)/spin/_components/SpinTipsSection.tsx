@@ -216,9 +216,9 @@ export default function SpinTipsSection({
                                                     <p className="font-bold">
                                                         {`${method.name || `Method`}:`}
                                                     </p>
-                                                    <ul className="list-disc px-5">
+                                                    <ul className="ul list-disc px-5">
                                                         {method.starts && (
-                                                            <li>
+                                                            <li className="li">
                                                                 <strong>
                                                                     Starts:{" "}
                                                                 </strong>
@@ -226,7 +226,7 @@ export default function SpinTipsSection({
                                                             </li>
                                                         )}
                                                         {method.requires && (
-                                                            <li>
+                                                            <li className="li">
                                                                 <strong>
                                                                     Requires:{" "}
                                                                 </strong>
@@ -236,7 +236,7 @@ export default function SpinTipsSection({
                                                             </li>
                                                         )}
                                                         {method.timings && (
-                                                            <li>
+                                                            <li className="li">
                                                                 <strong>
                                                                     Timings:{" "}
                                                                 </strong>
@@ -244,7 +244,7 @@ export default function SpinTipsSection({
                                                             </li>
                                                         )}
                                                         {method.notes && (
-                                                            <li>
+                                                            <li className="li">
                                                                 <strong>
                                                                     Notes:{" "}
                                                                 </strong>

@@ -130,7 +130,7 @@ export default function MatchSimLog({
                                 return (
                                     <li
                                         key={record.time}
-                                        className="flex flex-col border-2 px-1"
+                                        className="li flex flex-col border-2 px-1"
                                     >
                                         <div className="flex justify-between gap-1">
                                             <div></div>

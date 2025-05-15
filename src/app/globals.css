@@ -29,7 +29,7 @@ button {
     cursor: pointer;
 }
 
-ul,
-il {
+ul:not(.ul),
+il:not(.il) {
     all: revert;
 }

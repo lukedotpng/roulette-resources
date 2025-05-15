@@ -26,8 +26,8 @@ export default function Home() {
                         <h2 className="text-[1.2em] font-bold">
                             {"Citizens of Luketown"}
                         </h2>
-                        <ul className="w-64 flex-1 list-inside text-center text-[1.05em]">
-                            <li className="rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
+                        <ul className="ul w-64 flex-1 list-inside text-center text-[1.05em]">
+                            <li className="li rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
                                 {"ThatObserver"}
                             </li>
                         </ul>

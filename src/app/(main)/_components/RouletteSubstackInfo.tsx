@@ -68,7 +68,7 @@ export default async function RouletteSubstackInfo() {
                     <li
                         key={entry.id}
                         className={
-                            "items-between group flex flex-col justify-start gap-4 p-2 last:pb-0"
+                            "li items-between group flex flex-col justify-start gap-4 p-2 last:pb-0"
                         }
                     >
                         <div className="flex h-16 items-center sm:h-20">
