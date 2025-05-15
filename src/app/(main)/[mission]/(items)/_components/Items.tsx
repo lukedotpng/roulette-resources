@@ -15,7 +15,7 @@ export default function Items({
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [currentItemToEdit, setCurrentItemToEdit] = useState<Item>({
         id: "",
-        map: mission,
+        mission: mission,
         name: "New Item",
         type: "Melee",
         quick_look: "",

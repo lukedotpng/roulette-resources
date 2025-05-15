@@ -9,7 +9,7 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
 import {
     CreateUniqueKillAction,
     UpdateUniqueKillAction,
@@ -19,6 +19,17 @@ import {
     SpinTargets,
     TargetUniqueKillsList,
 } from "@/app/(main)/spin/utils/SpinGlobals";
+import {
+    MDXEditor,
+    headingsPlugin,
+    listsPlugin,
+    markdownShortcutPlugin,
+    toolbarPlugin,
+    UndoRedo,
+    BoldItalicUnderlineToggles,
+    ListsToggle,
+    MDXEditorMethods,
+} from "@mdxeditor/editor";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,
@@ -34,19 +45,9 @@ export default function UniqueKillEditorDialog({
     const [uniqueKillMethod, setUniqueKillMethod] = useState(
         uniqueKill.kill_method,
     );
+    const editorRef = useRef<MDXEditorMethods>(null);
+    const [uniqueKillInfo, setUniqueKillInfo] = useState(uniqueKill.info);
     const [uniqueKillName, setUniqueKillName] = useState(uniqueKill.name || "");
-    const [uniqueKillNotes, setUniqueKillNotes] = useState(
-        uniqueKill.notes || "",
-    );
-    const [uniqueKillRequires, setUniqueKillRequires] = useState(
-        uniqueKill.requires || "",
-    );
-    const [uniqueKillStarts, setUniqueKillStarts] = useState(
-        uniqueKill.starts || "",
-    );
-    const [uniqueKillTimings, setUniqueKillTimings] = useState(
-        uniqueKill.timings || "",
-    );
     const [uniqueKillVideoLink, setUniqueKillVideoLink] = useState(
         uniqueKill.video_link || "",
     );
@@ -75,28 +76,22 @@ export default function UniqueKillEditorDialog({
     useEffect(() => {
         if (
             uniqueKillName !== (uniqueKill.name || "") ||
-            uniqueKillNotes !== (uniqueKill.notes || "") ||
-            uniqueKillRequires !== (uniqueKill.requires || "") ||
-            uniqueKillStarts !== (uniqueKill.starts || "") ||
-            uniqueKillTimings !== (uniqueKill.timings || "") ||
-            uniqueKillVideoLink !== (uniqueKill.video_link || "")
+            uniqueKillVideoLink !== (uniqueKill.video_link || "") ||
+            uniqueKillInfo !== uniqueKill.info
         ) {
             setHasBeenEdited(true);
         } else {
             setHasBeenEdited(false);
         }
+        console.log(editorRef.current?.getMarkdown());
+        console.log("==========");
+        console.log(uniqueKillInfo);
     }, [
         uniqueKillMethod,
         uniqueKillName,
         uniqueKill.name,
-        uniqueKillNotes,
-        uniqueKill.notes,
-        uniqueKillRequires,
-        uniqueKill.requires,
-        uniqueKillStarts,
-        uniqueKill.starts,
-        uniqueKillTimings,
-        uniqueKill.timings,
+        uniqueKillInfo,
+        uniqueKill.info,
         uniqueKillVideoLink,
         uniqueKill.video_link,
         hasBeenEdited,
@@ -108,7 +103,7 @@ export default function UniqueKillEditorDialog({
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                     <DialogTitle className="w-full p-3 text-center font-bold">
-                        {`${isNew ? "Create" : "Edit"} Isolation`}
+                        {`${isNew ? "Create" : "Edit"} Unique Kill`}
                     </DialogTitle>
                     <form
                         className="p-3"
@@ -123,7 +118,7 @@ export default function UniqueKillEditorDialog({
                     >
                         {isNew ? (
                             <fieldset>
-                                {/* Field for the isolation name */}
+                                {/* Field for the unique kill name */}
                                 <label className="font-semibold">
                                     Kill Method:
                                 </label>
@@ -155,8 +150,8 @@ export default function UniqueKillEditorDialog({
                                 value={uniqueKill.kill_method}
                             ></input>
                         )}
-                        <fieldset className="">
-                            {/* Field for the isolation name */}
+                        <fieldset className="pt-2">
+                            {/* Field for the unique kill name */}
                             <label className="font-semibold">Name:</label>
                             <input
                                 type="text"
@@ -169,64 +164,109 @@ export default function UniqueKillEditorDialog({
                                 id="name"
                             />
                         </fieldset>
+                        {!isNew && (
+                            <>
+                                <fieldset className="pt-2">
+                                    {/* Field for starts */}
+                                    <label className="font-semibold">
+                                        {"Starts: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="starts"
+                                        value={uniqueKill.starts ?? ""}
+                                        readOnly
+                                        disabled
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="starts"
+                                    />
+                                </fieldset>
+                                <fieldset className="pt-2">
+                                    {/* Field for unique kill requirements */}
+                                    <label className="font-semibold">
+                                        {"Requires: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="requires"
+                                        value={uniqueKill.requires ?? ""}
+                                        readOnly
+                                        disabled
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="requires"
+                                    />
+                                </fieldset>
+                                <fieldset className="pt-2">
+                                    {/* Field for unique kill timings */}
+                                    <label className="font-semibold">
+                                        {"Timings: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="timings"
+                                        value={uniqueKill.timings ?? ""}
+                                        readOnly
+                                        disabled
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="timings"
+                                    />
+                                </fieldset>
+                                <fieldset className="pt-2">
+                                    {/* Field for unique kill notes */}
+                                    <label className="font-semibold">
+                                        {"Notes: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="notes"
+                                        value={uniqueKill.notes ?? ""}
+                                        readOnly
+                                        disabled
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="notes"
+                                    />
+                                </fieldset>
+                            </>
+                        )}
                         <fieldset className="pt-2">
-                            {/* Field for starts */}
-                            <label className="font-semibold">Starts:</label>
-                            <input
-                                type="text"
-                                name="starts"
-                                value={uniqueKillStarts}
-                                onChange={(e) =>
-                                    setUniqueKillStarts(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="starts"
+                            {/* Field for unique kill video link */}
+                            <label className="font-semibold">Info:</label>
+                            <div className="border-2 border-zinc-900">
+                                <MDXEditor
+                                    plugins={[
+                                        headingsPlugin(),
+                                        listsPlugin(),
+                                        markdownShortcutPlugin(),
+                                        toolbarPlugin({
+                                            toolbarClassName: "select-none",
+                                            toolbarContents: () => (
+                                                <>
+                                                    <UndoRedo />
+                                                    <BoldItalicUnderlineToggles />
+                                                    <ListsToggle
+                                                        options={["bullet"]}
+                                                    />
+                                                </>
+                                            ),
+                                        }),
+                                    ]}
+                                    ref={editorRef}
+                                    markdown={uniqueKill.info}
+                                    onChange={(markdown: string) => {
+                                        setUniqueKillInfo(markdown);
+                                    }}
+                                />
+                            </div>
+                            <textarea
+                                hidden
+                                readOnly
+                                name="info"
+                                value={uniqueKillInfo}
+                                id="info"
                             />
                         </fieldset>
                         <fieldset className="pt-2">
-                            {/* Field for isolation requirements */}
-                            <label className="font-semibold">Requires:</label>
-                            <input
-                                type="text"
-                                name="requires"
-                                value={uniqueKillRequires}
-                                onChange={(e) =>
-                                    setUniqueKillRequires(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="requires"
-                            />
-                        </fieldset>
-                        <fieldset className="pt-2">
-                            {/* Field for isolation timings */}
-                            <label className="font-semibold">Timings:</label>
-                            <input
-                                type="text"
-                                name="timings"
-                                value={uniqueKillTimings}
-                                onChange={(e) =>
-                                    setUniqueKillTimings(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="timings"
-                            />
-                        </fieldset>
-                        <fieldset className="pt-2">
-                            {/* Field for isolation notes */}
-                            <label className="font-semibold">Notes:</label>
-                            <input
-                                type="text"
-                                name="notes"
-                                value={uniqueKillNotes}
-                                onChange={(e) =>
-                                    setUniqueKillNotes(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="notes"
-                            />
-                        </fieldset>
-                        <fieldset className="pt-2">
-                            {/* Field for isolation video link */}
+                            {/* Field for unique kill video link */}
                             <label className="font-semibold">Video Link:</label>
                             <input
                                 type="url"
@@ -239,7 +279,7 @@ export default function UniqueKillEditorDialog({
                                 id="video_link"
                             />
                         </fieldset>
-                        {/* Hidden field for Isolation ID */}
+                        {/* Hidden field for unique kill ID */}
                         <input
                             hidden
                             readOnly
@@ -247,15 +287,15 @@ export default function UniqueKillEditorDialog({
                             value={uniqueKill.id}
                             id="id"
                         />
-                        {/* Hidden field for Isolation Map */}
+                        {/* Hidden field for unique kill Map */}
                         <input
                             hidden
                             readOnly
-                            name="map"
-                            value={uniqueKill.map}
+                            name="mission"
+                            value={uniqueKill.mission}
                             id="map"
                         />
-                        {/* Hidden field for Isolation Target */}
+                        {/* Hidden field for unique kill Target */}
                         <input
                             hidden
                             readOnly
@@ -264,14 +304,15 @@ export default function UniqueKillEditorDialog({
                             id="target"
                         />
 
-                        {hasBeenEdited && (
+                        <div className="flex w-full justify-center">
                             <button
                                 type="submit"
-                                className="mt-2 w-32 rounded-md border-2 border-red-500 bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
+                                className="mt-2 w-32 rounded-md border-2 border-zinc-900 bg-white p-1 text-sm font-bold text-zinc-900 decoration-red-500 decoration-2 not-disabled:hover:border-red-500 not-disabled:hover:bg-red-500 not-disabled:hover:text-white disabled:cursor-not-allowed! disabled:opacity-30 sm:text-xl"
+                                disabled={!hasBeenEdited}
                             >
-                                Save
+                                {"Save"}
                             </button>
-                        )}
+                        </div>
                     </form>
                 </DialogContent>
             </DialogPortal>

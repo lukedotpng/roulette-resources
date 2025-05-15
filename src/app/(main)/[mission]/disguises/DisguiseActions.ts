@@ -2,16 +2,76 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { disguiseVideoSchema } from "@/server/db/schema";
+import { disguiseVideoSchema, updateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import z from "zod";
 
-const newDisguiseVideoScheme = z.object({
-    id: z.string(),
+const zodUpdateDisguiseVideoScheme = z.object({
+    video_id: z.string(),
+    disguise_id: z.string(),
     link: z.string().url(),
+    notes: z.string(),
 });
+
+const zodNewDisguiseVideoScheme = z.object({
+    disguise_id: z.string(),
+    link: z.string().url(),
+    notes: z.string(),
+});
+
+export async function UpdateDisguiseVideoAction(formData: FormData) {
+    const session = await auth();
+
+    if (!session || !session.user || !session.user.admin) {
+        return "unauthorized";
+    }
+
+    const formParsed = zodUpdateDisguiseVideoScheme.safeParse({
+        video_id: formData.get("video_id"),
+        disguise_id: formData.get("disguise_id"),
+        link: formData.get("link"),
+        notes: formData.get("notes"),
+    });
+
+    if (!formParsed.success) {
+        return;
+    }
+
+    let updatedSuccessful = true;
+
+    try {
+        await db
+            .update(disguiseVideoSchema)
+            .set({
+                link: formParsed.data.link,
+                notes: formParsed.data.notes,
+            })
+            .where(eq(disguiseVideoSchema.id, formParsed.data.video_id));
+    } catch {
+        console.error(
+            `ERROR UPDATING DISGUISE VIDEO ${formParsed.data.video_id}: Wouldve been a good update :/`,
+        );
+        updatedSuccessful = false;
+    }
+
+    if (updatedSuccessful) {
+        try {
+            await db.insert(updateLogSchema).values({
+                username: session.user.username,
+                table: "disguises",
+                row_id: formParsed.data.video_id,
+                content: JSON.stringify(formParsed.data),
+                is_admin: true,
+            });
+        } catch {
+            console.error("ERROR UPDATING LOG: This feels ironic");
+        }
+    }
+
+    revalidatePath("/[mission]/disguises", "page");
+}
 
 export async function NewDisguiseVideoAction(formData: FormData) {
     const session = await auth();
@@ -20,20 +80,45 @@ export async function NewDisguiseVideoAction(formData: FormData) {
         return "unauthorized";
     }
 
-    const formParsed = newDisguiseVideoScheme.safeParse({
-        id: formData.get("id"),
+    const formParsed = zodNewDisguiseVideoScheme.safeParse({
+        disguise_id: formData.get("disguise_id"),
         link: formData.get("link"),
+        notes: formData.get("notes"),
     });
 
     if (!formParsed.success) {
         return;
     }
 
-    await db.insert(disguiseVideoSchema).values({
-        disguise_id: formParsed.data.id,
-        link: formParsed.data.link,
-        visible: true,
-    });
+    let updatedSuccessful = true;
+
+    try {
+        await db.insert(disguiseVideoSchema).values({
+            disguise_id: formParsed.data.disguise_id,
+            link: formParsed.data.link,
+            notes: formParsed.data.notes,
+            visible: true,
+        });
+    } catch {
+        console.error(
+            `ERROR CREATING DISGUISE VIDEO FOR ${formParsed.data.disguise_id}: already miss it :/`,
+        );
+        updatedSuccessful = false;
+    }
+
+    if (updatedSuccessful) {
+        try {
+            await db.insert(updateLogSchema).values({
+                username: session.user.username,
+                table: "disguises",
+                row_id: "",
+                content: JSON.stringify(formParsed.data),
+                is_admin: true,
+            });
+        } catch {
+            console.error("ERROR UPDATING LOG: This feels ironic");
+        }
+    }
 
     revalidatePath("/[mission]/disguises", "page");
 }

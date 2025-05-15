@@ -9,8 +9,9 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
 import { UpdateItemAction } from "../ItemActions";
+import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function ItemEditorDialog({
     item,
@@ -27,9 +28,17 @@ export default function ItemEditorDialog({
     const [itemHitmapsLink, setItemHitmapsLink] = useState(hitmapsLinkAsString);
     const [itemQuickLook, setItemQuickLook] = useState(item.quick_look);
 
+    const quickLookTextAreaRef = useRef<HTMLTextAreaElement>(null);
+
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
+    const officialItemName = item.id.split("-")[1];
+
     useEffect(() => {
+        if (typeof window === undefined) {
+            return;
+        }
+
         if (
             itemName !== item.name ||
             itemHitmapsLink !== hitmapsLinkAsString ||
@@ -38,6 +47,12 @@ export default function ItemEditorDialog({
             setHasBeenEdited(true);
         } else {
             setHasBeenEdited(false);
+        }
+
+        if (quickLookTextAreaRef.current !== null) {
+            quickLookTextAreaRef.current.style.height = "0px";
+            const newHeight = quickLookTextAreaRef.current.scrollHeight + 10;
+            quickLookTextAreaRef.current.style.height = newHeight + "px";
         }
     }, [
         itemName,
@@ -55,7 +70,7 @@ export default function ItemEditorDialog({
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                     <DialogTitle className="w-full p-3 text-center text-[1.1em] font-bold">
-                        Edit Item
+                        {`Edit "${MethodIDToDisplayText(officialItemName)}"`}
                     </DialogTitle>
                     <form
                         className="p-3"
@@ -66,7 +81,9 @@ export default function ItemEditorDialog({
                     >
                         <fieldset className="">
                             {/* Field for the item name */}
-                            <label className="font-semibold">Name:</label>
+                            <label className="font-semibold">
+                                Display Name:
+                            </label>
                             <input
                                 type="text"
                                 name="name"
@@ -79,15 +96,17 @@ export default function ItemEditorDialog({
                         <fieldset className="pt-2">
                             {/* Field for quick look*/}
                             <label className="font-semibold">Quick Look:</label>
-                            <input
-                                type="text"
+                            <textarea
                                 name="quick_look"
                                 value={itemQuickLook}
                                 onChange={(e) =>
                                     setItemQuickLook(e.target.value)
                                 }
-                                className="w-full border-2 border-zinc-900 p-1"
+                                className="h-16 w-full border-2 border-zinc-900 p-1"
                                 id="quick_look"
+                                ref={quickLookTextAreaRef}
+                                rows={3}
+                                maxLength={500}
                             />
                         </fieldset>
                         <fieldset className="pt-2">
@@ -114,14 +133,6 @@ export default function ItemEditorDialog({
                             value={item.id}
                             id="id"
                         />
-                        {/* Hidden field for Item Map */}
-                        <input
-                            hidden
-                            readOnly
-                            name="map"
-                            value={item.map}
-                            id="map"
-                        />
                         {/* Hidden field for Item type */}
                         <input
                             hidden
@@ -130,15 +141,15 @@ export default function ItemEditorDialog({
                             value={item.type}
                             id="type"
                         />
-
-                        {hasBeenEdited && (
+                        <div className="flex w-full justify-center">
                             <button
                                 type="submit"
-                                className="w-32 rounded-md border-2 border-red-500 bg-white p-1 text-sm font-bold text-zinc-900 hover:bg-red-500 hover:text-white sm:text-xl"
+                                className="mt-2 w-32 rounded-md border-2 border-zinc-900 bg-white p-1 text-sm font-bold text-zinc-900 decoration-red-500 decoration-2 not-disabled:hover:border-red-500 not-disabled:hover:bg-red-500 not-disabled:hover:text-white disabled:cursor-not-allowed! disabled:opacity-30 sm:text-xl"
+                                disabled={!hasBeenEdited}
                             >
                                 Save
                             </button>
-                        )}
+                        </div>
                     </form>
                 </DialogContent>
             </DialogPortal>

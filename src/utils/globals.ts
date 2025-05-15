@@ -77,6 +77,11 @@ export const UniqueKillTypes = [
     "shoot_the_heart",
     "explosion",
     "impact_explosive",
+    "destroy_the_seaplane",
+    "overheat_the_sauna",
+    "shoot_the_car",
+    "feed_to_the_hippo",
+    "dump_in_the_cocaine_machine",
 ];
 
 // making seperate group for berlin so i can iterate through them instead of targets

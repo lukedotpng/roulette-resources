@@ -12,7 +12,7 @@ export default async function Page({
     const { mission } = await params;
 
     const disguises = await db.query.disguiseSchema.findMany({
-        where: eq(disguiseSchema.map, mission),
+        where: eq(disguiseSchema.mission, mission),
         with: {
             disguiseVideoSchema: true,
         },

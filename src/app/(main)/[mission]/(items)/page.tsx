@@ -13,7 +13,7 @@ export default async function Page({
     const { mission } = await params;
 
     let items = await db.query.itemSchema.findMany({
-        where: eq(itemSchema.map, mission),
+        where: eq(itemSchema.mission, mission),
     });
 
     if (items === null || items.length === 0) {

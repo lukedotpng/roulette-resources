@@ -1,6 +1,12 @@
-import { randomUUID } from "crypto";
 import { relations } from "drizzle-orm";
-import { boolean, integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import {
+    boolean,
+    integer,
+    pgTable,
+    text,
+    timestamp,
+    uuid,
+} from "drizzle-orm/pg-core";
 
 export const userSchema = pgTable("roulette-resources-users", {
     username: text().primaryKey(),
@@ -9,24 +15,33 @@ export const userSchema = pgTable("roulette-resources-users", {
     admin: boolean(),
 });
 
+export const updateLogSchema = pgTable("roulette-resources-update_log", {
+    id: uuid().primaryKey().defaultRandom(),
+    username: text().notNull(),
+    table: text().notNull(),
+    row_id: text().notNull(),
+    content: text().notNull(),
+    created_at: timestamp().defaultNow().notNull(),
+    is_admin: boolean().notNull(),
+});
+
 export const disguiseSchema = pgTable("roulette-resources-disguises", {
     id: text().primaryKey(),
-    map: text().notNull(),
+    mission: text().notNull(),
     quick_look: text().notNull(),
-    hitmaps_link: text(),
     notes: text(),
+    hitmaps_link: text(),
 });
 
 export const disguiseVideoSchema = pgTable(
     "roulette-resources-disguise_videos",
     {
-        id: uuid()
-            .primaryKey()
-            .$defaultFn(() => randomUUID()),
+        id: uuid().primaryKey().defaultRandom(),
         disguise_id: text()
             .notNull()
             .references(() => disguiseSchema.id),
         link: text().notNull(),
+        notes: text().notNull(),
         visible: boolean().notNull(),
     },
 );
@@ -46,24 +61,21 @@ export const disguiseVideoRelations = relations(
 );
 
 export const isolationSchema = pgTable("roulette-resources-isolations", {
-    id: uuid()
-        .primaryKey()
-        .$defaultFn(() => randomUUID()),
+    id: uuid().primaryKey().defaultRandom(),
     target: text().notNull(),
-    map: text().notNull(),
+    mission: text().notNull(),
     name: text().notNull(),
     requires: text(),
     starts: text(),
     timings: text(),
     notes: text(),
+    info: text().notNull(),
     video_link: text().notNull(),
     visible: boolean().notNull(),
 });
 
 export const routeSchema = pgTable("roulette-resources-routes", {
-    id: uuid()
-        .primaryKey()
-        .$defaultFn(() => randomUUID()),
+    id: uuid().primaryKey().defaultRandom(),
     map: text().notNull(),
     name: text().notNull(),
     notes: text(),
@@ -72,8 +84,8 @@ export const routeSchema = pgTable("roulette-resources-routes", {
 });
 
 export const itemSchema = pgTable("roulette-resources-items", {
-    id: uuid().primaryKey(),
-    map: text().notNull(),
+    id: text().primaryKey(),
+    mission: text().notNull(),
     name: text().notNull(),
     type: text().notNull(),
     quick_look: text().notNull(),
@@ -81,17 +93,16 @@ export const itemSchema = pgTable("roulette-resources-items", {
 });
 
 export const uniqueKillSchema = pgTable("roulette-resources-unique_kills", {
-    id: uuid()
-        .primaryKey()
-        .$defaultFn(() => randomUUID()),
+    id: uuid().primaryKey().defaultRandom(),
     target: text().notNull(),
-    map: text().notNull(),
+    mission: text().notNull(),
     kill_method: text().notNull(),
     name: text().notNull(),
     requires: text(),
     starts: text(),
     timings: text(),
     notes: text(),
+    info: text().notNull(),
     video_link: text().notNull(),
     visible: boolean().notNull(),
 });

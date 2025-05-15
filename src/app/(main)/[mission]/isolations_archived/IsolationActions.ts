@@ -10,7 +10,7 @@ import z from "zod";
 
 const newIsolationScheme = z.object({
     target: z.string().min(1),
-    map: z.string().min(1),
+    mission: z.string().min(1),
     name: z.string().min(1),
     requires: z.string(),
     starts: z.string(),
@@ -22,7 +22,7 @@ const newIsolationScheme = z.object({
 const updateIsolationScheme = z.object({
     id: z.string().min(1),
     target: z.string().min(1),
-    map: z.string().min(1),
+    mission: z.string().min(1),
     name: z.string().min(1),
     requires: z.string(),
     starts: z.string(),
@@ -40,7 +40,7 @@ export async function CreateIsolationAction(formData: FormData) {
 
     const formParsed = newIsolationScheme.safeParse({
         target: formData.get("target"),
-        map: formData.get("map"),
+        mission: formData.get("mission"),
         name: formData.get("name"),
         requires: formData.get("requires"),
         starts: formData.get("starts"),
@@ -58,12 +58,13 @@ export async function CreateIsolationAction(formData: FormData) {
     console.log("Creating new isolation");
     await db.insert(isolationSchema).values({
         target: formParsed.data.target,
-        map: formParsed.data.map,
+        mission: formParsed.data.mission,
         name: formParsed.data.name,
         requires: formParsed.data.requires,
         starts: formParsed.data.starts,
         timings: formParsed.data.timings,
         notes: formParsed.data.notes,
+        info: "",
         video_link: formParsed.data.video_link,
         visible: true,
     });
@@ -81,7 +82,7 @@ export async function UpdateIsolationAction(formData: FormData) {
     const formParsed = updateIsolationScheme.safeParse({
         id: formData.get("id"),
         target: formData.get("target"),
-        map: formData.get("map"),
+        mission: formData.get("mission"),
         name: formData.get("name"),
         requires: formData.get("requires"),
         starts: formData.get("starts"),

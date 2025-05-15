@@ -16,7 +16,7 @@ export default async function Page({
     const isolations = await db
         .select()
         .from(isolationSchema)
-        .where(eq(isolationSchema.map, mission));
+        .where(eq(isolationSchema.mission, mission));
 
     if (isolations === null || isolations.length === 0) {
         return <h1>No data for this map :(</h1>;

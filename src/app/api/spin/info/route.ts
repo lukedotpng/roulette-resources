@@ -31,28 +31,28 @@ export async function GET(request: NextRequest): Promise<Response> {
 
     const itemData =
         (await db.query.itemSchema.findMany({
-            where: eq(itemSchema.map, spin.mission),
+            where: eq(itemSchema.mission, spin.mission),
         })) || [];
     const disguiseData = await db.query.disguiseSchema.findMany({
-        where: eq(disguiseSchema.map, spin.mission),
+        where: eq(disguiseSchema.mission, spin.mission),
         with: {
             disguiseVideoSchema: true,
         },
     });
     const uniqueKillData = await db.query.uniqueKillSchema.findMany({
-        where: eq(uniqueKillSchema.map, spin.mission),
+        where: eq(uniqueKillSchema.mission, spin.mission),
     });
 
     const targetSpinResources = {} as TargetSpinResources;
 
     const filteredItemData = itemData.filter(
-        (item) => item.map == spin.mission,
+        (item) => item.mission == spin.mission,
     );
     const filteredDisguiseData = disguiseData.filter(
-        (disguise) => disguise.map == spin.mission,
+        (disguise) => disguise.mission == spin.mission,
     );
     const filteredUniqueKillData = uniqueKillData.filter(
-        (uniqueKill) => uniqueKill.map == spin.mission,
+        (uniqueKill) => uniqueKill.mission == spin.mission,
     );
 
     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {

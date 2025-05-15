@@ -10,6 +10,12 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteUniqueKillAction } from "./UniqueKillActions";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
+import {
+    MDXEditor,
+    headingsPlugin,
+    listsPlugin,
+    markdownShortcutPlugin,
+} from "@mdxeditor/editor";
 
 export default function UniqueKillCard({
     killType,
@@ -32,10 +38,10 @@ export default function UniqueKillCard({
     ] = useState(false);
 
     return (
-        <div className="w-80 bg-white text-zinc-900 sm:w-[25rem] md:w-[30rem] lg:w-[35rem]">
+        <div className="w-80 rounded-xl border-4 border-zinc-500 bg-white text-zinc-900 sm:w-[25rem] md:w-[30rem] lg:w-[35rem]">
             <button
                 data-active={!collapsed}
-                className="group flex w-full items-center justify-between p-1 font-bold hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:p-2 sm:data-[active=true]:border-b-4"
+                className="group flex w-full items-center justify-between rounded-lg p-1 font-bold hover:bg-red-500 hover:text-white data-[active=true]:rounded-b-none data-[active=true]:border-b-2 data-[active=true]:border-red-500 sm:data-[active=true]:border-b-4"
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div className="h-3 w-3 sm:h-4 sm:w-4"></div>
@@ -66,29 +72,45 @@ export default function UniqueKillCard({
                                         {uniqueKillMethod.name}
                                     </p>
                                 )}
-                                {uniqueKillMethod.starts && (
-                                    <p>
-                                        <strong>Starts: </strong>
-                                        {uniqueKillMethod.starts}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.requires && (
-                                    <p>
-                                        <strong>Requires: </strong>
-                                        {uniqueKillMethod.requires}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.timings && (
-                                    <p>
-                                        <strong>Timings: </strong>
-                                        {uniqueKillMethod.timings}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.notes && (
-                                    <p>
-                                        <strong>Notes: </strong>
-                                        {uniqueKillMethod.notes}
-                                    </p>
+                                {uniqueKillMethod.info !== "" ? (
+                                    <MDXEditor
+                                        className="mt-2 border-2 border-zinc-900"
+                                        contentEditableClassName="prose max-w-none"
+                                        plugins={[
+                                            headingsPlugin(),
+                                            listsPlugin(),
+                                            markdownShortcutPlugin(),
+                                        ]}
+                                        markdown={uniqueKillMethod.info}
+                                        readOnly
+                                    />
+                                ) : (
+                                    <>
+                                        {uniqueKillMethod.starts && (
+                                            <p>
+                                                <strong>Starts: </strong>
+                                                {uniqueKillMethod.starts}
+                                            </p>
+                                        )}
+                                        {uniqueKillMethod.requires && (
+                                            <p>
+                                                <strong>Requires: </strong>
+                                                {uniqueKillMethod.requires}
+                                            </p>
+                                        )}
+                                        {uniqueKillMethod.timings && (
+                                            <p>
+                                                <strong>Timings: </strong>
+                                                {uniqueKillMethod.timings}
+                                            </p>
+                                        )}
+                                        {uniqueKillMethod.notes && (
+                                            <p>
+                                                <strong>Notes: </strong>
+                                                {uniqueKillMethod.notes}
+                                            </p>
+                                        )}
+                                    </>
                                 )}
                                 {uniqueKillMethod.video_link && (
                                     <a

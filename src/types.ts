@@ -6,6 +6,7 @@ import {
     itemSchema,
     routeSchema,
     uniqueKillSchema,
+    updateLogSchema,
 } from "./server/db/schema";
 import { Ruleset } from "./app/(main)/spin/_components/CustomRulesComponents/CustomRuleTypes";
 
@@ -17,6 +18,7 @@ export type Isolation = InferSelectModel<typeof isolationSchema>;
 export type Route = InferSelectModel<typeof routeSchema>;
 export type Item = InferSelectModel<typeof itemSchema>;
 export type UniqueKill = InferSelectModel<typeof uniqueKillSchema>;
+export type UpdateLog = InferSelectModel<typeof updateLogSchema>;
 
 export type Mission =
     | "paris"

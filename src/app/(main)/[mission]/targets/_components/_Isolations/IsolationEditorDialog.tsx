@@ -9,11 +9,23 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
 import {
     CreateIsolationAction,
     UpdateIsolationAction,
 } from "./IsolationActions";
+
+import {
+    BoldItalicUnderlineToggles,
+    headingsPlugin,
+    listsPlugin,
+    ListsToggle,
+    markdownShortcutPlugin,
+    MDXEditor,
+    MDXEditorMethods,
+    toolbarPlugin,
+    UndoRedo,
+} from "@mdxeditor/editor";
 
 export default function IsolationEditorDialog({
     isolation,
@@ -27,16 +39,8 @@ export default function IsolationEditorDialog({
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
     const [isolationName, setIsolationName] = useState(isolation.name);
-    const [isolationNotes, setIsolationNotes] = useState(isolation.notes || "");
-    const [isolationRequires, setIsolationRequires] = useState(
-        isolation.requires || "",
-    );
-    const [isolationStarts, setIsolationStarts] = useState(
-        isolation.starts || "",
-    );
-    const [isolationTimings, setIsolationTimings] = useState(
-        isolation.timings || "",
-    );
+    const editorRef = useRef<MDXEditorMethods>(null);
+    const [isolationInfo, setIsolationInfo] = useState(isolation.info);
     const [isolationVideoLink, setIsolationVideoLink] = useState(
         isolation.video_link,
     );
@@ -46,11 +50,8 @@ export default function IsolationEditorDialog({
     useEffect(() => {
         if (
             isolationName !== isolation.name ||
-            isolationNotes !== isolation.notes ||
-            isolationRequires !== isolation.requires ||
-            isolationStarts !== isolation.starts ||
-            isolationTimings !== isolation.timings ||
-            isolationVideoLink !== isolation.video_link
+            isolationVideoLink !== isolation.video_link ||
+            isolationInfo !== isolation.info
         ) {
             setHasBeenEdited(true);
         } else {
@@ -59,14 +60,8 @@ export default function IsolationEditorDialog({
     }, [
         isolationName,
         isolation.name,
-        isolationNotes,
-        isolation.notes,
-        isolationRequires,
-        isolation.requires,
-        isolationStarts,
-        isolation.starts,
-        isolationTimings,
-        isolation.timings,
+        isolationInfo,
+        isolation.info,
         isolationVideoLink,
         isolation.video_link,
         hasBeenEdited,
@@ -106,60 +101,105 @@ export default function IsolationEditorDialog({
                                 id="name"
                             />
                         </fieldset>
+                        {!isNew && (
+                            <>
+                                <fieldset className="pt-2">
+                                    {/* Field for starts */}
+                                    <label className="font-semibold">
+                                        {"Starts: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="starts"
+                                        readOnly
+                                        disabled
+                                        value={isolation.starts || ""}
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="starts"
+                                    />
+                                </fieldset>
+                                <fieldset className="pt-2">
+                                    {/* Field for isolation requirements */}
+                                    <label className="font-semibold">
+                                        {"Requires: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="requires"
+                                        readOnly
+                                        disabled
+                                        value={isolation.requires || ""}
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="requires"
+                                    />
+                                </fieldset>
+                                <fieldset className="pt-2">
+                                    {/* Field for isolation timings */}
+                                    <label className="font-semibold">
+                                        {"Timings: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="timings"
+                                        readOnly
+                                        disabled
+                                        value={isolation.timings || ""}
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="timings"
+                                    />
+                                </fieldset>
+                                <fieldset className="pt-2">
+                                    {/* Field for isolation notes */}
+                                    <label className="font-semibold">
+                                        {"Notes: DO NOT TOUCH"}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="notes"
+                                        readOnly
+                                        disabled
+                                        value={isolation.notes || ""}
+                                        className="w-full border-2 border-zinc-900 p-1"
+                                        id="notes"
+                                    />
+                                </fieldset>
+                            </>
+                        )}
                         <fieldset className="pt-2">
-                            {/* Field for starts */}
-                            <label className="font-semibold">Starts:</label>
-                            <input
-                                type="text"
-                                name="starts"
-                                value={isolationStarts}
-                                onChange={(e) =>
-                                    setIsolationStarts(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="starts"
-                            />
-                        </fieldset>
-                        <fieldset className="pt-2">
-                            {/* Field for isolation requirements */}
-                            <label className="font-semibold">Requires:</label>
-                            <input
-                                type="text"
-                                name="requires"
-                                value={isolationRequires}
-                                onChange={(e) =>
-                                    setIsolationRequires(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="requires"
-                            />
-                        </fieldset>
-                        <fieldset className="pt-2">
-                            {/* Field for isolation timings */}
-                            <label className="font-semibold">Timings:</label>
-                            <input
-                                type="text"
-                                name="timings"
-                                value={isolationTimings}
-                                onChange={(e) =>
-                                    setIsolationTimings(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="timings"
-                            />
-                        </fieldset>
-                        <fieldset className="pt-2">
-                            {/* Field for isolation notes */}
-                            <label className="font-semibold">Notes:</label>
-                            <input
-                                type="text"
-                                name="notes"
-                                value={isolationNotes}
-                                onChange={(e) =>
-                                    setIsolationNotes(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="notes"
+                            {/* Field for isolation video link */}
+                            <label className="font-semibold">Info:</label>
+                            <div className="border-2 border-zinc-900">
+                                <MDXEditor
+                                    plugins={[
+                                        headingsPlugin(),
+                                        listsPlugin(),
+                                        markdownShortcutPlugin(),
+                                        toolbarPlugin({
+                                            toolbarClassName: "select-none",
+                                            toolbarContents: () => (
+                                                <>
+                                                    <UndoRedo />
+                                                    <BoldItalicUnderlineToggles />
+                                                    <ListsToggle
+                                                        options={["bullet"]}
+                                                    />
+                                                </>
+                                            ),
+                                        }),
+                                    ]}
+                                    ref={editorRef}
+                                    markdown={isolation.info}
+                                    onChange={(markdown: string) => {
+                                        setIsolationInfo(markdown);
+                                    }}
+                                />
+                            </div>
+                            <textarea
+                                hidden
+                                readOnly
+                                name="info"
+                                value={isolationInfo}
+                                id="info"
                             />
                         </fieldset>
                         <fieldset className="pt-2">
@@ -189,9 +229,9 @@ export default function IsolationEditorDialog({
                         <input
                             hidden
                             readOnly
-                            name="map"
-                            value={isolation.map}
-                            id="map"
+                            name="mission"
+                            value={isolation.mission}
+                            id="mission"
                         />
                         {/* Hidden field for Isolation Target */}
                         <input
@@ -201,15 +241,24 @@ export default function IsolationEditorDialog({
                             value={isolation.target}
                             id="target"
                         />
+                        {/* TEMP Hidden field for Isolation Info */}
+                        <input
+                            hidden
+                            readOnly
+                            name="info"
+                            value={""}
+                            id="infotarget"
+                        />
 
-                        {hasBeenEdited && (
+                        <div className="flex w-full justify-center">
                             <button
                                 type="submit"
-                                className="mt-2 w-32 rounded-md border-2 border-red-500 bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
+                                className="mt-2 w-32 rounded-md border-2 border-zinc-900 bg-white p-1 text-sm font-bold text-zinc-900 decoration-red-500 decoration-2 not-disabled:hover:border-red-500 not-disabled:hover:bg-red-500 not-disabled:hover:text-white disabled:cursor-not-allowed! disabled:opacity-30 sm:text-xl"
+                                disabled={!hasBeenEdited}
                             >
-                                Save
+                                {"Save"}
                             </button>
-                        )}
+                        </div>
                     </form>
                 </DialogContent>
             </DialogPortal>

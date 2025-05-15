@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { isolationSchema } from "@/server/db/schema";
+import { isolationSchema, updateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -10,24 +10,18 @@ import z from "zod";
 
 const newIsolationScheme = z.object({
     target: z.string().min(1),
-    map: z.string().min(1),
+    mission: z.string().min(1),
     name: z.string().min(1),
-    requires: z.string(),
-    starts: z.string(),
-    timings: z.string(),
-    notes: z.string(),
+    info: z.string(),
     video_link: z.string().min(1),
 });
 
 const updateIsolationScheme = z.object({
     id: z.string().min(1),
     target: z.string().min(1),
-    map: z.string().min(1),
+    mission: z.string().min(1),
     name: z.string().min(1),
-    requires: z.string(),
-    starts: z.string(),
-    timings: z.string(),
-    notes: z.string(),
+    info: z.string(),
     video_link: z.string().min(1),
 });
 
@@ -40,12 +34,9 @@ export async function CreateIsolationAction(formData: FormData) {
 
     const formParsed = newIsolationScheme.safeParse({
         target: formData.get("target"),
-        map: formData.get("map"),
+        mission: formData.get("mission"),
         name: formData.get("name"),
-        requires: formData.get("requires"),
-        starts: formData.get("starts"),
-        timings: formData.get("timings"),
-        notes: formData.get("notes"),
+        info: formData.get("info"),
         video_link: formData.get("video_link"),
     });
 
@@ -56,17 +47,36 @@ export async function CreateIsolationAction(formData: FormData) {
     }
 
     console.log("Creating new isolation");
-    await db.insert(isolationSchema).values({
-        target: formParsed.data.target,
-        map: formParsed.data.map,
-        name: formParsed.data.name,
-        requires: formParsed.data.requires,
-        starts: formParsed.data.starts,
-        timings: formParsed.data.timings,
-        notes: formParsed.data.notes,
-        video_link: formParsed.data.video_link,
-        visible: true,
-    });
+
+    let updatedSuccessful = true;
+
+    try {
+        await db.insert(isolationSchema).values({
+            target: formParsed.data.target,
+            mission: formParsed.data.mission,
+            name: formParsed.data.name,
+            info: formParsed.data.info,
+            video_link: formParsed.data.video_link,
+            visible: true,
+        });
+    } catch {
+        console.error(`ERROR CREATING ISOLATION: Wouldve been a good iso :/`);
+        updatedSuccessful = false;
+    }
+
+    if (updatedSuccessful) {
+        try {
+            await db.insert(updateLogSchema).values({
+                username: session.user.username,
+                table: "isolations",
+                row_id: "",
+                content: JSON.stringify(formParsed.data),
+                is_admin: true,
+            });
+        } catch {
+            console.error("ERROR UPDATING LOG: This feels ironic");
+        }
+    }
 
     revalidatePath("/[mission]/targets", "page");
 }
@@ -81,12 +91,9 @@ export async function UpdateIsolationAction(formData: FormData) {
     const formParsed = updateIsolationScheme.safeParse({
         id: formData.get("id"),
         target: formData.get("target"),
-        map: formData.get("map"),
+        mission: formData.get("mission"),
         name: formData.get("name"),
-        requires: formData.get("requires"),
-        starts: formData.get("starts"),
-        timings: formData.get("timings"),
-        notes: formData.get("notes"),
+        info: formData.get("info"),
         video_link: formData.get("video_link"),
     });
 
@@ -95,10 +102,33 @@ export async function UpdateIsolationAction(formData: FormData) {
         return;
     }
 
-    await db
-        .update(isolationSchema)
-        .set(formParsed.data)
-        .where(eq(isolationSchema.id, formParsed.data.id));
+    let updatedSuccessful = true;
+
+    try {
+        await db
+            .update(isolationSchema)
+            .set(formParsed.data)
+            .where(eq(isolationSchema.id, formParsed.data.id));
+    } catch {
+        console.error(
+            `ERROR UPDATING ISOLATION ${formParsed.data.id}: Wouldve been a good update :/`,
+        );
+        updatedSuccessful = false;
+    }
+
+    if (updatedSuccessful) {
+        try {
+            await db.insert(updateLogSchema).values({
+                username: session.user.username,
+                table: "isolations",
+                row_id: formParsed.data.id,
+                content: JSON.stringify(formParsed.data),
+                is_admin: true,
+            });
+        } catch {
+            console.error("ERROR UPDATING LOG: This feels ironic");
+        }
+    }
 
     revalidatePath("/[mission]/targets", "page");
 }
@@ -110,10 +140,33 @@ export async function DeleteIsolationAction(isolationId: string) {
         return "unauthorized";
     }
 
-    await db
-        .update(isolationSchema)
-        .set({ visible: false })
-        .where(eq(isolationSchema.id, isolationId));
+    let updatedSuccessful = true;
+
+    try {
+        await db
+            .update(isolationSchema)
+            .set({ visible: false })
+            .where(eq(isolationSchema.id, isolationId));
+    } catch {
+        console.error(
+            `ERROR UPDATING ISOLATION ${isolationId}: uhh maybe we do need this!`,
+        );
+        updatedSuccessful = false;
+    }
+
+    if (updatedSuccessful) {
+        try {
+            await db.insert(updateLogSchema).values({
+                username: session.user.username,
+                table: "isolations",
+                row_id: isolationId,
+                content: "DELETE",
+                is_admin: true,
+            });
+        } catch {
+            console.error("ERROR UPDATING LOG: This feels ironic");
+        }
+    }
 
     revalidatePath("/[mission]/targets", "page");
 }

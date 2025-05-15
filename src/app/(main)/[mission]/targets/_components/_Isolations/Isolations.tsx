@@ -1,7 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { Isolation, Mission, Target } from "@/types";
-import IsolationCard from "./IsolationCard";
+// Dont rerender because of MDXEditor
+const IsolationCard = dynamic(() => import("./IsolationCard"), { ssr: false });
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import IsolationEditorDialog from "./IsolationEditorDialog";
@@ -23,12 +26,13 @@ export default function Isolations({
         useState<Isolation>({
             id: "",
             target: "",
-            map: mission,
+            mission: mission,
             name: "New Isolation",
             requires: "",
             starts: "",
             timings: "",
             notes: "",
+            info: "",
             video_link: "",
             visible: true,
         });
@@ -39,10 +43,13 @@ export default function Isolations({
         setCurrentIsolationToEdit(isolation);
     }
 
+    const sortedIsolations = [...isolations];
+    sortedIsolations.sort((a, b) => a.name.localeCompare(b.name));
+
     return (
         <>
             <div className="flex flex-col gap-2">
-                {isolations.map((isolation, index) => {
+                {sortedIsolations.map((isolation, index) => {
                     if (
                         target !== isolation.target ||
                         isolation.visible === false
@@ -61,18 +68,19 @@ export default function Isolations({
                 })}
                 {session.data?.user?.admin && (
                     <button
-                        className="w-full rounded-b-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
+                        className="w-full rounded-xl border-4 border-zinc-500 bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                         onClick={() =>
                             handleIsolationEditTrigger(
                                 {
                                     id: "",
                                     target: target,
-                                    map: mission,
+                                    mission: mission,
                                     name: "New Isolation",
                                     requires: "",
                                     starts: "",
                                     timings: "",
                                     notes: "",
+                                    info: "",
                                     video_link: "",
                                     visible: true,
                                 },
