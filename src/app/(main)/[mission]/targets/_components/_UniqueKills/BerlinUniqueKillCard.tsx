@@ -11,6 +11,12 @@ import {
 import { DeleteUniqueKillAction } from "./UniqueKillActions";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import {
+    MDXEditor,
+    headingsPlugin,
+    listsPlugin,
+    markdownShortcutPlugin,
+} from "@mdxeditor/editor";
 
 export default function BerlinUniqueKillCard({
     uniqueKills,
@@ -33,10 +39,18 @@ export default function BerlinUniqueKillCard({
         return null;
     }
 
+    const sortedUniqueKills = [...uniqueKills];
+    console.log(sortedUniqueKills);
+    sortedUniqueKills.sort((a, b) => {
+        const safeA = a.name ? a.name : "";
+        const safeB = b.name ? b.name : "";
+        return safeA.localeCompare(safeB);
+    });
+
     return (
         <div className="w-80 bg-white text-zinc-900 sm:w-[30rem] md:w-[35rem]">
             <div className="flex flex-col gap-2 p-3">
-                {uniqueKills.map((uniqueKillMethod, index) => (
+                {sortedUniqueKills.map((uniqueKillMethod, index) => (
                     <div
                         key={index}
                         className="relative border-t-4 border-zinc-900 p-3 first:border-0"
@@ -46,38 +60,54 @@ export default function BerlinUniqueKillCard({
                                 {uniqueKillMethod.name}
                             </p>
                         )}
-                        {uniqueKillMethod.starts && (
-                            <p>
-                                <strong>Starts: </strong>
-                                {uniqueKillMethod.starts}
-                            </p>
-                        )}
-                        {uniqueKillMethod.requires && (
-                            <p>
-                                <strong>Requires: </strong>
-                                {uniqueKillMethod.requires}
-                            </p>
-                        )}
-                        {uniqueKillMethod.timings && (
-                            <p>
-                                <strong>Timings: </strong>
-                                {uniqueKillMethod.timings}
-                            </p>
-                        )}
-                        {uniqueKillMethod.notes && (
-                            <p>
-                                <strong>Notes: </strong>
-                                {uniqueKillMethod.notes}
-                            </p>
-                        )}
-                        {uniqueKillMethod.video_link && (
-                            <a
-                                className="w-fit font-bold underline"
-                                href={uniqueKillMethod.video_link}
-                                target="_blank"
-                            >
-                                Watch video here
-                            </a>
+                        {uniqueKillMethod.info !== "" ? (
+                            <MDXEditor
+                                className="mt-2 border-2 border-zinc-900"
+                                contentEditableClassName="prose max-w-none"
+                                plugins={[
+                                    headingsPlugin(),
+                                    listsPlugin(),
+                                    markdownShortcutPlugin(),
+                                ]}
+                                markdown={uniqueKillMethod.info}
+                                readOnly
+                            />
+                        ) : (
+                            <>
+                                {uniqueKillMethod.starts && (
+                                    <p>
+                                        <strong>Starts: </strong>
+                                        {uniqueKillMethod.starts}
+                                    </p>
+                                )}
+                                {uniqueKillMethod.requires && (
+                                    <p>
+                                        <strong>Requires: </strong>
+                                        {uniqueKillMethod.requires}
+                                    </p>
+                                )}
+                                {uniqueKillMethod.timings && (
+                                    <p>
+                                        <strong>Timings: </strong>
+                                        {uniqueKillMethod.timings}
+                                    </p>
+                                )}
+                                {uniqueKillMethod.notes && (
+                                    <p>
+                                        <strong>Notes: </strong>
+                                        {uniqueKillMethod.notes}
+                                    </p>
+                                )}
+                                {uniqueKillMethod.video_link && (
+                                    <a
+                                        className="w-fit font-bold underline"
+                                        href={uniqueKillMethod.video_link}
+                                        target="_blank"
+                                    >
+                                        Watch video here
+                                    </a>
+                                )}
+                            </>
                         )}
                         {session.data?.user?.admin && (
                             <div className="absolute top-[.9rem] right-1 flex gap-3">

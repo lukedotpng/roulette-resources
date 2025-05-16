@@ -10,7 +10,7 @@ import z from "zod";
 
 const newUniqueKillScheme = z.object({
     target: z.string().min(1),
-    mission: z.string().min(1),
+    mission: z.string(),
     kill_method: z.string().min(1),
     name: z.string(),
     info: z.string(),
@@ -19,7 +19,7 @@ const newUniqueKillScheme = z.object({
 
 const updateUniqueKillScheme = z.object({
     id: z.string().min(1),
-    target: z.string().min(1),
+    target: z.string(),
     mission: z.string().min(1),
     kill_method: z.string().min(1),
     name: z.string(),

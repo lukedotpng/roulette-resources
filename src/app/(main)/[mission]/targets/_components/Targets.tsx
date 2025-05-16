@@ -10,11 +10,7 @@ import {
 import ImageDropdown from "../../_components/ImageDropdown";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import {
-    BerlinUniqueKillTypes,
-    MissionTargetsList,
-    UniqueKillTypes,
-} from "@/utils/globals";
+import { BerlinUniqueKillTypes, MissionTargetsList } from "@/utils/globals";
 import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,
@@ -62,7 +58,7 @@ export default function Targets({
                 <ImageDropdown
                     activeOption={activeUniqueKill}
                     optionImageRootPath="/killmethods"
-                    optionList={UniqueKillTypes}
+                    optionList={BerlinUniqueKillTypes}
                     optionQueryKey="kill"
                     SetActiveOption={SetActiveUniqueKill}
                     OptionFormatter={MethodIDToDisplayText}
