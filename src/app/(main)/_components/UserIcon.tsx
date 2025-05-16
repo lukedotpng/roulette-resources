@@ -25,9 +25,9 @@ export default function UserIcon() {
     }
 
     return (
-        <div>
+        <>
             <button
-                className="flex h-4 w-4 justify-center sm:h-6 sm:w-6"
+                className="flex h-full justify-center"
                 onClick={() => setSignOutButtonOpen(!signOutButtonOpen)}
             >
                 {session.data.user.image ? (
@@ -46,9 +46,9 @@ export default function UserIcon() {
                     </p>
                 )}
             </button>
-            <div className="absolute top-10 right-0">
+            <div className="absolute top-6 right-1 h-full sm:top-10">
                 {signOutButtonOpen && <SignOut />}
             </div>
-        </div>
+        </>
     );
 }

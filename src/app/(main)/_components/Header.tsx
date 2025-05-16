@@ -16,7 +16,7 @@ export default async function Header() {
     }
 
     return (
-        <header className="flex h-6 items-center justify-between bg-white text-xs sm:h-9 sm:text-base md:h-10 md:text-xl">
+        <header className="flex h-6 items-center justify-between bg-white text-xs sm:text-base md:h-10 md:text-xl">
             <Link href="/" prefetch={true} className="flex h-full items-center">
                 <h1 className="px-2 font-extrabold">Rou|Re</h1>
             </Link>
@@ -58,7 +58,7 @@ export default async function Header() {
                 />
                 <SpinLink />
             </nav>
-            <div className="px-4">
+            <div className="h-full p-1 px-4">
                 {!signedIn ? (
                     <SignIn />
                 ) : (
