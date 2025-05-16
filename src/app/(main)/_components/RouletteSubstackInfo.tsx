@@ -56,7 +56,7 @@ export default async function RouletteSubstackInfo() {
     }
 
     return (
-        <ul className="md w-full rounded-xl border-white bg-[#ffecec] shadow-md shadow-black">
+        <ul className="ul md w-full rounded-xl border-white bg-[#ffecec] shadow-md shadow-black">
             {hitmanrrSubstackRes.map((entry) => {
                 const date = new Date(entry.post_date);
                 const dateString =
