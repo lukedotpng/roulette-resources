@@ -10,7 +10,7 @@ export default function Home() {
 
             <div className="mb-5 flex w-full flex-wrap justify-center gap-2 px-5 sm:gap-2 sm:px-10">
                 <div className="flex max-h-[30rem] w-full max-w-[40rem] flex-1 flex-col gap-2">
-                    <section className="flex h-fit min-w-80 items-center justify-center gap-4 rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
+                    <section className="flex h-fit w-full items-center justify-center gap-4 rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
                         <h2 className="text-[1.25em] font-bold italic">
                             {"Don't want to read?"}
                         </h2>
@@ -22,15 +22,19 @@ export default function Home() {
                             {"Go Spin!"}
                         </Link>
                     </section>
-                    <section className="flex h-fit min-w-72 flex-1 flex-col items-center gap-5 rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
+                    <section className="flex w-full flex-1 flex-col items-center gap-5 rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
                         <h2 className="text-[1.2em] font-bold">
                             {"Citizens of Luketown"}
                         </h2>
-                        <ul className="ul w-64 flex-1 list-inside text-center text-[1.05em]">
-                            <li className="li rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
+                        <ul className="ul flex flex-wrap items-start justify-center gap-5 text-center text-[1.05em]">
+                            <li className="li w-52 max-w-full rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
                                 {"ThatObserver"}
                             </li>
+                            <li className="li w-52 max-w-full rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
+                                {"Veggerby"}
+                            </li>
                         </ul>
+                        <div className="flex-1"></div>
                         <a
                             href="https://ko-fi.com/lukedot"
                             target="_blank"
