@@ -9,12 +9,8 @@ import {
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteIsolationAction } from "./IsolationActions";
-import {
-    headingsPlugin,
-    listsPlugin,
-    markdownShortcutPlugin,
-    MDXEditor,
-} from "@mdxeditor/editor";
+import { IsolationToMarkdown } from "../OldInfoToMarkdown";
+import Markdown from "react-markdown";
 
 export default function IsolationCard({
     isolation,
@@ -47,46 +43,19 @@ export default function IsolationCard({
                 <p className="self-center text-[1.1em] font-bold">
                     {isolation.name}
                 </p>
-                {isolation.info !== "" ? (
-                    <MDXEditor
-                        className="border-2 border-zinc-900"
-                        contentEditableClassName="prose max-w-none"
-                        plugins={[
-                            headingsPlugin(),
-                            listsPlugin(),
-                            markdownShortcutPlugin(),
-                        ]}
-                        markdown={isolation.info}
-                        readOnly
-                    />
-                ) : (
-                    <>
-                        {isolation.starts && (
-                            <p>
-                                <strong>Starts: </strong>
-                                {isolation.starts}
-                            </p>
-                        )}
-                        {isolation.requires && (
-                            <p>
-                                <strong>Requires: </strong>
-                                {isolation.requires}
-                            </p>
-                        )}
-                        {isolation.timings && (
-                            <p>
-                                <strong>Timings: </strong>
-                                {isolation.timings}
-                            </p>
-                        )}
-                        {isolation.notes && (
-                            <p>
-                                <strong>Notes: </strong>
-                                {isolation.notes}
-                            </p>
-                        )}
-                    </>
-                )}
+                <div className="markdown">
+                    <Markdown
+                        components={{
+                            a(props) {
+                                return <a target="_blank" {...props}></a>;
+                            },
+                        }}
+                    >
+                        {isolation.info !== ""
+                            ? isolation.info
+                            : IsolationToMarkdown(isolation)}
+                    </Markdown>
+                </div>
                 <a
                     className="w-fit self-center font-bold underline decoration-2 hover:decoration-red-500"
                     href={isolation.video_link}

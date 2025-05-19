@@ -18,6 +18,7 @@ import {
 import {
     BoldItalicUnderlineToggles,
     headingsPlugin,
+    linkPlugin,
     listsPlugin,
     ListsToggle,
     markdownShortcutPlugin,
@@ -26,6 +27,7 @@ import {
     toolbarPlugin,
     UndoRedo,
 } from "@mdxeditor/editor";
+import { IsolationToMarkdown } from "../OldInfoToMarkdown";
 
 export default function IsolationEditorDialog({
     isolation,
@@ -40,7 +42,9 @@ export default function IsolationEditorDialog({
 }) {
     const [isolationName, setIsolationName] = useState(isolation.name);
     const editorRef = useRef<MDXEditorMethods>(null);
-    const [isolationInfo, setIsolationInfo] = useState(isolation.info);
+    const [isolationInfo, setIsolationInfo] = useState(
+        isolation.info !== "" ? isolation.info : IsolationToMarkdown(isolation),
+    );
     const [isolationVideoLink, setIsolationVideoLink] = useState(
         isolation.video_link,
     );
@@ -51,7 +55,7 @@ export default function IsolationEditorDialog({
         if (
             isolationName !== isolation.name ||
             isolationVideoLink !== isolation.video_link ||
-            isolationInfo !== isolation.info
+            isolationInfo.trim() !== isolation.info.trim()
         ) {
             setHasBeenEdited(true);
         } else {
@@ -71,7 +75,7 @@ export default function IsolationEditorDialog({
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] max-w-[50rem] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white">
                     <DialogTitle className="w-full p-3 text-center font-bold">
                         {`${isNew ? "Create" : "Edit"} Isolation`}
                     </DialogTitle>
@@ -101,70 +105,6 @@ export default function IsolationEditorDialog({
                                 id="name"
                             />
                         </fieldset>
-                        {!isNew && (
-                            <>
-                                <fieldset className="pt-2">
-                                    {/* Field for starts */}
-                                    <label className="font-semibold">
-                                        {"Starts: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="starts"
-                                        readOnly
-                                        disabled
-                                        value={isolation.starts || ""}
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="starts"
-                                    />
-                                </fieldset>
-                                <fieldset className="pt-2">
-                                    {/* Field for isolation requirements */}
-                                    <label className="font-semibold">
-                                        {"Requires: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="requires"
-                                        readOnly
-                                        disabled
-                                        value={isolation.requires || ""}
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="requires"
-                                    />
-                                </fieldset>
-                                <fieldset className="pt-2">
-                                    {/* Field for isolation timings */}
-                                    <label className="font-semibold">
-                                        {"Timings: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="timings"
-                                        readOnly
-                                        disabled
-                                        value={isolation.timings || ""}
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="timings"
-                                    />
-                                </fieldset>
-                                <fieldset className="pt-2">
-                                    {/* Field for isolation notes */}
-                                    <label className="font-semibold">
-                                        {"Notes: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="notes"
-                                        readOnly
-                                        disabled
-                                        value={isolation.notes || ""}
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="notes"
-                                    />
-                                </fieldset>
-                            </>
-                        )}
                         <fieldset className="pt-2">
                             {/* Field for isolation video link */}
                             <label className="font-semibold">Info:</label>
@@ -173,9 +113,10 @@ export default function IsolationEditorDialog({
                                     plugins={[
                                         headingsPlugin(),
                                         listsPlugin(),
+                                        linkPlugin(),
                                         markdownShortcutPlugin(),
                                         toolbarPlugin({
-                                            toolbarClassName: "select-none",
+                                            toolbarClassName: "select-none ",
                                             toolbarContents: () => (
                                                 <>
                                                     <UndoRedo />
@@ -189,6 +130,7 @@ export default function IsolationEditorDialog({
                                     ]}
                                     ref={editorRef}
                                     markdown={isolation.info}
+                                    contentEditableClassName="border-t-2 border-zinc-900"
                                     onChange={(markdown: string) => {
                                         setIsolationInfo(markdown);
                                     }}
@@ -240,14 +182,6 @@ export default function IsolationEditorDialog({
                             name="target"
                             value={isolation.target}
                             id="target"
-                        />
-                        {/* TEMP Hidden field for Isolation Info */}
-                        <input
-                            hidden
-                            readOnly
-                            name="info"
-                            value={""}
-                            id="infotarget"
                         />
 
                         <div className="flex w-full justify-center">

@@ -29,7 +29,62 @@ button {
     cursor: pointer;
 }
 
-ul:not(.ul),
-il:not(.il) {
+.mdxeditor h1,
+.mdxeditor h2,
+.mdxeditor h3,
+.mdxeditor h4,
+.mdxeditor h5,
+.mdxeditor h6 {
     all: revert;
+}
+
+.mdxeditor a {
+    all: revert;
+}
+
+.mdxeditor ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.mdxeditor ul ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    margin-left: 15px;
+}
+
+.mdxeditor ul ul ul {
+    list-style-type: square;
+    list-style-position: inside;
+    margin-left: 15px;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+    all: revert;
+}
+
+.markdown a {
+    all: revert;
+}
+
+.markdown ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.markdown ul ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    margin-left: 15px;
+}
+
+.markdown ul ul ul {
+    list-style-type: square;
+    list-style-position: inside;
+    margin-left: 15px;
 }

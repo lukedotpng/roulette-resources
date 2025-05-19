@@ -30,6 +30,7 @@ import {
     ListsToggle,
     MDXEditorMethods,
 } from "@mdxeditor/editor";
+import { UniqueKillToMarkdown } from "../OldInfoToMarkdown";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,
@@ -46,7 +47,11 @@ export default function UniqueKillEditorDialog({
         uniqueKill.kill_method,
     );
     const editorRef = useRef<MDXEditorMethods>(null);
-    const [uniqueKillInfo, setUniqueKillInfo] = useState(uniqueKill.info);
+    const [uniqueKillInfo, setUniqueKillInfo] = useState(
+        uniqueKill.info !== ""
+            ? uniqueKill.info
+            : UniqueKillToMarkdown(uniqueKill),
+    );
     const [uniqueKillName, setUniqueKillName] = useState(uniqueKill.name || "");
     const [uniqueKillVideoLink, setUniqueKillVideoLink] = useState(
         uniqueKill.video_link || "",
@@ -83,9 +88,6 @@ export default function UniqueKillEditorDialog({
         } else {
             setHasBeenEdited(false);
         }
-        console.log(editorRef.current?.getMarkdown());
-        console.log("==========");
-        console.log(uniqueKillInfo);
     }, [
         uniqueKillMethod,
         uniqueKillName,
@@ -101,7 +103,7 @@ export default function UniqueKillEditorDialog({
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] max-w-[50rem] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white">
                     <DialogTitle className="w-full p-3 text-center font-bold">
                         {`${isNew ? "Create" : "Edit"} Unique Kill`}
                     </DialogTitle>
@@ -164,70 +166,6 @@ export default function UniqueKillEditorDialog({
                                 id="name"
                             />
                         </fieldset>
-                        {!isNew && (
-                            <>
-                                <fieldset className="pt-2">
-                                    {/* Field for starts */}
-                                    <label className="font-semibold">
-                                        {"Starts: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="starts"
-                                        value={uniqueKill.starts ?? ""}
-                                        readOnly
-                                        disabled
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="starts"
-                                    />
-                                </fieldset>
-                                <fieldset className="pt-2">
-                                    {/* Field for unique kill requirements */}
-                                    <label className="font-semibold">
-                                        {"Requires: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="requires"
-                                        value={uniqueKill.requires ?? ""}
-                                        readOnly
-                                        disabled
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="requires"
-                                    />
-                                </fieldset>
-                                <fieldset className="pt-2">
-                                    {/* Field for unique kill timings */}
-                                    <label className="font-semibold">
-                                        {"Timings: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="timings"
-                                        value={uniqueKill.timings ?? ""}
-                                        readOnly
-                                        disabled
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="timings"
-                                    />
-                                </fieldset>
-                                <fieldset className="pt-2">
-                                    {/* Field for unique kill notes */}
-                                    <label className="font-semibold">
-                                        {"Notes: DO NOT TOUCH"}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="notes"
-                                        value={uniqueKill.notes ?? ""}
-                                        readOnly
-                                        disabled
-                                        className="w-full border-2 border-zinc-900 p-1"
-                                        id="notes"
-                                    />
-                                </fieldset>
-                            </>
-                        )}
                         <fieldset className="pt-2">
                             {/* Field for unique kill video link */}
                             <label className="font-semibold">Info:</label>
@@ -251,7 +189,8 @@ export default function UniqueKillEditorDialog({
                                         }),
                                     ]}
                                     ref={editorRef}
-                                    markdown={uniqueKill.info}
+                                    markdown={uniqueKillInfo}
+                                    contentEditableClassName="border-t-2 border-zinc-900"
                                     onChange={(markdown: string) => {
                                         setUniqueKillInfo(markdown);
                                     }}

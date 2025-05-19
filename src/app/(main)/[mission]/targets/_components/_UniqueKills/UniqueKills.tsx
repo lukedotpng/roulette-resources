@@ -63,9 +63,11 @@ export default function UniqueKills({
                         return null;
                     }
 
-                    filteredUniqueKills.sort((a, b) =>
-                        a.name.localeCompare(b.name),
-                    );
+                    filteredUniqueKills.sort((a, b) => {
+                        const aName = a.name ?? "";
+                        const bName = b.name ?? "";
+                        return aName.localeCompare(bName);
+                    });
 
                     return (
                         <UniqueKillCard
