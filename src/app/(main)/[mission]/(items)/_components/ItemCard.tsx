@@ -17,7 +17,7 @@ export default function ItemCard({
     }
 
     return (
-        <div className="max-w-[35rem] min-w-full flex-1 overflow-scroll rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
+        <div className="max-w-[35rem] min-w-full flex-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
             <h2 className="text-center text-[1.2em] font-bold">{type}</h2>
             {items.map((item) => {
                 return (

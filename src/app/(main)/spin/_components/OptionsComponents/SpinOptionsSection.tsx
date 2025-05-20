@@ -132,7 +132,7 @@ export default function SpinOptionsSection({
                 </DialogTrigger>
                 <DialogPortal>
                     <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                    <DialogContent className="fixed top-1/2 left-1/2 max-h-[50rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white px-4 py-2 sm:w-[30rem]">
+                    <DialogContent className="fixed top-1/2 left-1/2 max-h-[50rem] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white px-4 py-2 sm:w-[30rem]">
                         <DialogTitle className="w-full pb-2 text-left text-[1.1em] font-bold">
                             {"Options"}
                         </DialogTitle>

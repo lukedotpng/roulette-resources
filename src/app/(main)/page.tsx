@@ -52,7 +52,7 @@ export default function Home() {
                         </a>
                     </section>
                 </div>
-                <section className="flex max-h-[30rem] w-full max-w-[40rem] min-w-72 flex-col items-center gap-1 overflow-scroll rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
+                <section className="flex max-h-[30rem] w-full max-w-[40rem] min-w-72 flex-col items-center gap-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
                     <h1 className="text-[1.2em] font-bold">
                         {"Read Roulette Articles by In4Fun!"}
                     </h1>

@@ -53,7 +53,7 @@ export default function ImageDropdown({
                 </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent
-                className="z-20 flex h-fit max-h-96 w-60 flex-col overflow-scroll rounded-b-lg shadow-lg shadow-black"
+                className="z-20 flex h-fit max-h-96 w-60 flex-col overflow-y-auto rounded-b-lg shadow-lg shadow-black"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}

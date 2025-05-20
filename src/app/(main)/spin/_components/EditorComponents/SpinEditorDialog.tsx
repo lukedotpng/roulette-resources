@@ -55,12 +55,12 @@ export default function SpinEditorDialog({
         >
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/2 left-1/2 max-h-[70%] w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-scroll rounded-lg bg-white sm:max-h-[90%] sm:w-[35rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 max-h-[20rem] w-[90%] max-w-[40rem] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white sm:max-h-[30rem]">
                     <DialogTitle className="w-full p-3 text-center text-base font-bold sm:text-xl">
                         {`Choose a ${categoryToEdit === "killMethod" ? "Method" : "Disguise"}`}
                     </DialogTitle>
                     {categoryToEdit === "killMethod" ? (
-                        <div className="flex justify-center">
+                        <div className="flex w-full justify-around">
                             {target !== "erich_soders" && (
                                 <MethodOptionList
                                     title={"Melees"}
@@ -234,7 +234,7 @@ function DisguiseOptionList({
                                 width={693}
                                 height={517}
                                 quality={10}
-                                className="aspect-[693/517] h-full w-10 border-l-[1px] border-white object-cover sm:w-16 sm:border-l-2"
+                                className="aspect-[693/517] h-full w-10 object-cover sm:w-16"
                             />
                         </div>
                     );
