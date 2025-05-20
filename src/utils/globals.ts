@@ -1,6 +1,6 @@
-import { BerlinUniqueKill, Mission, MissionTargets } from "../types";
+import { Mission, MissionTargets } from "../types";
 
-export const Missions: Mission[] = [
+export const MISSIONS: readonly Mission[] = Object.freeze([
     "paris",
     "sapienza",
     "marrakesh",
@@ -20,9 +20,9 @@ export const Missions: Mission[] = [
     "berlin",
     "chongqing",
     "mendoza",
-] as const;
+]);
 
-export const MissionTargetsList: MissionTargets = {
+export const MISSION_TARGET_LIST: MissionTargets = Object.freeze({
     paris: ["viktor_novikov", "dalia_margolis"],
     sapienza: ["silvio_caruso", "francesca_de_santis"],
     marrakesh: ["claus_strandberg", "reza_zaydan"],
@@ -53,9 +53,9 @@ export const MissionTargetsList: MissionTargets = {
     ],
     chongqing: ["hush", "imogen_royce"],
     mendoza: ["don_yates", "tamara_vidal"],
-} as const;
+});
 
-export const UniqueKillTypes = [
+export const UNIQUE_KILL_TYPES = Object.freeze([
     "loud_kills",
     "drowning",
     "falling_object",
@@ -82,10 +82,10 @@ export const UniqueKillTypes = [
     "shoot_the_car",
     "feed_to_the_hippo",
     "dump_in_the_cocaine_machine",
-];
+]);
 
 // making seperate group for berlin so i can iterate through them instead of targets
-export const BerlinUniqueKillTypes: BerlinUniqueKill[] = [
+export const BERLIN_UNIQUE_KILL_TYPES = Object.freeze([
     "loud_kills",
     "drowning",
     "falling_object",
@@ -95,4 +95,4 @@ export const BerlinUniqueKillTypes: BerlinUniqueKill[] = [
     "explosion_accident",
     "consumed",
     "live_kills",
-];
+]);

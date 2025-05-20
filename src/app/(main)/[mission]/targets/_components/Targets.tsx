@@ -1,16 +1,10 @@
 "use client";
 
-import {
-    BerlinUniqueKill,
-    Isolation,
-    Mission,
-    Target,
-    UniqueKill,
-} from "@/types";
+import { Isolation, Mission, Target, UniqueKill } from "@/types";
 import ImageDropdown from "../../_components/ImageDropdown";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { BerlinUniqueKillTypes, MissionTargetsList } from "@/utils/globals";
+import { BERLIN_UNIQUE_KILL_TYPES, MISSION_TARGET_LIST } from "@/utils/globals";
 import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,
@@ -28,7 +22,7 @@ export default function Targets({
     isolations: Isolation[];
     uniqueKills: UniqueKill[];
 }) {
-    const targets = MissionTargetsList[mission];
+    const targets = MISSION_TARGET_LIST[mission];
     const searchParams = useSearchParams();
 
     const [activeTargetId, setActiveTargetId] = useState<Target>(
@@ -37,12 +31,11 @@ export default function Targets({
     function SetActiveTarget(targetId: string) {
         setActiveTargetId(targetId as Target);
     }
-    const [activeUniqueKill, setActiveUniqueKill] = useState<BerlinUniqueKill>(
-        (searchParams.get("uniqueKill") as BerlinUniqueKill) ??
-            BerlinUniqueKillTypes[0],
+    const [activeUniqueKill, setActiveUniqueKill] = useState<string>(
+        searchParams.get("uniqueKill") ?? BERLIN_UNIQUE_KILL_TYPES[0],
     );
     function SetActiveUniqueKill(uniqueKill: string) {
-        setActiveUniqueKill(uniqueKill as BerlinUniqueKill);
+        setActiveUniqueKill(uniqueKill);
     }
 
     const [activeTab, setActiveTab] = useState<"isolations" | "uniqueKills">(
@@ -58,7 +51,7 @@ export default function Targets({
                 <ImageDropdown
                     activeOption={activeUniqueKill}
                     optionImageRootPath="/killmethods"
-                    optionList={BerlinUniqueKillTypes}
+                    optionList={BERLIN_UNIQUE_KILL_TYPES}
                     optionQueryKey="kill"
                     SetActiveOption={SetActiveUniqueKill}
                     OptionFormatter={MethodIDToDisplayText}

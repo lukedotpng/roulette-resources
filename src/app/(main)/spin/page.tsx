@@ -1,4 +1,4 @@
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
 import { SpinInfo, SpinTarget } from "@/types";
@@ -17,7 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     let spinQuery = ((await searchParams).s as string) || "";
 
-    const spin = GetSpinFromQuery(spinQuery, false, Missions);
+    const spin = GetSpinFromQuery(spinQuery, false, [...MISSIONS]);
 
     if (!spin) {
         return {

@@ -1,6 +1,6 @@
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import MissionInfoNav from "./_components/MissionInfoNav";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import { Mission } from "@/types";
 import { notFound } from "next/navigation";
 
@@ -13,7 +13,7 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    if (!Missions.includes(mission as Mission)) {
+    if (!MISSIONS.includes(mission as Mission)) {
         notFound();
     }
 

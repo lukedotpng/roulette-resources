@@ -2,7 +2,7 @@
 
 import { Mission } from "@/types";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -36,7 +36,7 @@ export default function NotFound() {
             mendoza: 0,
         };
 
-        for (const mission of Missions) {
+        for (const mission of MISSIONS) {
             const matchedLetterIndices: number[] = [];
             for (let i = 0; i < pathnameSlug.length; i++) {
                 for (let j = 0; j < mission.length; j++) {
@@ -58,7 +58,7 @@ export default function NotFound() {
 
         let closestMatch: Mission | null = null;
         let currentPeak = 0;
-        for (const mission of Missions) {
+        for (const mission of MISSIONS) {
             if (
                 currentPeak < missionRanks[mission] &&
                 (missionRanks[mission] >= 5 ||

@@ -7,7 +7,7 @@ import {
 import { GenerateSpin } from "./SpinGeneration";
 import { Mission, Spin, SpinInfo } from "@/types";
 import { GetRandomMission } from "./SpinUtils";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 
 export function CreateSpinQuery(spin: Spin) {
     let spinQuery = "";
@@ -113,14 +113,14 @@ export function GetSpinFromQuery(
         if (!generateSpinOnError) {
             return null;
         }
-        return GenerateSpin(GetRandomMission(missionPool || Missions));
+        return GenerateSpin(GetRandomMission(missionPool || [...MISSIONS]));
     }
     const parsedSpin = ParseSpinQuery(query);
     if (!parsedSpin) {
         if (!generateSpinOnError) {
             return null;
         }
-        return GenerateSpin(GetRandomMission(missionPool || Missions));
+        return GenerateSpin(GetRandomMission(missionPool || [...MISSIONS]));
     }
 
     return parsedSpin;
@@ -214,10 +214,10 @@ export function OldParseSpinQuery(spinQuery: string): Spin | null {
 }
 
 function GetMissionIndex(mission: Mission): number {
-    return Missions.indexOf(mission);
+    return MISSIONS.indexOf(mission);
 }
 function GetMissionFromIndex(index: number): Mission {
-    return Missions[index];
+    return MISSIONS[index];
 }
 
 function GetConditionIndex(condition: string): number {

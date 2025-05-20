@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { ChangeEvent, useState } from "react";
 import { ImprovRuleset, RouletteRivalsRuleset } from "./CustomRuleManager";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import GlobalScopeRules from "./GlobalScope/GlobalScopeRules";
 import { Ruleset } from "./CustomRuleTypes";
@@ -54,7 +54,7 @@ export default function CustomRuleEditorDialog({
                         >
                             <option value={"global"}>{"Global"}</option>
                             <optgroup label="Missions">
-                                {Missions.map((scope) => {
+                                {MISSIONS.map((scope) => {
                                     return (
                                         <option key={scope} value={scope}>
                                             {MissionIDToDisplayText(scope)}

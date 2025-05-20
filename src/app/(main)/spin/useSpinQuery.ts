@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Spin, SpinOptions } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
 import { GenerateSpin } from "./utils/SpinGeneration";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 
 export function useSpinQuery(
     currentSpin: Spin | null,
@@ -35,7 +35,7 @@ export function useSpinQuery(
                         ),
                     );
                 } else {
-                    options.missionQueue.Set(Missions);
+                    options.missionQueue.Set([...MISSIONS]);
                 }
             } else {
                 if (options.missionPool.val.length > 0) {
@@ -52,8 +52,8 @@ export function useSpinQuery(
                 } else {
                     UpdateSpin(
                         GenerateSpin(
-                            Missions[
-                                Math.floor(Math.random() * Missions.length)
+                            MISSIONS[
+                                Math.floor(Math.random() * MISSIONS.length)
                             ],
                         ),
                     );

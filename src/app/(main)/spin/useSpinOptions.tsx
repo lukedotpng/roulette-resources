@@ -1,4 +1,4 @@
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import { useLocalState } from "@/utils/useLocalState";
 import {
     LockedTargetConditions,
@@ -18,10 +18,9 @@ export function useSpinOptions(
     SetCurrentSpin: (spin: Spin | null) => void,
 ) {
     // Options
-    const [missionPool, setMissionPool] = useLocalState<Mission[]>(
-        "pool",
-        Missions,
-    );
+    const [missionPool, setMissionPool] = useLocalState<Mission[]>("pool", [
+        ...MISSIONS,
+    ]);
     function SetMissionPool(updatedPool: Mission[]) {
         setMissionPool(updatedPool);
     }
@@ -49,7 +48,7 @@ export function useSpinOptions(
 
         if (updatedQueueMode) {
             if (missionQueue.length === 0) {
-                setMissionQueue(Missions);
+                setMissionQueue([...MISSIONS]);
                 SetCurrentSpin(GenerateSpin("paris"));
             } else {
                 SetCurrentSpin(GenerateSpin(missionQueue[0]));

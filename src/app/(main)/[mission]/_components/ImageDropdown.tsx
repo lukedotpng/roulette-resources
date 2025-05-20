@@ -19,7 +19,7 @@ export default function ImageDropdown({
 }: {
     activeOption: string;
     optionImageRootPath: string;
-    optionList: string[];
+    optionList: string[] | readonly string[];
     optionQueryKey: string;
     SetActiveOption: (option: string) => void;
     OptionFormatter: (option: string) => string;

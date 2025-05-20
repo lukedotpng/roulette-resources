@@ -98,17 +98,6 @@ export type MissionTargets = {
     [key in Mission]: readonly Target[];
 };
 
-export type BerlinUniqueKill =
-    | "loud_kills"
-    | "drowning"
-    | "falling_object"
-    | "fall"
-    | "fire"
-    | "electrocution"
-    | "explosion_accident"
-    | "consumed"
-    | "live_kills";
-
 export type MissionSpinInfoElement = "disguises" | "killMethods";
 
 export type KillMethodType = "melees" | "weapons" | "unique_kills";

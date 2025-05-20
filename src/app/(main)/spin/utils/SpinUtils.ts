@@ -1,10 +1,10 @@
 import { Mission } from "@/types";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 
 export function GetRandomMission(missionPool: Mission[]): Mission {
     if (!missionPool || missionPool.length === 0) {
         console.error("ERROR:", "Mission pool is empty");
-        return Missions[Math.floor(Math.random() * Missions.length)];
+        return MISSIONS[Math.floor(Math.random() * MISSIONS.length)];
     }
 
     const randomMission =

@@ -4,7 +4,7 @@ import { Mission, Target, UniqueKill } from "@/types";
 import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { UniqueKillTypes } from "@/utils/globals";
+import { UNIQUE_KILL_TYPES } from "@/utils/globals";
 import UniqueKillCard from "./UniqueKillCard";
 
 export default function UniqueKills({
@@ -48,7 +48,7 @@ export default function UniqueKills({
     return (
         <>
             <div className="flex flex-col gap-2 sm:gap-2">
-                {UniqueKillTypes.map((uniqueKillType, index) => {
+                {UNIQUE_KILL_TYPES.map((uniqueKillType, index) => {
                     const filteredUniqueKills = uniqueKills.filter(
                         (uniqueKill) => {
                             return (

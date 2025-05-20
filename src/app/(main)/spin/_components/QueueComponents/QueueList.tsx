@@ -1,5 +1,5 @@
 import { MissionIDToShortDisplayText } from "@/utils/FormattingUtils";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import { Mission } from "@/types";
 import { Fragment } from "react";
 import {
@@ -138,11 +138,11 @@ export default function QueueList({
 }
 
 function QueueIsTrilogy(missionQueue: Mission[]) {
-    if (Missions.length !== missionQueue.length) {
+    if (MISSIONS.length !== missionQueue.length) {
         return false;
     }
-    for (let i = 0; i < Missions.length; i++) {
-        if (missionQueue[i] !== Missions[i]) {
+    for (let i = 0; i < MISSIONS.length; i++) {
+        if (missionQueue[i] !== MISSIONS[i]) {
             return false;
         }
     }

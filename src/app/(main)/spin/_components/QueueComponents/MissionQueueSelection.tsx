@@ -1,4 +1,4 @@
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import { Mission, Option } from "@/types";
 import {
     Dialog,
@@ -46,7 +46,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...Missions]);
+                                    missionQueue.Set([...MISSIONS]);
                                 }}
                             >
                                 {"Trilogy"}
@@ -75,7 +75,7 @@ export default function MissionQueueSelection({
                             >
                                 {"Season 3"}
                             </button>
-                            {Missions.map((mission) => {
+                            {MISSIONS.map((mission) => {
                                 return (
                                     <button
                                         key={mission}

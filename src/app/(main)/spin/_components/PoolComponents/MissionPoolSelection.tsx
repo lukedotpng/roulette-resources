@@ -22,7 +22,7 @@ import {
     SeasonThreeMissions,
     SeasonTwoMissions,
 } from "../../utils/SpinGlobals";
-import { Missions } from "@/utils/globals";
+import { MISSIONS } from "@/utils/globals";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function MissionPoolSelection({
@@ -38,7 +38,7 @@ export default function MissionPoolSelection({
         missionPool: Mission[],
     ): MissionPoolOptions {
         const missionPoolOptions = structuredClone(MissionPoolOptionsList);
-        Missions.forEach((mission) => {
+        MISSIONS.forEach((mission) => {
             if (missionPool.includes(mission)) {
                 missionPoolOptions[mission] = true;
             }
@@ -84,7 +84,7 @@ export default function MissionPoolSelection({
         });
         const updatedMissionPool: Mission[] = [];
 
-        Missions.map((mission) => {
+        MISSIONS.map((mission) => {
             if (missionsPoolOptions[mission]) {
                 updatedMissionPool.push(mission);
             }

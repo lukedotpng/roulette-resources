@@ -1,4 +1,3 @@
-import { Missions } from "@/utils/globals";
 import { ImageResponse } from "next/og";
 import SpinInfoSection from "./SpinInfoSection";
 import { SpinInfo } from "@/types";
@@ -6,7 +5,7 @@ import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
 
 export async function GET(request: Request) {
     const spinQuery = new URL(request.url).searchParams.get("s") || "";
-    const spin = GetSpinFromQuery(spinQuery, false, Missions);
+    const spin = GetSpinFromQuery(spinQuery, false);
 
     if (!spin) {
         return;
