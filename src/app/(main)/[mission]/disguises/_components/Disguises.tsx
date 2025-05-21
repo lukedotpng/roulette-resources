@@ -1,6 +1,6 @@
 "use client";
 
-import { Disguise, DisguiseVideo } from "@/types";
+import { Disguise, DisguiseVideo, Mission } from "@/types";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,19 +10,32 @@ import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
 import { useSession } from "next-auth/react";
 import ImageDropdown from "../../_components/ImageDropdown";
 
-export default function Disguises({ disguises }: { disguises: Disguise[] }) {
+export default function Disguises({
+    mission,
+    disguises,
+}: {
+    mission: Mission;
+    disguises: Disguise[];
+}) {
     const searchParams = useSearchParams();
     const session = useSession();
 
     const disguiseIdList: string[] = [];
     for (const disguise of disguises) {
-        disguiseIdList.push(disguise.id);
+        const disguiseIdListNoMission = disguise.id.split("-")[1];
+        disguiseIdList.push(disguiseIdListNoMission);
     }
 
+    const searchParamQuery = "d";
     const [activeDisguiseId, setActiveDisguiseId] = useState(
-        searchParams.get("o") ?? disguises[0].id,
+        searchParams.get(searchParamQuery) ?? disguiseIdList[0],
     );
     const [activeDisguise, setActiveDisguise] = useState(disguises[0]);
+    useEffect(() => {
+        setActiveDisguiseId(
+            searchParams.get(searchParamQuery) ?? disguiseIdList[0],
+        );
+    }, [searchParams.get(searchParamQuery)]);
 
     const [disguiseVideoToEdit, setDisguiseVideoToEdit] =
         useState<DisguiseVideo>({
@@ -57,7 +70,8 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
 
     useEffect(() => {
         for (const disguise of disguises) {
-            if (disguise.id === activeDisguiseId) {
+            const disguiseIdWithMission = mission + "-" + activeDisguiseId;
+            if (disguise.id === disguiseIdWithMission) {
                 setActiveDisguise(disguise);
             }
         }
@@ -68,10 +82,11 @@ export default function Disguises({ disguises }: { disguises: Disguise[] }) {
             <ImageDropdown
                 activeOption={activeDisguiseId}
                 optionImageRootPath="/disguises"
+                optionImagePrefix={mission + "-"}
                 optionList={disguiseIdList}
                 SetActiveOption={setActiveDisguiseId}
                 OptionFormatter={DisguiseIDToDisplayText}
-                optionQueryKey="disguise"
+                optionQueryKey={searchParamQuery}
             />
             <div className="flex flex-col gap-2">
                 <DisguiseCard

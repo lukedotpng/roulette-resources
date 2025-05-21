@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 export default function ImageDropdown({
     activeOption,
     optionImageRootPath,
+    optionImagePrefix,
     optionList,
     optionQueryKey,
     SetActiveOption,
@@ -19,6 +20,7 @@ export default function ImageDropdown({
 }: {
     activeOption: string;
     optionImageRootPath: string;
+    optionImagePrefix?: string;
     optionList: string[] | readonly string[];
     optionQueryKey: string;
     SetActiveOption: (option: string) => void;
@@ -30,7 +32,7 @@ export default function ImageDropdown({
         <DropdownMenu modal={true}>
             <div className="flex flex-col">
                 <Image
-                    src={`${optionImageRootPath}/${activeOption}.webp`}
+                    src={`${optionImageRootPath}/${optionImagePrefix || ""}${activeOption}.webp`}
                     width={693}
                     height={517}
                     quality={50}
@@ -67,7 +69,7 @@ export default function ImageDropdown({
                             className="group relative"
                         >
                             <Image
-                                src={`${optionImageRootPath}/${option}.webp`}
+                                src={`${optionImageRootPath}/${optionImagePrefix || ""}${activeOption}.webp`}
                                 width={693}
                                 height={517}
                                 quality={50}
@@ -80,9 +82,7 @@ export default function ImageDropdown({
                                 className="w-full cursor-pointer bg-white px-4 py-3 text-left text-zinc-900 outline-none group-data-[last=true]:rounded-b-lg hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
                                 onClick={() => {
                                     SetActiveOption(option);
-                                    router.replace(
-                                        `?${optionQueryKey}=${option}`,
-                                    );
+                                    router.push(`?${optionQueryKey}=${option}`);
                                 }}
                             >
                                 {OptionFormatter(option)}
