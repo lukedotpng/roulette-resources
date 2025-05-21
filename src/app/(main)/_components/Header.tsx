@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import SignIn from "./SignIn";
 import UserIcon from "./UserIcon";
 import SpinLink from "./SpinLink";
+import SignedOutIcon from "./SignedOutIcon";
 
 export default async function Header() {
     const session = await auth();
@@ -58,7 +59,7 @@ export default async function Header() {
                 <SpinLink />
             </nav>
             <div className="relative h-full p-1 px-4">
-                {!signedIn ? <SignIn /> : <UserIcon />}
+                {!signedIn ? <SignedOutIcon /> : <UserIcon />}
             </div>
         </header>
     );

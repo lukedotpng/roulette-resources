@@ -4,6 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import SignOut from "./SignOut";
 import Image from "next/image";
+import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 
 export default function UserIcon() {
     const session = useSession();
@@ -46,18 +47,20 @@ export default function UserIcon() {
                     </p>
                 )}
             </button>
-            <div
-                data-active={signOutButtonOpen}
-                className="absolute top-[calc(100%+.5rem)] right-2 flex h-fit w-50 flex-col items-center gap-2 rounded-md bg-white p-2 shadow-2xl shadow-black data-[active=false]:hidden"
+            <Dialog
+                open={signOutButtonOpen}
+                onOpenChange={(open: boolean) => setSignOutButtonOpen(open)}
             >
-                <h2 className="">
-                    {"Hello, "}
-                    <span className="font-bold">
-                        {session.data.user.username}
-                    </span>
-                </h2>
-                <SignOut />
-            </div>
+                <DialogContent className="absolute top-[calc(100%+.5rem)] right-2 flex h-fit w-fit flex-col items-center gap-2 rounded-md bg-white px-5 py-1 text-xs text-nowrap shadow-xl/100 shadow-black data-[active=false]:hidden sm:text-base">
+                    <DialogTitle>
+                        {"Hello, "}
+                        <span className="font-bold">
+                            {session.data.user.name}
+                        </span>
+                    </DialogTitle>
+                    <SignOut />
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
