@@ -1,7 +1,6 @@
 import Link from "next/link";
 import NavDropdown from "./NavDropdown";
 import { auth } from "@/auth";
-import SignIn from "./SignIn";
 import UserIcon from "./UserIcon";
 import SpinLink from "./SpinLink";
 import SignedOutIcon from "./SignedOutIcon";
