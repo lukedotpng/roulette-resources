@@ -7,12 +7,9 @@ export default function SignIn() {
                 "use server";
                 await signIn("discord");
             }}
+            className="flex h-full items-center"
         >
-            <button
-                type="submit"
-                className="flex justify-center"
-                aria-label="Sign In"
-            >
+            <button type="submit" aria-label="Sign In">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
