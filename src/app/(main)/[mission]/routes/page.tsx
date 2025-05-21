@@ -2,7 +2,6 @@ import { Mission } from "@/types";
 import { db } from "@/server/db";
 import { routeSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
-import { SessionProvider } from "next-auth/react";
 import Routes from "./_components/Routes";
 
 export default async function Page({
@@ -17,9 +16,5 @@ export default async function Page({
         .from(routeSchema)
         .where(eq(routeSchema.map, mission));
 
-    return (
-        <SessionProvider>
-            <Routes mission={mission} routes={routes} />
-        </SessionProvider>
-    );
+    return <Routes mission={mission} routes={routes} />;
 }

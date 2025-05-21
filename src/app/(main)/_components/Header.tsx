@@ -3,7 +3,6 @@ import NavDropdown from "./NavDropdown";
 import { auth } from "@/auth";
 import SignIn from "./SignIn";
 import UserIcon from "./UserIcon";
-import { SessionProvider } from "next-auth/react";
 import SpinLink from "./SpinLink";
 
 export default async function Header() {
@@ -59,13 +58,7 @@ export default async function Header() {
                 <SpinLink />
             </nav>
             <div className="relative h-full p-1 px-4">
-                {!signedIn ? (
-                    <SignIn />
-                ) : (
-                    <SessionProvider>
-                        <UserIcon />
-                    </SessionProvider>
-                )}
+                {!signedIn ? <SignIn /> : <UserIcon />}
             </div>
         </header>
     );

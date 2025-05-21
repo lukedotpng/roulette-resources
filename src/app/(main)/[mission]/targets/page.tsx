@@ -3,7 +3,6 @@ import { isolationSchema, uniqueKillSchema } from "@/server/db/schema";
 import { Mission } from "@/types";
 import { eq } from "drizzle-orm";
 import Targets from "./_components/Targets";
-import { SessionProvider } from "next-auth/react";
 
 export default async function Page({
     params,
@@ -31,12 +30,10 @@ export default async function Page({
     }
 
     return (
-        <SessionProvider>
-            <Targets
-                mission={mission}
-                isolations={isolationsDontExist ? [] : isolations}
-                uniqueKills={uniqueKillsDontExist ? [] : uniqueKills}
-            />
-        </SessionProvider>
+        <Targets
+            mission={mission}
+            isolations={isolationsDontExist ? [] : isolations}
+            uniqueKills={uniqueKillsDontExist ? [] : uniqueKills}
+        />
     );
 }

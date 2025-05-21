@@ -2,7 +2,6 @@ import { db } from "@/server/db";
 import { itemSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import Items from "./_components/Items";
-import { SessionProvider } from "next-auth/react";
 import { Mission } from "@/types";
 
 export default async function Page({
@@ -22,9 +21,5 @@ export default async function Page({
 
     items = items.sort((a, b) => (a.name >= b.name ? 1 : -1));
 
-    return (
-        <SessionProvider>
-            <Items items={items} mission={mission as Mission} />
-        </SessionProvider>
-    );
+    return <Items items={items} mission={mission as Mission} />;
 }

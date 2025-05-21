@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 };
 
 import { Noto_Sans } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 const notoSans = Noto_Sans({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -20,13 +21,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body
-                className={`${notoSans.className} flex flex-col justify-center bg-zinc-800 text-xs sm:text-sm md:text-base`}
-            >
-                <Header />
-                {children}
-            </body>
-        </html>
+        <SessionProvider>
+            <html lang="en">
+                <body
+                    className={`${notoSans.className} flex flex-col justify-center bg-zinc-800 text-xs sm:text-sm md:text-base`}
+                >
+                    <Header />
+                    {children}
+                </body>
+            </html>
+        </SessionProvider>
     );
 }
