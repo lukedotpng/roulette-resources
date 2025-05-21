@@ -113,6 +113,10 @@ export default function MatchTimerSection({
         };
     }, [matchActive]);
 
+    useEffect(() => {
+        setCountdownActive(false);
+    }, [currentSpin]);
+
     return (
         <section className="flex h-16 w-full max-w-[48rem] items-center justify-center bg-white text-zinc-900 sm:h-20">
             {/* BEFORE MATCH STARTS */}

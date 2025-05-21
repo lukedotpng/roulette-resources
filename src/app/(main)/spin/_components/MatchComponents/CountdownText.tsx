@@ -9,34 +9,36 @@ export default function CountdownText({
 }) {
     useEffect(() => {
         if (active) {
-            OnTimerStart();
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+
+            setCountdownTime(3000);
+            let intervalLoops = 0;
+            const id = setInterval(() => {
+                const currentCountdownTime = 3000 - 250 * intervalLoops;
+                intervalLoops++;
+
+                if (currentCountdownTime < 0) {
+                    if (intervalRef.current) {
+                        clearInterval(intervalRef.current);
+                    }
+                    OnCountdownEnd();
+                }
+                setCountdownTime(currentCountdownTime);
+            }, 250);
+            intervalRef.current = id;
         }
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
     }, [active]);
 
     const [countdownTime, setCountdownTime] = useState(3000);
     const intervalRef = useRef<NodeJS.Timeout>(null);
-
-    function OnTimerStart() {
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-
-        setCountdownTime(3000);
-        let intervalLoops = 0;
-        const id = setInterval(() => {
-            const currentCountdownTime = 3000 - 250 * intervalLoops;
-            intervalLoops++;
-
-            if (currentCountdownTime < 0) {
-                if (intervalRef.current) {
-                    clearInterval(intervalRef.current);
-                }
-                OnCountdownEnd();
-            }
-            setCountdownTime(currentCountdownTime);
-        }, 250);
-        intervalRef.current = id;
-    }
 
     return (
         <div className="flex w-full items-center justify-center text-[1.5em] font-bold">
