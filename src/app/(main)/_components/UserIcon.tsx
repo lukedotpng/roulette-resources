@@ -46,8 +46,17 @@ export default function UserIcon() {
                     </p>
                 )}
             </button>
-            <div className="absolute top-6 right-1 h-full sm:top-10">
-                {signOutButtonOpen && <SignOut />}
+            <div
+                data-active={signOutButtonOpen}
+                className="absolute top-[calc(100%+.5rem)] right-2 flex h-fit w-50 flex-col items-center gap-2 rounded-md bg-white p-2 shadow-2xl shadow-black data-[active=false]:hidden"
+            >
+                <h2 className="">
+                    {"Hello, "}
+                    <span className="font-bold">
+                        {session.data.user.username}
+                    </span>
+                </h2>
+                <SignOut />
             </div>
         </>
     );

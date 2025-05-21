@@ -58,7 +58,7 @@ export default async function Header() {
                 />
                 <SpinLink />
             </nav>
-            <div className="h-full p-1 px-4">
+            <div className="relative h-full p-1 px-4">
                 {!signedIn ? (
                     <SignIn />
                 ) : (
