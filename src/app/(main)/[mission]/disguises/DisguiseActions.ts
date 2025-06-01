@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { disguiseVideoSchema, updateLogSchema } from "@/server/db/schema";
+import { DisguiseVideoSchema, UpdateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -43,12 +43,12 @@ export async function UpdateDisguiseVideoAction(formData: FormData) {
 
     try {
         await db
-            .update(disguiseVideoSchema)
+            .update(DisguiseVideoSchema)
             .set({
                 link: formParsed.data.link,
                 notes: formParsed.data.notes,
             })
-            .where(eq(disguiseVideoSchema.id, formParsed.data.video_id));
+            .where(eq(DisguiseVideoSchema.id, formParsed.data.video_id));
     } catch {
         console.error(
             `ERROR UPDATING DISGUISE VIDEO ${formParsed.data.video_id}: Wouldve been a good update :/`,
@@ -58,7 +58,7 @@ export async function UpdateDisguiseVideoAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "disguises",
                 row_id: formParsed.data.video_id,
@@ -93,7 +93,7 @@ export async function NewDisguiseVideoAction(formData: FormData) {
     let updatedSuccessful = true;
 
     try {
-        await db.insert(disguiseVideoSchema).values({
+        await db.insert(DisguiseVideoSchema).values({
             disguise_id: formParsed.data.disguise_id,
             link: formParsed.data.link,
             notes: formParsed.data.notes,
@@ -108,7 +108,7 @@ export async function NewDisguiseVideoAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "disguises",
                 row_id: "",
@@ -131,9 +131,9 @@ export async function DeleteDisguiseVideoAction(disguiseVideoId: string) {
     }
 
     await db
-        .update(disguiseVideoSchema)
+        .update(DisguiseVideoSchema)
         .set({ visible: false })
-        .where(eq(disguiseVideoSchema.id, disguiseVideoId));
+        .where(eq(DisguiseVideoSchema.id, disguiseVideoId));
 
     revalidatePath("/[mission]/disguises", "page");
 }

@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { itemSchema } from "@/server/db/schema";
+import { ItemSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import Items from "./_components/Items";
 import { Mission } from "@/types";
@@ -11,8 +11,8 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    let items = await db.query.itemSchema.findMany({
-        where: eq(itemSchema.mission, mission),
+    let items = await db.query.ItemSchema.findMany({
+        where: eq(ItemSchema.mission, mission),
     });
 
     if (items === null || items.length === 0) {

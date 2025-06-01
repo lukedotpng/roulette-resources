@@ -1,6 +1,6 @@
 import { Mission } from "@/types";
 import { db } from "@/server/db";
-import { routeSchema } from "@/server/db/schema";
+import { RouteSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import Routes from "./_components/Routes";
 
@@ -13,8 +13,8 @@ export default async function Page({
 
     const routes = await db
         .select()
-        .from(routeSchema)
-        .where(eq(routeSchema.map, mission));
+        .from(RouteSchema)
+        .where(eq(RouteSchema.map, mission));
 
     return <Routes mission={mission} routes={routes} />;
 }

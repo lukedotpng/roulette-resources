@@ -1,16 +1,16 @@
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { db } from "@/server/db";
 import {
-    disguiseSchema,
-    itemSchema,
-    uniqueKillSchema,
+    DisguiseSchema,
+    ItemSchema,
+    UniqueKillSchema,
 } from "@/server/db/schema";
 import {
-    Disguise,
-    Item,
+    DisguiseSelect,
+    ItemSelect,
     SpinInfo,
     TargetSpinResources,
-    UniqueKill,
+    UniqueKillSelect,
 } from "@/types";
 import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
@@ -30,17 +30,17 @@ export async function GET(request: NextRequest): Promise<Response> {
     }
 
     const itemData =
-        (await db.query.itemSchema.findMany({
-            where: eq(itemSchema.mission, spin.mission),
+        (await db.query.ItemSchema.findMany({
+            where: eq(ItemSchema.mission, spin.mission),
         })) || [];
-    const disguiseData = await db.query.disguiseSchema.findMany({
-        where: eq(disguiseSchema.mission, spin.mission),
+    const disguiseData = await db.query.DisguiseSchema.findMany({
+        where: eq(DisguiseSchema.mission, spin.mission),
         with: {
             disguiseVideoSchema: true,
         },
     });
-    const uniqueKillData = await db.query.uniqueKillSchema.findMany({
-        where: eq(uniqueKillSchema.mission, spin.mission),
+    const uniqueKillData = await db.query.UniqueKillSchema.findMany({
+        where: eq(UniqueKillSchema.mission, spin.mission),
     });
 
     const targetSpinResources = {} as TargetSpinResources;
@@ -56,9 +56,9 @@ export async function GET(request: NextRequest): Promise<Response> {
     );
 
     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
-        const itemsInSpin: Item[] = [];
-        const disguisesInSpin: Disguise[] = [];
-        const uniqueKillsInSpin: UniqueKill[] = [];
+        const itemsInSpin: ItemSelect[] = [];
+        const disguisesInSpin: DisguiseSelect[] = [];
+        const uniqueKillsInSpin: UniqueKillSelect[] = [];
 
         const currentCondition = spin.info[target]?.killMethod || "";
         const currentDisguise = spin.info[target]?.disguise || "";

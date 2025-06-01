@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { isolationSchema, uniqueKillSchema } from "@/server/db/schema";
+import { IsolationSchema, UniqueKillSchema } from "@/server/db/schema";
 import { Mission } from "@/types";
 import { eq } from "drizzle-orm";
 import Targets from "./_components/Targets";
@@ -13,13 +13,13 @@ export default async function Page({
 
     const uniqueKills = await db
         .select()
-        .from(uniqueKillSchema)
-        .where(eq(uniqueKillSchema.mission, mission));
+        .from(UniqueKillSchema)
+        .where(eq(UniqueKillSchema.mission, mission));
 
     const isolations = await db
         .select()
-        .from(isolationSchema)
-        .where(eq(isolationSchema.mission, mission));
+        .from(IsolationSchema)
+        .where(eq(IsolationSchema.mission, mission));
 
     const isolationsDontExist = isolations === null || isolations.length === 0;
     const uniqueKillsDontExist =

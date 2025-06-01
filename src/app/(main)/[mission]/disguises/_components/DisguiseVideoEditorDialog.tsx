@@ -1,6 +1,4 @@
-"use client";
-
-import { Disguise, DisguiseVideo } from "@/types";
+import { DisguiseSelect, DisguiseVideoInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -23,8 +21,8 @@ export default function DisguiseVideoEditorDialog({
     editDialogActive,
     setEditDialogActive,
 }: {
-    disguise: Disguise;
-    disguiseVideo: DisguiseVideo;
+    disguise: DisguiseSelect;
+    disguiseVideo: DisguiseVideoInsert;
     isNew: boolean;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;

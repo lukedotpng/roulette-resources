@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/server/db";
-import { overlaySchema } from "@/server/db/schema";
+import { OverlaySchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import SpinSection from "./_components/SpinSection";
 
@@ -12,8 +12,8 @@ export default async function Page({
 }) {
     const overlayId = (await params).id;
 
-    const overlayInfo = await db.query.overlaySchema.findFirst({
-        where: eq(overlaySchema.id, overlayId),
+    const overlayInfo = await db.query.OverlaySchema.findFirst({
+        where: eq(OverlaySchema.id, overlayId),
     });
 
     if (!overlayInfo) {

@@ -1,6 +1,4 @@
-"use client";
-
-import { Route } from "@/types";
+import { RouteInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -18,7 +16,7 @@ export default function RouteEditorDialog({
     editDialogActive,
     setEditDialogActive,
 }: {
-    route: Route;
+    route: RouteInsert;
     isNew: boolean;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;

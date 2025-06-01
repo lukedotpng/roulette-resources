@@ -1,6 +1,6 @@
 import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
-import { disguiseSchema } from "@/server/db/schema";
+import { DisguiseSchema } from "@/server/db/schema";
 import { Mission } from "@/types";
 import { eq } from "drizzle-orm";
 
@@ -11,8 +11,8 @@ export default async function Page({
 }) {
     const { mission } = await params;
 
-    const disguises = await db.query.disguiseSchema.findMany({
-        where: eq(disguiseSchema.mission, mission),
+    const disguises = await db.query.DisguiseSchema.findMany({
+        where: eq(DisguiseSchema.mission, mission),
         with: {
             disguiseVideoSchema: true,
         },

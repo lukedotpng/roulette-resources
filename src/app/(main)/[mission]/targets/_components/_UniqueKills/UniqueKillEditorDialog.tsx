@@ -1,6 +1,4 @@
-"use client";
-
-import { SpinTarget, UniqueKill } from "@/types";
+import { SpinTarget, UniqueKillInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -38,7 +36,7 @@ export default function UniqueKillEditorDialog({
     editDialogActive,
     setEditDialogActive,
 }: {
-    uniqueKill: UniqueKill;
+    uniqueKill: UniqueKillInsert;
     isNew: boolean;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;

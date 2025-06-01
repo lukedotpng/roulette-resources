@@ -1,4 +1,4 @@
-import { Item } from "@/types";
+import { ItemSelect } from "@/types";
 import { useSession } from "next-auth/react";
 
 export default function ItemCard({
@@ -7,8 +7,8 @@ export default function ItemCard({
     handleItemEditTrigger,
 }: {
     type: string;
-    items: Item[];
-    handleItemEditTrigger: (item: Item, isNew: boolean) => void;
+    items: ItemSelect[];
+    handleItemEditTrigger: (item: ItemSelect, isNew: boolean) => void;
 }) {
     const session = useSession();
 

@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { itemSchema, updateLogSchema } from "@/server/db/schema";
+import { ItemSchema, UpdateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -37,9 +37,9 @@ export async function UpdateItemAction(formData: FormData) {
 
     try {
         await db
-            .update(itemSchema)
+            .update(ItemSchema)
             .set(formParsed.data)
-            .where(eq(itemSchema.id, formParsed.data.id));
+            .where(eq(ItemSchema.id, formParsed.data.id));
     } catch {
         console.error(
             `ERROR UPDATING ITEM ${formParsed.data.id}: Wouldve been a good update :/`,
@@ -49,7 +49,7 @@ export async function UpdateItemAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "items",
                 row_id: formParsed.data.id,

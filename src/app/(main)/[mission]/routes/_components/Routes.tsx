@@ -1,6 +1,6 @@
 "use client";
 
-import { Route, Mission } from "@/types";
+import { RouteSelect, Mission, RouteInsert } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import RouteEditorDialog from "./RouteEditorDialog";
@@ -11,13 +11,13 @@ export default function Routes({
     routes,
 }: {
     mission: Mission;
-    routes: Route[];
+    routes: RouteSelect[];
 }) {
     const session = useSession();
 
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [createNewRoute, setCreateNewRoute] = useState(false);
-    const [currentRouteToEdit, setCurrentRouteToEdit] = useState<Route>({
+    const [currentRouteToEdit, setCurrentRouteToEdit] = useState<RouteInsert>({
         id: "",
         map: mission,
         name: "New Route",
@@ -26,7 +26,7 @@ export default function Routes({
         visible: true,
     });
 
-    function handleRouteEditTrigger(route: Route, isNew: boolean) {
+    function handleRouteEditTrigger(route: RouteInsert, isNew: boolean) {
         setCreateNewRoute(isNew);
         setEditDialogActive(true);
         setCurrentRouteToEdit(route);

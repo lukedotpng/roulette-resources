@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { routeSchema } from "@/server/db/schema";
+import { RouteSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -44,7 +44,7 @@ export async function CreateRouteAction(formData: FormData) {
     }
 
     console.log("Creating new route");
-    await db.insert(routeSchema).values({
+    await db.insert(RouteSchema).values({
         map: formParsed.data.map,
         name: formParsed.data.name,
         notes: formParsed.data.notes,
@@ -76,9 +76,9 @@ export async function UpdateRouteAction(formData: FormData) {
     }
 
     await db
-        .update(routeSchema)
+        .update(RouteSchema)
         .set(formParsed.data)
-        .where(eq(routeSchema.id, formParsed.data.id));
+        .where(eq(RouteSchema.id, formParsed.data.id));
 
     revalidatePath("/[mission]/routes", "page");
 }
@@ -91,9 +91,9 @@ export async function DeleteRouteAction(routeId: string) {
     }
 
     await db
-        .update(routeSchema)
+        .update(RouteSchema)
         .set({ visible: false })
-        .where(eq(routeSchema.id, routeId));
+        .where(eq(RouteSchema.id, routeId));
 
     revalidatePath("/[mission]/routes", "page");
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Isolation, Mission, Target, UniqueKill } from "@/types";
+import { IsolationSelect, Mission, Target, UniqueKillSelect } from "@/types";
 import ImageDropdown from "../../_components/ImageDropdown";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -19,8 +19,8 @@ export default function Targets({
     uniqueKills,
 }: {
     mission: Mission;
-    isolations: Isolation[];
-    uniqueKills: UniqueKill[];
+    isolations: IsolationSelect[];
+    uniqueKills: UniqueKillSelect[];
 }) {
     const targets = MISSION_TARGET_LIST[mission];
     const searchParams = useSearchParams();

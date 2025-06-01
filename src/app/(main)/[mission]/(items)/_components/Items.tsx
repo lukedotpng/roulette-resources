@@ -1,6 +1,6 @@
 "use client";
 
-import { Item, Mission } from "@/types";
+import { ItemSelect, Mission } from "@/types";
 import ItemCard from "./ItemCard";
 import { useState } from "react";
 import ItemEditorDialog from "./ItemEditorDialog";
@@ -9,20 +9,20 @@ export default function Items({
     items,
     mission,
 }: {
-    items: Item[];
+    items: ItemSelect[];
     mission: Mission;
 }) {
     const [editDialogActive, setEditDialogActive] = useState(false);
-    const [currentItemToEdit, setCurrentItemToEdit] = useState<Item>({
+    const [currentItemToEdit, setCurrentItemToEdit] = useState<ItemSelect>({
         id: "",
         mission: mission,
         name: "New Item",
         type: "Melee",
         quick_look: "",
         hitmaps_link: "",
-    } as Item);
+    } as ItemSelect);
 
-    function handleItemEditTrigger(item: Item, isNew: boolean) {
+    function handleItemEditTrigger(item: ItemSelect, isNew: boolean) {
         if (editDialogActive && !isNew) {
             setEditDialogActive(false);
             return;

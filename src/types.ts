@@ -1,24 +1,36 @@
-import { InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
-    disguiseSchema,
-    disguiseVideoSchema,
-    isolationSchema,
-    itemSchema,
-    routeSchema,
-    uniqueKillSchema,
-    updateLogSchema,
+    DisguiseSchema,
+    DisguiseVideoSchema,
+    IsolationSchema,
+    ItemSchema,
+    RouteSchema,
+    UniqueKillSchema,
+    UpdateLogSchema,
 } from "./server/db/schema";
 import { Ruleset } from "./app/(main)/spin/_components/CustomRulesComponents/CustomRuleTypes";
 
-export type DisguiseVideo = InferSelectModel<typeof disguiseVideoSchema>;
-export type Disguise = InferSelectModel<typeof disguiseSchema> & {
-    disguiseVideoSchema: DisguiseVideo[];
+export type DisguiseSelect = InferSelectModel<typeof DisguiseSchema> & {
+    disguiseVideoSchema: DisguiseVideoSelect[];
 };
-export type Isolation = InferSelectModel<typeof isolationSchema>;
-export type Route = InferSelectModel<typeof routeSchema>;
-export type Item = InferSelectModel<typeof itemSchema>;
-export type UniqueKill = InferSelectModel<typeof uniqueKillSchema>;
-export type UpdateLog = InferSelectModel<typeof updateLogSchema>;
+
+export type DisguiseVideoSelect = InferSelectModel<typeof DisguiseVideoSchema>;
+export type DisguiseVideoInsert = InferInsertModel<typeof DisguiseVideoSchema>;
+
+export type IsolationSelect = InferSelectModel<typeof IsolationSchema>;
+export type IsolationInsert = InferInsertModel<typeof IsolationSchema>;
+
+export type RouteSelect = InferSelectModel<typeof RouteSchema>;
+export type RouteInsert = InferInsertModel<typeof RouteSchema>;
+
+export type ItemSelect = InferSelectModel<typeof ItemSchema>;
+export type ItemInsert = InferInsertModel<typeof ItemSchema>;
+
+export type UniqueKillSelect = InferSelectModel<typeof UniqueKillSchema>;
+export type UniqueKillInsert = InferInsertModel<typeof UniqueKillSchema>;
+
+export type UpdateLogSelect = InferSelectModel<typeof UpdateLogSchema>;
+export type UpdateLogInsert = InferInsertModel<typeof UpdateLogSchema>;
 
 export type Mission =
     | "paris"
@@ -207,9 +219,9 @@ export type MissionDisguises = {
 export type SpinUpdateAction = "killMethod" | "disguise" | "toggle_ntko";
 
 export type SpinResources = {
-    items: Item[];
-    disguises: Disguise[];
-    uniqueKills: UniqueKill[];
+    items: ItemSelect[];
+    disguises: DisguiseSelect[];
+    uniqueKills: UniqueKillSelect[];
 };
 
 export type TargetSpinResources = {

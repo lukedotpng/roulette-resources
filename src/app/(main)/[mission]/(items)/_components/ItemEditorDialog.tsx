@@ -1,6 +1,4 @@
-"use client";
-
-import { Item } from "@/types";
+import { ItemSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -18,7 +16,7 @@ export default function ItemEditorDialog({
     editDialogActive,
     setEditDialogActive,
 }: {
-    item: Item;
+    item: ItemSelect;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {

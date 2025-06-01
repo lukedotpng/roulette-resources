@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { uniqueKillSchema, updateLogSchema } from "@/server/db/schema";
+import { UniqueKillSchema, UpdateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -54,7 +54,7 @@ export async function CreateUniqueKillAction(formData: FormData) {
     let updatedSuccessful = true;
 
     try {
-        await db.insert(uniqueKillSchema).values({
+        await db.insert(UniqueKillSchema).values({
             target: formParsed.data.target,
             mission: formParsed.data.mission,
             kill_method: formParsed.data.kill_method,
@@ -70,7 +70,7 @@ export async function CreateUniqueKillAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "uniqueKills",
                 row_id: "",
@@ -115,9 +115,9 @@ export async function UpdateUniqueKillAction(formData: FormData) {
 
     try {
         await db
-            .update(uniqueKillSchema)
+            .update(UniqueKillSchema)
             .set(formParsed.data)
-            .where(eq(uniqueKillSchema.id, formParsed.data.id));
+            .where(eq(UniqueKillSchema.id, formParsed.data.id));
     } catch {
         console.error(
             `ERROR UPDATING UNIQUE KILL ${formParsed.data.id}: thats okay ig!`,
@@ -127,7 +127,7 @@ export async function UpdateUniqueKillAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "uniqueKills",
                 row_id: formParsed.data.id,
@@ -153,9 +153,9 @@ export async function DeleteUniqueKillAction(uniqueKillId: string) {
 
     try {
         await db
-            .update(uniqueKillSchema)
+            .update(UniqueKillSchema)
             .set({ visible: false })
-            .where(eq(uniqueKillSchema.id, uniqueKillId));
+            .where(eq(UniqueKillSchema.id, uniqueKillId));
     } catch {
         console.error(
             `ERROR DELETING UNIQUE KILL ${uniqueKillId}: uhh maybe we do need this!`,
@@ -165,7 +165,7 @@ export async function DeleteUniqueKillAction(uniqueKillId: string) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "uniqueKills",
                 row_id: uniqueKillId,

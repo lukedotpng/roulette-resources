@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import "next-auth/jwt";
 import Discord from "next-auth/providers/discord";
 import { db } from "./server/db";
-import { userSchema } from "./server/db/schema";
+import { UserSchema } from "./server/db/schema";
 import { eq } from "drizzle-orm";
 
 declare module "next-auth" {
@@ -46,12 +46,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
                 let isAdmin = false;
 
-                const user = await db.query.userSchema.findFirst({
-                    where: eq(userSchema.username, profile.username),
+                const user = await db.query.UserSchema.findFirst({
+                    where: eq(UserSchema.username, profile.username),
                 });
 
                 if (!user && profile.username) {
-                    await db.insert(userSchema).values({
+                    await db.insert(UserSchema).values({
                         username: profile.username,
                         name: profile.global_name ?? "",
                         image: profile.image_url ?? "",

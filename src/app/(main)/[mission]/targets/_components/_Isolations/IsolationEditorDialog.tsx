@@ -1,6 +1,4 @@
-"use client";
-
-import { Isolation } from "@/types";
+import { IsolationInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -35,7 +33,7 @@ export default function IsolationEditorDialog({
     editDialogActive,
     setEditDialogActive,
 }: {
-    isolation: Isolation;
+    isolation: IsolationInsert;
     isNew: boolean;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;

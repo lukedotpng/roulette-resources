@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import { Isolation, Mission, Target } from "@/types";
+import { IsolationInsert, IsolationSelect, Mission, Target } from "@/types";
 // Dont rerender because of MDXEditor
 const IsolationCard = dynamic(() => import("./IsolationCard"), { ssr: false });
 import { useState } from "react";
@@ -16,28 +16,27 @@ export default function Isolations({
 }: {
     mission: Mission;
     target: Target;
-    isolations: Isolation[];
+    isolations: IsolationSelect[];
 }) {
     const session = useSession();
 
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [createNewIsolation, setCreateNewIsolation] = useState(false);
     const [currentIsolationToEdit, setCurrentIsolationToEdit] =
-        useState<Isolation>({
+        useState<IsolationInsert>({
             id: "",
             target: "",
             mission: mission,
             name: "New Isolation",
-            requires: "",
-            starts: "",
-            timings: "",
-            notes: "",
             info: "",
             video_link: "",
             visible: true,
         });
 
-    function handleIsolationEditTrigger(isolation: Isolation, isNew: boolean) {
+    function handleIsolationEditTrigger(
+        isolation: IsolationInsert,
+        isNew: boolean,
+    ) {
         setCreateNewIsolation(isNew);
         setEditDialogActive(true);
         setCurrentIsolationToEdit(isolation);
@@ -76,10 +75,6 @@ export default function Isolations({
                                     target: target,
                                     mission: mission,
                                     name: "New Isolation",
-                                    requires: "",
-                                    starts: "",
-                                    timings: "",
-                                    notes: "",
                                     info: "",
                                     video_link: "",
                                     visible: true,

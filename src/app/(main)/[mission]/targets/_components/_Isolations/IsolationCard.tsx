@@ -1,4 +1,4 @@
-import { Isolation } from "@/types";
+import { IsolationSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -16,8 +16,11 @@ export default function IsolationCard({
     isolation,
     handleIsolationEditTrigger,
 }: {
-    isolation: Isolation;
-    handleIsolationEditTrigger: (isolation: Isolation, isNew: boolean) => void;
+    isolation: IsolationSelect;
+    handleIsolationEditTrigger: (
+        isolation: IsolationSelect,
+        isNew: boolean,
+    ) => void;
 }) {
     // const link = isolation.video_link;
     // const youtubeIdRegex =

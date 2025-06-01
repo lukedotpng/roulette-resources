@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/server/db";
-import { overlaySchema } from "@/server/db/schema";
+import { OverlaySchema } from "@/server/db/schema";
 import { and, eq, or } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -24,7 +24,7 @@ export async function InitializeSpinOverlay(
     }
 
     await db
-        .insert(overlaySchema)
+        .insert(OverlaySchema)
         .values({ id: id, key: key, spin_query: spin })
         .catch((e) => console.error("SPIN OVERLAY CREATION:", e));
 
@@ -40,12 +40,12 @@ export async function UpdateSpinOverlay(
     console.log("Updating Spin at", id);
 
     await db
-        .update(overlaySchema)
+        .update(OverlaySchema)
         .set({ id: id, spin_query: query, theme: theme })
         .where(
             and(
-                eq(overlaySchema.id, id),
-                or(eq(overlaySchema.key, key), eq(overlaySchema.key, -1)),
+                eq(OverlaySchema.id, id),
+                or(eq(OverlaySchema.key, key), eq(OverlaySchema.key, -1)),
             ),
         )
         .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
@@ -64,7 +64,7 @@ export async function UpdateSpinOverlayMatchStatus(
 
     if (spin_start_time === undefined) {
         await db
-            .update(overlaySchema)
+            .update(OverlaySchema)
             .set({
                 id: id,
                 spin_query: query,
@@ -72,14 +72,14 @@ export async function UpdateSpinOverlayMatchStatus(
             })
             .where(
                 and(
-                    eq(overlaySchema.id, id),
-                    or(eq(overlaySchema.key, key), eq(overlaySchema.key, -1)),
+                    eq(OverlaySchema.id, id),
+                    or(eq(OverlaySchema.key, key), eq(OverlaySchema.key, -1)),
                 ),
             )
             .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));
     } else {
         await db
-            .update(overlaySchema)
+            .update(OverlaySchema)
             .set({
                 id: id,
                 spin_query: query,
@@ -88,8 +88,8 @@ export async function UpdateSpinOverlayMatchStatus(
             })
             .where(
                 and(
-                    eq(overlaySchema.id, id),
-                    or(eq(overlaySchema.key, key), eq(overlaySchema.key, -1)),
+                    eq(OverlaySchema.id, id),
+                    or(eq(OverlaySchema.key, key), eq(OverlaySchema.key, -1)),
                 ),
             )
             .catch((e) => console.error("SPIN OVERLAY UPDATE:", e));

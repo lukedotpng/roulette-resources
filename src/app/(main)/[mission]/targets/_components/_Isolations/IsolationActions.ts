@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { isolationSchema, updateLogSchema } from "@/server/db/schema";
+import { IsolationSchema, UpdateLogSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -51,7 +51,7 @@ export async function CreateIsolationAction(formData: FormData) {
     let updatedSuccessful = true;
 
     try {
-        await db.insert(isolationSchema).values({
+        await db.insert(IsolationSchema).values({
             target: formParsed.data.target,
             mission: formParsed.data.mission,
             name: formParsed.data.name,
@@ -66,7 +66,7 @@ export async function CreateIsolationAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "isolations",
                 row_id: "",
@@ -106,9 +106,9 @@ export async function UpdateIsolationAction(formData: FormData) {
 
     try {
         await db
-            .update(isolationSchema)
+            .update(IsolationSchema)
             .set(formParsed.data)
-            .where(eq(isolationSchema.id, formParsed.data.id));
+            .where(eq(IsolationSchema.id, formParsed.data.id));
     } catch {
         console.error(
             `ERROR UPDATING ISOLATION ${formParsed.data.id}: Wouldve been a good update :/`,
@@ -118,7 +118,7 @@ export async function UpdateIsolationAction(formData: FormData) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "isolations",
                 row_id: formParsed.data.id,
@@ -144,9 +144,9 @@ export async function DeleteIsolationAction(isolationId: string) {
 
     try {
         await db
-            .update(isolationSchema)
+            .update(IsolationSchema)
             .set({ visible: false })
-            .where(eq(isolationSchema.id, isolationId));
+            .where(eq(IsolationSchema.id, isolationId));
     } catch {
         console.error(
             `ERROR UPDATING ISOLATION ${isolationId}: uhh maybe we do need this!`,
@@ -156,7 +156,7 @@ export async function DeleteIsolationAction(isolationId: string) {
 
     if (updatedSuccessful) {
         try {
-            await db.insert(updateLogSchema).values({
+            await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "isolations",
                 row_id: isolationId,

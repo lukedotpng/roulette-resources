@@ -1,4 +1,4 @@
-import { Route } from "@/types";
+import { RouteSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -14,8 +14,8 @@ export default function RouteCard({
     route,
     handleRouteEditTrigger,
 }: {
-    route: Route;
-    handleRouteEditTrigger: (route: Route, isNew: boolean) => void;
+    route: RouteSelect;
+    handleRouteEditTrigger: (route: RouteSelect, isNew: boolean) => void;
 }) {
     const session = useSession();
 

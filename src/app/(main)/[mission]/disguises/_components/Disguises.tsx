@@ -1,6 +1,11 @@
 "use client";
 
-import { Disguise, DisguiseVideo, Mission } from "@/types";
+import {
+    DisguiseSelect,
+    DisguiseVideoInsert,
+    DisguiseVideoSelect,
+    Mission,
+} from "@/types";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,7 +20,7 @@ export default function Disguises({
     disguises,
 }: {
     mission: Mission;
-    disguises: Disguise[];
+    disguises: DisguiseSelect[];
 }) {
     const searchParams = useSearchParams();
     const session = useSession();
@@ -38,7 +43,7 @@ export default function Disguises({
     }, [searchParams.get(searchParamQuery)]);
 
     const [disguiseVideoToEdit, setDisguiseVideoToEdit] =
-        useState<DisguiseVideo>({
+        useState<DisguiseVideoInsert>({
             id: "",
             notes: "",
             disguise_id: "",
@@ -50,12 +55,12 @@ export default function Disguises({
     function SetEditDialogActive(
         updatedEditDialogActive: boolean,
         isNew: boolean,
-        disguiseVideo?: DisguiseVideo,
+        disguiseVideo?: DisguiseVideoSelect,
     ) {
         setEditDialogActive(updatedEditDialogActive);
         setDisguiseIsNew(isNew);
         if (isNew) {
-            const newDisguiseVideo: DisguiseVideo = {
+            const newDisguiseVideo: DisguiseVideoInsert = {
                 id: "",
                 notes: "",
                 disguise_id: activeDisguise.id,

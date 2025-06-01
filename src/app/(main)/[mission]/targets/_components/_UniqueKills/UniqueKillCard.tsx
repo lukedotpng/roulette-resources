@@ -1,4 +1,4 @@
-import { UniqueKill } from "@/types";
+import { UniqueKillSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -19,9 +19,9 @@ export default function UniqueKillCard({
     handleUniqueKillEditTrigger,
 }: {
     killType: string;
-    uniqueKills: UniqueKill[];
+    uniqueKills: UniqueKillSelect[];
     handleUniqueKillEditTrigger: (
-        uniqueKill: UniqueKill,
+        uniqueKill: UniqueKillSelect,
         isNew: boolean,
     ) => void;
 }) {

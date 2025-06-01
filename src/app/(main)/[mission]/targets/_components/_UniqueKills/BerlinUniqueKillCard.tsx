@@ -1,6 +1,4 @@
-"use client";
-
-import { UniqueKill } from "@/types";
+import { UniqueKillSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -22,9 +20,9 @@ export default function BerlinUniqueKillCard({
     uniqueKills,
     handleUniqueKillEditTrigger,
 }: {
-    uniqueKills: UniqueKill[];
+    uniqueKills: UniqueKillSelect[];
     handleUniqueKillEditTrigger: (
-        uniqueKill: UniqueKill,
+        uniqueKill: UniqueKillSelect,
         isNew: boolean,
     ) => void;
 }) {

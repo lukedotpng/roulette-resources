@@ -1,6 +1,4 @@
-"use client";
-
-import { Mission, Target, UniqueKill } from "@/types";
+import { Mission, Target, UniqueKillInsert, UniqueKillSelect } from "@/types";
 import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -14,30 +12,26 @@ export default function UniqueKills({
 }: {
     mission: Mission;
     activeTarget: Target;
-    uniqueKills: UniqueKill[];
+    uniqueKills: UniqueKillSelect[];
 }) {
     const session = useSession();
 
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [createNewUniqueKill, setCreateNewUniqueKill] = useState(false);
     const [currentUniqueKillToEdit, setCurrentUniqueToEdit] =
-        useState<UniqueKill>({
+        useState<UniqueKillInsert>({
             id: "",
             target: "",
             kill_method: "",
             mission: mission,
             name: "New Unique Kill",
-            requires: "",
-            starts: "",
-            timings: "",
-            notes: "",
             info: "",
             video_link: "",
             visible: true,
         });
 
     function handleUniqueKillEditTrigger(
-        uniqueKill: UniqueKill,
+        uniqueKill: UniqueKillInsert,
         isNew: boolean,
     ) {
         setCreateNewUniqueKill(isNew);
@@ -91,10 +85,6 @@ export default function UniqueKills({
                                     kill_method: "loud_kills",
                                     mission: mission,
                                     name: "New Unique Kill",
-                                    requires: "",
-                                    starts: "",
-                                    timings: "",
-                                    notes: "",
                                     info: "",
                                     video_link: "",
                                     visible: true,

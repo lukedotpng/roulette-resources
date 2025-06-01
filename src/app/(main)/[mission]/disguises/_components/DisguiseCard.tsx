@@ -1,4 +1,4 @@
-import { Disguise, DisguiseVideo } from "@/types";
+import { DisguiseSelect, DisguiseVideoSelect } from "@/types";
 import {
     Dialog,
     DialogContent,
@@ -14,11 +14,11 @@ export default function DisguiseCard({
     disguise,
     SetEditDialogActive,
 }: {
-    disguise: Disguise;
+    disguise: DisguiseSelect;
     SetEditDialogActive: (
         updatedEditDialogActive: boolean,
         isNew: boolean,
-        disguiseVideo: DisguiseVideo,
+        disguiseVideo: DisguiseVideoSelect,
     ) => void;
 }) {
     const session = useSession();

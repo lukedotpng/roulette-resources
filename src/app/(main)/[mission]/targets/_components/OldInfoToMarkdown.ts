@@ -1,6 +1,8 @@
-import { Isolation, UniqueKill } from "@/types";
+import { IsolationInsert, IsolationSelect, UniqueKillSelect } from "@/types";
 
-export function IsolationToMarkdown(isolation: Isolation): string {
+export function IsolationToMarkdown(
+    isolation: IsolationSelect | IsolationInsert,
+): string {
     let markdownString = "";
     if (isolation.starts !== null) {
         markdownString += "\r\n* **Starts:** " + isolation.starts;
@@ -18,7 +20,9 @@ export function IsolationToMarkdown(isolation: Isolation): string {
     return markdownString;
 }
 
-export function UniqueKillToMarkdown(uniqueKill: UniqueKill): string {
+export function UniqueKillToMarkdown(
+    uniqueKill: UniqueKillSelect | IsolationInsert,
+): string {
     let markdownString = "";
     if (uniqueKill.starts !== null) {
         markdownString += "\r\n* **Starts:** " + uniqueKill.starts;
