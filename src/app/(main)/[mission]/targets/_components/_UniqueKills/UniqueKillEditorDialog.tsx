@@ -59,6 +59,7 @@ export default function UniqueKillEditorDialog({
 
     let uniqueKillOptions = [
         "loud_kills",
+        "live_kills",
         "drowning",
         "falling_object",
         "fall",
