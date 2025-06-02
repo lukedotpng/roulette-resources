@@ -22,6 +22,7 @@ export const ItemSchema = pgTable("roulette-resources-items", {
     type: text().notNull(),
     quick_look: text().notNull(),
     hitmaps_link: text(),
+    updated_at: timestamp().defaultNow().notNull(),
 });
 
 export const DisguiseSchema = pgTable("roulette-resources-disguises", {

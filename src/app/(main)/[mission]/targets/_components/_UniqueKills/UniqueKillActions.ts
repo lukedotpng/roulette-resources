@@ -116,7 +116,7 @@ export async function UpdateUniqueKillAction(formData: FormData) {
     try {
         await db
             .update(UniqueKillSchema)
-            .set(formParsed.data)
+            .set({ updated_at: new Date(), ...formParsed.data })
             .where(eq(UniqueKillSchema.id, formParsed.data.id));
     } catch {
         console.error(
@@ -154,7 +154,7 @@ export async function DeleteUniqueKillAction(uniqueKillId: string) {
     try {
         await db
             .update(UniqueKillSchema)
-            .set({ visible: false })
+            .set({ updated_at: new Date(), visible: false })
             .where(eq(UniqueKillSchema.id, uniqueKillId));
     } catch {
         console.error(

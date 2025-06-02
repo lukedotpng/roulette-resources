@@ -47,6 +47,7 @@ export async function UpdateDisguiseVideoAction(formData: FormData) {
             .set({
                 link: formParsed.data.link,
                 notes: formParsed.data.notes,
+                updated_at: new Date(),
             })
             .where(eq(DisguiseVideoSchema.id, formParsed.data.video_id));
     } catch {
@@ -132,7 +133,7 @@ export async function DeleteDisguiseVideoAction(disguiseVideoId: string) {
 
     await db
         .update(DisguiseVideoSchema)
-        .set({ visible: false })
+        .set({ visible: false, updated_at: new Date() })
         .where(eq(DisguiseVideoSchema.id, disguiseVideoId));
 
     revalidatePath("/[mission]/disguises", "page");

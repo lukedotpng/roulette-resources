@@ -77,7 +77,7 @@ export async function UpdateRouteAction(formData: FormData) {
 
     await db
         .update(RouteSchema)
-        .set(formParsed.data)
+        .set({ updated_at: new Date(), ...formParsed.data })
         .where(eq(RouteSchema.id, formParsed.data.id));
 
     revalidatePath("/[mission]/routes", "page");
@@ -92,7 +92,7 @@ export async function DeleteRouteAction(routeId: string) {
 
     await db
         .update(RouteSchema)
-        .set({ visible: false })
+        .set({ visible: false, updated_at: new Date() })
         .where(eq(RouteSchema.id, routeId));
 
     revalidatePath("/[mission]/routes", "page");

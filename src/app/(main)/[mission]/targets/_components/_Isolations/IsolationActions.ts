@@ -107,7 +107,7 @@ export async function UpdateIsolationAction(formData: FormData) {
     try {
         await db
             .update(IsolationSchema)
-            .set(formParsed.data)
+            .set({ updated_at: new Date(), ...formParsed.data })
             .where(eq(IsolationSchema.id, formParsed.data.id));
     } catch {
         console.error(
@@ -145,7 +145,7 @@ export async function DeleteIsolationAction(isolationId: string) {
     try {
         await db
             .update(IsolationSchema)
-            .set({ visible: false })
+            .set({ updated_at: new Date(), visible: false })
             .where(eq(IsolationSchema.id, isolationId));
     } catch {
         console.error(

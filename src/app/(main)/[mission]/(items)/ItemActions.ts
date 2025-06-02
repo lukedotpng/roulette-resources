@@ -38,7 +38,7 @@ export async function UpdateItemAction(formData: FormData) {
     try {
         await db
             .update(ItemSchema)
-            .set(formParsed.data)
+            .set({ updated_at: new Date(), ...formParsed.data })
             .where(eq(ItemSchema.id, formParsed.data.id));
     } catch {
         console.error(
