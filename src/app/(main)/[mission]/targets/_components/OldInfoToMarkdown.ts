@@ -11,7 +11,7 @@ export function IsolationToMarkdown(
         markdownString += "\r\n* **Requires:** " + isolation.requires;
     }
     if (isolation.timings !== null) {
-        markdownString += "\r\n* **Timings:** " + isolation.requires;
+        markdownString += "\r\n* **Timings:** " + isolation.timings;
     }
     if (isolation.notes !== null) {
         markdownString += "\r\n* **Notes:** " + isolation.notes;
@@ -31,7 +31,7 @@ export function UniqueKillToMarkdown(
         markdownString += "\r\n* **Requires:** " + uniqueKill.requires;
     }
     if (uniqueKill.timings !== null) {
-        markdownString += "\r\n* **Timings:** " + uniqueKill.requires;
+        markdownString += "\r\n* **Timings:** " + uniqueKill.timings;
     }
     if (uniqueKill.notes !== null) {
         markdownString += "\r\n* **Notes:** " + uniqueKill.notes;
