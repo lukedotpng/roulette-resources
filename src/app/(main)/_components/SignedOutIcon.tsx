@@ -26,9 +26,12 @@ export default function SignedOutIcon() {
                 open={signInButtonOpen}
                 onOpenChange={(open: boolean) => setSignInButtonOpen(open)}
             >
-                <DialogContent className="absolute top-[calc(100%+.5rem)] right-2 flex h-fit w-fit flex-col items-center gap-2 rounded-md bg-white px-5 py-1 text-xs text-nowrap shadow-xl/100 shadow-black data-[active=false]:hidden sm:text-base">
-                    <DialogTitle>{"You are logged out"}</DialogTitle>
+                <DialogContent className="absolute top-[calc(100%+.5rem)] right-2 flex h-fit w-44 flex-col items-center gap-2 rounded-md bg-white px-1 py-1 text-xs text-nowrap shadow-xl/100 shadow-black data-[active=false]:hidden sm:w-56 sm:text-base">
+                    <DialogTitle>{"You are signed out"}</DialogTitle>
                     <SignIn />
+                    <p className="text-center text-[.8em] text-wrap underline">
+                        {"*Currently signing in is only necessary for admins"}
+                    </p>
                 </DialogContent>
             </Dialog>
         </>
