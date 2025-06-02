@@ -189,7 +189,7 @@ export default function UniqueKillEditorDialog({
                                     ]}
                                     ref={editorRef}
                                     markdown={uniqueKillInfo}
-                                    contentEditableClassName="border-t-2 border-zinc-900"
+                                    contentEditableClassName="border-t-2 border-zinc-900 min-h-32"
                                     onChange={(markdown: string) => {
                                         setUniqueKillInfo(markdown);
                                     }}

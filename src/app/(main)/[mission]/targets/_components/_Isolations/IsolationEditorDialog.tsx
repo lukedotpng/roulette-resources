@@ -128,7 +128,7 @@ export default function IsolationEditorDialog({
                                     ]}
                                     ref={editorRef}
                                     markdown={isolationInfo}
-                                    contentEditableClassName="border-t-2 border-zinc-900"
+                                    contentEditableClassName="border-t-2 border-zinc-900 min-h-32"
                                     onChange={(markdown: string) => {
                                         setIsolationInfo(markdown);
                                     }}
