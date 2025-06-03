@@ -6,7 +6,7 @@ export default function ItemCard({
     items,
     handleItemEditTrigger,
 }: {
-    type: string;
+    type: "Melees" | "Utilities";
     items: ItemSelect[];
     handleItemEditTrigger: (item: ItemSelect, isNew: boolean) => void;
 }) {

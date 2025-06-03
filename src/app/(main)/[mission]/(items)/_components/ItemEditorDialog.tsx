@@ -1,4 +1,4 @@
-import { ItemSelect } from "@/types";
+import { ItemInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -8,25 +8,28 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
-import { UpdateItemAction } from "../ItemActions";
+import { CreateItemAction, UpdateItemAction } from "../ItemActions";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 
 export default function ItemEditorDialog({
     item,
     editDialogActive,
     setEditDialogActive,
+    isNew,
 }: {
-    item: ItemSelect;
+    item: ItemInsert;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;
+    isNew: boolean;
 }) {
-    const hitmapsLinkAsString = item.hitmaps_link ?? "";
-
     const [itemName, setItemName] = useState(item.name);
+
+    const hitmapsLinkAsString = item.hitmaps_link ?? "";
     const [itemHitmapsLink, setItemHitmapsLink] = useState(hitmapsLinkAsString);
+
     const [itemQuickLook, setItemQuickLook] = useState(item.quick_look);
 
-    const quickLookTextAreaRef = useRef<HTMLTextAreaElement>(null);
+    const [itemVisible, setItemVisible] = useState(!!item.visible || isNew);
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
@@ -40,17 +43,12 @@ export default function ItemEditorDialog({
         if (
             itemName !== item.name ||
             itemHitmapsLink !== hitmapsLinkAsString ||
-            itemQuickLook !== item.quick_look
+            itemQuickLook !== item.quick_look ||
+            itemVisible !== item.visible
         ) {
             setHasBeenEdited(true);
         } else {
             setHasBeenEdited(false);
-        }
-
-        if (quickLookTextAreaRef.current !== null) {
-            quickLookTextAreaRef.current.style.height = "0px";
-            const newHeight = quickLookTextAreaRef.current.scrollHeight + 10;
-            quickLookTextAreaRef.current.style.height = newHeight + "px";
         }
     }, [
         itemName,
@@ -59,6 +57,8 @@ export default function ItemEditorDialog({
         hitmapsLinkAsString,
         itemQuickLook,
         item.quick_look,
+        itemVisible,
+        item.visible,
         hasBeenEdited,
     ]);
 
@@ -73,7 +73,11 @@ export default function ItemEditorDialog({
                     <form
                         className="p-3"
                         action={async (formData: FormData) => {
-                            await UpdateItemAction(formData);
+                            if (isNew) {
+                                await CreateItemAction(formData);
+                            } else {
+                                await UpdateItemAction(formData);
+                            }
                             setEditDialogActive(false);
                         }}
                     >
@@ -100,9 +104,8 @@ export default function ItemEditorDialog({
                                 onChange={(e) =>
                                     setItemQuickLook(e.target.value)
                                 }
-                                className="h-16 w-full border-2 border-zinc-900 p-1"
+                                className="min-h-16 w-full border-2 border-zinc-900 p-1"
                                 id="quick_look"
-                                ref={quickLookTextAreaRef}
                                 rows={3}
                                 maxLength={500}
                             />
@@ -123,6 +126,24 @@ export default function ItemEditorDialog({
                                 id="hitmaps_link"
                             />
                         </fieldset>
+                        {!isNew && (
+                            <fieldset className="flex items-center gap-3 pt-2">
+                                {/* Field for Hitmaps URL */}
+                                <label className="font-semibold">
+                                    Toggle Visibility
+                                </label>
+                                <input
+                                    id="visible"
+                                    name="visible"
+                                    type="checkbox"
+                                    checked={itemVisible}
+                                    onChange={() =>
+                                        setItemVisible(!itemVisible)
+                                    }
+                                    className="cursor-pointer border-2 border-zinc-900 p-1"
+                                />
+                            </fieldset>
+                        )}
                         {/* Hidden field for Item ID */}
                         <input
                             hidden
@@ -130,6 +151,14 @@ export default function ItemEditorDialog({
                             name="id"
                             value={item.id}
                             id="id"
+                        />
+                        {/* Hidden field for Item Mission */}
+                        <input
+                            hidden
+                            readOnly
+                            name="mission"
+                            value={item.mission}
+                            id="mission"
                         />
                         {/* Hidden field for Item type */}
                         <input
