@@ -90,8 +90,8 @@ export function DisguiseIDToDisplayText(disguise: string | undefined) {
     }
 
     for (const word of words) {
-        if (word.toLowerCase() === "dj") {
-            disguiseDisplayText += "DJ";
+        if (word.toLowerCase() === "dj" || word.toLowerCase() === "bbq") {
+            disguiseDisplayText += word.toUpperCase() + " ";
         } else {
             disguiseDisplayText +=
                 word.charAt(0).toUpperCase() + word.slice(1) + " ";
