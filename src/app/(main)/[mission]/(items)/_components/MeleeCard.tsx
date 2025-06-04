@@ -2,46 +2,44 @@ import { ItemSelect } from "@/types";
 import { useSession } from "next-auth/react";
 
 export default function ItemCard({
-    type,
-    items,
+    melees,
     handleItemEditTrigger,
 }: {
-    type: "Melees" | "Utilities";
-    items: ItemSelect[];
+    melees: ItemSelect[];
     handleItemEditTrigger: (item: ItemSelect, isNew: boolean) => void;
 }) {
     const session = useSession();
 
-    if (items.length === 0) {
+    if (melees.length === 0) {
         return null;
     }
 
     return (
         <div className="max-w-[35rem] min-w-full flex-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
-            <h2 className="text-center text-[1.2em] font-bold">{type}</h2>
-            {items.map((item) => {
+            <h2 className="text-center text-[1.2em] font-bold">{"Melees"}</h2>
+            {melees.map((melee) => {
                 return (
                     <div
-                        key={item.id}
+                        key={melee.id}
                         className="border-b-2 border-zinc-900 py-1 last:border-0"
                     >
                         <div className="flex justify-start gap-3">
-                            {item.hitmaps_link ? (
-                                <a href={item.hitmaps_link} target="_blank">
+                            {melee.hitmaps_link ? (
+                                <a href={melee.hitmaps_link} target="_blank">
                                     <span className="font-semibold underline">
-                                        {item.name}
+                                        {melee.name}
                                     </span>
                                     <span className="text-[.7em] italic">
                                         Hitmaps
                                     </span>
                                 </a>
                             ) : (
-                                <h2 className="font-semibold">{item.name}</h2>
+                                <h2 className="font-semibold">{melee.name}</h2>
                             )}
                             {session.data?.user?.admin && (
                                 <button
                                     onClick={() =>
-                                        handleItemEditTrigger(item, false)
+                                        handleItemEditTrigger(melee, false)
                                     }
                                     className="group"
                                 >
@@ -57,7 +55,7 @@ export default function ItemCard({
                             )}
                         </div>
 
-                        <p className="text-xs sm:text-sm">{item.quick_look}</p>
+                        <p className="text-xs sm:text-sm">{melee.quick_look}</p>
                     </div>
                 );
             })}

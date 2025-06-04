@@ -1,11 +1,12 @@
 "use client";
 
 import { ItemInsert, ItemSelect, Mission } from "@/types";
-import ItemCard from "./ItemCard";
 import { useState } from "react";
 import ItemEditorDialog from "./ItemEditorDialog";
 import WeaponCard from "./WeaponCard";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
+import UtilitiesCard from "./UtilitiesCard";
+import MeleeCard from "./MeleeCard";
 
 export default function Items({
     items,
@@ -53,20 +54,18 @@ export default function Items({
     return (
         <div
             id="item-card-wrapper"
-            className="flex w-full flex-wrap items-start justify-center gap-3 px-2 sm:gap-5"
+            className="flex w-full flex-wrap items-start justify-center gap-3 px-5 sm:gap-5"
         >
-            <ItemCard
-                type="Melees"
-                items={items.filter((item) => item.type === "melee")}
+            <MeleeCard
+                melees={items.filter((item) => item.type === "melee")}
                 handleItemEditTrigger={handleItemEditTrigger}
             />
             <WeaponCard
                 weapons={items.filter((item) => item.type === "weapon")}
                 handleItemEditTrigger={handleItemEditTrigger}
             />
-            <ItemCard
-                type="Utilities"
-                items={items.filter((item) => item.type === "utility")}
+            <UtilitiesCard
+                utilities={items.filter((item) => item.type === "utility")}
                 handleItemEditTrigger={handleItemEditTrigger}
             />
             {editDialogActive && (
