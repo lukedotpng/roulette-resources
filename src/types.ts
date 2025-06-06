@@ -2,6 +2,7 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
     DisguiseSchema,
     DisguiseVideoSchema,
+    FlashcardSchema,
     IsolationSchema,
     ItemSchema,
     RouteSchema,
@@ -26,11 +27,16 @@ export type RouteInsert = InferInsertModel<typeof RouteSchema>;
 export type ItemSelect = InferSelectModel<typeof ItemSchema>;
 export type ItemInsert = InferInsertModel<typeof ItemSchema>;
 
+export type FlashcardSelect = InferSelectModel<typeof FlashcardSchema>;
+export type FlashcardInsert = InferInsertModel<typeof FlashcardSchema>;
+
 export type UniqueKillSelect = InferSelectModel<typeof UniqueKillSchema>;
 export type UniqueKillInsert = InferInsertModel<typeof UniqueKillSchema>;
 
 export type UpdateLogSelect = InferSelectModel<typeof UpdateLogSchema>;
 export type UpdateLogInsert = InferInsertModel<typeof UpdateLogSchema>;
+
+export type ActionResponse = { success: boolean; error: string };
 
 export type Mission =
     | "paris"

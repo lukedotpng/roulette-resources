@@ -36,15 +36,24 @@ button {
 .mdxeditor h5,
 .mdxeditor h6 {
     all: revert;
+    margin: 0;
+    padding: 0;
 }
 
 .mdxeditor a {
     all: revert;
 }
 
+.mdxeditor li {
+    margin: 0;
+    padding: 0;
+}
+
 .mdxeditor ul {
     list-style-type: disc;
     list-style-position: inside;
+    margin: 0;
+    padding: 0;
 }
 
 .mdxeditor ul ul {
@@ -66,6 +75,8 @@ button {
 .markdown h5,
 .markdown h6 {
     all: revert;
+    margin: 0;
+    padding: 0;
 }
 
 .markdown a {

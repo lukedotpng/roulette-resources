@@ -15,6 +15,16 @@ export const UserSchema = pgTable("roulette-resources-users", {
     admin: boolean(),
 });
 
+export const FlashcardSchema = pgTable("roulette-resources-flashcards", {
+    id: uuid().primaryKey().defaultRandom(),
+    mission: text().notNull(),
+    target: text().notNull(),
+    info: text().notNull(),
+    created_at: timestamp().defaultNow().notNull(),
+    updated_at: timestamp().defaultNow().notNull(),
+    visible: boolean().notNull().default(true),
+});
+
 export const ItemSchema = pgTable("roulette-resources-items", {
     id: text().primaryKey(),
     mission: text().notNull(),
