@@ -28,7 +28,7 @@ export default function UserIcon() {
     return (
         <>
             <button
-                className="flex h-full justify-center"
+                className="flex aspect-square h-full justify-center"
                 onClick={() => setSignOutButtonOpen(!signOutButtonOpen)}
             >
                 {session.data.user.image ? (
