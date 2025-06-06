@@ -12,10 +12,10 @@ export default function Flashcards({
 }) {
     const session = useSession();
 
-    const targets = MISSION_TARGET_LIST[mission];
+    const targets = mission === "berlin" ? [] : MISSION_TARGET_LIST[mission];
 
     return (
-        <div className="flex w-full flex-wrap justify-center gap-3 px-5 sm:gap-5">
+        <div className="flex w-full flex-col items-center justify-start gap-3 px-5 sm:gap-5">
             {targets.map((target) => {
                 const targetFlashcard = flashcards.find(
                     (fc: FlashcardSelect) => {

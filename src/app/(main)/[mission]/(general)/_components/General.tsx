@@ -55,8 +55,7 @@ export default function Items({
     }
 
     return (
-        <div className="flex w-full flex-col gap-5 sm:gap-10">
-            <Flashcards flashcards={flashcards} mission={mission} />
+        <div className="flex w-full">
             <div
                 id="item-card-wrapper"
                 className="flex w-full flex-wrap items-start justify-center gap-3 px-5 sm:gap-5"
@@ -82,6 +81,7 @@ export default function Items({
                     />
                 )}
             </div>
+            <Flashcards flashcards={flashcards} mission={mission} />
         </div>
     );
 }
