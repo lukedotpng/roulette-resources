@@ -26,7 +26,7 @@ export default function TargetFlashcard({
     }
 
     return (
-        <article className="max-w-[35rem] min-w-full flex-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[20rem]">
+        <article className="h-fit w-full max-w-[35rem] min-w-[20rem] overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
             <header className="flex justify-between">
                 <div className="flex-1"></div>
                 <h2 className="text-center text-[1.2em] font-bold">

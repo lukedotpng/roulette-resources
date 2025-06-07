@@ -14,8 +14,12 @@ export default function Flashcards({
 
     const targets = mission === "berlin" ? [] : MISSION_TARGET_LIST[mission];
 
+    if (flashcards.length === 0 && !session.data?.user?.admin) {
+        return null;
+    }
+
     return (
-        <div className="flex w-full flex-col items-center justify-start gap-3 px-5 sm:gap-5">
+        <div className="flex flex-1 flex-col items-center justify-start gap-3 sm:gap-5">
             {targets.map((target) => {
                 const targetFlashcard = flashcards.find(
                     (fc: FlashcardSelect) => {

@@ -55,10 +55,11 @@ export default function Items({
     }
 
     return (
-        <div className="flex w-full">
+        <div className="flex w-full flex-row-reverse flex-wrap justify-center gap-3 px-2 sm:gap-5 sm:px-3">
+            <Flashcards flashcards={flashcards} mission={mission} />
             <div
                 id="item-card-wrapper"
-                className="flex w-full flex-wrap items-start justify-center gap-3 px-5 sm:gap-5"
+                className="flex flex-1 flex-col items-center justify-start gap-3 sm:gap-5"
             >
                 <MeleeCard
                     melees={items.filter((item) => item.type === "melee")}
@@ -81,7 +82,6 @@ export default function Items({
                     />
                 )}
             </div>
-            <Flashcards flashcards={flashcards} mission={mission} />
         </div>
     );
 }
