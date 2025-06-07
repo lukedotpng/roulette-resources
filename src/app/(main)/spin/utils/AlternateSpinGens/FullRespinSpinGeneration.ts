@@ -6,19 +6,19 @@ import {
     SpinTarget,
     TargetKillMethods,
 } from "@/types";
-import {
-    SpinMissionTargetsList,
-    MissionSpinInfoList,
-    TargetUniqueKillsList,
-    weapons,
-    weaponModifierPrefix,
-    explosiveModifierPrefix,
-} from "../SpinGlobals";
 import { CanBeNTKO, SpinIsLegal } from "../SpinCheck";
+import {
+    EXPLOSIVE_MODIFIER_PREFIX,
+    MISSION_SPIN_INFO_LIST,
+    SPIN_MISSION_TARGETS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+    WEAPON_MODIFIER_PREFIX,
+    WEAPONS,
+} from "../SpinGlobals";
 
 export function GenerateSpin(mission: Mission): Spin {
-    const targets = SpinMissionTargetsList[mission];
-    const spinInfoOptions = MissionSpinInfoList[mission];
+    const targets = SPIN_MISSION_TARGETS_LIST[mission];
+    const spinInfoOptions = MISSION_SPIN_INFO_LIST[mission];
 
     const spinInfo: SpinInfo = {};
 
@@ -85,12 +85,12 @@ function GetRandomCondition(
 
     // Modfiy possible conditions for Soders
     if (target === "erich_soders") {
-        updatedConditions.unique_kills = TargetUniqueKillsList[target];
+        updatedConditions.unique_kills = TARGET_UNIQUE_KILLS_LIST[target];
         // Remove explosive on weapon kills list, it is considered a unique kill here :P
         updatedConditions.weapons.pop();
     } else {
         updatedConditions.unique_kills = [
-            ...TargetUniqueKillsList[target],
+            ...TARGET_UNIQUE_KILLS_LIST[target],
             ...killMethods.unique_kills,
         ];
     }
@@ -101,10 +101,10 @@ function GetRandomCondition(
         conditionOptions[Math.floor(Math.random() * conditionOptions.length)];
 
     // Add "silenced_" , "loud_", or no prefix if condition is a firearm
-    if (weapons.includes(condition) && condition !== "explosive") {
+    if (WEAPONS.includes(condition) && condition !== "explosive") {
         const modifierPrefix =
-            weaponModifierPrefix[
-                Math.floor(Math.random() * weaponModifierPrefix.length)
+            WEAPON_MODIFIER_PREFIX[
+                Math.floor(Math.random() * WEAPON_MODIFIER_PREFIX.length)
             ];
 
         condition = modifierPrefix + condition;
@@ -112,8 +112,8 @@ function GetRandomCondition(
     // Add "remote_" , "impact_", or "loud_" prefix if condition is explosive
     else if (condition === "explosive") {
         const modifierPrefix =
-            explosiveModifierPrefix[
-                Math.floor(Math.random() * explosiveModifierPrefix.length)
+            EXPLOSIVE_MODIFIER_PREFIX[
+                Math.floor(Math.random() * EXPLOSIVE_MODIFIER_PREFIX.length)
             ];
 
         condition = modifierPrefix + condition;

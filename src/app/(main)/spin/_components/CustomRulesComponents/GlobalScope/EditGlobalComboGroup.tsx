@@ -1,4 +1,7 @@
-import { uniqueKills, weaponsWithModifiers } from "../../../utils/SpinGlobals";
+import {
+    UNIQUE_KILLS,
+    WEAPONS_WITH_MODIFIERS,
+} from "../../../utils/SpinGlobals";
 import { ConditionComboGroup } from "../CustomRuleTypes";
 import EditGlobalCombo from "./EditGlobalCombo";
 
@@ -19,8 +22,8 @@ export default function EditGlobalComboGroup({
         if (killMethod === "ALL_UNIQUE_KILLS" || killMethod === "ALL_WEAPONS") {
             const batchKills =
                 killMethod === "ALL_UNIQUE_KILLS"
-                    ? uniqueKills
-                    : weaponsWithModifiers;
+                    ? UNIQUE_KILLS
+                    : WEAPONS_WITH_MODIFIERS;
             const filteredBatchKills: string[] = [];
             for (const kill of batchKills) {
                 if (

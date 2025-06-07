@@ -23,7 +23,7 @@ import {
 import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheck";
-import { SpinMissionTargetsList } from "./utils/SpinGlobals";
+import { SPIN_MISSION_TARGETS_LIST } from "./utils/SpinGlobals";
 
 export function useSpinManager() {
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
@@ -141,7 +141,7 @@ export function useSpinManager() {
                 SetCurrentSpin(spin);
             }
         } else {
-            const targets = SpinMissionTargetsList[currentSpin.mission];
+            const targets = SPIN_MISSION_TARGETS_LIST[currentSpin.mission];
             let updatedSpin: Spin = structuredClone(currentSpin);
 
             for (const target of targets) {

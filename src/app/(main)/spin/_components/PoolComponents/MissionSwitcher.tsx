@@ -5,12 +5,12 @@ import {
     DropdownMenuTrigger,
     DropdownMenuContent,
 } from "@radix-ui/react-dropdown-menu";
-import {
-    SeasonOneMissions,
-    SeasonThreeMissions,
-    SeasonTwoMissions,
-} from "../../utils/SpinGlobals";
 import { useState } from "react";
+import {
+    SEASON_ONE_MISSIONS,
+    SEASON_THREE_MISSIONS,
+    SEASON_TWO_MISSIONS,
+} from "../../utils/SpinGlobals";
 
 export default function MissionSwitcher({
     currentMission,
@@ -56,7 +56,7 @@ export default function MissionSwitcher({
                     <h2 className="text-center text-[1.05em] font-bold underline">
                         {"Season 1"}
                     </h2>
-                    {SeasonOneMissions.map((mission) => {
+                    {SEASON_ONE_MISSIONS.map((mission) => {
                         return (
                             <button
                                 key={mission}
@@ -75,7 +75,7 @@ export default function MissionSwitcher({
                     <h2 className="text-center text-[1.05em] font-bold underline">
                         {"Season 2"}
                     </h2>
-                    {SeasonTwoMissions.map((mission) => {
+                    {SEASON_TWO_MISSIONS.map((mission) => {
                         return (
                             <button
                                 key={mission}
@@ -94,7 +94,7 @@ export default function MissionSwitcher({
                     <h2 className="text-center text-[1.05em] font-bold underline">
                         {"Season 3"}
                     </h2>
-                    {SeasonThreeMissions.map((mission) => {
+                    {SEASON_THREE_MISSIONS.map((mission) => {
                         return (
                             <button
                                 key={mission}

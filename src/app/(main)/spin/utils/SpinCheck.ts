@@ -1,24 +1,25 @@
 import { Mission, Spin, SpinCheckResult, SpinTarget } from "@/types";
 import {
-    assaultRifleKillMethodList,
-    explosiveKillMethodList,
-    pistolKillMethodList,
-    shotgunKillMethodList,
-    smgKillMethodList,
-    sniperKillMethodList,
-    SpinMissionTargetsList,
-    TargetBannedKillMethodsList,
-    TargetUniqueKillsList,
-    uniqueKills,
-} from "./SpinGlobals";
-import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
+import {
+    ASSAULT_RIFLE_KILL_METHOD_LIST,
+    EXPLOSIVE_KILL_METHOD_LIST,
+    LARGE_WEAPON_LIST,
+    PISTOL_KILL_METHOD_LIST,
+    SHOTGUN_KILL_METHOD_LIST,
+    SMG_KILL_METHOD_LIST,
+    SNIPER_KILL_METHOD_LIST,
+    SPIN_MISSION_TARGETS_LIST,
+    TARGET_BANNED_KILL_METHODS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+    UNIQUE_KILLS,
+} from "./SpinGlobals";
 
 export function SpinIsLegal(spin: Spin): SpinCheckResult {
-    const spinTargets = SpinMissionTargetsList[spin.mission];
+    const spinTargets = SPIN_MISSION_TARGETS_LIST[spin.mission];
 
     const disguisesSpun: string[] = [];
     const conditionsSpun: string[] = [];
@@ -70,19 +71,14 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             };
         }
 
-        const bigWeaponsKillMethodList = [
-            ...assaultRifleKillMethodList,
-            ...shotgunKillMethodList,
-            ...sniperKillMethodList,
-        ];
-        const conditionIsBigWeapon = bigWeaponsKillMethodList.includes(
+        const conditionIsBigWeapon = LARGE_WEAPON_LIST.includes(
             targetSpinInfo.killMethod,
         );
 
         if (conditionIsBigWeapon) {
             for (const pastKillMethod of conditionsSpun) {
                 const pastKillMethodIsBigWeapon =
-                    bigWeaponsKillMethodList.includes(pastKillMethod);
+                    LARGE_WEAPON_LIST.includes(pastKillMethod);
                 if (pastKillMethodIsBigWeapon && conditionIsBigWeapon) {
                     return {
                         legal: false,
@@ -150,7 +146,7 @@ export function TargetKillMethodIsBanned(
     target: SpinTarget,
     condition: string,
 ) {
-    if (TargetBannedKillMethodsList[target].includes(condition)) {
+    if (TARGET_BANNED_KILL_METHODS_LIST[target].includes(condition)) {
         return true;
     }
 
@@ -294,54 +290,48 @@ export function KillMethodRepeats(
     for (const pastKillMethod of killMethodsSpun) {
         if (
             // PISTOL CHECKS
-            pistolKillMethodList.includes(pastKillMethod) &&
-            pistolKillMethodList.includes(targetKillMethod)
+            PISTOL_KILL_METHOD_LIST.includes(pastKillMethod) &&
+            PISTOL_KILL_METHOD_LIST.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // SMG CHECKS
-            smgKillMethodList.includes(pastKillMethod) &&
-            smgKillMethodList.includes(targetKillMethod)
+            SMG_KILL_METHOD_LIST.includes(pastKillMethod) &&
+            SMG_KILL_METHOD_LIST.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // ASSAULT RIFLE CHECKS
-            assaultRifleKillMethodList.includes(pastKillMethod) &&
-            assaultRifleKillMethodList.includes(targetKillMethod)
+            ASSAULT_RIFLE_KILL_METHOD_LIST.includes(pastKillMethod) &&
+            ASSAULT_RIFLE_KILL_METHOD_LIST.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // SHOTGUN CHECKS
-            shotgunKillMethodList.includes(pastKillMethod) &&
-            shotgunKillMethodList.includes(targetKillMethod)
+            SHOTGUN_KILL_METHOD_LIST.includes(pastKillMethod) &&
+            SHOTGUN_KILL_METHOD_LIST.includes(targetKillMethod)
         ) {
             return true;
         } else if (
             // SNIPER CHECKS
-            sniperKillMethodList.includes(pastKillMethod) &&
-            sniperKillMethodList.includes(targetKillMethod)
+            SNIPER_KILL_METHOD_LIST.includes(pastKillMethod) &&
+            SNIPER_KILL_METHOD_LIST.includes(targetKillMethod)
         ) {
             return true;
         } else if (
-            explosiveKillMethodList.includes(pastKillMethod) &&
-            explosiveKillMethodList.includes(targetKillMethod)
+            EXPLOSIVE_KILL_METHOD_LIST.includes(pastKillMethod) &&
+            EXPLOSIVE_KILL_METHOD_LIST.includes(targetKillMethod)
         ) {
             return true;
         }
     }
 
-    const bigWeaponsKillMethodList = [
-        ...assaultRifleKillMethodList,
-        ...shotgunKillMethodList,
-        ...sniperKillMethodList,
-    ];
-    const conditionIsBigWeapon =
-        bigWeaponsKillMethodList.includes(targetKillMethod);
+    const conditionIsBigWeapon = LARGE_WEAPON_LIST.includes(targetKillMethod);
 
     if (conditionIsBigWeapon) {
         for (const pastKillMethod of killMethodsSpun) {
             const pastKillMethodIsBigWeapon =
-                bigWeaponsKillMethodList.includes(pastKillMethod);
+                LARGE_WEAPON_LIST.includes(pastKillMethod);
             if (pastKillMethodIsBigWeapon && conditionIsBigWeapon) {
                 return true;
             }
@@ -413,7 +403,10 @@ export function CanBeNTKO(
         };
     }
 
-    const allUniqueKills = [...uniqueKills, ...TargetUniqueKillsList[target]];
+    const allUniqueKills = [
+        ...UNIQUE_KILLS,
+        ...TARGET_UNIQUE_KILLS_LIST[target],
+    ];
 
     if (allUniqueKills.includes(killMethod)) {
         return {

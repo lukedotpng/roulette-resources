@@ -12,14 +12,14 @@ import {
     MethodIDToDisplayText,
 } from "@/utils/FormattingUtils";
 import { Mission, SpinTarget, SpinUpdateAction } from "@/types";
-import {
-    MissionDisguisesList,
-    MissionSpinInfoList,
-    TargetUniqueKillsList,
-    weapons,
-} from "../../utils/SpinGlobals";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import {
+    MISSION_DISGUISES_LIST,
+    MISSION_SPIN_INFO_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+    WEAPONS,
+} from "../../utils/SpinGlobals";
 
 export default function SpinEditorDialog({
     mission,
@@ -36,17 +36,17 @@ export default function SpinEditorDialog({
     dialogActive: boolean;
     setDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
-    const meleeOptions = MissionSpinInfoList[mission].killMethods.melees;
-    const weaponOptions = weapons;
+    const meleeOptions = MISSION_SPIN_INFO_LIST[mission].killMethods.melees;
+    const weaponOptions = WEAPONS;
     const uniqueKillOptions =
         target === "erich_soders"
-            ? [...TargetUniqueKillsList[target]]
+            ? [...TARGET_UNIQUE_KILLS_LIST[target]]
             : [
-                  ...MissionSpinInfoList[mission].killMethods.unique_kills,
-                  ...TargetUniqueKillsList[target],
+                  ...MISSION_SPIN_INFO_LIST[mission].killMethods.unique_kills,
+                  ...TARGET_UNIQUE_KILLS_LIST[target],
               ];
 
-    const disguises = MissionDisguisesList[mission];
+    const disguises = MISSION_DISGUISES_LIST[mission];
 
     return (
         <Dialog

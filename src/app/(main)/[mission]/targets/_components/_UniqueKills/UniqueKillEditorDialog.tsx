@@ -14,10 +14,6 @@ import {
 } from "./UniqueKillActions";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 import {
-    SpinTargets,
-    TargetUniqueKillsList,
-} from "@/app/(main)/spin/utils/SpinGlobals";
-import {
     MDXEditor,
     headingsPlugin,
     listsPlugin,
@@ -29,6 +25,10 @@ import {
     MDXEditorMethods,
 } from "@mdxeditor/editor";
 import { UniqueKillToMarkdown } from "../OldInfoToMarkdown";
+import {
+    SPIN_TARGETS,
+    TARGET_UNIQUE_KILLS_LIST,
+} from "@/app/(main)/spin/utils/SpinGlobals";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,
@@ -68,9 +68,9 @@ export default function UniqueKillEditorDialog({
         "impact_explosive",
     ];
 
-    if (SpinTargets.includes(uniqueKill.target)) {
+    if (SPIN_TARGETS.includes(uniqueKill.target)) {
         const customUniqueKills =
-            TargetUniqueKillsList[uniqueKill.target as SpinTarget];
+            TARGET_UNIQUE_KILLS_LIST[uniqueKill.target as SpinTarget];
 
         uniqueKillOptions = [...uniqueKillOptions, ...customUniqueKills];
     }

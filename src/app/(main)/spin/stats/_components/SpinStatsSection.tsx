@@ -1,15 +1,15 @@
 import { Mission, Spin, SpinStats } from "@/types";
 import { useEffect, useState } from "react";
 import { SpinIsLegal } from "../../utils/SpinCheck";
-import {
-    SpinMissionTargetsList,
-    largeWeaponsList,
-    MissionSpinInfoList,
-    TargetUniqueKillsList,
-    uniqueKills,
-    weaponsWithModifiers,
-} from "../../utils/SpinGlobals";
 import SpinStatsTable from "./SpinStatsTable";
+import {
+    LARGE_WEAPON_LIST,
+    MISSION_SPIN_INFO_LIST,
+    SPIN_MISSION_TARGETS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+    UNIQUE_KILLS,
+    WEAPONS_WITH_MODIFIERS,
+} from "../../utils/SpinGlobals";
 
 export default function SpinStatsSection({
     mission,
@@ -34,7 +34,7 @@ export default function SpinStatsSection({
 
     function GenerateStats() {
         const spinList: Spin[] = [];
-        const targets = SpinMissionTargetsList[mission];
+        const targets = SPIN_MISSION_TARGETS_LIST[mission];
         const currSpinStats: SpinStats = {
             count: 100000,
             illegalSpinCount: 0,
@@ -84,7 +84,7 @@ export default function SpinStatsSection({
                     currSpinStats.targets[target].trapKillCount++;
                 }
 
-                if (largeWeaponsList.includes(targetSpinInfo.killMethod)) {
+                if (LARGE_WEAPON_LIST.includes(targetSpinInfo.killMethod)) {
                     currSpinStats.targets[target].largeWeaponCount++;
                 }
 
@@ -93,20 +93,22 @@ export default function SpinStatsSection({
                 }
 
                 const missionMelees = [
-                    ...MissionSpinInfoList[mission].killMethods.melees,
+                    ...MISSION_SPIN_INFO_LIST[mission].killMethods.melees,
                 ];
-                const targetUniqueKills = [...TargetUniqueKillsList[target]];
+                const targetUniqueKills = [...TARGET_UNIQUE_KILLS_LIST[target]];
 
                 if (missionMelees.includes(targetSpinInfo.killMethod)) {
                     currSpinStats.targets[target].meleesCount++;
                 }
                 if (
-                    uniqueKills.includes(targetSpinInfo.killMethod) ||
+                    UNIQUE_KILLS.includes(targetSpinInfo.killMethod) ||
                     targetUniqueKills.includes(targetSpinInfo.killMethod)
                 ) {
                     currSpinStats.targets[target].uniqueKillsCount++;
                 }
-                if (weaponsWithModifiers.includes(targetSpinInfo.killMethod)) {
+                if (
+                    WEAPONS_WITH_MODIFIERS.includes(targetSpinInfo.killMethod)
+                ) {
                     currSpinStats.targets[target].weaponsCount++;
                 }
 

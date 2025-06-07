@@ -2,9 +2,9 @@ import { Mission } from "@/types";
 import { ConditionComboGroup } from "../CustomRuleTypes";
 import EditMissionCombo from "./EditMissionCombo";
 import {
-    MissionSpinInfoList,
-    uniqueKills,
-    weaponsWithModifiers,
+    MISSION_SPIN_INFO_LIST,
+    UNIQUE_KILLS,
+    WEAPONS_WITH_MODIFIERS,
 } from "../../../utils/SpinGlobals";
 
 export default function EditMissionComboGroup({
@@ -31,12 +31,12 @@ export default function EditMissionComboGroup({
             let batchKills = [];
             switch (killMethod) {
                 case "ALL_UNIQUE_KILLS":
-                    batchKills = uniqueKills;
+                    batchKills = UNIQUE_KILLS;
                 case "ALL_MELEES":
                     batchKills =
-                        MissionSpinInfoList[mission].killMethods.melees;
+                        MISSION_SPIN_INFO_LIST[mission].killMethods.melees;
                 case "ALL_WEAPONS":
-                    batchKills = weaponsWithModifiers;
+                    batchKills = WEAPONS_WITH_MODIFIERS;
             }
             const filteredBatchKills = [];
             for (const kill of batchKills) {

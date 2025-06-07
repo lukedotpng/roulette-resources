@@ -1,7 +1,10 @@
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 import { ConditionCombo } from "../CustomRuleTypes";
-import { uniqueKills, weaponsWithModifiers } from "../../../utils/SpinGlobals";
 import { ChangeEvent } from "react";
+import {
+    UNIQUE_KILLS,
+    WEAPONS_WITH_MODIFIERS,
+} from "../../../utils/SpinGlobals";
 
 export default function EditGlobalCombo({
     comboIndex,
@@ -42,13 +45,13 @@ export default function EditGlobalCombo({
                             label="Weapons"
                             killMethods={[
                                 "ALL_WEAPONS",
-                                ...weaponsWithModifiers,
+                                ...WEAPONS_WITH_MODIFIERS,
                             ]}
                             combo={combo}
                         />
                         <KillMethodOptionGroup
                             label="Unique Kills"
-                            killMethods={["ALL_UNIQUE_KILLS", ...uniqueKills]}
+                            killMethods={["ALL_UNIQUE_KILLS", ...UNIQUE_KILLS]}
                             combo={combo}
                         />
                     </select>
