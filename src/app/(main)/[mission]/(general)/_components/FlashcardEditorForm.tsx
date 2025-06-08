@@ -1,4 +1,8 @@
-import { FlashcardSelect, FlashcardInsert, ActionResponse } from "@/types";
+import {
+    TimingsFlashcardSelect,
+    TimingsFlashcardInsert,
+    ActionResponse,
+} from "@/types";
 import {
     MDXEditor,
     listsPlugin,
@@ -16,22 +20,24 @@ import {
 } from "../FlashcardActions";
 
 export default function FlashcardEditorForm({
-    flashcard,
+    timingsFlashcard,
     isNew,
     OnSave,
 }: {
-    flashcard: FlashcardSelect | FlashcardInsert;
+    timingsFlashcard: TimingsFlashcardSelect | TimingsFlashcardInsert;
     isNew: boolean;
     OnSave: () => void;
 }) {
-    const [flashcardInfo, setFlashcardInfo] = useState(flashcard.info);
+    const [timingsFlashcardInfo, setTimingsFlashcardInfo] = useState(
+        timingsFlashcard.info,
+    );
     const editorRef = useRef<MDXEditorMethods>(null);
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
     useEffect(() => {
-        setHasBeenEdited(flashcardInfo !== flashcard.info);
-    }, [flashcardInfo, flashcard.info]);
+        setHasBeenEdited(timingsFlashcardInfo !== timingsFlashcard.info);
+    }, [timingsFlashcardInfo, timingsFlashcard.info]);
 
     return (
         <form
@@ -75,10 +81,10 @@ export default function FlashcardEditorForm({
                             }),
                         ]}
                         ref={editorRef}
-                        markdown={flashcard.info}
+                        markdown={timingsFlashcard.info}
                         contentEditableClassName="border-t-2 border-zinc-900 min-h-32"
                         onChange={(markdown: string) => {
-                            setFlashcardInfo(markdown);
+                            setTimingsFlashcardInfo(markdown);
                         }}
                     />
                 </div>
@@ -86,27 +92,25 @@ export default function FlashcardEditorForm({
                     hidden
                     readOnly
                     name="info"
-                    value={flashcardInfo}
+                    value={timingsFlashcard.info}
                     id="info"
                 />
             </fieldset>
             {/* Hidden field for ID */}
-            <input hidden readOnly name="id" value={flashcard.id} id="id" />
+            <input
+                hidden
+                readOnly
+                name="id"
+                value={timingsFlashcard.id}
+                id="id"
+            />
             {/* Hidden field for Mission */}
             <input
                 hidden
                 readOnly
                 name="mission"
-                value={flashcard.mission}
+                value={timingsFlashcard.mission}
                 id="mission"
-            />
-            {/* Hidden field for Target */}
-            <input
-                hidden
-                readOnly
-                name="target"
-                value={flashcard.target}
-                id="target"
             />
             <div className="flex w-full justify-center">
                 <button

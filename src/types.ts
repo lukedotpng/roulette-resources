@@ -2,7 +2,7 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
     DisguiseSchema,
     DisguiseVideoSchema,
-    FlashcardSchema,
+    TimingsFlashcard,
     IsolationSchema,
     ItemSchema,
     RouteSchema,
@@ -27,8 +27,8 @@ export type RouteInsert = InferInsertModel<typeof RouteSchema>;
 export type ItemSelect = InferSelectModel<typeof ItemSchema>;
 export type ItemInsert = InferInsertModel<typeof ItemSchema>;
 
-export type FlashcardSelect = InferSelectModel<typeof FlashcardSchema>;
-export type FlashcardInsert = InferInsertModel<typeof FlashcardSchema>;
+export type TimingsFlashcardSelect = InferSelectModel<typeof TimingsFlashcard>;
+export type TimingsFlashcardInsert = InferInsertModel<typeof TimingsFlashcard>;
 
 export type UniqueKillSelect = InferSelectModel<typeof UniqueKillSchema>;
 export type UniqueKillInsert = InferInsertModel<typeof UniqueKillSchema>;

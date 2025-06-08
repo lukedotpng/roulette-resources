@@ -1,21 +1,26 @@
 "use client";
 
-import { FlashcardSelect, ItemInsert, ItemSelect, Mission } from "@/types";
+import {
+    ItemInsert,
+    ItemSelect,
+    Mission,
+    TimingsFlashcardSelect,
+} from "@/types";
 import { useState } from "react";
 import ItemEditorDialog from "./ItemEditorDialog";
 import WeaponCard from "./WeaponCard";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 import UtilitiesCard from "./UtilitiesCard";
 import MeleeCard from "./MeleeCard";
-import Flashcards from "./Flashcards";
+import TimingsCard from "./TimingsCard";
 
 export default function Items({
     items,
-    flashcards,
+    timingsFlashcard,
     mission,
 }: {
     items: ItemSelect[];
-    flashcards: FlashcardSelect[];
+    timingsFlashcard: TimingsFlashcardSelect | undefined;
     mission: Mission;
 }) {
     const [editDialogActive, setEditDialogActive] = useState(false);
@@ -55,33 +60,34 @@ export default function Items({
     }
 
     return (
-        <div className="flex w-full flex-row-reverse flex-wrap justify-center gap-3 px-2 sm:gap-5 sm:px-3">
-            <Flashcards flashcards={flashcards} mission={mission} />
-            <div
-                id="item-card-wrapper"
-                className="flex flex-1 flex-col items-center justify-start gap-3 sm:gap-5"
-            >
-                <MeleeCard
-                    melees={items.filter((item) => item.type === "melee")}
-                    handleItemEditTrigger={handleItemEditTrigger}
+        <div
+            id="item-card-wrapper"
+            className="flex flex-1 flex-col items-center justify-start gap-3 sm:gap-5"
+        >
+            <TimingsCard
+                timingsFlashcard={timingsFlashcard}
+                mission={mission}
+            />
+            <MeleeCard
+                melees={items.filter((item) => item.type === "melee")}
+                handleItemEditTrigger={handleItemEditTrigger}
+            />
+            <WeaponCard
+                weapons={items.filter((item) => item.type === "weapon")}
+                handleItemEditTrigger={handleItemEditTrigger}
+            />
+            <UtilitiesCard
+                utilities={items.filter((item) => item.type === "utility")}
+                handleItemEditTrigger={handleItemEditTrigger}
+            />
+            {editDialogActive && (
+                <ItemEditorDialog
+                    item={currentItemToEdit}
+                    isNew={itemIsNew}
+                    editDialogActive={editDialogActive}
+                    setEditDialogActive={setEditDialogActive}
                 />
-                <WeaponCard
-                    weapons={items.filter((item) => item.type === "weapon")}
-                    handleItemEditTrigger={handleItemEditTrigger}
-                />
-                <UtilitiesCard
-                    utilities={items.filter((item) => item.type === "utility")}
-                    handleItemEditTrigger={handleItemEditTrigger}
-                />
-                {editDialogActive && (
-                    <ItemEditorDialog
-                        item={currentItemToEdit}
-                        isNew={itemIsNew}
-                        editDialogActive={editDialogActive}
-                        setEditDialogActive={setEditDialogActive}
-                    />
-                )}
-            </div>
+            )}
         </div>
     );
 }
