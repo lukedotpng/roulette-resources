@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { ItemSchema, TimingsFlashcard } from "@/server/db/schema";
+import { ItemSchema, TimingsFlashcardSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import General from "./_components/General";
 import { Mission } from "@/types";
@@ -14,8 +14,8 @@ export default async function Page({
     let items = await db.query.ItemSchema.findMany({
         where: eq(ItemSchema.mission, mission),
     });
-    const timingsFlashcards = await db.query.TimingsFlashcard.findMany({
-        where: eq(TimingsFlashcard.mission, mission),
+    const timingsFlashcards = await db.query.TimingsFlashcardSchema.findMany({
+        where: eq(TimingsFlashcardSchema.mission, mission),
     });
 
     if (

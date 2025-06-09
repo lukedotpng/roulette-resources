@@ -60,10 +60,7 @@ export default function Items({
     }
 
     return (
-        <div
-            id="item-card-wrapper"
-            className="flex flex-1 flex-col items-center justify-start gap-3 sm:gap-5"
-        >
+        <section className="px-3 sm:px-5 md:columns-2">
             <TimingsCard
                 timingsFlashcard={timingsFlashcard}
                 mission={mission}
@@ -88,6 +85,6 @@ export default function Items({
                     setEditDialogActive={setEditDialogActive}
                 />
             )}
-        </div>
+        </section>
     );
 }

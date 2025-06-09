@@ -15,7 +15,7 @@ export const UserSchema = pgTable("roulette-resources-users", {
     admin: boolean(),
 });
 
-export const TimingsFlashcard = pgTable(
+export const TimingsFlashcardSchema = pgTable(
     "roulette-resources-timings-flashcard",
     {
         id: uuid().primaryKey().defaultRandom(),

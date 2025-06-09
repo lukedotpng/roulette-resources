@@ -3,21 +3,13 @@ import {
     TimingsFlashcardInsert,
     ActionResponse,
 } from "@/types";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import {
-    MDXEditor,
-    listsPlugin,
-    markdownShortcutPlugin,
-    toolbarPlugin,
-    UndoRedo,
-    BoldItalicUnderlineToggles,
-    ListsToggle,
-    MDXEditorMethods,
-} from "@mdxeditor/editor";
-import { useEffect, useRef, useState } from "react";
-import {
-    CreateFlashcardAction,
-    UpdateFlashcardAction,
-} from "../FlashcardActions";
+    CreateTimingsFlashcardAction,
+    UpdateTimingsFlashcardAction,
+} from "../TimingsFlashcardActions";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 export default function FlashcardEditorForm({
     timingsFlashcard,
@@ -28,16 +20,63 @@ export default function FlashcardEditorForm({
     isNew: boolean;
     OnSave: () => void;
 }) {
+    const [viewTab, setViewTab] = useState<"editor" | "preview">("editor");
+
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
     const [timingsFlashcardInfo, setTimingsFlashcardInfo] = useState(
         timingsFlashcard.info,
     );
-    const editorRef = useRef<MDXEditorMethods>(null);
-
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
-
     useEffect(() => {
         setHasBeenEdited(timingsFlashcardInfo !== timingsFlashcard.info);
     }, [timingsFlashcardInfo, timingsFlashcard.info]);
+
+    function StyleText(style: "bold" | "italic" | "underline") {
+        if (textAreaRef.current === null) {
+            return;
+        }
+
+        const selectionStart = textAreaRef.current.selectionStart;
+        const selectionEnd = textAreaRef.current.selectionEnd;
+
+        if (selectionStart !== selectionEnd) {
+            const preHighlightedText = textAreaRef.current.value.slice(
+                0,
+                selectionStart,
+            );
+
+            let highlightedText = textAreaRef.current.value.slice(
+                selectionStart,
+                selectionEnd,
+            );
+
+            if (highlightedText.includes("\n")) {
+                return;
+            }
+
+            switch (style) {
+                case "bold":
+                    highlightedText = "**" + highlightedText + "**";
+                    break;
+                case "italic":
+                    highlightedText = "*" + highlightedText + "*";
+                    break;
+                case "underline":
+                    highlightedText = "<u>" + highlightedText + "</u>";
+                    break;
+            }
+
+            const postHighlightedText = textAreaRef.current.value.slice(
+                selectionEnd,
+                textAreaRef.current.value.length - 1,
+            );
+
+            setTimingsFlashcardInfo(
+                preHighlightedText + highlightedText + postHighlightedText,
+            );
+        }
+    }
 
     return (
         <form
@@ -45,12 +84,12 @@ export default function FlashcardEditorForm({
             action={async (formData: FormData) => {
                 let res: ActionResponse;
                 if (isNew) {
-                    res = await CreateFlashcardAction(formData);
+                    res = await CreateTimingsFlashcardAction(formData);
                     if (!res.success) {
                         console.log("UPLOAD ERROR:", res.error);
                     }
                 } else {
-                    res = await UpdateFlashcardAction(formData);
+                    res = await UpdateTimingsFlashcardAction(formData);
                 }
                 if (!res.success) {
                     console.log("UPLOAD ERROR:", res.error);
@@ -62,39 +101,102 @@ export default function FlashcardEditorForm({
                 }
             }}
         >
+            {/* Field for flashcard info */}
             <fieldset>
-                {/* Field for flashcard info */}
-                <div className="border-2 border-zinc-900">
-                    <MDXEditor
-                        plugins={[
-                            listsPlugin(),
-                            markdownShortcutPlugin(),
-                            toolbarPlugin({
-                                toolbarClassName: "select-none",
-                                toolbarContents: () => (
-                                    <>
-                                        <UndoRedo />
-                                        <BoldItalicUnderlineToggles />
-                                        <ListsToggle options={["bullet"]} />
-                                    </>
-                                ),
-                            }),
-                        ]}
-                        ref={editorRef}
-                        markdown={timingsFlashcard.info}
-                        contentEditableClassName="border-t-2 border-zinc-900 min-h-32"
-                        onChange={(markdown: string) => {
-                            setTimingsFlashcardInfo(markdown);
+                <div className="flex">
+                    <button
+                        type="button"
+                        data-active={viewTab === "editor"}
+                        className="flex-1 border-t-2 border-r-1 border-l-2 border-zinc-900 decoration-red-500 decoration-2 inset-shadow-black/50 hover:underline data-[active=true]:bg-red-500 data-[active=true]:text-white"
+                        onClick={() => {
+                            setViewTab("editor");
                         }}
-                    />
+                    >
+                        {"Editor"}
+                    </button>
+                    <button
+                        type="button"
+                        data-active={viewTab === "preview"}
+                        className="flex-1 border-t-2 border-r-2 border-l-1 border-zinc-900 decoration-red-500 decoration-2 inset-shadow-black/50 hover:underline data-[active=true]:bg-red-500 data-[active=true]:text-white"
+                        onClick={() => {
+                            setViewTab("preview");
+                        }}
+                    >
+                        {"Preview"}
+                    </button>
+                    <div
+                        data-active={viewTab === "editor"}
+                        className="flex flex-1 justify-end border-zinc-900 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
+                    >
+                        <button
+                            type="button"
+                            className="aspect-[5/4] h-full border-t-2 border-l-2 border-zinc-900 font-bold hover:bg-red-500 hover:text-white"
+                            onClick={() => {
+                                StyleText("bold");
+                            }}
+                        >
+                            {"B"}
+                        </button>
+                        <button
+                            type="button"
+                            className="aspect-[5/4] h-full border-t-2 border-l-2 border-zinc-900 text-[1.05em] italic hover:bg-red-500 hover:text-white"
+                            onClick={() => {
+                                StyleText("italic");
+                            }}
+                        >
+                            {"I"}
+                        </button>
+                        <button
+                            type="button"
+                            className="aspect-[5/4] h-full border-t-2 border-r-2 border-l-2 border-zinc-900 underline hover:bg-red-500 hover:text-white"
+                            onClick={() => {
+                                StyleText("underline");
+                            }}
+                        >
+                            {"U"}
+                        </button>
+                    </div>
                 </div>
-                <textarea
-                    hidden
-                    readOnly
-                    name="info"
-                    value={timingsFlashcard.info}
-                    id="info"
-                />
+                <div className="">
+                    <div className="grid grid-cols-1 grid-rows-1">
+                        <div
+                            data-active={viewTab === "editor"}
+                            className="col-start-1 row-start-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
+                        >
+                            <textarea
+                                className="h-44 min-h-40 w-full border-2 border-zinc-900 p-1 focus:border-x-blue-400 focus:border-b-blue-400 focus:outline-none"
+                                ref={textAreaRef}
+                                name="info"
+                                value={timingsFlashcardInfo}
+                                onInput={(
+                                    e: FormEvent<HTMLTextAreaElement>,
+                                ) => {
+                                    setTimingsFlashcardInfo(
+                                        e.currentTarget.value,
+                                    );
+                                }}
+                                id="info"
+                            />
+                        </div>
+                        <div
+                            data-active={viewTab === "preview"}
+                            className="markdown col-start-1 row-start-1 border-2 border-zinc-900 p-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
+                        >
+                            <Markdown
+                                rehypePlugins={[rehypeRaw]}
+                                components={{
+                                    a(props) {
+                                        return (
+                                            <a target="_blank" {...props}></a>
+                                        );
+                                    },
+                                }}
+                            >
+                                {timingsFlashcardInfo}
+                            </Markdown>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
             {/* Hidden field for ID */}
             <input

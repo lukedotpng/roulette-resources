@@ -29,7 +29,7 @@ export default function WeaponCard({
     const session = useSession();
     const [showHiddenWeapons, setShowHiddenWeapons] = useState(false);
 
-    if (weapons.length === 0) {
+    if (weapons.length === 0 && !session.data?.user?.admin) {
         return null;
     }
 
@@ -44,7 +44,7 @@ export default function WeaponCard({
     });
 
     return (
-        <div className="h-fit w-full max-w-[35rem] min-w-[20rem] flex-1 rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
+        <article className="mb-3 h-fit w-full max-w-[35rem] min-w-[20rem] flex-1 break-inside-avoid rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
             <h2 className="text-center text-[1.2em] font-bold">{"Weapons"}</h2>
             {sortedWeapons.map((weapon) => {
                 if (weapon.visible === false) {
@@ -123,7 +123,7 @@ export default function WeaponCard({
                     />
                 </>
             )}
-        </div>
+        </article>
     );
 }
 

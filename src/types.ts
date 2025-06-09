@@ -2,12 +2,12 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
     DisguiseSchema,
     DisguiseVideoSchema,
-    TimingsFlashcard,
     IsolationSchema,
     ItemSchema,
     RouteSchema,
     UniqueKillSchema,
     UpdateLogSchema,
+    TimingsFlashcardSchema,
 } from "./server/db/schema";
 import { Ruleset } from "./app/(main)/spin/_components/CustomRulesComponents/CustomRuleTypes";
 
@@ -27,8 +27,12 @@ export type RouteInsert = InferInsertModel<typeof RouteSchema>;
 export type ItemSelect = InferSelectModel<typeof ItemSchema>;
 export type ItemInsert = InferInsertModel<typeof ItemSchema>;
 
-export type TimingsFlashcardSelect = InferSelectModel<typeof TimingsFlashcard>;
-export type TimingsFlashcardInsert = InferInsertModel<typeof TimingsFlashcard>;
+export type TimingsFlashcardSelect = InferSelectModel<
+    typeof TimingsFlashcardSchema
+>;
+export type TimingsFlashcardInsert = InferInsertModel<
+    typeof TimingsFlashcardSchema
+>;
 
 export type UniqueKillSelect = InferSelectModel<typeof UniqueKillSchema>;
 export type UniqueKillInsert = InferInsertModel<typeof UniqueKillSchema>;
