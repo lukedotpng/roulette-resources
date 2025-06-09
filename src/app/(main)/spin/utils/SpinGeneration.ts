@@ -6,20 +6,20 @@ import {
     SpinTarget,
     TargetKillMethods,
 } from "@/types";
-import {
-    SpinMissionTargetsList,
-    MissionSpinInfoList,
-    TargetUniqueKillsList,
-    explosiveModifierPrefix,
-    TargetBannedKillMethodsList,
-    largeWeaponsList,
-    explosiveKillMethodList,
-} from "./SpinGlobals";
 import { CanBeNTKO } from "./SpinCheck";
+import {
+    EXPLOSIVE_KILL_METHOD_LIST,
+    EXPLOSIVE_MODIFIER_PREFIX,
+    LARGE_WEAPON_LIST,
+    MISSION_SPIN_INFO_LIST,
+    SPIN_MISSION_TARGETS_LIST,
+    TARGET_BANNED_KILL_METHODS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+} from "./SpinGlobals";
 
 export function GenerateSpin(mission: Mission): Spin {
-    const targets = SpinMissionTargetsList[mission];
-    const spinInfoOptions = MissionSpinInfoList[mission];
+    const targets = SPIN_MISSION_TARGETS_LIST[mission];
+    const spinInfoOptions = MISSION_SPIN_INFO_LIST[mission];
 
     const spinInfo: SpinInfo = {};
 
@@ -72,7 +72,7 @@ export function GenerateSpin(mission: Mission): Spin {
         );
         spinInfo[target].killMethod = killMethod;
         conditionsSpun.push(killMethod);
-        if (largeWeaponsList.includes(killMethod)) {
+        if (LARGE_WEAPON_LIST.includes(killMethod)) {
             largeWeaponSpun = true;
         }
 
@@ -199,8 +199,8 @@ function GetRandomCondition(
             killMethod = "remote_explosive";
         } else {
             const modifierPrefix =
-                explosiveModifierPrefix[
-                    Math.floor(Math.random() * explosiveModifierPrefix.length)
+                EXPLOSIVE_MODIFIER_PREFIX[
+                    Math.floor(Math.random() * EXPLOSIVE_MODIFIER_PREFIX.length)
                 ];
 
             killMethod = modifierPrefix + killMethod;
@@ -236,14 +236,14 @@ function GetLegalUniqueKills(
 ) {
     // Handle Soders uniquely, by only checking if "explosion" kills repeat
     if (target === "erich_soders") {
-        const legalUniqueKills = TargetUniqueKillsList[target];
+        const legalUniqueKills = TARGET_UNIQUE_KILLS_LIST[target];
         return legalUniqueKills.filter((uniqueKill) => {
             if (uniqueKill === "explosion") {
                 if (conditionsSpun.includes("explosion_accident")) {
                     return false;
                 }
                 for (const condition of conditionsSpun) {
-                    if (explosiveKillMethodList.includes(condition)) {
+                    if (EXPLOSIVE_KILL_METHOD_LIST.includes(condition)) {
                         return false;
                     }
                 }
@@ -261,12 +261,12 @@ function GetLegalUniqueKills(
 
     const legalUniqueKills = [
         ...uniqueKillsArr,
-        ...TargetUniqueKillsList[target],
+        ...TARGET_UNIQUE_KILLS_LIST[target],
     ];
 
     // Filter out banned kills, and previously spun kills
     return legalUniqueKills.filter((uniqueKill) => {
-        if (TargetBannedKillMethodsList[target].includes(uniqueKill)) {
+        if (TARGET_BANNED_KILL_METHODS_LIST[target].includes(uniqueKill)) {
             return false;
         }
 
@@ -330,7 +330,7 @@ function GetLegalWeapons(
     largeWeaponSpun: boolean,
 ) {
     return weaponsArr.filter((weapon) => {
-        if (largeWeaponsList.includes(weapon) && largeWeaponSpun) {
+        if (LARGE_WEAPON_LIST.includes(weapon) && largeWeaponSpun) {
             return false;
         }
 
@@ -374,7 +374,7 @@ function GetLegalWeapons(
 }
 
 export function RegenerateKillMethod(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MissionSpinInfoList[spin.mission];
+    const spinInfoOptions = MISSION_SPIN_INFO_LIST[spin.mission];
     const updatedSpin = structuredClone(spin);
 
     const conditionsSpun: string[] = [];
@@ -386,7 +386,7 @@ export function RegenerateKillMethod(spin: Spin, target: SpinTarget): Spin {
         }
         conditionsSpun.push(updatedSpin.info[currTarget].killMethod);
         if (
-            largeWeaponsList.includes(updatedSpin.info[currTarget].killMethod)
+            LARGE_WEAPON_LIST.includes(updatedSpin.info[currTarget].killMethod)
         ) {
             largeWeaponSpun = true;
         }
@@ -415,7 +415,7 @@ export function RegenerateKillMethod(spin: Spin, target: SpinTarget): Spin {
 }
 
 export function RegenerateDisguise(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MissionSpinInfoList[spin.mission];
+    const spinInfoOptions = MISSION_SPIN_INFO_LIST[spin.mission];
 
     const updatedSpin = structuredClone(spin);
 

@@ -9,12 +9,8 @@ import {
 import { DeleteUniqueKillAction } from "./UniqueKillActions";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import {
-    MDXEditor,
-    headingsPlugin,
-    listsPlugin,
-    markdownShortcutPlugin,
-} from "@mdxeditor/editor";
+import Markdown from "react-markdown";
+import { UniqueKillToMarkdown } from "../OldInfoToMarkdown";
 
 export default function BerlinUniqueKillCard({
     uniqueKills,
@@ -58,54 +54,29 @@ export default function BerlinUniqueKillCard({
                                 {uniqueKillMethod.name}
                             </p>
                         )}
-                        {uniqueKillMethod.info !== "" ? (
-                            <MDXEditor
-                                className="mt-2 border-2 border-zinc-900"
-                                contentEditableClassName="prose max-w-none"
-                                plugins={[
-                                    headingsPlugin(),
-                                    listsPlugin(),
-                                    markdownShortcutPlugin(),
-                                ]}
-                                markdown={uniqueKillMethod.info}
-                                readOnly
-                            />
-                        ) : (
-                            <>
-                                {uniqueKillMethod.starts && (
-                                    <p>
-                                        <strong>Starts: </strong>
-                                        {uniqueKillMethod.starts}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.requires && (
-                                    <p>
-                                        <strong>Requires: </strong>
-                                        {uniqueKillMethod.requires}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.timings && (
-                                    <p>
-                                        <strong>Timings: </strong>
-                                        {uniqueKillMethod.timings}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.notes && (
-                                    <p>
-                                        <strong>Notes: </strong>
-                                        {uniqueKillMethod.notes}
-                                    </p>
-                                )}
-                                {uniqueKillMethod.video_link && (
-                                    <a
-                                        className="w-fit font-bold underline"
-                                        href={uniqueKillMethod.video_link}
-                                        target="_blank"
-                                    >
-                                        Watch video here
-                                    </a>
-                                )}
-                            </>
+                        <div className="markdown">
+                            <Markdown
+                                components={{
+                                    a(props) {
+                                        return (
+                                            <a target="_blank" {...props}></a>
+                                        );
+                                    },
+                                }}
+                            >
+                                {uniqueKillMethod.info !== ""
+                                    ? uniqueKillMethod.info
+                                    : UniqueKillToMarkdown(uniqueKillMethod)}
+                            </Markdown>
+                        </div>
+                        {uniqueKillMethod.video_link && (
+                            <a
+                                className="w-fit font-bold underline"
+                                href={uniqueKillMethod.video_link}
+                                target="_blank"
+                            >
+                                Watch video here
+                            </a>
                         )}
                         {session.data?.user?.admin && (
                             <div className="absolute top-[.9rem] right-1 flex gap-3">

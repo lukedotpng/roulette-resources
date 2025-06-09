@@ -1,43 +1,43 @@
-import { FlashcardInsert, FlashcardSelect } from "@/types";
-import { TargetIDToDisplayText } from "@/utils/FormattingUtils";
 import { useSession } from "next-auth/react";
+import { Mission, TimingsFlashcardSelect } from "@/types";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import FlashcardEditorForm from "./FlashcardEditorForm";
 
-export default function TargetFlashcard({
-    flashcard,
-    isDefined,
+export default function TimingsCard({
+    timingsFlashcard,
+    mission,
 }: {
-    flashcard: FlashcardSelect | FlashcardInsert;
-    isDefined: boolean;
+    timingsFlashcard: TimingsFlashcardSelect | undefined;
+    mission: Mission;
 }) {
     const session = useSession();
     const [editMode, setEditMode] = useState(false);
-
-    if (!isDefined) {
-        if (!session.data?.user?.admin) {
-            return null;
-        }
-    }
 
     function OnSave() {
         setEditMode(false);
     }
 
+    if (timingsFlashcard === undefined && !session.data?.user?.admin) {
+        return null;
+    }
+
     return (
-        <article className="h-fit w-full max-w-[35rem] min-w-[20rem] overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
-            <header className="flex justify-between">
+        <article className="mb-3 h-fit w-full max-w-[35rem] min-w-[20rem] flex-1 break-inside-avoid rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
+            <header className="flex w-full justify-center">
                 <div className="flex-1"></div>
                 <h2 className="text-center text-[1.2em] font-bold">
-                    {TargetIDToDisplayText(flashcard.target)}
+                    {"Timings"}
                 </h2>
                 <div className="flex flex-1 justify-end">
                     {session.data?.user?.admin && (
                         <button
                             onClick={() => setEditMode(!editMode)}
-                            className="group"
+                            className="group flex items-center gap-1"
                         >
+                            <span className="text-[1.05em] font-bold group-hover:text-red-500">
+                                {editMode ? "Exit" : "Edit"}
+                            </span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512"
@@ -54,8 +54,15 @@ export default function TargetFlashcard({
                 <div className="col-start-1 row-start-1">
                     {editMode && (
                         <FlashcardEditorForm
-                            flashcard={flashcard}
-                            isNew={!isDefined}
+                            timingsFlashcard={
+                                timingsFlashcard !== undefined
+                                    ? timingsFlashcard
+                                    : {
+                                          mission: mission,
+                                          info: "",
+                                      }
+                            }
+                            isNew={timingsFlashcard === undefined}
                             OnSave={OnSave}
                         />
                     )}
@@ -71,9 +78,9 @@ export default function TargetFlashcard({
                             },
                         }}
                     >
-                        {flashcard.info === ""
+                        {timingsFlashcard === undefined
                             ? "**No data yet**\n* This target isn't shown to users until info is added"
-                            : flashcard.info}
+                            : timingsFlashcard.info}
                     </Markdown>
                 </div>
             </div>

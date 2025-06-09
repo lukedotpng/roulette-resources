@@ -10,9 +10,9 @@ import {
 } from "@radix-ui/react-dialog";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import {
-    SeasonOneMissions,
-    SeasonTwoMissions,
-    SeasonThreeMissions,
+    SEASON_ONE_MISSIONS,
+    SEASON_THREE_MISSIONS,
+    SEASON_TWO_MISSIONS,
 } from "../../utils/SpinGlobals";
 
 export default function MissionQueueSelection({
@@ -54,7 +54,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...SeasonOneMissions]);
+                                    missionQueue.Set([...SEASON_ONE_MISSIONS]);
                                 }}
                             >
                                 {"Season 1"}
@@ -62,7 +62,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...SeasonTwoMissions]);
+                                    missionQueue.Set([...SEASON_TWO_MISSIONS]);
                                 }}
                             >
                                 {"Season 2"}
@@ -70,7 +70,9 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...SeasonThreeMissions]);
+                                    missionQueue.Set([
+                                        ...SEASON_THREE_MISSIONS,
+                                    ]);
                                 }}
                             >
                                 {"Season 3"}

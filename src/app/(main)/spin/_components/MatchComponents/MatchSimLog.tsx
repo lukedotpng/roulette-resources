@@ -15,9 +15,9 @@ import {
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
 import { ParseSpinQuery } from "../../utils/SpinQuery";
-import { SpinMissionTargetsList } from "../../utils/SpinGlobals";
 import MissionSwitcher from "../PoolComponents/MissionSwitcher";
 import Link from "next/link";
+import { SPIN_MISSION_TARGETS_LIST } from "../../utils/SpinGlobals";
 
 export default function MatchSimLog({
     options,
@@ -124,7 +124,7 @@ export default function MatchSimLog({
                                 }
 
                                 const targets =
-                                    SpinMissionTargetsList[spin.mission];
+                                    SPIN_MISSION_TARGETS_LIST[spin.mission];
                                 const recordDate = new Date(record.date);
 
                                 return (

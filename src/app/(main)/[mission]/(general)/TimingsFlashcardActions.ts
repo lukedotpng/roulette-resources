@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { FlashcardSchema, UpdateLogSchema } from "@/server/db/schema";
+import { TimingsFlashcardSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -11,19 +11,16 @@ import z from "zod";
 
 const createFlashcardSchema = z.object({
     mission: z.string().min(1),
-    target: z.string().min(1),
     info: z.string().min(0),
 });
 
 const updateFlashcardSchema = z.object({
     id: z.string().min(1),
     mission: z.string().min(1),
-    target: z.string().min(1),
     info: z.string().min(0),
-    visible: z.coerce.boolean(),
 });
 
-export async function CreateFlashcardAction(
+export async function CreateTimingsFlashcardAction(
     formData: FormData,
 ): Promise<ActionResponse> {
     const session = await auth();
@@ -34,7 +31,6 @@ export async function CreateFlashcardAction(
 
     const formParsed = createFlashcardSchema.safeParse({
         mission: formData.get("mission"),
-        target: formData.get("target"),
         info: formData.get("info"),
     });
 
@@ -44,18 +40,14 @@ export async function CreateFlashcardAction(
 
     let updatedSuccessful = true;
 
-    const filteredFlashcardInfo = formParsed.data.info.replace(/\r/g, "");
-
     try {
-        await db.insert(FlashcardSchema).values({
+        await db.insert(TimingsFlashcardSchema).values({
             mission: formParsed.data.mission,
-            target: formParsed.data.target,
-            info: filteredFlashcardInfo,
-            visible: true,
+            info: formParsed.data.info,
         });
     } catch {
         console.error(
-            `ERROR CREATING FLASHCARD ${formParsed.data.target}: Wouldve been helpful :/`,
+            `ERROR CREATING FLASHCARD ${formParsed.data.mission}: Wouldve been helpful :/`,
         );
         updatedSuccessful = false;
     }
@@ -65,7 +57,7 @@ export async function CreateFlashcardAction(
             await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "flashcards",
-                row_id: formParsed.data.target,
+                row_id: formParsed.data.mission,
                 content: JSON.stringify(formParsed.data),
                 is_admin: true,
             });
@@ -79,7 +71,7 @@ export async function CreateFlashcardAction(
     return { success: true, error: "" };
 }
 
-export async function UpdateFlashcardAction(
+export async function UpdateTimingsFlashcardAction(
     formData: FormData,
 ): Promise<ActionResponse> {
     const session = await auth();
@@ -91,7 +83,6 @@ export async function UpdateFlashcardAction(
     const formParsed = updateFlashcardSchema.safeParse({
         id: formData.get("id"),
         mission: formData.get("mission"),
-        target: formData.get("target"),
         info: formData.get("info"),
     });
 
@@ -101,13 +92,11 @@ export async function UpdateFlashcardAction(
 
     let updatedSuccessful = true;
 
-    const filteredFlashcardInfo = formParsed.data.info.replace(/\r/g, "");
-
     try {
         await db
-            .update(FlashcardSchema)
-            .set({ info: filteredFlashcardInfo, updated_at: new Date() })
-            .where(eq(FlashcardSchema.id, formParsed.data.id));
+            .update(TimingsFlashcardSchema)
+            .set({ info: formParsed.data.info, updated_at: new Date() })
+            .where(eq(TimingsFlashcardSchema.id, formParsed.data.id));
     } catch {
         console.error(
             `ERROR UPDATING FLASHCARD ${formParsed.data.id}: Wouldve been helpful :/`,
@@ -120,7 +109,7 @@ export async function UpdateFlashcardAction(
             await db.insert(UpdateLogSchema).values({
                 username: session.user.username,
                 table: "flashcards",
-                row_id: formParsed.data.target,
+                row_id: formParsed.data.id,
                 content: JSON.stringify(formParsed.data),
                 is_admin: true,
             });

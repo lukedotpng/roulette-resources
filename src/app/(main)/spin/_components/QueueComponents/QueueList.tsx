@@ -3,9 +3,9 @@ import { MISSIONS } from "@/utils/globals";
 import { Mission } from "@/types";
 import { Fragment } from "react";
 import {
-    SeasonOneMissions,
-    SeasonThreeMissions,
-    SeasonTwoMissions,
+    SEASON_ONE_MISSIONS,
+    SEASON_THREE_MISSIONS,
+    SEASON_TWO_MISSIONS,
 } from "../../utils/SpinGlobals";
 
 export default function QueueList({
@@ -149,33 +149,33 @@ function QueueIsTrilogy(missionQueue: Mission[]) {
     return true;
 }
 function QueueIsSeason1(missionQueue: Mission[]) {
-    if (SeasonOneMissions.length !== missionQueue.length) {
+    if (SEASON_ONE_MISSIONS.length !== missionQueue.length) {
         return false;
     }
-    for (let i = 0; i < SeasonOneMissions.length; i++) {
-        if (missionQueue[i] !== SeasonOneMissions[i]) {
+    for (let i = 0; i < SEASON_ONE_MISSIONS.length; i++) {
+        if (missionQueue[i] !== SEASON_ONE_MISSIONS[i]) {
             return false;
         }
     }
     return true;
 }
 function QueueIsSeason2(missionQueue: Mission[]) {
-    if (SeasonTwoMissions.length !== missionQueue.length) {
+    if (SEASON_TWO_MISSIONS.length !== missionQueue.length) {
         return false;
     }
-    for (let i = 0; i < SeasonTwoMissions.length; i++) {
-        if (missionQueue[i] !== SeasonTwoMissions[i]) {
+    for (let i = 0; i < SEASON_TWO_MISSIONS.length; i++) {
+        if (missionQueue[i] !== SEASON_TWO_MISSIONS[i]) {
             return false;
         }
     }
     return true;
 }
 function QueueIsSeason3(missionQueue: Mission[]) {
-    if (SeasonThreeMissions.length !== missionQueue.length) {
+    if (SEASON_THREE_MISSIONS.length !== missionQueue.length) {
         return false;
     }
-    for (let i = 0; i < SeasonThreeMissions.length; i++) {
-        if (missionQueue[i] !== SeasonThreeMissions[i]) {
+    for (let i = 0; i < SEASON_THREE_MISSIONS.length; i++) {
+        if (missionQueue[i] !== SEASON_THREE_MISSIONS[i]) {
             return false;
         }
     }

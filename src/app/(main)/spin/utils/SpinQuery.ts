@@ -1,19 +1,19 @@
-import {
-    KillMethodOptions,
-    MissionDisguisesList,
-    SpinInfoIdMap,
-    SpinMissionTargetsList,
-} from "./SpinGlobals";
 import { GenerateSpin } from "./SpinGeneration";
 import { Mission, Spin, SpinInfo } from "@/types";
 import { GetRandomMission } from "./SpinUtils";
 import { MISSIONS } from "@/utils/globals";
+import {
+    KILL_METHOD_OPTIONS,
+    MISSION_DISGUISES_LIST,
+    SPIN_INFO_ID_MAP,
+    SPIN_MISSION_TARGETS_LIST,
+} from "./SpinGlobals";
 
 export function CreateSpinQuery(spin: Spin) {
     let spinQuery = "";
 
-    const missionId = SpinInfoIdMap[spin.mission];
-    const spinTargets = SpinMissionTargetsList[spin.mission];
+    const missionId = SPIN_INFO_ID_MAP[spin.mission];
+    const spinTargets = SPIN_MISSION_TARGETS_LIST[spin.mission];
 
     spinQuery += missionId;
 
@@ -23,8 +23,8 @@ export function CreateSpinQuery(spin: Spin) {
             return "err";
         }
 
-        let conditionId = SpinInfoIdMap[targetSpin.killMethod];
-        let disguiseId = SpinInfoIdMap[targetSpin.disguise];
+        let conditionId = SPIN_INFO_ID_MAP[targetSpin.killMethod];
+        let disguiseId = SPIN_INFO_ID_MAP[targetSpin.disguise];
 
         if (!conditionId) {
             conditionId = "b0"; // b0 => "Any"
@@ -54,13 +54,13 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
     }
 
     const missionId = spinQuery.slice(0, 2);
-    const mission = SpinInfoIdMap[missionId] as Mission;
+    const mission = SPIN_INFO_ID_MAP[missionId] as Mission;
 
     if (!mission) {
         return null;
     }
 
-    const spinTargets = SpinMissionTargetsList[mission];
+    const spinTargets = SPIN_MISSION_TARGETS_LIST[mission];
     if (!spinTargets) {
         return null;
     }
@@ -74,7 +74,7 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
             targetInfoIndexStart + 2,
         );
 
-        const condition = SpinInfoIdMap[conditionId];
+        const condition = SPIN_INFO_ID_MAP[conditionId];
         if (!condition) {
             return null;
         }
@@ -83,7 +83,7 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
             targetInfoIndexStart + 2,
             targetInfoIndexStart + 4,
         );
-        const disguise = SpinInfoIdMap[disguiseId];
+        const disguise = SPIN_INFO_ID_MAP[disguiseId];
         if (!disguise) {
             return null;
         }
@@ -130,7 +130,7 @@ export function OldCreateSpinQuery(spin: Spin) {
     let spinQuery = "";
 
     const missionIndex = GetMissionIndex(spin.mission);
-    const spinTargets = SpinMissionTargetsList[spin.mission];
+    const spinTargets = SPIN_MISSION_TARGETS_LIST[spin.mission];
 
     spinQuery += `m${missionIndex}`;
 
@@ -162,7 +162,7 @@ export function OldParseSpinQuery(spinQuery: string): Spin | null {
     const missionIndex = parseInt(missionIndexMatch[0]);
     const mission = GetMissionFromIndex(missionIndex);
 
-    const spinTargets = SpinMissionTargetsList[mission];
+    const spinTargets = SPIN_MISSION_TARGETS_LIST[mission];
     if (!spinTargets) {
         return null;
     }
@@ -221,19 +221,19 @@ function GetMissionFromIndex(index: number): Mission {
 }
 
 function GetConditionIndex(condition: string): number {
-    return KillMethodOptions.indexOf(condition);
+    return KILL_METHOD_OPTIONS.indexOf(condition);
 }
 function GetConditionFromIndex(index: number): string {
-    return KillMethodOptions[index];
+    return KILL_METHOD_OPTIONS[index];
 }
 
 function GetMissionDisguiseIndex(disguise: string, mission: Mission): number {
-    const disguiseList = MissionDisguisesList[mission];
+    const disguiseList = MISSION_DISGUISES_LIST[mission];
 
     return disguiseList.indexOf(disguise);
 }
 function GetMissionDisguiseFromIndex(index: number, mission: Mission): string {
-    const disguiseList = MissionDisguisesList[mission];
+    const disguiseList = MISSION_DISGUISES_LIST[mission];
 
     return disguiseList[index];
 }

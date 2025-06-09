@@ -1,11 +1,4 @@
-import {
-    Mission,
-    MissionPoolOptions,
-    Option,
-    Season,
-    SeasonPoolSelected,
-} from "@/types";
-
+import { Mission, MissionPoolOptions, Option, Season } from "@/types";
 import {
     Dialog,
     DialogContent,
@@ -15,15 +8,14 @@ import {
     DialogTrigger,
 } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
-import {
-    MissionPoolOptionsList,
-    SeasonOneMissions,
-    SeasonPoolSelectedList,
-    SeasonThreeMissions,
-    SeasonTwoMissions,
-} from "../../utils/SpinGlobals";
 import { MISSIONS } from "@/utils/globals";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
+import {
+    MISSION_POOL_OPTIONS_LIST,
+    SEASON_ONE_MISSIONS,
+    SEASON_THREE_MISSIONS,
+    SEASON_TWO_MISSIONS,
+} from "../../utils/SpinGlobals";
 
 export default function MissionPoolSelection({
     className,
@@ -37,7 +29,7 @@ export default function MissionPoolSelection({
     function InitializeMissionPoolOptions(
         missionPool: Mission[],
     ): MissionPoolOptions {
-        const missionPoolOptions = structuredClone(MissionPoolOptionsList);
+        const missionPoolOptions = structuredClone(MISSION_POOL_OPTIONS_LIST);
         MISSIONS.forEach((mission) => {
             if (missionPool.includes(mission)) {
                 missionPoolOptions[mission] = true;
@@ -51,28 +43,30 @@ export default function MissionPoolSelection({
             InitializeMissionPoolOptions(missionPool.val),
         );
 
-    const [seasonsSelected, setSeasonsSelected] = useState<SeasonPoolSelected>(
-        SeasonPoolSelectedList,
-    );
+    const [seasonsSelected, setSeasonsSelected] = useState({
+        season_1: false,
+        season_2: false,
+        season_3: false,
+    });
 
     useEffect(() => {
         let seasonOneAllSelected = true;
-        for (let i = 0; i < SeasonOneMissions.length; i++) {
-            if (!missionsPoolOptions[SeasonOneMissions[i]]) {
+        for (let i = 0; i < SEASON_ONE_MISSIONS.length; i++) {
+            if (!missionsPoolOptions[SEASON_ONE_MISSIONS[i]]) {
                 seasonOneAllSelected = false;
             }
         }
 
         let seasonTwoAllSelected = true;
-        for (let i = 0; i < SeasonTwoMissions.length; i++) {
-            if (!missionsPoolOptions[SeasonTwoMissions[i]]) {
+        for (let i = 0; i < SEASON_TWO_MISSIONS.length; i++) {
+            if (!missionsPoolOptions[SEASON_TWO_MISSIONS[i]]) {
                 seasonTwoAllSelected = false;
             }
         }
 
         let seasonThreeAllSelected = true;
-        for (let i = 0; i < SeasonThreeMissions.length; i++) {
-            if (!missionsPoolOptions[SeasonThreeMissions[i]]) {
+        for (let i = 0; i < SEASON_THREE_MISSIONS.length; i++) {
+            if (!missionsPoolOptions[SEASON_THREE_MISSIONS[i]]) {
                 seasonThreeAllSelected = false;
             }
         }
@@ -116,13 +110,13 @@ export default function MissionPoolSelection({
                             let seasonMissionList: Mission[] = [];
                             switch (season) {
                                 case "season_1":
-                                    seasonMissionList = SeasonOneMissions;
+                                    seasonMissionList = SEASON_ONE_MISSIONS;
                                     break;
                                 case "season_2":
-                                    seasonMissionList = SeasonTwoMissions;
+                                    seasonMissionList = SEASON_TWO_MISSIONS;
                                     break;
                                 case "season_3":
-                                    seasonMissionList = SeasonThreeMissions;
+                                    seasonMissionList = SEASON_THREE_MISSIONS;
                                     break;
                                 default:
                                     break;

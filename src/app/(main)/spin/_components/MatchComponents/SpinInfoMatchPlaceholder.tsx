@@ -1,5 +1,5 @@
 import { Mission, SpinOptions } from "@/types";
-import { SpinMissionTargetsList } from "../../utils/SpinGlobals";
+import { SPIN_MISSION_TARGETS_LIST } from "../../utils/SpinGlobals";
 
 export default function SpinInfoMatchPlaceholder({
     mission,
@@ -8,7 +8,7 @@ export default function SpinInfoMatchPlaceholder({
     mission: Mission;
     options: SpinOptions;
 }) {
-    const targets = SpinMissionTargetsList[mission];
+    const targets = SPIN_MISSION_TARGETS_LIST[mission];
 
     return (
         <section

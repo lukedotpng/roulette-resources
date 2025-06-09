@@ -4,13 +4,13 @@ import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import {
-    MissionSpinInfoList,
-    SpinMissionTargetsList,
-    TargetUniqueKillsList,
-    weaponsWithModifiers,
-} from "../../utils/SpinGlobals";
 import { useState } from "react";
+import {
+    MISSION_SPIN_INFO_LIST,
+    SPIN_MISSION_TARGETS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+    WEAPONS_WITH_MODIFIERS,
+} from "../../utils/SpinGlobals";
 
 export default function SpinStatsTable({
     stats,
@@ -24,14 +24,14 @@ export default function SpinStatsTable({
     const [weaponsActive, setWeaponsActive] = useState(false);
     const [meleesActive, setMeleesActive] = useState(false);
 
-    const disguises = MissionSpinInfoList[mission].disguises;
-    const melees = MissionSpinInfoList[mission].killMethods.melees;
-    let uniqueKills = MissionSpinInfoList[mission].killMethods.unique_kills;
-    const targets = SpinMissionTargetsList[mission];
+    const disguises = MISSION_SPIN_INFO_LIST[mission].disguises;
+    const melees = MISSION_SPIN_INFO_LIST[mission].killMethods.melees;
+    let uniqueKills = MISSION_SPIN_INFO_LIST[mission].killMethods.unique_kills;
+    const targets = SPIN_MISSION_TARGETS_LIST[mission];
     for (const target of targets) {
-        uniqueKills = [...uniqueKills, ...TargetUniqueKillsList[target]];
+        uniqueKills = [...uniqueKills, ...TARGET_UNIQUE_KILLS_LIST[target]];
     }
-    const weapons = [...weaponsWithModifiers];
+    const weapons = [...WEAPONS_WITH_MODIFIERS];
 
     return (
         <table className="max-h-96 w-full overflow-y-scroll text-inherit">

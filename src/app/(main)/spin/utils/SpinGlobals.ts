@@ -5,12 +5,11 @@ import {
     TargetUniqueKills,
     Mission,
     MissionPoolOptions,
-    SeasonPoolSelected,
     MissionDisguises,
 } from "@/types";
 
 // Global
-export const weapons = [
+export const WEAPONS = [
     "pistol",
     "sniper_rifle",
     "assault_rifle",
@@ -18,7 +17,7 @@ export const weapons = [
     "shotgun",
     "explosive",
 ];
-export const weaponsWithModifiers = [
+export const WEAPONS_WITH_MODIFIERS = [
     "pistol",
     "silenced_pistol",
     "loud_pistol",
@@ -38,41 +37,41 @@ export const weaponsWithModifiers = [
     "loud_explosive",
     "impact_explosive",
 ];
-export const weaponModifierPrefix = ["loud_", "silenced_", ""];
-export const explosiveModifierPrefix = ["remote_", "loud_", "impact_"];
-export const pistolKillMethodList = [
+export const WEAPON_MODIFIER_PREFIX = ["loud_", "silenced_", ""];
+export const EXPLOSIVE_MODIFIER_PREFIX = ["remote_", "loud_", "impact_"];
+export const PISTOL_KILL_METHOD_LIST = [
     "loud_pistol",
     "pistol",
     "silenced_pistol",
 ];
-export const smgKillMethodList = ["loud_smg", "smg", "silenced_smg"];
-export const assaultRifleKillMethodList = [
+export const SMG_KILL_METHOD_LIST = ["loud_smg", "smg", "silenced_smg"];
+export const ASSAULT_RIFLE_KILL_METHOD_LIST = [
     "loud_assault_rifle",
     "assault_rifle",
     "silenced_assault_rifle",
 ];
-export const shotgunKillMethodList = [
+export const SHOTGUN_KILL_METHOD_LIST = [
     "loud_shotgun",
     "shotgun",
     "silenced_shotgun",
 ];
-export const sniperKillMethodList = [
+export const SNIPER_KILL_METHOD_LIST = [
     "loud_sniper_rifle",
     "sniper_rifle",
     "silenced_sniper_rifle",
 ];
-export const largeWeaponsList = [
-    ...assaultRifleKillMethodList,
-    ...shotgunKillMethodList,
-    ...sniperKillMethodList,
+export const LARGE_WEAPON_LIST = [
+    ...ASSAULT_RIFLE_KILL_METHOD_LIST,
+    ...SHOTGUN_KILL_METHOD_LIST,
+    ...SNIPER_KILL_METHOD_LIST,
 ];
-export const explosiveKillMethodList = [
+export const EXPLOSIVE_KILL_METHOD_LIST = [
     "remote_explosive",
     "loud_explosive",
     "impact_explosive",
 ];
 
-export const uniqueKills = [
+export const UNIQUE_KILLS = [
     "drowning",
     "falling_object",
     "fall",
@@ -83,7 +82,7 @@ export const uniqueKills = [
     "injected_poison",
 ];
 
-export const sodersUniqueKills = [
+export const SODERS_UNIQUE_KILLS = [
     "throw_the_heart_in_the_trash",
     "shoot_the_heart",
     "electrocution",
@@ -93,7 +92,7 @@ export const sodersUniqueKills = [
 ];
 
 // Paris
-const parisMelees = [
+const PARIS_MELEES = [
     "scissors",
     "screwdriver",
     "letter_opener",
@@ -106,7 +105,7 @@ const parisMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const parisDisguises = [
+const PARIS_DISGUISES = [
     "suit",
     "auction_staff",
     "chef",
@@ -121,7 +120,7 @@ const parisDisguises = [
 ];
 
 // Sapienza
-const sapienzaMelees = [
+const SAPIENZA_MELEES = [
     "circumcision_knife",
     "amputation_knife",
     "fire_axe",
@@ -140,7 +139,7 @@ const sapienzaMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const sapienzaDisguises = [
+const SAPIENZA_DISGUISES = [
     "suit",
     "biolab_security",
     "bodyguard",
@@ -170,7 +169,7 @@ const sapienzaDisguises = [
 ];
 
 // Marrakesh
-const marrakeshMelees = [
+const MARRAKESH_MELEES = [
     "screwdriver",
     "kitchen_knife",
     "cleaver",
@@ -182,7 +181,7 @@ const marrakeshMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const marrakeshDisguises = [
+const MARRAKESH_DISGUISES = [
     "suit",
     "bodyguard",
     "cameraman",
@@ -204,7 +203,7 @@ const marrakeshDisguises = [
 ];
 
 // Bangkok
-const bangkokMelees = [
+const BANGKOK_MELEES = [
     "hatchet",
     "fire_axe",
     "screwdriver",
@@ -216,7 +215,7 @@ const bangkokMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const bangkokDisguises = [
+const BANGKOK_DISGUISES = [
     "suit",
     "abel_de_silva",
     "exterminator",
@@ -232,7 +231,7 @@ const bangkokDisguises = [
 ];
 
 // Colorado
-const coloradoMelees = [
+const COLORADO_MELEES = [
     "screwdriver",
     "cleaver",
     "kitchen_knife",
@@ -240,7 +239,7 @@ const coloradoMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const coloradoDisguises = [
+const COLORADO_DISGUISES = [
     "suit",
     "explosives_specialist",
     "hacker",
@@ -254,7 +253,7 @@ const coloradoDisguises = [
 ];
 
 // Hokkaido
-const hokkaidoMelees = [
+const HOKKAIDO_MELEES = [
     "fire_axe",
     "scalpel",
     "screwdriver",
@@ -265,7 +264,7 @@ const hokkaidoMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const hokkaidoDisguises = [
+const HOKKAIDO_DISGUISES = [
     "suit",
     "baseball_player",
     "bodyguard",
@@ -288,7 +287,7 @@ const hokkaidoDisguises = [
 ];
 
 // Miami
-const miamiMelees = [
+const MIAMI_MELEES = [
     "screwdriver",
     "fire_axe",
     "scissors",
@@ -301,7 +300,7 @@ const miamiMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const miamiDisguises = [
+const MIAMI_DISGUISES = [
     "suit",
     "aeon_driver",
     "aeon_mechanic",
@@ -335,7 +334,7 @@ const miamiDisguises = [
 ];
 
 // Santa Fortuna
-const santaFortunaMelees = [
+const SANTA_FORTUNA_MELEES = [
     "screwdriver",
     "kitchen_knife",
     "letter_opener",
@@ -348,7 +347,7 @@ const santaFortunaMelees = [
     "neck_snap",
     "sacrificial_knife",
 ];
-const santaFortunaDisguises = [
+const SANTA_FORTUNA_DISGUISES = [
     "suit",
     "band_member",
     "barman",
@@ -371,7 +370,7 @@ const santaFortunaDisguises = [
 ];
 
 // Mumbai
-const mumbaiMelees = [
+const MUMBAI_MELEES = [
     "kitchen_knife",
     "beak_staff",
     "old_axe",
@@ -387,7 +386,7 @@ const mumbaiMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const mumbaiDisguises = [
+const MUMBAI_DISGUISES = [
     "suit",
     "barber",
     "bollywood_bodyguard",
@@ -411,7 +410,7 @@ const mumbaiDisguises = [
 ];
 
 // Whittleton Creek
-const whittletonCreekMelees = [
+const WHITTLETON_CREEK_MELEES = [
     "kitchen_knife",
     "screwdriver",
     "fire_axe",
@@ -421,7 +420,7 @@ const whittletonCreekMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const whittletonCreekDisguises = [
+const WHITTLETON_CREEK_DISGUISES = [
     "suit",
     "arkian_robes",
     "bbq_owner",
@@ -446,7 +445,7 @@ const whittletonCreekDisguises = [
 ];
 
 // Ambrose Island
-const ambroseIslandMelees = [
+const AMBROSE_ISLAND_MELEES = [
     "garden_fork",
     "starfish",
     "scissors",
@@ -468,7 +467,7 @@ const ambroseIslandMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const ambroseIslandDisguises = [
+const AMBROSE_ISLAND_DISGUISES = [
     "suit",
     "cook",
     "engineer",
@@ -479,7 +478,7 @@ const ambroseIslandDisguises = [
 ];
 
 // Isle of Sgail
-const isleOfSgailMelees = [
+const ISLE_OF_SGAIL_MELEES = [
     "battle_axe",
     "sappers_axe",
     "broadsword",
@@ -501,7 +500,7 @@ const isleOfSgailMelees = [
     "neck_snap",
     "sacrificial_knife",
 ];
-const isleOfSgailDisguises = [
+const ISLE_OF_SGAIL_DISGUISES = [
     "suit",
     "architect",
     "ark_member",
@@ -522,7 +521,7 @@ const isleOfSgailDisguises = [
     "raider",
 ];
 
-const newYorkMelees = [
+const NEW_YORK_MELEES = [
     "letter_opener",
     "screwdriver",
     "fire_axe",
@@ -536,7 +535,7 @@ const newYorkMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const newYorkDisguises = [
+const NEW_YORK_DISGUISES = [
     "suit",
     "bank_robber",
     "bank_teller",
@@ -550,7 +549,7 @@ const newYorkDisguises = [
 ];
 
 // Haven Island
-const havenIslandMelees = [
+const HAVEN_ISLAND_MELEES = [
     "barber_razor",
     "scissors",
     "scalpel",
@@ -568,7 +567,7 @@ const havenIslandMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const havenIslandDisguises = [
+const HAVEN_ISLAND_DISGUISES = [
     "suit",
     "boat_captain",
     "bodyguard",
@@ -589,7 +588,7 @@ const havenIslandDisguises = [
 ];
 
 // Dubai
-const dubaiMelees = [
+const DUBAI_MELEES = [
     "letter_opener",
     "ornate_scimitar",
     "kitchen_knife",
@@ -601,7 +600,7 @@ const dubaiMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const dubaiDisguises = [
+const DUBAI_DISGUISES = [
     "suit",
     "art_crew",
     "event_security",
@@ -618,7 +617,7 @@ const dubaiDisguises = [
 ];
 
 // Dartmoor
-const dartmoorMelees = [
+const DARTMORR_MELEES = [
     "hatchet",
     "shears",
     "folding_knife",
@@ -634,7 +633,7 @@ const dartmoorMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const dartmoorDisguises = [
+const DARTMOOR_DISGUISES = [
     "suit",
     "bodyguard",
     "gardener",
@@ -647,7 +646,7 @@ const dartmoorDisguises = [
 ];
 
 // Berlin
-const berlinMelees = [
+const BERLIN_MELEES = [
     "kitchen_knife",
     "screwdriver",
     "fire_axe",
@@ -661,7 +660,7 @@ const berlinMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const berlinDisguises = [
+const BERLIN_DISGUISES = [
     "suit",
     "bartender",
     "biker",
@@ -676,7 +675,7 @@ const berlinDisguises = [
 ];
 
 // Chongqing
-const chongqingMelees = [
+const CHONGQING_MELEES = [
     "screwdriver",
     "fire_axe",
     "tanto",
@@ -690,7 +689,7 @@ const chongqingMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const chongqingDisguises = [
+const CHONGQING_DISGUISES = [
     "suit",
     "block_guard",
     "dumpling_cook",
@@ -706,7 +705,7 @@ const chongqingDisguises = [
 ];
 
 // Mendoza
-const mendozaMelees = [
+const MENDOZA_MELEES = [
     "broadsword",
     "jarls_pirate_saber",
     "old_axe",
@@ -725,7 +724,7 @@ const mendozaMelees = [
     "fiber_wire",
     "neck_snap",
 ];
-const mendozaDisguises = [
+const MENDOZA_DISGUISES = [
     "suit",
     "asado_chef",
     "bodyguard",
@@ -742,7 +741,7 @@ const mendozaDisguises = [
     "winery_worker",
 ];
 
-export const SpinMissionTargetsList: SpinMissionTargets = {
+export const SPIN_MISSION_TARGETS_LIST: SpinMissionTargets = {
     paris: ["viktor_novikov", "dalia_margolis"],
     sapienza: ["silvio_caruso", "francesca_de_santis"],
     marrakesh: ["claus_strandberg", "reza_zaydan"],
@@ -770,7 +769,7 @@ export const SpinMissionTargetsList: SpinMissionTargets = {
     mendoza: ["don_yates", "tamara_vidal"],
 } as const;
 
-export const TargetBannedKillMethodsList: TargetBannedKillMethods = {
+export const TARGET_BANNED_KILL_METHODS_LIST: TargetBannedKillMethods = {
     viktor_novikov: ["fire"],
     dalia_margolis: ["fire"],
     silvio_caruso: ["fire", "consumed_poison"],
@@ -817,162 +816,162 @@ export const TargetBannedKillMethodsList: TargetBannedKillMethods = {
     "ica_agent_#5": [],
 };
 
-export const MissionSpinInfoList: MissionSpinOptions = {
+export const MISSION_SPIN_INFO_LIST: MissionSpinOptions = {
     paris: {
-        disguises: parisDisguises,
+        disguises: PARIS_DISGUISES,
         killMethods: {
-            melees: parisMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: PARIS_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     sapienza: {
-        disguises: sapienzaDisguises,
+        disguises: SAPIENZA_DISGUISES,
         killMethods: {
-            melees: sapienzaMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: SAPIENZA_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     marrakesh: {
-        disguises: marrakeshDisguises,
+        disguises: MARRAKESH_DISGUISES,
         killMethods: {
-            melees: marrakeshMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: MARRAKESH_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     bangkok: {
-        disguises: bangkokDisguises,
+        disguises: BANGKOK_DISGUISES,
         killMethods: {
-            melees: bangkokMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: BANGKOK_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     colorado: {
-        disguises: coloradoDisguises,
+        disguises: COLORADO_DISGUISES,
         killMethods: {
-            melees: coloradoMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: COLORADO_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     hokkaido: {
-        disguises: hokkaidoDisguises,
+        disguises: HOKKAIDO_DISGUISES,
         killMethods: {
-            melees: hokkaidoMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: HOKKAIDO_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     miami: {
-        disguises: miamiDisguises,
+        disguises: MIAMI_DISGUISES,
         killMethods: {
-            melees: miamiMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: MIAMI_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     santa_fortuna: {
-        disguises: santaFortunaDisguises,
+        disguises: SANTA_FORTUNA_DISGUISES,
         killMethods: {
-            melees: santaFortunaMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: SANTA_FORTUNA_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     mumbai: {
-        disguises: mumbaiDisguises,
+        disguises: MUMBAI_DISGUISES,
         killMethods: {
-            melees: mumbaiMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: MUMBAI_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     whittleton_creek: {
-        disguises: whittletonCreekDisguises,
+        disguises: WHITTLETON_CREEK_DISGUISES,
         killMethods: {
-            melees: whittletonCreekMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: WHITTLETON_CREEK_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     ambrose_island: {
-        disguises: ambroseIslandDisguises,
+        disguises: AMBROSE_ISLAND_DISGUISES,
         killMethods: {
-            melees: ambroseIslandMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: AMBROSE_ISLAND_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     isle_of_sgail: {
-        disguises: isleOfSgailDisguises,
+        disguises: ISLE_OF_SGAIL_DISGUISES,
         killMethods: {
-            melees: isleOfSgailMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: ISLE_OF_SGAIL_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     new_york: {
-        disguises: newYorkDisguises,
+        disguises: NEW_YORK_DISGUISES,
         killMethods: {
-            melees: newYorkMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: NEW_YORK_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     haven_island: {
-        disguises: havenIslandDisguises,
+        disguises: HAVEN_ISLAND_DISGUISES,
         killMethods: {
-            melees: havenIslandMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: HAVEN_ISLAND_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     dubai: {
-        disguises: dubaiDisguises,
+        disguises: DUBAI_DISGUISES,
         killMethods: {
-            melees: dubaiMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: DUBAI_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     dartmoor: {
-        disguises: dartmoorDisguises,
+        disguises: DARTMOOR_DISGUISES,
         killMethods: {
-            melees: dartmoorMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: DARTMORR_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     berlin: {
-        disguises: berlinDisguises,
+        disguises: BERLIN_DISGUISES,
         killMethods: {
-            melees: berlinMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: BERLIN_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     chongqing: {
-        disguises: chongqingDisguises,
+        disguises: CHONGQING_DISGUISES,
         killMethods: {
-            melees: chongqingMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: CHONGQING_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
     mendoza: {
-        disguises: mendozaDisguises,
+        disguises: MENDOZA_DISGUISES,
         killMethods: {
-            melees: mendozaMelees,
-            weapons: weapons,
-            unique_kills: uniqueKills,
+            melees: MENDOZA_MELEES,
+            weapons: WEAPONS,
+            unique_kills: UNIQUE_KILLS,
         },
     },
 };
 
-export const TargetUniqueKillsList: TargetUniqueKills = {
+export const TARGET_UNIQUE_KILLS_LIST: TargetUniqueKills = {
     viktor_novikov: [],
     dalia_margolis: [],
     silvio_caruso: [
@@ -1029,7 +1028,7 @@ export const TargetUniqueKillsList: TargetUniqueKills = {
     tamara_vidal: [],
 };
 
-export const SeasonOneMissions: Mission[] = [
+export const SEASON_ONE_MISSIONS: Mission[] = [
     "paris",
     "sapienza",
     "marrakesh",
@@ -1038,7 +1037,7 @@ export const SeasonOneMissions: Mission[] = [
     "hokkaido",
 ];
 
-export const SeasonTwoMissions: Mission[] = [
+export const SEASON_TWO_MISSIONS: Mission[] = [
     "miami",
     "santa_fortuna",
     "mumbai",
@@ -1049,7 +1048,7 @@ export const SeasonTwoMissions: Mission[] = [
     "haven_island",
 ];
 
-export const SeasonThreeMissions: Mission[] = [
+export const SEASON_THREE_MISSIONS: Mission[] = [
     "dubai",
     "dartmoor",
     "berlin",
@@ -1057,7 +1056,7 @@ export const SeasonThreeMissions: Mission[] = [
     "mendoza",
 ];
 
-export const MissionPoolOptionsList: MissionPoolOptions = {
+export const MISSION_POOL_OPTIONS_LIST: MissionPoolOptions = {
     paris: false,
     sapienza: false,
     marrakesh: false,
@@ -1079,13 +1078,7 @@ export const MissionPoolOptionsList: MissionPoolOptions = {
     mendoza: false,
 };
 
-export const SeasonPoolSelectedList: SeasonPoolSelected = {
-    season_1: false,
-    season_2: false,
-    season_3: false,
-};
-
-export const SpinTargets: string[] = [
+export const SPIN_TARGETS: string[] = [
     "viktor_novikov",
     "dalia_margolis",
     "silvio_caruso",
@@ -1132,7 +1125,7 @@ export const SpinTargets: string[] = [
     "tamara_vidal",
 ];
 
-export const KillMethodOptions = [
+export const KILL_METHOD_OPTIONS = [
     "pistol",
     "loud_pistol",
     "silenced_pistol",
@@ -1214,29 +1207,51 @@ export const KillMethodOptions = [
     "viking_axe",
 ];
 
-export const MissionDisguisesList: MissionDisguises = {
-    paris: parisDisguises,
-    sapienza: sapienzaDisguises,
-    marrakesh: marrakeshDisguises,
-    bangkok: bangkokDisguises,
-    colorado: coloradoDisguises,
-    hokkaido: hokkaidoDisguises,
-    miami: miamiDisguises,
-    santa_fortuna: santaFortunaDisguises,
-    mumbai: mumbaiDisguises,
-    whittleton_creek: whittletonCreekDisguises,
-    ambrose_island: ambroseIslandDisguises,
-    isle_of_sgail: isleOfSgailDisguises,
-    new_york: newYorkDisguises,
-    haven_island: havenIslandDisguises,
-    dubai: dubaiDisguises,
-    dartmoor: dartmoorDisguises,
-    berlin: berlinDisguises,
-    chongqing: chongqingDisguises,
-    mendoza: mendozaDisguises,
+export const MELEES = [
+    ...PARIS_MELEES,
+    ...SAPIENZA_MELEES,
+    ...MARRAKESH_MELEES,
+    ...BANGKOK_MELEES,
+    ...COLORADO_MELEES,
+    ...HOKKAIDO_MELEES,
+    ...MIAMI_MELEES,
+    ...SANTA_FORTUNA_MELEES,
+    ...MUMBAI_MELEES,
+    ...WHITTLETON_CREEK_MELEES,
+    ...AMBROSE_ISLAND_MELEES,
+    ...ISLE_OF_SGAIL_MELEES,
+    ...NEW_YORK_MELEES,
+    ...HAVEN_ISLAND_MELEES,
+    ...DUBAI_MELEES,
+    ...DARTMORR_MELEES,
+    ...BERLIN_MELEES,
+    ...CHONGQING_MELEES,
+    ...MENDOZA_MELEES,
+];
+
+export const MISSION_DISGUISES_LIST: MissionDisguises = {
+    paris: PARIS_DISGUISES,
+    sapienza: SAPIENZA_DISGUISES,
+    marrakesh: MARRAKESH_DISGUISES,
+    bangkok: BANGKOK_DISGUISES,
+    colorado: COLORADO_DISGUISES,
+    hokkaido: HOKKAIDO_DISGUISES,
+    miami: MIAMI_DISGUISES,
+    santa_fortuna: SANTA_FORTUNA_DISGUISES,
+    mumbai: MUMBAI_DISGUISES,
+    whittleton_creek: WHITTLETON_CREEK_DISGUISES,
+    ambrose_island: AMBROSE_ISLAND_DISGUISES,
+    isle_of_sgail: ISLE_OF_SGAIL_DISGUISES,
+    new_york: NEW_YORK_DISGUISES,
+    haven_island: HAVEN_ISLAND_DISGUISES,
+    dubai: DUBAI_DISGUISES,
+    dartmoor: DARTMOOR_DISGUISES,
+    berlin: BERLIN_DISGUISES,
+    chongqing: CHONGQING_DISGUISES,
+    mendoza: MENDOZA_DISGUISES,
 };
 
-export const SpinInfoIdMap: { [key: string]: string } = {
+export const SPIN_INFO_ID_MAP: { [key: string]: string } = {
     "00": "pistol",
     pistol: "00",
     "01": "loud_pistol",
@@ -1912,25 +1927,3 @@ export const SpinInfoIdMap: { [key: string]: string } = {
     b4: "dump_in_the_cocaine_machine",
     dump_in_the_cocaine_machine: "b4",
 } as const;
-
-export const Melees = [
-    ...parisMelees,
-    ...sapienzaMelees,
-    ...marrakeshMelees,
-    ...bangkokMelees,
-    ...coloradoMelees,
-    ...hokkaidoMelees,
-    ...miamiMelees,
-    ...santaFortunaMelees,
-    ...mumbaiMelees,
-    ...whittletonCreekMelees,
-    ...ambroseIslandMelees,
-    ...isleOfSgailMelees,
-    ...newYorkMelees,
-    ...havenIslandMelees,
-    ...dubaiMelees,
-    ...dartmoorMelees,
-    ...berlinMelees,
-    ...chongqingMelees,
-    ...mendozaMelees,
-];

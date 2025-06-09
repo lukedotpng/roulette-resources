@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { FlashcardSchema, ItemSchema } from "@/server/db/schema";
+import { ItemSchema, TimingsFlashcardSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import General from "./_components/General";
 import { Mission } from "@/types";
@@ -14,13 +14,13 @@ export default async function Page({
     let items = await db.query.ItemSchema.findMany({
         where: eq(ItemSchema.mission, mission),
     });
-    const flashcards = await db.query.FlashcardSchema.findMany({
-        where: eq(FlashcardSchema.mission, mission),
+    const timingsFlashcards = await db.query.TimingsFlashcardSchema.findMany({
+        where: eq(TimingsFlashcardSchema.mission, mission),
     });
 
     if (
         (items === null || items.length === 0) &&
-        (flashcards === null || flashcards.length === 0)
+        (timingsFlashcards === null || timingsFlashcards.length === 0)
     ) {
         return <h1>No data for this map :(</h1>;
     }
@@ -31,7 +31,9 @@ export default async function Page({
         <General
             items={items}
             mission={mission as Mission}
-            flashcards={flashcards}
+            timingsFlashcard={
+                timingsFlashcards.length > 0 ? timingsFlashcards[0] : undefined
+            }
         />
     );
 }

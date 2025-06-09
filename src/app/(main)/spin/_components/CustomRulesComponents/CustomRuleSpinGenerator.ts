@@ -6,18 +6,19 @@ import {
     SpinTarget,
     TargetKillMethods,
 } from "@/types";
-import {
-    MissionSpinInfoList,
-    sodersUniqueKills,
-    SpinMissionTargetsList,
-    uniqueKills,
-    weaponsWithModifiers,
-} from "../../utils/SpinGlobals";
+
 import { Ruleset } from "./CustomRuleTypes";
+import {
+    MISSION_SPIN_INFO_LIST,
+    SODERS_UNIQUE_KILLS,
+    SPIN_MISSION_TARGETS_LIST,
+    UNIQUE_KILLS,
+    WEAPONS_WITH_MODIFIERS,
+} from "../../utils/SpinGlobals";
 
 export function GenerateSpin(ruleset: Ruleset, mission: Mission): Spin {
-    const targets = SpinMissionTargetsList[mission];
-    const spinInfoOptions = MissionSpinInfoList[mission];
+    const targets = SPIN_MISSION_TARGETS_LIST[mission];
+    const spinInfoOptions = MISSION_SPIN_INFO_LIST[mission];
 
     const spinInfo: SpinInfo = {};
 
@@ -134,7 +135,7 @@ function GetRandomCondition(
     );
 
     // Get all possible weapons from regular items to custom kills
-    const allWeapons = [...weaponsWithModifiers];
+    const allWeapons = [...WEAPONS_WITH_MODIFIERS];
     if (targetInfo.customKills?.weapons) {
         for (const killMethod of targetInfo.customKills.weapons) {
             allWeapons.push(killMethod);
@@ -160,7 +161,9 @@ function GetRandomCondition(
 
     // Get all possible unique kills from regular items to custom kills
     const allUniqueKills =
-        target === "erich_soders" ? [...sodersUniqueKills] : [...uniqueKills];
+        target === "erich_soders"
+            ? [...SODERS_UNIQUE_KILLS]
+            : [...UNIQUE_KILLS];
     if (targetInfo.customKills?.unique_kills) {
         for (const killMethod of targetInfo.customKills.unique_kills) {
             allUniqueKills.push(killMethod);

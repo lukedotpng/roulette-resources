@@ -1,12 +1,13 @@
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 import { ConditionCombo } from "../CustomRuleTypes";
-import {
-    MissionDisguisesList,
-    uniqueKills,
-    weaponsWithModifiers,
-} from "../../../utils/SpinGlobals";
+
 import { ChangeEvent } from "react";
 import { Mission } from "@/types";
+import {
+    MISSION_DISGUISES_LIST,
+    UNIQUE_KILLS,
+    WEAPONS_WITH_MODIFIERS,
+} from "../../../utils/SpinGlobals";
 
 export default function EditMissionCombo({
     mission,
@@ -27,7 +28,7 @@ export default function EditMissionCombo({
     RemoveDisguiseFromCombo: (killMethod: string) => void;
     DeleteCombo: () => void;
 }) {
-    const missionDisguises = MissionDisguisesList[mission];
+    const missionDisguises = MISSION_DISGUISES_LIST[mission];
 
     return (
         <div className="flex w-full flex-col items-center">
@@ -54,12 +55,12 @@ export default function EditMissionCombo({
                         </option>
                         <OptionGroup
                             label="Weapons"
-                            options={weaponsWithModifiers}
+                            options={WEAPONS_WITH_MODIFIERS}
                             chosenOptions={combo.killMethods}
                         />
                         <OptionGroup
                             label="Unique Kills"
-                            options={uniqueKills}
+                            options={UNIQUE_KILLS}
                             chosenOptions={combo.killMethods}
                         />
                     </select>

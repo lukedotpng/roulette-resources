@@ -1,5 +1,5 @@
 import { Ruleset } from "./CustomRuleTypes";
-import { Melees } from "../../utils/SpinGlobals";
+import { MELEES } from "../../utils/SpinGlobals";
 
 export const RouletteRivalsRuleset: Ruleset = {
     targets: {
@@ -280,7 +280,7 @@ export const RouletteRivalsRuleset: Ruleset = {
         NTKO: 0.25,
     },
     ntkoValidKills: [
-        ...Melees,
+        ...MELEES,
         "pistol",
         "silenced_pistol",
         "loud_pistol",
@@ -659,7 +659,7 @@ export const ImprovRuleset: Ruleset = {
         NTKO: 0.25,
     },
     ntkoValidKills: [
-        ...Melees,
+        ...MELEES,
         "pistol",
         "silenced_pistol",
         "loud_pistol",
