@@ -198,10 +198,17 @@ function GetRandomCondition(
         if (noMeleesOrRemoteForced) {
             killMethod = "remote_explosive";
         } else {
-            const modifierPrefix =
-                EXPLOSIVE_MODIFIER_PREFIX[
-                    Math.floor(Math.random() * EXPLOSIVE_MODIFIER_PREFIX.length)
-                ];
+            let modifierPrefix = "";
+            if (target === "vanya_shah") {
+                modifierPrefix = Math.random() > 0.5 ? "remote_" : "loud_";
+            } else {
+                modifierPrefix =
+                    EXPLOSIVE_MODIFIER_PREFIX[
+                        Math.floor(
+                            Math.random() * EXPLOSIVE_MODIFIER_PREFIX.length,
+                        )
+                    ];
+            }
 
             killMethod = modifierPrefix + killMethod;
         }
