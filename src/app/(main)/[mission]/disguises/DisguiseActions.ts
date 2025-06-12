@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/server/db";
 import { DisguiseVideoSchema, UpdateLogSchema } from "@/server/db/schema";
+import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -21,11 +22,13 @@ const zodNewDisguiseVideoScheme = z.object({
     notes: z.string(),
 });
 
-export async function UpdateDisguiseVideoAction(formData: FormData) {
+export async function UpdateDisguiseVideoAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = zodUpdateDisguiseVideoScheme.safeParse({
@@ -36,10 +39,8 @@ export async function UpdateDisguiseVideoAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db
@@ -54,31 +55,35 @@ export async function UpdateDisguiseVideoAction(formData: FormData) {
         console.error(
             `ERROR UPDATING DISGUISE VIDEO ${formParsed.data.video_id}: Wouldve been a good update :/`,
         );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "disguises",
-                row_id: formParsed.data.video_id,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "disguises",
+            row_id: formParsed.data.video_id,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/disguises", "page");
+    return { success: true, error: "" };
 }
 
-export async function NewDisguiseVideoAction(formData: FormData) {
+export async function NewDisguiseVideoAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = zodNewDisguiseVideoScheme.safeParse({
@@ -88,10 +93,8 @@ export async function NewDisguiseVideoAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db.insert(DisguiseVideoSchema).values({
@@ -104,37 +107,55 @@ export async function NewDisguiseVideoAction(formData: FormData) {
         console.error(
             `ERROR CREATING DISGUISE VIDEO FOR ${formParsed.data.disguise_id}: already miss it :/`,
         );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "disguises",
-                row_id: "",
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "disguises",
+            row_id: "",
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/disguises", "page");
+    return { success: true, error: "" };
 }
 
-export async function DeleteDisguiseVideoAction(disguiseVideoId: string) {
+export async function DeleteDisguiseVideoAction(
+    disguiseVideoId: string,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
-    await db
-        .update(DisguiseVideoSchema)
-        .set({ visible: false, updated_at: new Date() })
-        .where(eq(DisguiseVideoSchema.id, disguiseVideoId));
+    try {
+        await db
+            .update(DisguiseVideoSchema)
+            .set({ visible: false, updated_at: new Date() })
+            .where(eq(DisguiseVideoSchema.id, disguiseVideoId));
+    } catch {
+        console.error(
+            `ERROR DELETING DISGUISE VIDEO FOR ${disguiseVideoId}: maybe its for the best :/`,
+        );
+        return {
+            success: false,
+            error: `Failed to update data: ${disguiseVideoId}`,
+        };
+    }
 
     revalidatePath("/[mission]/disguises", "page");
+    return {
+        success: true,
+        error: "",
+    };
 }
