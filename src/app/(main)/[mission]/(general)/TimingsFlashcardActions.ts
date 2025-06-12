@@ -35,10 +35,11 @@ export async function CreateTimingsFlashcardAction(
     });
 
     if (!formParsed.success) {
-        return { success: false, error: "Failed to parse the data" };
+        return {
+            success: false,
+            error: formParsed.error.message,
+        };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db.insert(TimingsFlashcardSchema).values({
@@ -49,25 +50,25 @@ export async function CreateTimingsFlashcardAction(
         console.error(
             `ERROR CREATING FLASHCARD ${formParsed.data.mission}: Wouldve been helpful :/`,
         );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "flashcards",
-                row_id: formParsed.data.mission,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "flashcards",
+            row_id: formParsed.data.mission,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/", "page");
-
     return { success: true, error: "" };
 }
 
@@ -90,8 +91,6 @@ export async function UpdateTimingsFlashcardAction(
         return { success: false, error: formParsed.error.message };
     }
 
-    let updatedSuccessful = true;
-
     try {
         await db
             .update(TimingsFlashcardSchema)
@@ -101,21 +100,22 @@ export async function UpdateTimingsFlashcardAction(
         console.error(
             `ERROR UPDATING FLASHCARD ${formParsed.data.id}: Wouldve been helpful :/`,
         );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "flashcards",
-                row_id: formParsed.data.id,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "flashcards",
+            row_id: formParsed.data.id,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/", "page");
