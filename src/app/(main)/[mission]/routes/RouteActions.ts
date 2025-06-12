@@ -2,7 +2,8 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { RouteSchema } from "@/server/db/schema";
+import { RouteSchema, UpdateLogSchema } from "@/server/db/schema";
+import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -23,11 +24,13 @@ const updateRouteScheme = z.object({
     video_link: z.string().min(1),
 });
 
-export async function CreateRouteAction(formData: FormData) {
+export async function CreateRouteAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = newRouteScheme.safeParse({
@@ -38,28 +41,51 @@ export async function CreateRouteAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        console.log(formParsed.error);
-        console.log("Failed to create new route,", formData);
-        return;
+        console.log("Failed to parse form data:", formData);
+        return { success: false, error: formParsed.error.message };
     }
 
-    console.log("Creating new route");
-    await db.insert(RouteSchema).values({
-        map: formParsed.data.map,
-        name: formParsed.data.name,
-        notes: formParsed.data.notes,
-        video_link: formParsed.data.video_link,
-        visible: true,
-    });
+    try {
+        await db.insert(RouteSchema).values({
+            map: formParsed.data.map,
+            name: formParsed.data.name,
+            notes: formParsed.data.notes,
+            video_link: formParsed.data.video_link,
+            visible: true,
+        });
+    } catch {
+        return {
+            success: false,
+            error: `Failed to updated data: ${formParsed.data.toString()}`,
+        };
+    }
+
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "routes",
+            row_id: "",
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
+    }
 
     revalidatePath("/[mission]/routes", "page");
+    return {
+        success: true,
+        error: "",
+    };
 }
 
-export async function UpdateRouteAction(formData: FormData) {
+export async function UpdateRouteAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = updateRouteScheme.safeParse({
@@ -72,22 +98,43 @@ export async function UpdateRouteAction(formData: FormData) {
 
     if (!formParsed.success) {
         console.log(formParsed.error);
-        return;
+        return { success: false, error: formParsed.error.message };
+    }
+    try {
+        await db
+            .update(RouteSchema)
+            .set({ updated_at: new Date(), ...formParsed.data })
+            .where(eq(RouteSchema.id, formParsed.data.id));
+    } catch {
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    await db
-        .update(RouteSchema)
-        .set({ updated_at: new Date(), ...formParsed.data })
-        .where(eq(RouteSchema.id, formParsed.data.id));
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "routes",
+            row_id: "",
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
+    }
 
     revalidatePath("/[mission]/routes", "page");
+    return { success: true, error: "" };
 }
 
-export async function DeleteRouteAction(routeId: string) {
+export async function DeleteRouteAction(
+    routeId: string,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     await db
@@ -96,4 +143,5 @@ export async function DeleteRouteAction(routeId: string) {
         .where(eq(RouteSchema.id, routeId));
 
     revalidatePath("/[mission]/routes", "page");
+    return { success: true, error: "" };
 }
