@@ -153,6 +153,18 @@ export async function DeleteDisguiseVideoAction(
         };
     }
 
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "disguises",
+            row_id: "",
+            content: disguiseVideoId,
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
+    }
+
     revalidatePath("/[mission]/disguises", "page");
     return {
         success: true,
