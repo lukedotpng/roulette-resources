@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/server/db";
 import { UniqueKillSchema, UpdateLogSchema } from "@/server/db/schema";
+import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -27,11 +28,13 @@ const updateUniqueKillScheme = z.object({
     video_link: z.string(),
 });
 
-export async function CreateUniqueKillAction(formData: FormData) {
+export async function CreateUniqueKillAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = newUniqueKillScheme.safeParse({
@@ -44,14 +47,8 @@ export async function CreateUniqueKillAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        console.log(formParsed.error);
-        console.log("Failed to create new unique kill method,", formData);
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    console.log("Creating new unique kill");
-
-    let updatedSuccessful = true;
 
     try {
         await db.insert(UniqueKillSchema).values({
@@ -64,32 +61,35 @@ export async function CreateUniqueKillAction(formData: FormData) {
             visible: true,
         });
     } catch {
-        console.error(`ERROR CREATING UNIQUE KILL: maybe it sucked!`);
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "uniqueKills",
-                row_id: "",
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "uniqueKills",
+            row_id: "",
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/targets", "page");
+    return { success: true, error: "" };
 }
 
-export async function UpdateUniqueKillAction(formData: FormData) {
+export async function UpdateUniqueKillAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     console.log("form:", formData);
@@ -107,11 +107,8 @@ export async function UpdateUniqueKillAction(formData: FormData) {
     console.log("formParsed:", formParsed);
 
     if (!formParsed.success) {
-        console.log(formParsed.error);
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db
@@ -119,37 +116,36 @@ export async function UpdateUniqueKillAction(formData: FormData) {
             .set({ updated_at: new Date(), ...formParsed.data })
             .where(eq(UniqueKillSchema.id, formParsed.data.id));
     } catch {
-        console.error(
-            `ERROR UPDATING UNIQUE KILL ${formParsed.data.id}: thats okay ig!`,
-        );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "uniqueKills",
-                row_id: formParsed.data.id,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "uniqueKills",
+            row_id: formParsed.data.id,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/targets", "page");
+    return { success: true, error: "" };
 }
 
-export async function DeleteUniqueKillAction(uniqueKillId: string) {
+export async function DeleteUniqueKillAction(
+    uniqueKillId: string,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db
@@ -157,25 +153,24 @@ export async function DeleteUniqueKillAction(uniqueKillId: string) {
             .set({ updated_at: new Date(), visible: false })
             .where(eq(UniqueKillSchema.id, uniqueKillId));
     } catch {
-        console.error(
-            `ERROR DELETING UNIQUE KILL ${uniqueKillId}: uhh maybe we do need this!`,
-        );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${uniqueKillId}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "uniqueKills",
-                row_id: uniqueKillId,
-                content: "DELETE",
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "uniqueKills",
+            row_id: uniqueKillId,
+            content: "DELETE",
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/targets", "page");
+    return { success: true, error: "" };
 }

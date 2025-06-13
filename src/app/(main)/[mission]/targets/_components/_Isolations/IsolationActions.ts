@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/server/db";
 import { IsolationSchema, UpdateLogSchema } from "@/server/db/schema";
+import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -25,11 +26,13 @@ const updateIsolationScheme = z.object({
     video_link: z.string().min(1),
 });
 
-export async function CreateIsolationAction(formData: FormData) {
+export async function CreateIsolationAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = newIsolationScheme.safeParse({
@@ -41,14 +44,8 @@ export async function CreateIsolationAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        console.log(formParsed.error);
-        console.log("Failed to create new ISO,", formData);
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    console.log("Creating new isolation");
-
-    let updatedSuccessful = true;
 
     try {
         await db.insert(IsolationSchema).values({
@@ -61,31 +58,35 @@ export async function CreateIsolationAction(formData: FormData) {
         });
     } catch {
         console.error(`ERROR CREATING ISOLATION: Wouldve been a good iso :/`);
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "isolations",
-                row_id: "",
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "isolations",
+            row_id: "",
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/targets", "page");
+    return { success: true, error: "" };
 }
 
-export async function UpdateIsolationAction(formData: FormData) {
+export async function UpdateIsolationAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = updateIsolationScheme.safeParse({
@@ -98,11 +99,8 @@ export async function UpdateIsolationAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        console.log(formParsed.error);
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db
@@ -113,34 +111,36 @@ export async function UpdateIsolationAction(formData: FormData) {
         console.error(
             `ERROR UPDATING ISOLATION ${formParsed.data.id}: Wouldve been a good update :/`,
         );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "isolations",
-                row_id: formParsed.data.id,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "isolations",
+            row_id: formParsed.data.id,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/targets", "page");
+    return { success: true, error: "" };
 }
 
-export async function DeleteIsolationAction(isolationId: string) {
+export async function DeleteIsolationAction(
+    isolationId: string,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db
@@ -151,22 +151,24 @@ export async function DeleteIsolationAction(isolationId: string) {
         console.error(
             `ERROR UPDATING ISOLATION ${isolationId}: uhh maybe we do need this!`,
         );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${isolationId}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "isolations",
-                row_id: isolationId,
-                content: "DELETE",
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "isolations",
+            row_id: isolationId,
+            content: "DELETE",
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/targets", "page");
+    return { success: true, error: "" };
 }
