@@ -40,7 +40,9 @@ export type UniqueKillInsert = InferInsertModel<typeof UniqueKillSchema>;
 export type UpdateLogSelect = InferSelectModel<typeof UpdateLogSchema>;
 export type UpdateLogInsert = InferInsertModel<typeof UpdateLogSchema>;
 
-export type ActionResponse = { success: boolean; error: string };
+export type ActionResponse =
+    | { success: true }
+    | { success: false; error: string };
 
 export type Mission =
     | "paris"

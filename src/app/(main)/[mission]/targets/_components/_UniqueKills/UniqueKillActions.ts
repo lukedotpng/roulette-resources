@@ -80,7 +80,7 @@ export async function CreateUniqueKillAction(
     }
 
     revalidatePath("/[mission]/targets", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function UpdateUniqueKillAction(
@@ -135,7 +135,7 @@ export async function UpdateUniqueKillAction(
     }
 
     revalidatePath("/[mission]/targets", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function DeleteUniqueKillAction(
@@ -172,5 +172,5 @@ export async function DeleteUniqueKillAction(
     }
 
     revalidatePath("/[mission]/targets", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }

@@ -69,7 +69,7 @@ export async function CreateTimingsFlashcardAction(
     }
 
     revalidatePath("/[mission]/", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function UpdateTimingsFlashcardAction(
@@ -120,5 +120,5 @@ export async function UpdateTimingsFlashcardAction(
 
     revalidatePath("/[mission]/", "page");
 
-    return { success: true, error: "" };
+    return { success: true };
 }

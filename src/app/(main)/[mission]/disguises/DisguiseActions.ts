@@ -74,7 +74,7 @@ export async function UpdateDisguiseVideoAction(
     }
 
     revalidatePath("/[mission]/disguises", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function NewDisguiseVideoAction(
@@ -126,7 +126,7 @@ export async function NewDisguiseVideoAction(
     }
 
     revalidatePath("/[mission]/disguises", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function DeleteDisguiseVideoAction(
@@ -166,8 +166,5 @@ export async function DeleteDisguiseVideoAction(
     }
 
     revalidatePath("/[mission]/disguises", "page");
-    return {
-        success: true,
-        error: "",
-    };
+    return { success: true };
 }

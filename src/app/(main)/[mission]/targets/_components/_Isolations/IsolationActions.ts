@@ -77,7 +77,7 @@ export async function CreateIsolationAction(
     }
 
     revalidatePath("/[mission]/targets", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function UpdateIsolationAction(
@@ -130,7 +130,7 @@ export async function UpdateIsolationAction(
     }
 
     revalidatePath("/[mission]/targets", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function DeleteIsolationAction(
@@ -170,5 +170,5 @@ export async function DeleteIsolationAction(
     }
 
     revalidatePath("/[mission]/targets", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
