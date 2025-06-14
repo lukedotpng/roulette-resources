@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/server/db";
 import { ItemSchema, UpdateLogSchema } from "@/server/db/schema";
+import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -25,11 +26,13 @@ const updateItemScheme = z.object({
     visible: z.coerce.boolean(),
 });
 
-export async function CreateItemAction(formData: FormData) {
+export async function CreateItemAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     const formParsed = createItemScheme.safeParse({
@@ -42,10 +45,8 @@ export async function CreateItemAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db.insert(ItemSchema).values({
@@ -57,34 +58,35 @@ export async function CreateItemAction(formData: FormData) {
             hitmaps_link: formParsed.data.hitmaps_link,
         });
     } catch {
-        console.error(
-            `ERROR CREATING ITEM ${formParsed.data.id}: Wouldve been a good item :/`,
-        );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "items",
-                row_id: formParsed.data.id,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "items",
+            row_id: formParsed.data.id,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/", "page");
+    return { success: true };
 }
 
-export async function UpdateItemAction(formData: FormData) {
+export async function UpdateItemAction(
+    formData: FormData,
+): Promise<ActionResponse> {
     const session = await auth();
 
     if (!session || !session.user || !session.user.admin) {
-        return "unauthorized";
+        return { success: false, error: "User Unauthorized" };
     }
 
     console.log(formData);
@@ -98,10 +100,8 @@ export async function UpdateItemAction(formData: FormData) {
     });
 
     if (!formParsed.success) {
-        return;
+        return { success: false, error: formParsed.error.message };
     }
-
-    let updatedSuccessful = true;
 
     try {
         await db
@@ -109,25 +109,24 @@ export async function UpdateItemAction(formData: FormData) {
             .set({ updated_at: new Date(), ...formParsed.data })
             .where(eq(ItemSchema.id, formParsed.data.id));
     } catch {
-        console.error(
-            `ERROR UPDATING ITEM ${formParsed.data.id}: Wouldve been a good update :/`,
-        );
-        updatedSuccessful = false;
+        return {
+            success: false,
+            error: `Failed to update data: ${formParsed.data.toString()}`,
+        };
     }
 
-    if (updatedSuccessful) {
-        try {
-            await db.insert(UpdateLogSchema).values({
-                username: session.user.username,
-                table: "items",
-                row_id: formParsed.data.id,
-                content: JSON.stringify(formParsed.data),
-                is_admin: true,
-            });
-        } catch {
-            console.error("ERROR UPDATING LOG: This feels ironic");
-        }
+    try {
+        await db.insert(UpdateLogSchema).values({
+            username: session.user.username,
+            table: "items",
+            row_id: formParsed.data.id,
+            content: JSON.stringify(formParsed.data),
+            is_admin: true,
+        });
+    } catch {
+        console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
     revalidatePath("/[mission]/", "page");
+    return { success: true };
 }
