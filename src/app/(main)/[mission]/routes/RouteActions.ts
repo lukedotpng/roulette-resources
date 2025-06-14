@@ -73,10 +73,7 @@ export async function CreateRouteAction(
     }
 
     revalidatePath("/[mission]/routes", "page");
-    return {
-        success: true,
-        error: "",
-    };
+    return { success: true };
 }
 
 export async function UpdateRouteAction(
@@ -125,7 +122,7 @@ export async function UpdateRouteAction(
     }
 
     revalidatePath("/[mission]/routes", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
 
 export async function DeleteRouteAction(
@@ -143,5 +140,5 @@ export async function DeleteRouteAction(
         .where(eq(RouteSchema.id, routeId));
 
     revalidatePath("/[mission]/routes", "page");
-    return { success: true, error: "" };
+    return { success: true };
 }
