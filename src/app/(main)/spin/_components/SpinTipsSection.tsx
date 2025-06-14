@@ -145,7 +145,7 @@ export default function SpinTipsSection({
                                             className="flex flex-col py-1"
                                         >
                                             <Link
-                                                href={`/${mission}/disguises?disguise=${disguise.id}`}
+                                                href={`/${mission}/disguises?d=${disguise.id}`}
                                                 target="_blank"
                                                 className="text-[1.05em] font-bold underline decoration-red-500 decoration-2"
                                             >
