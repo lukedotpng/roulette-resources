@@ -10,8 +10,10 @@ export default function ItemCard({
 }) {
     const session = useSession();
 
-    if (utilities.length === 0) {
+    if (utilities.length === 0 && !session.data?.user?.admin) {
         return null;
+    } else if (utilities.length === 0) {
+        utilities = [];
     }
 
     return (
