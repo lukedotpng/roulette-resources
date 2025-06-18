@@ -76,6 +76,14 @@ export function MethodIDToDisplayText(item: string | undefined) {
     return itemDisplayText.trim();
 }
 
+export function MethodDisplayTextToID(item: string) {
+    let itemId = item.toLowerCase();
+    itemId = itemId.replace(/[.,\/#!$%\^&\*;:{}=\-_'`~()]/g, "");
+    itemId = itemId.replaceAll(" ", "_");
+
+    return itemId;
+}
+
 export function DisguiseIDToDisplayText(disguise: string | undefined) {
     if (!disguise) {
         return "Err No Disguise";

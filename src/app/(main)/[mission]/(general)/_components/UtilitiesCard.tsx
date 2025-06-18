@@ -65,18 +65,18 @@ export default function ItemCard({
                     </div>
                 );
             })}
-            {/* {session.data?.user?.admin && (
+            {session.data?.user?.admin && (
                 <div className="mx-auto w-full pt-2 text-center data-[active=true]:pb-2">
                     <button
                         className="font-semibold decoration-red-500 decoration-2 hover:underline"
                         onClick={() => {
-                            handleItemEditTrigger("new_item", true);
+                            handleItemEditTrigger("new_utility", true);
                         }}
                     >
                         {"Add New Utility Item"}
                     </button>
                 </div>
-            )} */}
+            )}
         </article>
     );
 }

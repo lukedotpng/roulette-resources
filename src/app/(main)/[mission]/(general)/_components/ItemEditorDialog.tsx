@@ -1,4 +1,4 @@
-import { ItemInsert } from "@/types";
+import { ActionResponse, ItemInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -9,7 +9,10 @@ import {
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { CreateItemAction, UpdateItemAction } from "../ItemActions";
-import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
+import {
+    MethodDisplayTextToID,
+    MethodIDToDisplayText,
+} from "@/utils/FormattingUtils";
 
 export default function ItemEditorDialog({
     item,
@@ -34,6 +37,8 @@ export default function ItemEditorDialog({
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
     const officialItemName = item.id.split("-")[1];
+
+    const isNewUtility = isNew && item.id === `${item.mission}-new_utility`;
 
     useEffect(() => {
         if (typeof window === undefined) {
@@ -68,16 +73,29 @@ export default function ItemEditorDialog({
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
                     <DialogTitle className="w-full p-3 text-center text-[1.1em] font-bold">
-                        {`Edit "${MethodIDToDisplayText(officialItemName)}"`}
+                        {`Edit "${isNewUtility ? itemName : MethodIDToDisplayText(officialItemName)}"`}
                     </DialogTitle>
                     <form
                         className="p-3"
                         action={async (formData: FormData) => {
-                            if (isNew) {
-                                await CreateItemAction(formData);
-                            } else {
-                                await UpdateItemAction(formData);
+                            if (formData.get("id") && isNewUtility) {
+                                formData.set(
+                                    "id",
+                                    `${item.mission}-${MethodDisplayTextToID(itemName)}`,
+                                );
                             }
+
+                            let res: ActionResponse;
+                            if (isNew) {
+                                res = await CreateItemAction(formData);
+                            } else {
+                                res = await UpdateItemAction(formData);
+                            }
+
+                            if (!res.success) {
+                                window.alert(res.error);
+                            }
+
                             setEditDialogActive(false);
                         }}
                     >

@@ -324,3 +324,5 @@ export type MatchSimRecord = {
     time: number; // in ms
     date: number; // in ms
 };
+
+export type ItemType = "weapon" | "melee" | "utility";

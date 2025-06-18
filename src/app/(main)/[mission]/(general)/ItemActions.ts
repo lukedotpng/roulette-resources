@@ -6,6 +6,7 @@ import { ItemSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import postgres from "postgres";
 
 import z from "zod";
 
@@ -57,10 +58,16 @@ export async function CreateItemAction(
             quick_look: formParsed.data.quick_look,
             hitmaps_link: formParsed.data.hitmaps_link,
         });
-    } catch {
+    } catch (err) {
+        let errMessage = `Failed to update data: ${formParsed.data.toString()}`;
+        if (err instanceof postgres.PostgresError) {
+            if (err.detail) {
+                errMessage = err.detail;
+            }
+        }
         return {
             success: false,
-            error: `Failed to update data: ${formParsed.data.toString()}`,
+            error: errMessage,
         };
     }
 

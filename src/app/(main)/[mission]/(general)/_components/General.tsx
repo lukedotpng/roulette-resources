@@ -3,6 +3,7 @@
 import {
     ItemInsert,
     ItemSelect,
+    ItemType,
     Mission,
     TimingsFlashcardSelect,
 } from "@/types";
@@ -34,7 +35,11 @@ export default function Items({
     } as ItemInsert);
     const [itemIsNew, setItemIsNew] = useState(false);
 
-    function handleItemEditTrigger(item: ItemSelect | string, isNew: boolean) {
+    function handleItemEditTrigger(
+        item: ItemSelect | string,
+        isNew: boolean,
+        type: ItemType,
+    ) {
         if (editDialogActive && !isNew) {
             setEditDialogActive(false);
             return;
@@ -46,7 +51,7 @@ export default function Items({
                 id: `${mission}-${item}`,
                 mission: mission,
                 name: MethodIDToDisplayText(item),
-                type: "weapon",
+                type: type,
                 quick_look: "",
                 hitmaps_link: null,
             };
@@ -67,15 +72,23 @@ export default function Items({
             />
             <MeleeCard
                 melees={items.filter((item) => item.type === "melee")}
-                handleItemEditTrigger={handleItemEditTrigger}
+                handleItemEditTrigger={(item: ItemSelect, isNew: boolean) =>
+                    handleItemEditTrigger(item, isNew, "melee")
+                }
             />
             <WeaponCard
                 weapons={items.filter((item) => item.type === "weapon")}
-                handleItemEditTrigger={handleItemEditTrigger}
+                handleItemEditTrigger={(
+                    item: ItemSelect | string,
+                    isNew: boolean,
+                ) => handleItemEditTrigger(item, isNew, "weapon")}
             />
             <UtilitiesCard
                 utilities={items.filter((item) => item.type === "utility")}
-                handleItemEditTrigger={handleItemEditTrigger}
+                handleItemEditTrigger={(
+                    item: ItemSelect | string,
+                    isNew: boolean,
+                ) => handleItemEditTrigger(item, isNew, "utility")}
             />
             {editDialogActive && (
                 <ItemEditorDialog
