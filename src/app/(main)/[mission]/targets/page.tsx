@@ -1,3 +1,5 @@
+export const maxDuration = 30;
+
 import { db } from "@/server/db";
 import { IsolationSchema, UniqueKillSchema } from "@/server/db/schema";
 import { Mission } from "@/types";

@@ -1,3 +1,5 @@
+export const maxDuration = 30;
+
 import Disguises from "./_components/Disguises";
 import { db } from "@/server/db";
 import { DisguiseSchema } from "@/server/db/schema";

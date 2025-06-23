@@ -1,3 +1,5 @@
+export const maxDuration = 30;
+
 import { Mission } from "@/types";
 import { db } from "@/server/db";
 import { RouteSchema } from "@/server/db/schema";

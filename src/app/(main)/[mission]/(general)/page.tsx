@@ -1,3 +1,5 @@
+export const maxDuration = 30;
+
 import { db } from "@/server/db";
 import { ItemSchema, TimingsFlashcardSchema } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
