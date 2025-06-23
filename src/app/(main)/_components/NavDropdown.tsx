@@ -42,7 +42,6 @@ export default function NavDropdown({
                                 setDropdownOpen(false);
                             }}
                             href={`/${textToPathFormat(map)}`}
-                            prefetch={false}
                         >
                             {map}
                         </Link>
