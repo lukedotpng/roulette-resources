@@ -22,7 +22,7 @@ function NavLink({ text, href }: { text: string; href: string }) {
             data-active={pathname === href}
             className="flex-1 bg-white py-1 text-center text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-4 data-[active=true]:border-red-500 md:py-2"
             href={href}
-            prefetch={true}
+            prefetch={false}
         >
             {text}
         </Link>

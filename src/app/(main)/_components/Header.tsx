@@ -16,7 +16,11 @@ export default async function Header() {
 
     return (
         <header className="flex h-6 items-center justify-between bg-white text-xs sm:text-base md:h-10 md:text-xl">
-            <Link href="/" prefetch={true} className="flex h-full items-center">
+            <Link
+                href="/"
+                prefetch={false}
+                className="flex h-full items-center"
+            >
                 <h1 className="px-2 font-extrabold">Rou|Re</h1>
             </Link>
             <div className="flex-1"></div>
