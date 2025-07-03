@@ -8,7 +8,10 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { CreateItemAction, UpdateItemAction } from "../ItemActions";
+import {
+    CreateItemAction,
+    UpdateItemAction,
+} from "../_InfoActions/ItemActions";
 import {
     MethodDisplayTextToID,
     MethodIDToDisplayText,
@@ -85,16 +88,20 @@ export default function ItemEditorDialog({
                                 );
                             }
 
-                            let res: ActionResponse;
-                            if (isNew) {
-                                res = await CreateItemAction(formData);
-                            } else {
-                                res = await UpdateItemAction(formData);
-                            }
+                            console.log("==========");
+                            console.log(formData);
+                            console.log("==========");
 
-                            if (!res.success) {
-                                window.alert(res.error);
-                            }
+                            // let res: ActionResponse;
+                            // if (isNew) {
+                            //     res = await CreateItemAction(formData);
+                            // } else {
+                            //     res = await UpdateItemAction(formData);
+                            // }
+
+                            // if (!res.success) {
+                            //     window.alert(res.error);
+                            // }
 
                             setEditDialogActive(false);
                         }}

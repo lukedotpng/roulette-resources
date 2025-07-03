@@ -2,50 +2,46 @@ import { ItemSelect } from "@/types";
 import { useSession } from "next-auth/react";
 
 export default function ItemCard({
-    utilities,
-    handleItemEditTrigger,
+    melees,
+    HandleItemEditTrigger,
+    className,
 }: {
-    utilities: ItemSelect[];
-    handleItemEditTrigger: (item: ItemSelect | string, isNew: boolean) => void;
+    melees: ItemSelect[];
+    HandleItemEditTrigger: (item: ItemSelect, isNew: boolean) => void;
+    className: string;
 }) {
     const session = useSession();
 
-    if (utilities.length === 0 && !session.data?.user?.admin) {
+    if (melees.length === 0) {
         return null;
-    } else if (utilities.length === 0) {
-        utilities = [];
     }
 
     return (
-        <article className="mb-3 h-fit w-full max-w-[35rem] min-w-[20rem] flex-1 break-inside-avoid rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
-            <h2 className="text-center text-[1.2em] font-bold">
-                {"Utilities"}
-            </h2>
-            {utilities.map((utility) => {
+        <article className={className}>
+            <h2 className="text-center text-[1.2em] font-bold">{"Melees"}</h2>
+            {melees.map((melee) => {
                 return (
                     <div
-                        key={utility.id}
+                        key={melee.id}
                         className="border-b-2 border-zinc-900 py-1 last:border-0"
                     >
                         <div className="flex justify-start gap-3">
-                            {utility.hitmaps_link ? (
-                                <a href={utility.hitmaps_link} target="_blank">
+                            {melee.hitmaps_link ? (
+                                <a href={melee.hitmaps_link} target="_blank">
                                     <span className="font-semibold underline">
-                                        {utility.name}
+                                        {melee.name}
                                     </span>
                                     <span className="text-[.7em] italic">
                                         Hitmaps
                                     </span>
                                 </a>
                             ) : (
-                                <h2 className="font-semibold">
-                                    {utility.name}
-                                </h2>
+                                <h2 className="font-semibold">{melee.name}</h2>
                             )}
                             {session.data?.user?.admin && (
                                 <button
                                     onClick={() =>
-                                        handleItemEditTrigger(utility, false)
+                                        HandleItemEditTrigger(melee, false)
                                     }
                                     className="group"
                                 >
@@ -61,24 +57,10 @@ export default function ItemCard({
                             )}
                         </div>
 
-                        <p className="text-xs sm:text-sm">
-                            {utility.quick_look}
-                        </p>
+                        <p className="text-xs sm:text-sm">{melee.quick_look}</p>
                     </div>
                 );
             })}
-            {session.data?.user?.admin && (
-                <div className="mx-auto w-full pt-2 text-center data-[active=true]:pb-2">
-                    <button
-                        className="font-semibold decoration-red-500 decoration-2 hover:underline"
-                        onClick={() => {
-                            handleItemEditTrigger("new_utility", true);
-                        }}
-                    >
-                        {"Add New Utility Item"}
-                    </button>
-                </div>
-            )}
         </article>
     );
 }

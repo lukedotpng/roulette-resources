@@ -21,13 +21,17 @@ export const WEAPONS_ONLY_MODIFIERS = [
 
 export default function WeaponCard({
     weapons,
-    handleItemEditTrigger,
+    HandleItemEditTrigger,
+    className,
 }: {
     weapons: ItemSelect[];
-    handleItemEditTrigger: (item: ItemSelect | string, isNew: boolean) => void;
+    HandleItemEditTrigger: (item: ItemSelect | string, isNew: boolean) => void;
+    className: string;
 }) {
     const session = useSession();
-    const [showHiddenWeapons, setShowHiddenWeapons] = useState(false);
+    const [showHiddenWeapons, setShowHiddenWeapons] = useState(
+        session.data?.user?.admin,
+    );
 
     if (weapons.length === 0 && !session.data?.user?.admin) {
         return null;
@@ -44,7 +48,7 @@ export default function WeaponCard({
     });
 
     return (
-        <article className="mb-3 h-fit w-full max-w-[35rem] min-w-[20rem] flex-1 break-inside-avoid rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
+        <article className={className}>
             <h2 className="text-center text-[1.2em] font-bold">{"Weapons"}</h2>
             {sortedWeapons.map((weapon) => {
                 if (weapon.visible === false) {
@@ -72,7 +76,7 @@ export default function WeaponCard({
                             {session.data?.user?.admin && (
                                 <button
                                     onClick={() =>
-                                        handleItemEditTrigger(weapon, false)
+                                        HandleItemEditTrigger(weapon, false)
                                     }
                                     className="group"
                                 >
@@ -114,12 +118,12 @@ export default function WeaponCard({
                     <HiddenWeapons
                         admin={session.data?.user?.admin ? true : false}
                         weapons={sortedWeapons}
-                        handleItemEditTrigger={handleItemEditTrigger}
+                        handleItemEditTrigger={HandleItemEditTrigger}
                     />
                     <UndefinedWeapons
                         admin={session.data?.user?.admin ? true : false}
                         weapons={weapons}
-                        handleItemEditTrigger={handleItemEditTrigger}
+                        handleItemEditTrigger={HandleItemEditTrigger}
                     />
                 </>
             )}
@@ -217,7 +221,7 @@ function UndefinedWeapons({
         return (
             <div
                 key={weapon}
-                className="border-b-2 border-zinc-900 bg-red-100 py-1 first:border-t-2 last:border-0"
+                className="border-b-2 border-zinc-900 bg-red-200 py-1 first:border-t-2 last:border-0"
             >
                 <div className="flex justify-start gap-3">
                     <h2 className="font-semibold">
