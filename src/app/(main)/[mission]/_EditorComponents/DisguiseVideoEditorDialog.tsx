@@ -1,4 +1,4 @@
-import { DisguiseSelect, DisguiseVideoInsert } from "@/types";
+import { ActionResponse, DisguiseSelect, DisguiseVideoInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -58,10 +58,19 @@ export default function DisguiseVideoEditorDialog({
                     <form
                         className="flex flex-col gap-2"
                         action={async (formData: FormData) => {
+                            let res: ActionResponse;
                             if (isNew) {
-                                await NewDisguiseVideoAction(formData);
+                                res = await NewDisguiseVideoAction(formData);
                             } else {
-                                await UpdateDisguiseVideoAction(formData);
+                                res = await UpdateDisguiseVideoAction(formData);
+                            }
+                            if (!res.success) {
+                                console.log("UPLOAD ERROR:", res.error);
+                                window.alert(
+                                    'Uh Oh! There was an error:\n"' +
+                                        res.error +
+                                        '"',
+                                );
                             }
                             setEditDialogActive(false);
                         }}

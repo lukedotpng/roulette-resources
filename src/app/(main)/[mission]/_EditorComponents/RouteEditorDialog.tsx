@@ -1,4 +1,4 @@
-import { RouteInsert } from "@/types";
+import { ActionResponse, RouteInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -8,7 +8,10 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { CreateRouteAction, UpdateRouteAction } from "../RouteActions";
+import {
+    CreateRouteAction,
+    UpdateRouteAction,
+} from "../_InfoActions/RouteActions";
 
 export default function RouteEditorDialog({
     route,
@@ -58,10 +61,19 @@ export default function RouteEditorDialog({
                     <form
                         className="p-3"
                         action={async (formData: FormData) => {
+                            let res: ActionResponse;
                             if (isNew) {
-                                await CreateRouteAction(formData);
+                                res = await CreateRouteAction(formData);
                             } else {
-                                await UpdateRouteAction(formData);
+                                res = await UpdateRouteAction(formData);
+                            }
+                            if (!res.success) {
+                                console.log("UPLOAD ERROR:", res.error);
+                                window.alert(
+                                    'Uh Oh! There was an error:\n"' +
+                                        res.error +
+                                        '"',
+                                );
                             }
                             setEditDialogActive(false);
                         }}
@@ -114,7 +126,7 @@ export default function RouteEditorDialog({
                             value={route.id}
                             id="id"
                         />
-                        {/* Hidden field for Route Map */}
+                        {/* Hidden field for Route Mission */}
                         <input
                             hidden
                             readOnly

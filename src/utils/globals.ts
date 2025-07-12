@@ -69,7 +69,6 @@ export const UNIQUE_KILL_TYPES = Object.freeze([
     "poison_stem_cells",
     "shoot_silvio_through_the_telescope",
     "explosive_watch_battery",
-    "shoot_the_car",
     "athena_savalas_award",
     "explosive_on_water_scooter",
     "robot_arms",
@@ -82,6 +81,18 @@ export const UNIQUE_KILL_TYPES = Object.freeze([
     "shoot_the_car",
     "feed_to_the_hippo",
     "dump_in_the_cocaine_machine",
+]);
+
+export const STANDARD_UNIQUE_KILL_TYPES = Object.freeze([
+    "loud_kills",
+    "drowning",
+    "falling_object",
+    "fall",
+    "fire",
+    "electrocution",
+    "explosion_accident",
+    "consumed",
+    "live_kills",
 ]);
 
 // making seperate group for berlin so i can iterate through them instead of targets

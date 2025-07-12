@@ -62,7 +62,7 @@ export default function ItemSection({
 
     return (
         <section className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5">
-            <h1 className="border-b-2 border-white text-[1.5em] font-bold">
+            <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Items"}
             </h1>
             <div className="flex flex-wrap justify-center gap-2.5">

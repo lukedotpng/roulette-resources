@@ -3,6 +3,7 @@ import { Mission, TimingsFlashcardSelect } from "@/types";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import FlashcardEditorForm from "../../_EditorComponents/FlashcardEditorForm";
+import rehypeRaw from "rehype-raw";
 
 export default function TimingsCard({
     timingsFlashcard,
@@ -16,10 +17,6 @@ export default function TimingsCard({
 
     function OnSave() {
         setEditMode(false);
-    }
-
-    if (timingsFlashcard === undefined && !session.data?.user?.admin) {
-        return null;
     }
 
     return (
@@ -69,6 +66,7 @@ export default function TimingsCard({
                     className="markdown col-start-1 row-start-1 py-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
                 >
                     <Markdown
+                        rehypePlugins={[rehypeRaw]}
                         components={{
                             a(props) {
                                 return <a target="_blank" {...props}></a>;

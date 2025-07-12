@@ -1,5 +1,4 @@
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
-import MissionInfoNav from "./_components/MissionInfoNav";
 import { MISSIONS } from "@/utils/globals";
 import { Mission } from "@/types";
 import { notFound } from "next/navigation";
@@ -19,10 +18,11 @@ export default async function Page({
 
     return (
         <main className="flex flex-1 flex-col items-center gap-3 pb-5 text-white md:gap-5">
-            <h1 className="w-full p-2 pb-0 text-[1.5em] font-bold sm:p-4 sm:pb-0">
-                {MissionIDToDisplayText(mission)}
-            </h1>
-            <MissionInfoNav mission={mission} />
+            <header className="flex w-full items-center justify-between gap-2 border-white p-2 pb-0 sm:p-5 sm:pb-0">
+                <h1 className="flex-1 text-center text-[1.5em] font-bold">
+                    {MissionIDToDisplayText(mission)}
+                </h1>
+            </header>
             {children}
         </main>
     );

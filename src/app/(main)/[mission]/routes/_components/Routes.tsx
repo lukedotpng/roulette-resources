@@ -19,7 +19,7 @@ export default function Routes({
     const [createNewRoute, setCreateNewRoute] = useState(false);
     const [currentRouteToEdit, setCurrentRouteToEdit] = useState<RouteInsert>({
         id: "",
-        map: mission,
+        mission: mission,
         name: "New Route",
         notes: "",
         video_link: "",
@@ -58,7 +58,7 @@ export default function Routes({
                             handleRouteEditTrigger(
                                 {
                                     id: "",
-                                    map: mission,
+                                    mission: mission,
                                     name: "New Route",
                                     notes: "",
                                     video_link: "",

@@ -6,13 +6,12 @@ import {
     DisguiseVideoSelect,
     Mission,
 } from "@/types";
-import ImageDropdown from "../../_components/ImageDropdown";
-import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import DisguiseCard from "./DisguiseCard";
-import DisguiseVideoEditorDialog from "../../disguises/_components/DisguiseVideoEditorDialog";
+import DisguiseVideoEditorDialog from "../../_EditorComponents/DisguiseVideoEditorDialog";
+import DisguiseOptionPicker from "./DisguiseOptionPicker";
 
 export default function DisguisesSection({
     mission,
@@ -85,19 +84,16 @@ export default function DisguisesSection({
 
     return (
         <section className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5">
-            <h1 className="border-b-2 border-white text-[1.5em] font-bold">
+            <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Disguises"}
             </h1>
-            <div className="flex gap-2">
-                <div className="flex flex-col gap-2">
-                    <ImageDropdown
-                        activeOption={activeDisguiseId}
-                        optionImageRootPath="/disguises"
-                        optionImagePrefix={mission + "-"}
-                        optionList={disguiseIdList}
-                        SetActiveOption={setActiveDisguiseId}
-                        OptionFormatter={DisguiseIDToDisplayText}
-                        optionQueryKey={searchParamQuery}
+            <div className="flex flex-col items-center gap-2 md:flex-row md:items-start">
+                <div className="flex w-full max-w-50 flex-col gap-2">
+                    <DisguiseOptionPicker
+                        mission={mission}
+                        activeDisguise={activeDisguiseId}
+                        disguiseList={disguiseIdList}
+                        SetActiveDisguise={setActiveDisguiseId}
                     />
                     {session.data?.user?.admin && (
                         <button

@@ -42,7 +42,7 @@ export default function DisguiseVideo({
 
     return (
         <div
-            className="group flex w-[30rem] flex-col"
+            className="group flex max-w-[30rem] min-w-full flex-1 flex-col md:min-w-[25rem]"
             key={disguiseVideo.id}
             data-admin={session.data?.user?.admin}
         >

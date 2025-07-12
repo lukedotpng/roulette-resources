@@ -29,9 +29,7 @@ export default function WeaponCard({
     className: string;
 }) {
     const session = useSession();
-    const [showHiddenWeapons, setShowHiddenWeapons] = useState(
-        session.data?.user?.admin,
-    );
+    const [showHiddenWeapons, setShowHiddenWeapons] = useState(false);
 
     if (weapons.length === 0 && !session.data?.user?.admin) {
         return null;

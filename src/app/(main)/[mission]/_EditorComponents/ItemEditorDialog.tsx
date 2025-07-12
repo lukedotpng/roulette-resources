@@ -88,20 +88,21 @@ export default function ItemEditorDialog({
                                 );
                             }
 
-                            console.log("==========");
-                            console.log(formData);
-                            console.log("==========");
+                            let res: ActionResponse;
+                            if (isNew) {
+                                res = await CreateItemAction(formData);
+                            } else {
+                                res = await UpdateItemAction(formData);
+                            }
 
-                            // let res: ActionResponse;
-                            // if (isNew) {
-                            //     res = await CreateItemAction(formData);
-                            // } else {
-                            //     res = await UpdateItemAction(formData);
-                            // }
-
-                            // if (!res.success) {
-                            //     window.alert(res.error);
-                            // }
+                            if (!res.success) {
+                                console.log("UPLOAD ERROR:", res.error);
+                                window.alert(
+                                    'Uh Oh! There was an error:\n"' +
+                                        res.error +
+                                        '"',
+                                );
+                            }
 
                             setEditDialogActive(false);
                         }}

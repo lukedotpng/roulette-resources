@@ -98,7 +98,11 @@ export function DisguiseIDToDisplayText(disguise: string | undefined) {
     }
 
     for (const word of words) {
-        if (word.toLowerCase() === "dj" || word.toLowerCase() === "bbq") {
+        if (
+            word.toLowerCase() === "dj" ||
+            word.toLowerCase() === "bbq" ||
+            word.toLowerCase() === "cicada"
+        ) {
             disguiseDisplayText += word.toUpperCase() + " ";
         } else {
             disguiseDisplayText +=

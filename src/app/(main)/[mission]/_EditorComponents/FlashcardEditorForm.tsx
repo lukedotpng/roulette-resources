@@ -11,7 +11,7 @@ import {
     UpdateTimingsFlashcardAction,
 } from "../_InfoActions/TimingsFlashcardActions";
 import Markdown from "react-markdown";
-import remarkBreaks from "remark-breaks";
+import rehypeRaw from "rehype-raw";
 
 export default function FlashcardEditorForm({
     timingsFlashcard,
@@ -185,15 +185,12 @@ export default function FlashcardEditorForm({
                             className="markdown col-start-1 row-start-1 border-2 border-zinc-900 p-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
                         >
                             <Markdown
-                                remarkPlugins={[remarkBreaks]}
+                                rehypePlugins={[rehypeRaw]}
                                 components={{
                                     a(props) {
                                         return (
                                             <a target="_blank" {...props}></a>
                                         );
-                                    },
-                                    br(props) {
-                                        return <br></br>;
                                     },
                                 }}
                             >
