@@ -6,7 +6,7 @@ import {
     UniqueKillInsert,
     UniqueKillSelect,
 } from "@/types";
-import { use, useState } from "react";
+import { use, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
     MISSION_TARGET_LIST,
@@ -20,6 +20,12 @@ import {
     TARGET_UNIQUE_KILLS_LIST,
 } from "@/app/(main)/spin/utils/SpinGlobals";
 import BerlinUniqueKillCard from "./BerlinUniqueKillCard";
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 
 export default function UniqueKillsSection({
     mission,
@@ -35,6 +41,7 @@ export default function UniqueKillsSection({
     const targets = MISSION_TARGET_LIST[mission];
 
     let uniqueKillOptions = [...STANDARD_UNIQUE_KILL_TYPES];
+    // berlin being crazy as usual
     if (mission !== "berlin") {
         for (const target of targets) {
             uniqueKillOptions = [
@@ -94,14 +101,52 @@ export default function UniqueKillsSection({
         setCurrentUniqueToEdit(uniqueKill);
     }
 
+    const listedUniqueKills = useMemo(
+        () =>
+            uniqueKills.filter((uniqueKill) => {
+                return uniqueKill.kill_method === activeUniqueKillId;
+            }),
+        [activeUniqueKillId],
+    );
+
     return (
         <section className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Unique Kills"}
             </h1>
             <div className="flex flex-col items-center gap-2 md:flex-row md:items-start">
-                <div className="flex flex-col items-center gap-2 md:gap-4">
-                    <div className="flex flex-row flex-wrap justify-center gap-1 md:flex-col">
+                <div className="flex w-full max-w-60 flex-col items-center gap-2 md:max-w-50 md:gap-4">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <button className="group flex w-full min-w-24 flex-1 items-center justify-between rounded-lg border-2 border-zinc-500 bg-white p-0.5 font-bold text-zinc-900 hover:bg-red-500 hover:text-white md:hidden">
+                                <p className="ml-1">
+                                    {MethodIDToDisplayText(activeUniqueKillId)}
+                                </p>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 320 512"
+                                    className="mr-1 h-3 w-3 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 sm:h-4 sm:w-4"
+                                >
+                                    {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
+                                    <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                                </svg>
+                            </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="z-20 -mt-1 flex h-fit max-h-72 w-48 flex-col overflow-y-auto rounded-lg border-2 border-zinc-500 text-[.9em] shadow-[0_0_20px_0px] shadow-black">
+                            {uniqueKillOptions.map((uniqueKill) => (
+                                <DropdownMenuItem
+                                    key={uniqueKill}
+                                    className="border-t-1 border-zinc-900 bg-white p-1 text-zinc-900 first:border-t-0 hover:bg-red-500 hover:text-white"
+                                    onClick={() => {
+                                        setActiveUniqueKillId(uniqueKill);
+                                    }}
+                                >
+                                    {MethodIDToDisplayText(uniqueKill)}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <div className="hidden flex-row flex-wrap justify-center gap-1 md:flex md:flex-col">
                         {uniqueKillOptions.map((uniqueKill) => {
                             return (
                                 <button
@@ -109,7 +154,7 @@ export default function UniqueKillsSection({
                                     data-active={
                                         uniqueKill === activeUniqueKillId
                                     }
-                                    className="max-w-50 min-w-24 flex-1 rounded-lg border-2 border-zinc-500 bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:bg-red-500 data-[active=true]:text-white md:w-50"
+                                    className="flex-1 rounded-lg border-2 border-zinc-500 bg-white p-0.5 font-bold text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:bg-red-500 data-[active=true]:text-white"
                                     onClick={() => {
                                         SetActiveUniqueKillId(uniqueKill);
                                     }}
@@ -121,7 +166,7 @@ export default function UniqueKillsSection({
                     </div>
                     {session.data?.user?.admin && (
                         <button
-                            className="w-full max-w-50 rounded-lg border-2 border-zinc-500 bg-white p-1 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
+                            className="w-full rounded-lg border-2 border-zinc-500 bg-white p-0.5 font-bold text-zinc-900 hover:bg-red-500 hover:text-white"
                             onClick={() =>
                                 HandleUniqueKillEditTrigger(
                                     {
@@ -146,24 +191,14 @@ export default function UniqueKillsSection({
                     {mission !== "berlin" ? (
                         <UniqueKillCard
                             targets={targets}
-                            uniqueKills={uniqueKills.filter((uniqueKill) => {
-                                return (
-                                    uniqueKill.kill_method ===
-                                    activeUniqueKillId
-                                );
-                            })}
+                            uniqueKills={listedUniqueKills}
                             handleUniqueKillEditTrigger={
                                 HandleUniqueKillEditTrigger
                             }
                         />
                     ) : (
                         <BerlinUniqueKillCard
-                            uniqueKills={uniqueKills.filter((uniqueKill) => {
-                                return (
-                                    uniqueKill.kill_method ===
-                                    activeUniqueKillId
-                                );
-                            })}
+                            uniqueKills={listedUniqueKills}
                             handleUniqueKillEditTrigger={
                                 HandleUniqueKillEditTrigger
                             }

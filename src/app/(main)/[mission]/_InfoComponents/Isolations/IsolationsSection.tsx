@@ -22,7 +22,11 @@ export default function IsolationsSection({
 
     const session = useSession();
 
-    const targets = MISSION_TARGET_LIST[mission];
+    const targets =
+        mission === "hokkaido"
+            ? (["yuki_yamazaki"] as readonly Target[])
+            : MISSION_TARGET_LIST[mission];
+
     const [activeTargetId, setActiveTargetId] = useState(targets[0]);
     function SetActiveTarget(option: string) {
         setActiveTargetId(option as Target);
@@ -59,7 +63,7 @@ export default function IsolationsSection({
                 {"Isolations"}
             </h1>
             <div className="flex flex-col items-center gap-2 md:flex-row md:items-start">
-                <div className="flex w-full max-w-50 flex-col items-center gap-2 md:gap-4">
+                <div className="flex w-full flex-col items-center gap-2 md:max-w-50 md:gap-4">
                     <div className="flex w-full flex-row flex-wrap justify-center gap-1 md:flex-col">
                         {targets.map((target) => {
                             return (

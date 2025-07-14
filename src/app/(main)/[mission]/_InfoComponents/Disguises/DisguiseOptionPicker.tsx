@@ -23,7 +23,7 @@ export default function DisguiseOptionPicker({
 }) {
     return (
         <DropdownMenu modal={true}>
-            <div className="flex w-full max-w-50 flex-col rounded-lg border-4 border-zinc-500">
+            <div className="flex w-full flex-col rounded-lg border-4 border-zinc-500">
                 <Image
                     src={`/disguises/${mission}-${activeDisguise}.webp`}
                     width={693}
@@ -48,12 +48,11 @@ export default function DisguiseOptionPicker({
                 </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent
-                className="rounded-y-lg z-20 mt-2 flex h-fit max-h-96 max-w-50 flex-col overflow-y-auto shadow-[0_0_15px_1px] shadow-black"
+                className="z-20 -mt-1 flex h-fit max-h-72 w-48 flex-col overflow-y-auto rounded-lg border-2 border-zinc-500 text-[.9em] shadow-[0_0_20px_0px] shadow-black"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
             >
-                {/* <div className="pointer-events-none absolute top-0 z-10 h-2 w-full bg-gradient-to-b from-zinc-900/50 to-transparent"></div> */}
                 {disguiseList.map((disguise, index) => {
                     return (
                         <div
@@ -74,7 +73,7 @@ export default function DisguiseOptionPicker({
                             />
                             <DropdownMenuItem
                                 data-active={disguise === activeDisguise}
-                                className="w-full cursor-pointer border-t-1 border-t-zinc-900 bg-white px-4 py-2 text-left text-zinc-900 outline-none group-data-[first=true]:rounded-t-lg group-data-[last=true]:rounded-b-lg hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-l-red-500 data-[active=true]:pl-2"
+                                className="border-t-1 border-zinc-900 bg-white p-1 text-zinc-900 group-first:border-t-0 hover:bg-red-500 hover:text-white"
                                 onClick={() => {
                                     SetActiveDisguise(disguise);
                                 }}
