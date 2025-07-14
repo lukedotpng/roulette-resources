@@ -146,7 +146,7 @@ export default function UniqueKillsSection({
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <div className="hidden flex-row flex-wrap justify-center gap-1 md:flex md:flex-col">
+                    <div className="hidden w-full flex-row flex-wrap justify-center gap-1 md:flex md:flex-col">
                         {uniqueKillOptions.map((uniqueKill) => {
                             return (
                                 <button
