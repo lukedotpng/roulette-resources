@@ -8,7 +8,10 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { CreateItemAction, UpdateItemAction } from "../ItemActions";
+import {
+    CreateItemAction,
+    UpdateItemAction,
+} from "../_InfoActions/ItemActions";
 import {
     MethodDisplayTextToID,
     MethodIDToDisplayText,
@@ -93,7 +96,12 @@ export default function ItemEditorDialog({
                             }
 
                             if (!res.success) {
-                                window.alert(res.error);
+                                console.log("UPLOAD ERROR:", res.error);
+                                window.alert(
+                                    'Uh Oh! There was an error:\n"' +
+                                        res.error +
+                                        '"',
+                                );
                             }
 
                             setEditDialogActive(false);

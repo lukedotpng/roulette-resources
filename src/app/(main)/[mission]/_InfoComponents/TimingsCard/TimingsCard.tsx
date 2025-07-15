@@ -2,7 +2,9 @@ import { useSession } from "next-auth/react";
 import { Mission, TimingsFlashcardSelect } from "@/types";
 import { useState } from "react";
 import Markdown from "react-markdown";
-import FlashcardEditorForm from "./FlashcardEditorForm";
+import FlashcardEditorForm from "../../_EditorComponents/FlashcardEditorForm";
+import rehypeRaw from "rehype-raw";
+import remarkBreaks from "remark-breaks";
 
 export default function TimingsCard({
     timingsFlashcard,
@@ -18,17 +20,10 @@ export default function TimingsCard({
         setEditMode(false);
     }
 
-    if (timingsFlashcard === undefined && !session.data?.user?.admin) {
-        return null;
-    }
-
     return (
-        <article className="mb-3 h-fit w-full max-w-[35rem] min-w-[20rem] flex-1 break-inside-avoid rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
+        <article className="h-fit w-full min-w-[20rem] flex-1 break-inside-avoid rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900 sm:min-w-[25rem]">
             <header className="flex w-full justify-center">
                 <div className="flex-1"></div>
-                <h2 className="text-center text-[1.2em] font-bold">
-                    {"Timings"}
-                </h2>
                 <div className="flex flex-1 justify-end">
                     {session.data?.user?.admin && (
                         <button
@@ -72,6 +67,8 @@ export default function TimingsCard({
                     className="markdown col-start-1 row-start-1 py-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
                 >
                     <Markdown
+                        remarkPlugins={[remarkBreaks]}
+                        rehypePlugins={[rehypeRaw]}
                         components={{
                             a(props) {
                                 return <a target="_blank" {...props}></a>;
@@ -80,7 +77,10 @@ export default function TimingsCard({
                     >
                         {timingsFlashcard === undefined
                             ? "**No data yet**\n* This target isn't shown to users until info is added"
-                            : timingsFlashcard.info}
+                            : timingsFlashcard.info.replaceAll(
+                                  "\n",
+                                  "&nbsp;\n",
+                              )}
                     </Markdown>
                 </div>
             </div>

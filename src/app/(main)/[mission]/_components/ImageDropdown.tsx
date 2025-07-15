@@ -30,7 +30,7 @@ export default function ImageDropdown({
 
     return (
         <DropdownMenu modal={true}>
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col">
                 <Image
                     src={`${optionImageRootPath}/${optionImagePrefix || ""}${activeOption}.webp`}
                     width={693}
@@ -46,7 +46,7 @@ export default function ImageDropdown({
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 320 512"
-                            className="h-3 w-3 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 group-data-[state=open]:fill-white sm:h-4 sm:w-4"
+                            className="h-3 w-3 fill-zinc-900 group-hover:fill-white group-data-[state=open]:rotate-90 sm:h-4 sm:w-4"
                         >
                             {/* Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. */}
                             <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
@@ -82,7 +82,10 @@ export default function ImageDropdown({
                                 className="w-full cursor-pointer bg-white px-4 py-3 text-left text-zinc-900 outline-none group-data-[last=true]:rounded-b-lg hover:bg-red-500 hover:text-white data-[active=true]:border-l-8 data-[active=true]:border-red-500 data-[active=true]:pl-2"
                                 onClick={() => {
                                     SetActiveOption(option);
-                                    router.push(`?${optionQueryKey}=${option}`);
+                                    router.push(
+                                        `?${optionQueryKey}=${option}`,
+                                        { scroll: false },
+                                    );
                                 }}
                             >
                                 {OptionFormatter(option)}

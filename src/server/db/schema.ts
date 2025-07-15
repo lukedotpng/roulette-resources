@@ -107,7 +107,7 @@ export const UniqueKillSchema = pgTable("roulette-resources-unique_kills", {
 
 export const RouteSchema = pgTable("roulette-resources-routes", {
     id: uuid().primaryKey().defaultRandom(),
-    map: text().notNull(),
+    mission: text().notNull(),
     name: text().notNull(),
     notes: text(),
     video_link: text().notNull(),

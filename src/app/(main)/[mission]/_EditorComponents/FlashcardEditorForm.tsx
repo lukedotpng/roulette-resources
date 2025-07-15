@@ -1,3 +1,5 @@
+"use client";
+
 import {
     TimingsFlashcardSelect,
     TimingsFlashcardInsert,
@@ -7,9 +9,10 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import {
     CreateTimingsFlashcardAction,
     UpdateTimingsFlashcardAction,
-} from "../TimingsFlashcardActions";
+} from "../_InfoActions/TimingsFlashcardActions";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import remarkBreaks from "remark-breaks";
 
 export default function FlashcardEditorForm({
     timingsFlashcard,
@@ -164,7 +167,7 @@ export default function FlashcardEditorForm({
                             className="col-start-1 row-start-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
                         >
                             <textarea
-                                className="h-44 min-h-40 w-full border-2 border-zinc-900 p-1 focus:border-x-blue-400 focus:border-b-blue-400 focus:outline-none"
+                                className="h-full min-h-40 w-full border-2 border-zinc-900 p-1 focus:border-x-blue-400 focus:border-b-blue-400 focus:outline-none"
                                 ref={textAreaRef}
                                 name="info"
                                 value={timingsFlashcardInfo}
@@ -183,6 +186,7 @@ export default function FlashcardEditorForm({
                             className="markdown col-start-1 row-start-1 border-2 border-zinc-900 p-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
                         >
                             <Markdown
+                                remarkPlugins={[remarkBreaks]}
                                 rehypePlugins={[rehypeRaw]}
                                 components={{
                                     a(props) {
@@ -192,7 +196,10 @@ export default function FlashcardEditorForm({
                                     },
                                 }}
                             >
-                                {timingsFlashcardInfo}
+                                {timingsFlashcardInfo.replaceAll(
+                                    "\n",
+                                    "&nbsp;\n",
+                                )}
                             </Markdown>
                         </div>
                     </div>

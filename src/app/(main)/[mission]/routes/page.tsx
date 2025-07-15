@@ -16,7 +16,7 @@ export default async function Page({
     const routes = await db
         .select()
         .from(RouteSchema)
-        .where(eq(RouteSchema.map, mission));
+        .where(eq(RouteSchema.mission, mission));
 
     return <Routes mission={mission} routes={routes} />;
 }
