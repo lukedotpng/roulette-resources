@@ -4,6 +4,7 @@ import { useState } from "react";
 import Markdown from "react-markdown";
 import FlashcardEditorForm from "../../_EditorComponents/FlashcardEditorForm";
 import rehypeRaw from "rehype-raw";
+import remarkBreaks from "remark-breaks";
 
 export default function TimingsCard({
     timingsFlashcard,
@@ -66,6 +67,7 @@ export default function TimingsCard({
                     className="markdown col-start-1 row-start-1 py-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0"
                 >
                     <Markdown
+                        remarkPlugins={[remarkBreaks]}
                         rehypePlugins={[rehypeRaw]}
                         components={{
                             a(props) {
@@ -75,7 +77,10 @@ export default function TimingsCard({
                     >
                         {timingsFlashcard === undefined
                             ? "**No data yet**\n* This target isn't shown to users until info is added"
-                            : timingsFlashcard.info}
+                            : timingsFlashcard.info.replaceAll(
+                                  "\n",
+                                  "&nbsp;\n",
+                              )}
                     </Markdown>
                 </div>
             </div>
