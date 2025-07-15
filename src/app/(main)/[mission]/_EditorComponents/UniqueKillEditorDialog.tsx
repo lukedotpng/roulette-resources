@@ -13,7 +13,14 @@ import {
     DialogTitle,
 } from "@radix-ui/react-dialog";
 
-import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
+import {
+    Dispatch,
+    SetStateAction,
+    useState,
+    useEffect,
+    useRef,
+    useMemo,
+} from "react";
 import {
     CreateUniqueKillAction,
     UpdateUniqueKillAction,
@@ -34,7 +41,7 @@ import {
     MDXEditorMethods,
 } from "@mdxeditor/editor";
 import {
-    SPIN_TARGETS,
+    TARGET_BANNED_KILL_METHODS_LIST,
     TARGET_UNIQUE_KILLS_LIST,
 } from "@/app/(main)/spin/utils/SpinGlobals";
 import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
@@ -67,25 +74,37 @@ export default function UniqueKillEditorDialog({
         uniqueKill.video_link || "",
     );
 
-    let uniqueKillOptions = [
-        "loud_kills",
-        "live_kills",
-        "drowning",
-        "falling_object",
-        "fall",
-        "fire",
-        "electrocution",
-        "explosion_accident",
-        "consumed_poison",
-        "impact_explosive",
-    ];
-
-    if (SPIN_TARGETS.includes(uniqueKill.target)) {
+    const uniqueKillOptions = useMemo(() => {
+        if (targetValue === "erich_soders") {
+            return TARGET_UNIQUE_KILLS_LIST[targetValue as SpinTarget];
+        }
+        let uniqueKillOptions = [
+            "loud_kills",
+            "live_kills",
+            "drowning",
+            "falling_object",
+            "fall",
+            "fire",
+            "electrocution",
+            "explosion_accident",
+            "consumed_poison",
+            "impact_explosive",
+        ];
+        if (uniqueKill.mission === "berlin") {
+            return uniqueKillOptions;
+        }
+        const bannedUniqueKills =
+            TARGET_BANNED_KILL_METHODS_LIST[targetValue as SpinTarget];
+        uniqueKillOptions = uniqueKillOptions.filter((uniqueKill) => {
+            return !bannedUniqueKills.includes(uniqueKill);
+        });
         const customUniqueKills =
-            TARGET_UNIQUE_KILLS_LIST[uniqueKill.target as SpinTarget];
+            TARGET_UNIQUE_KILLS_LIST[targetValue as SpinTarget];
 
         uniqueKillOptions = [...uniqueKillOptions, ...customUniqueKills];
-    }
+
+        return uniqueKillOptions;
+    }, [targetValue]);
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
@@ -107,6 +126,7 @@ export default function UniqueKillEditorDialog({
         uniqueKill.info,
         uniqueKillVideoLink,
         uniqueKill.video_link,
+        targetValue,
         hasBeenEdited,
     ]);
 
@@ -138,7 +158,7 @@ export default function UniqueKillEditorDialog({
                             setEditDialogActive(false);
                         }}
                     >
-                        {isNew ? (
+                        {isNew && uniqueKill.mission !== "berlin" ? (
                             <fieldset>
                                 {/* Field for the unique kill name */}
                                 <label className="pr-1 font-semibold">
@@ -147,7 +167,7 @@ export default function UniqueKillEditorDialog({
                                 <select
                                     required
                                     value={targetValue}
-                                    name="kill_method"
+                                    name="target"
                                     onChange={(e) =>
                                         setTargetValue(e.target.value as Target)
                                     }
@@ -169,8 +189,12 @@ export default function UniqueKillEditorDialog({
                             <input
                                 readOnly
                                 hidden
-                                name="kill_method"
-                                value={uniqueKill.kill_method}
+                                name="target"
+                                value={
+                                    uniqueKill.mission === "berlin"
+                                        ? "any"
+                                        : uniqueKill.target
+                                }
                             ></input>
                         )}
                         {isNew ? (
@@ -289,14 +313,6 @@ export default function UniqueKillEditorDialog({
                             name="mission"
                             value={uniqueKill.mission}
                             id="map"
-                        />
-                        {/* Hidden field for unique kill Target */}
-                        <input
-                            hidden
-                            readOnly
-                            name="target"
-                            value={uniqueKill.target}
-                            id="target"
                         />
 
                         <div className="flex w-full justify-center">
