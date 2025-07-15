@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import FlashcardEditorForm from "../../_EditorComponents/FlashcardEditorForm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
+import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";
 
 export default function TimingsCard({
     timingsFlashcard,
@@ -77,10 +78,7 @@ export default function TimingsCard({
                     >
                         {timingsFlashcard === undefined
                             ? "**No data yet**\n* This target isn't shown to users until info is added"
-                            : timingsFlashcard.info.replaceAll(
-                                  "\n",
-                                  "&nbsp;\n",
-                              )}
+                            : MarkdownTextToDisplay(timingsFlashcard.info)}
                     </Markdown>
                 </div>
             </div>

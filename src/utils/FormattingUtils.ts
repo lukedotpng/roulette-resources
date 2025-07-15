@@ -190,3 +190,8 @@ export function MillisecondsToTimeString(
 
     return `${hours > 0 ? hoursString + ":" : ""}${minutesString}:${secondsString}${showMs ? `.${msString}` : ""}`;
 }
+
+// Replaces new lines with non breaking new lines to allow for multiple breaks
+export function MarkdownTextToDisplay(text: string) {
+    return text.replaceAll(/\n|\r\n/g, "&nbsp;\n");
+}

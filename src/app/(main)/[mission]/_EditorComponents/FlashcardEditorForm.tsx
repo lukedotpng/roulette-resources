@@ -13,6 +13,7 @@ import {
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
+import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";
 
 export default function FlashcardEditorForm({
     timingsFlashcard,
@@ -33,6 +34,7 @@ export default function FlashcardEditorForm({
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
     useEffect(() => {
         setHasBeenEdited(timingsFlashcardInfo !== timingsFlashcard.info);
+        console.log(JSON.stringify([timingsFlashcardInfo]));
     }, [timingsFlashcardInfo, timingsFlashcard.info]);
 
     function StyleText(style: "bold" | "italic" | "underline") {
@@ -196,10 +198,7 @@ export default function FlashcardEditorForm({
                                     },
                                 }}
                             >
-                                {timingsFlashcardInfo.replaceAll(
-                                    "\n",
-                                    "&nbsp;\n",
-                                )}
+                                {MarkdownTextToDisplay(timingsFlashcardInfo)}
                             </Markdown>
                         </div>
                     </div>
