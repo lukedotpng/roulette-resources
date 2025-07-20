@@ -60,7 +60,13 @@ export default function Home() {
                 </div>
                 <section className="flex max-h-[30rem] w-full max-w-[40rem] min-w-72 flex-col items-center gap-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900">
                     <h1 className="text-[1.2em] font-bold">
-                        {"Read Roulette Articles by In4Fun!"}
+                        <a
+                            href="https://hitmanrr.substack.com/"
+                            target="_blank"
+                            className="decoration-red-500 decoration-2 hover:underline"
+                        >
+                            {"Read Roulette Articles by In4Fun!"}
+                        </a>
                     </h1>
                     <h2 className="pb-1 text-[.9em]">
                         {

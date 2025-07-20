@@ -47,9 +47,17 @@ type SubstackResponseObject = {
 };
 
 export default async function RouletteSubstackInfo() {
-    let hitmanrrSubstackRes: SubstackResponseObject[] = (await fetch(
+    let hitmanrrSubstackRes = (await fetch(
         "https://hitmanrr.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=0",
-    ).then((res) => res.json())) as SubstackResponseObject[];
+    )
+        .then((res) => res.json())
+        .catch(() => {
+            console.log("Could not fetch substack data");
+        })) as SubstackResponseObject[];
+
+    if (hitmanrrSubstackRes === undefined || hitmanrrSubstackRes.length === 0) {
+        return null;
+    }
 
     if (hitmanrrSubstackRes.length > 3) {
         hitmanrrSubstackRes = hitmanrrSubstackRes.slice(0, 3);
