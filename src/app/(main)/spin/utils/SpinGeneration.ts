@@ -199,7 +199,11 @@ function GetRandomCondition(
             killMethod = "remote_explosive";
         } else {
             let modifierPrefix = "";
-            if (target === "vanya_shah") {
+            if (
+                target === "vanya_shah" ||
+                target === "dawood_rangan" ||
+                target === "hush"
+            ) {
                 modifierPrefix = Math.random() > 0.5 ? "remote_" : "loud_";
             } else {
                 modifierPrefix =
@@ -320,6 +324,13 @@ function GetLegalUniqueKills(
         if (
             target === "marcus_stuyvesant" &&
             disguise === "skydiving_suit" &&
+            uniqueKill === "drowning"
+        ) {
+            return false;
+        }
+        if (
+            target === "vanya_shah" &&
+            disguise === "tailor" &&
             uniqueKill === "drowning"
         ) {
             return false;
