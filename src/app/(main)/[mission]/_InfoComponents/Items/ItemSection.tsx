@@ -1,7 +1,7 @@
 "use client";
 
 import { ItemInsert, ItemSelect, ItemType, Mission } from "@/types";
-import { use, useState } from "react";
+import { useState } from "react";
 import ItemEditorDialog from "../../_EditorComponents/ItemEditorDialog";
 import WeaponCard from "./WeaponCard";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
@@ -10,13 +10,11 @@ import MeleeCard from "./MeleeCard";
 
 export default function ItemSection({
     mission,
-    itemsPromise,
+    items,
 }: {
     mission: Mission;
-    itemsPromise: Promise<ItemSelect[]>;
+    items: ItemSelect[];
 }) {
-    // ITEMS
-    let items = use(itemsPromise);
     items = items.sort((a, b) => (a.name >= b.name ? 1 : -1));
 
     const [editDialogActive, setEditDialogActive] = useState(false);
@@ -71,7 +69,7 @@ export default function ItemSection({
                     HandleItemEditTrigger={(item: ItemSelect, isNew: boolean) =>
                         HandleItemEditTrigger(item, isNew, "melee")
                     }
-                    className="h-fit w-full min-w-[20rem] flex-1 break-inside-avoid overflow-y-scroll rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900"
+                    className="h-fit w-full min-w-[20rem] flex-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900"
                 />
                 <WeaponCard
                     weapons={items.filter((item) => item.type === "weapon")}
@@ -79,7 +77,7 @@ export default function ItemSection({
                         item: ItemSelect | string,
                         isNew: boolean,
                     ) => HandleItemEditTrigger(item, isNew, "weapon")}
-                    className="h-fit w-full min-w-[20rem] flex-1 break-inside-avoid overflow-y-scroll rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900"
+                    className="h-fit w-full min-w-[20rem] flex-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900"
                 />
                 <UtilitiesCard
                     utilities={items.filter((item) => item.type === "utility")}
@@ -87,7 +85,7 @@ export default function ItemSection({
                         item: ItemSelect | string,
                         isNew: boolean,
                     ) => HandleItemEditTrigger(item, isNew, "utility")}
-                    className="h-fit w-full min-w-[20rem] flex-1 break-inside-avoid overflow-y-scroll rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900"
+                    className="h-fit w-full min-w-[20rem] flex-1 overflow-y-auto rounded-xl border-4 border-zinc-500 bg-white p-2 text-zinc-900"
                 />
             </div>
             {editDialogActive && (

@@ -2,19 +2,17 @@
 
 import { RouteSelect, Mission, RouteInsert } from "@/types";
 import { useSession } from "next-auth/react";
-import { use, useState } from "react";
+import { useState } from "react";
 import RouteCard from "./RouteCard";
 import RouteEditorDialog from "../../_EditorComponents/RouteEditorDialog";
 
 export default function RoutesSection({
     mission,
-    routesPromise,
+    routes,
 }: {
     mission: Mission;
-    routesPromise: Promise<RouteSelect[]>;
+    routes: RouteSelect[];
 }) {
-    const routes = use(routesPromise);
-
     const session = useSession();
 
     const [editDialogActive, setEditDialogActive] = useState(false);

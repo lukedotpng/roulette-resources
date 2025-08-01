@@ -92,6 +92,7 @@ export const STANDARD_UNIQUE_KILL_TYPES = Object.freeze([
     "electrocution",
     "explosion_accident",
     "consumed",
+    "impact_explosive",
     "live_kills",
 ]);
 

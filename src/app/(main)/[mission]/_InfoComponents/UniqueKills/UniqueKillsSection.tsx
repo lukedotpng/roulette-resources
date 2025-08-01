@@ -6,7 +6,7 @@ import {
     UniqueKillInsert,
     UniqueKillSelect,
 } from "@/types";
-import { use, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
     MISSION_TARGET_LIST,
@@ -29,13 +29,11 @@ import {
 
 export default function UniqueKillsSection({
     mission,
-    uniqueKillsPromise,
+    uniqueKills,
 }: {
     mission: Mission;
-    uniqueKillsPromise: Promise<UniqueKillSelect[]>;
+    uniqueKills: UniqueKillSelect[];
 }) {
-    const uniqueKills = use(uniqueKillsPromise);
-
     const session = useSession();
 
     const targets = MISSION_TARGET_LIST[mission];

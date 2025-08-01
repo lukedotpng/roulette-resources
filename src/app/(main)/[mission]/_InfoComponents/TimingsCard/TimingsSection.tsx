@@ -1,20 +1,16 @@
 "use client";
 
 import { Mission, TimingsFlashcardSelect } from "@/types";
-import { use } from "react";
 import TimingsCard from "./TimingsCard";
 import { useSession } from "next-auth/react";
 
 export default function TimingsCardSection({
     mission,
-    timingsFlashcardPromise,
+    timingsFlashcard,
 }: {
     mission: Mission;
-    timingsFlashcardPromise: Promise<TimingsFlashcardSelect | undefined>;
+    timingsFlashcard: TimingsFlashcardSelect | undefined;
 }) {
-    // TIMINGS FLASHCARD
-    const timingsFlashcard = use(timingsFlashcardPromise);
-
     const session = useSession();
 
     if (timingsFlashcard === undefined && !session.data?.user?.admin) {

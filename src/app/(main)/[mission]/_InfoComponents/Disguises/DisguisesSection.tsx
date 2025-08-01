@@ -8,20 +8,18 @@ import {
 } from "@/types";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import DisguiseCard from "./DisguiseCard";
 import DisguiseVideoEditorDialog from "../../_EditorComponents/DisguiseVideoEditorDialog";
 import DisguiseOptionPicker from "./DisguiseOptionPicker";
 
 export default function DisguisesSection({
     mission,
-    disguisesPromise,
+    disguises,
 }: {
     mission: Mission;
-    disguisesPromise: Promise<DisguiseSelect[]>;
+    disguises: DisguiseSelect[];
 }) {
-    const disguises = use(disguisesPromise);
-
     const searchParams = useSearchParams();
     const session = useSession();
 

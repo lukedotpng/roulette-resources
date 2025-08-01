@@ -1,7 +1,7 @@
 "use client";
 
 import { IsolationInsert, IsolationSelect, Mission, Target } from "@/types";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import IsolationEditorDialog from "../../_EditorComponents/IsolationEditorDialog";
 import { MISSION_TARGET_LIST } from "@/utils/globals";
@@ -10,13 +10,11 @@ import IsolationCard from "./IsolationCard";
 
 export default function IsolationsSection({
     mission,
-    isolationsPromise,
+    isolations,
 }: {
     mission: Mission;
-    isolationsPromise: Promise<IsolationSelect[]>;
+    isolations: IsolationSelect[];
 }) {
-    const isolations = use(isolationsPromise);
-
     const session = useSession();
 
     const targets =
