@@ -92,6 +92,7 @@ export default function DisguiseVideoEditorDialog({
                             </label>
                             <input
                                 type="url"
+                                required
                                 name="link"
                                 value={disguiseVideoLink}
                                 onChange={(e) =>
