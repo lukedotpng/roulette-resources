@@ -9,6 +9,10 @@ import {
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteRouteAction } from "../../_InfoActions/RouteActions";
+import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkBreaks from "remark-breaks";
 
 export default function RouteCard({
     route,
@@ -39,10 +43,19 @@ export default function RouteCard({
                     {route.name}
                 </p>
                 {route.notes && (
-                    <p>
-                        <strong>Notes: </strong>
-                        {route.notes}
-                    </p>
+                    <div className="markdown col-start-1 row-start-1 py-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0">
+                        <Markdown
+                            remarkPlugins={[remarkBreaks]}
+                            rehypePlugins={[rehypeRaw]}
+                            components={{
+                                a(props) {
+                                    return <a target="_blank" {...props}></a>;
+                                },
+                            }}
+                        >
+                            {MarkdownTextToDisplay(route.notes)}
+                        </Markdown>
+                    </div>
                 )}
                 <div className="mt-1 w-full">
                     <iframe

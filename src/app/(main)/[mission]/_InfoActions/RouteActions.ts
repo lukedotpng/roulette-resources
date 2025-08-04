@@ -72,7 +72,7 @@ export async function CreateRouteAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/routes", "page");
+    revalidatePath("/[mission]/", "page");
     return { success: true };
 }
 
@@ -121,7 +121,7 @@ export async function UpdateRouteAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/routes", "page");
+    revalidatePath("/[mission]/", "page");
     return { success: true };
 }
 
@@ -139,6 +139,6 @@ export async function DeleteRouteAction(
         .set({ visible: false, updated_at: new Date() })
         .where(eq(RouteSchema.id, routeId));
 
-    revalidatePath("/[mission]/routes", "page");
+    revalidatePath("/[mission]/", "page");
     return { success: true };
 }

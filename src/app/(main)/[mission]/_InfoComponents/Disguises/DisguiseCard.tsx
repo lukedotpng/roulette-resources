@@ -30,7 +30,7 @@ export default function DisguiseCard({
                     </p>
                 )}
                 {disguise.notes && <p>{disguise.notes}</p>}
-                <div className="flex flex-row flex-wrap justify-center gap-2">
+                <div className="flex flex-row flex-wrap items-center justify-center gap-2">
                     {disguiseVideos.map((disguiseVideo) => (
                         <DisguiseVideo
                             key={disguiseVideo.id}

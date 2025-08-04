@@ -9,6 +9,10 @@ import {
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteDisguiseVideoAction } from "../../_InfoActions/DisguiseActions";
+import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkBreaks from "remark-breaks";
 
 export default function DisguiseVideo({
     disguiseVideo,
@@ -45,12 +49,25 @@ export default function DisguiseVideo({
             className="group flex max-w-[30rem] min-w-full flex-1 flex-col md:min-w-[25rem]"
             key={disguiseVideo.id}
             data-admin={session.data?.user?.admin}
+            data-notes={disguiseVideo.notes !== ""}
         >
             {disguiseVideo.notes !== "" && (
-                <p className="self-start">{`${disguiseVideo.notes}`}</p>
+                <div className="markdown col-start-1 row-start-1 border-2 border-b-0 p-2 py-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0">
+                    <Markdown
+                        remarkPlugins={[remarkBreaks]}
+                        rehypePlugins={[rehypeRaw]}
+                        components={{
+                            a(props) {
+                                return <a target="_blank" {...props}></a>;
+                            },
+                        }}
+                    >
+                        {MarkdownTextToDisplay(disguiseVideo.notes)}
+                    </Markdown>
+                </div>
             )}
             <iframe
-                className="aspect-video h-auto w-full rounded-md border-2 border-zinc-900 group-data-[admin=true]:rounded-b-none"
+                className="aspect-video h-auto w-full rounded-md border-2 border-zinc-900 group-data-[admin=true]:rounded-b-none group-data-[notes=true]:rounded-t-none"
                 width="380"
                 height="213"
                 src={`https://www.youtube-nocookie.com/embed/${videoId}`}

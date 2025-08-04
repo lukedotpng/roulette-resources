@@ -13,6 +13,7 @@ import {
     UpdateDisguiseVideoAction,
 } from "../_InfoActions/DisguiseActions";
 import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
+import FreeformInput from "../_components/FreeformInput";
 
 export default function DisguiseVideoEditorDialog({
     disguise,
@@ -51,7 +52,7 @@ export default function DisguiseVideoEditorDialog({
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-3 sm:w-[30rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-3 sm:max-w-[50rem]">
                     <DialogTitle className="w-full p-3 text-center font-bold">
                         {`${isNew ? "Add New" : "Update"} Video For "${DisguiseIDToDisplayText(disguise.id)}"`}
                     </DialogTitle>
@@ -78,15 +79,12 @@ export default function DisguiseVideoEditorDialog({
                         <fieldset>
                             {/* Field for Video notes */}
                             <label className="font-semibold">{"Notes:"}</label>
-                            <input
-                                type="text"
-                                name="notes"
+                            <FreeformInput
                                 value={disguiseVideoNotes}
-                                onChange={(e) =>
-                                    setDisguiseVideoNotes(e.target.value)
-                                }
-                                className="w-full border-2 border-zinc-900 p-1"
-                                id="notes"
+                                id={"notes"}
+                                onChange={(updatedNotes: string) => {
+                                    setDisguiseVideoNotes(updatedNotes);
+                                }}
                             />
                             {/* Field for Video URL */}
                             <label className="font-semibold">

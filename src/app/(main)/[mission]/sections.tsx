@@ -74,7 +74,7 @@ export default function Sections({
             filteredUniqueKills,
             filteredRoutes,
         };
-    }, [filterQuery]);
+    }, [filterQuery, items, disguises, isolations, uniqueKills, routes]);
 
     return (
         <>

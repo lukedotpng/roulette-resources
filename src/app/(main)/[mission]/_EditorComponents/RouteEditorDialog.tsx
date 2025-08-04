@@ -12,6 +12,8 @@ import {
     CreateRouteAction,
     UpdateRouteAction,
 } from "../_InfoActions/RouteActions";
+import FreeformInput from "../_components/FreeformInput";
+import { useRouter } from "next/navigation";
 
 export default function RouteEditorDialog({
     route,
@@ -24,6 +26,8 @@ export default function RouteEditorDialog({
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
+    const router = useRouter();
+
     const [routeName, setRouteName] = useState(route.name);
     const [routeNotes, setRouteNotes] = useState(route.notes || "");
     const [routeVideoLink, setRouteVideoLink] = useState(route.video_link);
@@ -54,7 +58,7 @@ export default function RouteEditorDialog({
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>
             <DialogPortal>
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
-                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:w-[30rem]">
+                <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:max-w-[50rem]">
                     <DialogTitle className="w-full p-3 text-center font-bold">
                         {`${isNew ? "Create" : "Edit"} Route`}
                     </DialogTitle>
@@ -75,6 +79,7 @@ export default function RouteEditorDialog({
                                         '"',
                                 );
                             }
+                            router.refresh();
                             setEditDialogActive(false);
                         }}
                     >
@@ -94,14 +99,21 @@ export default function RouteEditorDialog({
                         <fieldset className="pt-2">
                             {/* Field for route notes */}
                             <label className="font-semibold">Notes:</label>
-                            <input
+                            <FreeformInput
+                                value={routeNotes}
+                                onChange={(updateNotes: string) => {
+                                    setRouteNotes(updateNotes);
+                                }}
+                                id={"notes"}
+                            />
+                            {/*<input
                                 type="text"
                                 name="notes"
                                 value={routeNotes}
                                 onChange={(e) => setRouteNotes(e.target.value)}
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="notes"
-                            />
+                            />*/}
                         </fieldset>
                         <fieldset className="pt-2">
                             {/* Field for route video link */}
