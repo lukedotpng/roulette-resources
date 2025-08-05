@@ -82,7 +82,7 @@ export default function IsolationsSection({
                                 HandleIsolationEditTrigger(
                                     {
                                         id: "",
-                                        target: "",
+                                        target: activeTargetId,
                                         mission: mission,
                                         name: "New Isolation",
                                         info: "",
