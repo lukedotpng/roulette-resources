@@ -6,6 +6,7 @@ import {
     ItemSelect,
     Mission,
     RouteSelect,
+    TechSelect,
     TimingsFlashcardSelect,
     UniqueKillSelect,
 } from "@/types";
@@ -16,6 +17,7 @@ import RoutesSection from "./_InfoComponents/Routes/RoutesSections";
 import TimingsCardSection from "./_InfoComponents/TimingsCard/TimingsSection";
 import UniqueKillsSection from "./_InfoComponents/UniqueKills/UniqueKillsSection";
 import { use, useMemo, useState } from "react";
+import TechSection from "./_InfoComponents/Tech/TechSections";
 
 export default function Sections({
     mission,
@@ -25,6 +27,7 @@ export default function Sections({
     isolationsPromise,
     uniqueKillsPromise,
     routesPromise,
+    techPromise,
 }: {
     mission: Mission;
     timingsFlashcardPromise: Promise<TimingsFlashcardSelect | undefined>;
@@ -33,6 +36,7 @@ export default function Sections({
     isolationsPromise: Promise<IsolationSelect[]>;
     uniqueKillsPromise: Promise<UniqueKillSelect[]>;
     routesPromise: Promise<RouteSelect[]>;
+    techPromise: Promise<TechSelect[]>;
 }) {
     const timingsFlashcard = use(timingsFlashcardPromise);
     const items = use(itemsPromise);
@@ -40,6 +44,7 @@ export default function Sections({
     const isolations = use(isolationsPromise);
     const uniqueKills = use(uniqueKillsPromise);
     const routes = use(routesPromise);
+    const tech = use(techPromise);
 
     const [filterQuery, setFilterQuery] = useState("");
     /* eslint-disable-next-line */
@@ -53,6 +58,7 @@ export default function Sections({
         filteredIsolations,
         filteredUniqueKills,
         filteredRoutes,
+        filteredTech,
     } = useMemo(() => {
         const filteredItems = items.filter((item) => {
             if (item.name.toLowerCase().includes(filterQuery)) {
@@ -66,6 +72,7 @@ export default function Sections({
         const filteredIsolations = [...isolations];
         const filteredUniqueKills = [...uniqueKills];
         const filteredRoutes = [...routes];
+        const filteredTech = [...tech];
 
         return {
             filteredItems,
@@ -73,8 +80,9 @@ export default function Sections({
             filteredIsolations,
             filteredUniqueKills,
             filteredRoutes,
+            filteredTech,
         };
-    }, [filterQuery, items, disguises, isolations, uniqueKills, routes]);
+    }, [filterQuery, items, disguises, isolations, uniqueKills, routes, tech]);
 
     return (
         <>
@@ -103,6 +111,7 @@ export default function Sections({
                 mission={mission as Mission}
                 routes={filteredRoutes}
             />
+            <TechSection mission={mission as Mission} tech={filteredTech} />
         </>
     );
 }

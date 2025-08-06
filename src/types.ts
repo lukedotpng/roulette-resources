@@ -8,6 +8,7 @@ import {
     UniqueKillSchema,
     UpdateLogSchema,
     TimingsFlashcardSchema,
+    TechSchema,
 } from "./server/db/schema";
 import { Ruleset } from "./app/(main)/spin/_components/CustomRulesComponents/CustomRuleTypes";
 
@@ -23,6 +24,9 @@ export type IsolationInsert = InferInsertModel<typeof IsolationSchema>;
 
 export type RouteSelect = InferSelectModel<typeof RouteSchema>;
 export type RouteInsert = InferInsertModel<typeof RouteSchema>;
+
+export type TechSelect = InferSelectModel<typeof TechSchema>;
+export type TechInsert = InferInsertModel<typeof TechSchema>;
 
 export type ItemSelect = InferSelectModel<typeof ItemSchema>;
 export type ItemInsert = InferInsertModel<typeof ItemSchema>;

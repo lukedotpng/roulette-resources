@@ -6,6 +6,7 @@ import {
     IsolationSchema,
     ItemSchema,
     RouteSchema,
+    TechSchema,
     TimingsFlashcardSchema,
 } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
@@ -40,6 +41,9 @@ export default async function Page({
     const routesPromise = db.query.RouteSchema.findMany({
         where: eq(RouteSchema.mission, mission),
     });
+    const techPromise = db.query.TechSchema.findMany({
+        where: eq(TechSchema.mission, mission),
+    });
 
     return (
         <Sections
@@ -50,6 +54,7 @@ export default async function Page({
             isolationsPromise={isolationsPromise}
             uniqueKillsPromise={uniqueKillsPromise}
             routesPromise={routesPromise}
+            techPromise={techPromise}
         />
     );
 }

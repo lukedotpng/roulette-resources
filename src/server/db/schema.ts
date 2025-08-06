@@ -116,6 +116,17 @@ export const RouteSchema = pgTable("roulette-resources-routes", {
     updated_at: timestamp().defaultNow().notNull(),
 });
 
+export const TechSchema = pgTable("roulette-resources-tech", {
+    id: uuid().primaryKey().defaultRandom(),
+    mission: text().notNull(),
+    name: text().notNull(),
+    notes: text(),
+    video_link: text().notNull(),
+    visible: boolean().notNull(),
+    created_at: timestamp().defaultNow().notNull(),
+    updated_at: timestamp().defaultNow().notNull(),
+});
+
 export const UpdateLogSchema = pgTable("roulette-resources-update_log", {
     id: uuid().primaryKey().defaultRandom(),
     username: text().notNull(),
