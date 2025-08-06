@@ -60,7 +60,7 @@ export default function RoutesSection({
                         </button>
                     )}
                 </div>
-                <div className="flex w-full justify-center gap-2 sm:gap-2">
+                <div className="flex w-full flex-wrap justify-center gap-2 sm:gap-2">
                     {routes === null || routes.length === 0 ? (
                         <h1>No data for this map :(</h1>
                     ) : (
