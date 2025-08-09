@@ -16,7 +16,6 @@ export default function Home() {
                         </h2>
                         <Link
                             href={"/spin"}
-                            target="_blank"
                             className="rounded-md border-2 border-zinc-900 bg-white px-2 text-[1.2em] font-bold text-zinc-900 hover:border-red-500 hover:bg-red-500 hover:text-white"
                         >
                             {"Go Spin!"}
