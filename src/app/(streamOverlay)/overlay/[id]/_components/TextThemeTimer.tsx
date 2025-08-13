@@ -46,7 +46,7 @@ export default function TextThemeTimer({
         return () => {
             clearInterval(id);
         };
-    }, [matchActive]);
+    }, [matchActive, startTime]);
 
     if (startTime === -1) {
         return;

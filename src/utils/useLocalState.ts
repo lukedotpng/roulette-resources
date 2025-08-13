@@ -10,7 +10,7 @@ export function useLocalState<T>(
 
     useEffect(() => {
         SetLocalStateValue(key, value);
-    }, [value]);
+    }, [key, value]);
 
     return [value, setValue];
 }

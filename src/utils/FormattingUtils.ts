@@ -1,4 +1,5 @@
-import { Mission, SpinTarget } from "@/types";
+import { SpinTarget } from "@/app/(main)/spin/types";
+import { Mission } from "@/types";
 
 export function MissionIDToDisplayText(mission: string) {
     let missionDisplayText = "";

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-    Mission,
-    SpinTarget,
-    UniqueKillInsert,
-    UniqueKillSelect,
-} from "@/types";
+import { Mission, UniqueKillInsert, UniqueKillSelect } from "@/types";
 import { useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
@@ -26,6 +21,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
+import { SpinTarget } from "@/app/(main)/spin/types";
 
 export default function UniqueKillsSection({
     mission,
@@ -104,7 +100,7 @@ export default function UniqueKillsSection({
             uniqueKills.filter((uniqueKill) => {
                 return uniqueKill.kill_method === activeUniqueKillId;
             }),
-        [activeUniqueKillId],
+        [activeUniqueKillId, uniqueKills],
     );
 
     return (

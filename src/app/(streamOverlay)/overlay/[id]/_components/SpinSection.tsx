@@ -1,6 +1,5 @@
 "use client";
 
-import { Spin } from "@/types";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 import SmallMaps from "./SmallMaps";
@@ -8,6 +7,7 @@ import LargeMaps from "./LargeMaps";
 import Berlin from "./Berlin";
 import TextOnly from "./TextOnly";
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
+import { Spin } from "@/app/(main)/spin/types";
 
 export default function SpinSection({
     id,
@@ -64,7 +64,7 @@ export default function SpinSection({
         return () => {
             supabase.removeChannel(channel);
         };
-    }, []);
+    }, [id]);
 
     if (!spin) {
         return <h1 className="text-5xl text-white">{"Error finding spin"}</h1>;

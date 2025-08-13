@@ -11,7 +11,7 @@ import {
     DisguiseImagePathFormatter,
     MethodIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import { Mission, SpinTarget, SpinUpdateAction } from "@/types";
+import { Mission } from "@/types";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import {
@@ -20,6 +20,7 @@ import {
     TARGET_UNIQUE_KILLS_LIST,
     WEAPONS,
 } from "../../utils/SpinGlobals";
+import { SpinTarget, SpinUpdateAction } from "../../types";
 
 export default function SpinEditorDialog({
     mission,

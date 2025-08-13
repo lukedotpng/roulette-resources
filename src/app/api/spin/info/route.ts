@@ -1,3 +1,4 @@
+import { TargetSpinResources, SpinInfo } from "@/app/(main)/spin/types";
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { db } from "@/server/db";
 import {
@@ -5,13 +6,7 @@ import {
     ItemSchema,
     UniqueKillSchema,
 } from "@/server/db/schema";
-import {
-    DisguiseSelect,
-    ItemSelect,
-    SpinInfo,
-    TargetSpinResources,
-    UniqueKillSelect,
-} from "@/types";
+import { DisguiseSelect, ItemSelect, UniqueKillSelect } from "@/types";
 import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 

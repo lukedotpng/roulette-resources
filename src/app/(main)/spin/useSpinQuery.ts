@@ -1,67 +1,28 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Spin, SpinOptions } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
-import { GenerateSpin } from "./utils/SpinGeneration";
-import { MISSIONS } from "@/utils/globals";
+import { MatchModeManager, Spin, SpinOptions } from "./types";
 
 export function useSpinQuery(
     currentSpin: Spin | null,
-    UpdateSpin: (spin: Spin) => void,
-    matchActive: boolean,
+    SetCurrentSpin: (spin: Spin | null) => void,
+    matchModeManager: MatchModeManager,
     options: SpinOptions,
 ) {
     const searchParams = useSearchParams();
 
     const [query, setQuery] = useState(searchParams.get("s") ?? "");
 
+    // Update current spin on page navigation
     useEffect(() => {
-        const newQuery = searchParams.get("s") ?? "";
-        let currentSpinQuery = "";
-        if (currentSpin) {
-            currentSpinQuery = CreateSpinQuery(currentSpin);
-        }
+        const newSpinQuery = searchParams.get("s") ?? "";
 
-        const newSpin = GetSpinFromQuery(newQuery, false);
-        setQuery(newQuery);
-        if (newSpin && newQuery !== currentSpinQuery) {
-            UpdateSpin(newSpin);
-        } else if (!newSpin) {
-            if (options.queueMode.val) {
-                if (options.missionQueue.val.length > 0) {
-                    UpdateSpin(
-                        GenerateSpin(
-                            options.missionQueue.val[options.queueIndex.val],
-                        ),
-                    );
-                } else {
-                    options.missionQueue.Set([...MISSIONS]);
-                }
-            } else {
-                if (options.missionPool.val.length > 0) {
-                    UpdateSpin(
-                        GenerateSpin(
-                            options.missionPool.val[
-                                Math.floor(
-                                    Math.random() *
-                                        options.missionPool.val.length,
-                                )
-                            ],
-                        ),
-                    );
-                } else {
-                    UpdateSpin(
-                        GenerateSpin(
-                            MISSIONS[
-                                Math.floor(Math.random() * MISSIONS.length)
-                            ],
-                        ),
-                    );
-                }
-            }
-        }
-    }, [searchParams]);
+        const newSpin: Spin | null = GetSpinFromQuery(newSpinQuery, false);
+        setQuery(newSpinQuery);
+        SetCurrentSpin(newSpin);
+    }, [searchParams, SetCurrentSpin]);
 
+    // Update URL spin query on spin updates
     useEffect(() => {
         if (!currentSpin) {
             return;
@@ -74,8 +35,8 @@ export function useSpinQuery(
         params.set("s", spinQuery);
 
         if (
-            !options.updateQuery.val ||
-            (options.matchMode.val && !matchActive)
+            !options.updateUrlOnSpin.value ||
+            (matchModeManager.enabled && !matchModeManager.matchActive)
         ) {
             setQuery(spinQuery);
             return;
@@ -84,7 +45,13 @@ export function useSpinQuery(
         if (prevQuery !== params.toString()) {
             window.history.pushState(null, "", `/spin?${params.toString()}`);
         }
-    }, [currentSpin, matchActive, options.matchMode.val]);
+    }, [
+        currentSpin,
+        matchModeManager.enabled,
+        matchModeManager.matchActive,
+        options.updateUrlOnSpin.value,
+        searchParams,
+    ]);
 
     return query;
 }

@@ -2,28 +2,22 @@ import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import {
-    Mission,
-    SpinOptions,
-    SpinResources,
-    TargetSpinResources,
-} from "@/types";
+import { Mission } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { MatchModeManager, SpinResources, TargetSpinResources } from "../types";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function SpinTipsSection({
     query,
     mission,
-    options,
-    matchActive,
+    matchModeManager,
 }: {
     query: string;
     mission: Mission;
-    options: SpinOptions;
-    matchActive: boolean;
+    matchModeManager: MatchModeManager;
 }) {
     const { data, error, isLoading } = useSWR<TargetSpinResources>(
         "/api/spin/info?s=" + query,
@@ -52,7 +46,7 @@ export default function SpinTipsSection({
         );
     }
 
-    if (options.matchMode.val && !matchActive) {
+    if (matchModeManager.enabled && !matchModeManager.matchActive) {
         return (
             <section className="flex w-full flex-wrap justify-center gap-3 text-xs text-white sm:text-base">
                 <h2>{"Tips will show once the match starts"}</h2>

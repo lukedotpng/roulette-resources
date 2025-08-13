@@ -1,11 +1,11 @@
+import { Mission } from "@/types";
 import {
-    KillMethodType,
-    Mission,
     Spin,
     SpinInfo,
     SpinTarget,
     TargetKillMethods,
-} from "@/types";
+    KillMethodType,
+} from "../../types";
 import { CanBeNTKO } from "../SpinCheck";
 import {
     EXPLOSIVE_KILL_METHOD_LIST,
@@ -231,7 +231,7 @@ function GetLegalUniqueKills(
     // Handle Soders uniquely, by only checking if "explosion" kills repeat
     if (target === "erich_soders") {
         const legalUniqueKills = TARGET_UNIQUE_KILLS_LIST[target];
-        return legalUniqueKills.filter((uniqueKill) => {
+        return legalUniqueKills.filter((uniqueKill: string) => {
             if (uniqueKill === "explosion") {
                 if (conditionsSpun.includes("explosion_accident")) {
                     return false;

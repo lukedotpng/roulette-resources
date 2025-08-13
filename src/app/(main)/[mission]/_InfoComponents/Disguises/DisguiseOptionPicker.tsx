@@ -1,5 +1,3 @@
-"use client";
-
 import { Mission } from "@/types";
 import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
 import {

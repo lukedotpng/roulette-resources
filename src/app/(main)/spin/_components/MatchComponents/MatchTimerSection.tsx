@@ -1,29 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CountdownText from "./CountdownText";
-import { Spin, SpinOptions } from "@/types";
 import { MillisecondsToTimeString } from "@/utils/FormattingUtils";
 import PreMatchView from "./PreMatchView";
 import InMatchView from "./InMatchView";
 import PostMatchView from "./PostMatchView";
 import { CreateSpinQuery } from "../../utils/SpinQuery";
 import { UpdateSpinOverlayMatchStatus } from "@/app/(streamOverlay)/OverlayActions";
+import { SpinManager } from "../../types";
 
 export default function MatchTimerSection({
-    matchActive,
-    currentSpin,
-    StartMatch,
-    StopMatch,
-    overlayId,
-    overlayKey,
-    options,
+    spinManager,
 }: {
-    matchActive: boolean;
-    currentSpin: Spin;
-    StartMatch: () => void;
-    StopMatch: () => void;
-    overlayId: string;
-    overlayKey: number;
-    options: SpinOptions;
+    spinManager: SpinManager;
 }) {
     const [countdownActive, setCountdownActive] = useState(false);
     const [spinFinished, setSpinFinished] = useState(false);
@@ -34,10 +22,10 @@ export default function MatchTimerSection({
     const matchTimerRef = useRef<HTMLParagraphElement>(null);
     const intervalRef = useRef<NodeJS.Timeout>(null);
 
-    function OnStartMatch() {
-        StartMatch();
+    const OnStartMatch = useCallback(() => {
+        spinManager.StartMatch();
         setCountdownActive(false);
-    }
+    }, []);
 
     function OnSpinFinished() {
         if (intervalRef.current) {
@@ -49,9 +37,19 @@ export default function MatchTimerSection({
 
         setSpinFinished(true);
 
-        const query = CreateSpinQuery(currentSpin);
+        // Should never happen but who knows
+        if (spinManager.currentSpin === null) {
+            return;
+        }
 
-        UpdateSpinOverlayMatchStatus(overlayId, overlayKey, query, false);
+        const spinQuery = CreateSpinQuery(spinManager.currentSpin);
+
+        UpdateSpinOverlayMatchStatus(
+            spinManager.options.streamOverlay.id,
+            spinManager.options.streamOverlay.key,
+            spinQuery,
+            false,
+        );
 
         if (!exactTime.current) {
             console.error("ERROR SAVING TIME");
@@ -59,20 +57,20 @@ export default function MatchTimerSection({
         }
 
         const updatedSimRecords =
-            options.simRecords.val.length > 0
-                ? [...options.simRecords.val]
+            spinManager.matchModeManager.simRecords.length > 0
+                ? [...spinManager.matchModeManager.simRecords]
                 : [];
         updatedSimRecords.push({
-            mission: currentSpin.mission,
-            spinId: CreateSpinQuery(currentSpin),
+            mission: spinManager.currentSpin.mission,
+            spinId: spinQuery,
             time: exactTime.current,
             date: Date.now(),
         });
-        options.simRecords.Set(updatedSimRecords);
+        spinManager.matchModeManager.SetSimRecords(updatedSimRecords);
     }
 
     function OnSpinCancel() {
-        StopMatch();
+        spinManager.StopMatch();
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
         }
@@ -81,7 +79,7 @@ export default function MatchTimerSection({
     }
 
     useEffect(() => {
-        if (!matchActive) {
+        if (!spinManager.matchModeManager.matchActive) {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
@@ -111,39 +109,45 @@ export default function MatchTimerSection({
         return () => {
             clearInterval(id);
         };
-    }, [matchActive]);
+    }, [spinManager.matchModeManager.matchActive]);
 
     useEffect(() => {
         setCountdownActive(false);
-    }, [currentSpin]);
+    }, [spinManager.currentSpin]);
 
     return (
         <section className="flex h-16 w-full max-w-[48rem] items-center justify-center bg-white text-zinc-900 sm:h-20">
             {/* BEFORE MATCH STARTS */}
-            {!matchActive && !countdownActive && !spinFinished && (
-                <PreMatchView OnReady={() => setCountdownActive(true)} />
-            )}
+            {!spinManager.matchModeManager.matchActive &&
+                !countdownActive &&
+                !spinFinished && (
+                    <PreMatchView OnReady={() => setCountdownActive(true)} />
+                )}
             {/* MATCH STARTING COUNTDOWN */}
-            {!matchActive && countdownActive && !spinFinished && (
-                <CountdownText
-                    active={countdownActive}
-                    OnCountdownEnd={OnStartMatch}
-                />
-            )}
+            {!spinManager.matchModeManager.matchActive &&
+                countdownActive &&
+                !spinFinished && (
+                    <CountdownText
+                        active={countdownActive}
+                        OnCountdownEnd={OnStartMatch}
+                    />
+                )}
             {/* DURING MATCH */}
-            {matchActive && !countdownActive && !spinFinished && (
-                <InMatchView
-                    OnSpinFinished={OnSpinFinished}
-                    OnSpinCancel={OnSpinCancel}
-                    matchTimerRef={matchTimerRef}
-                />
-            )}
+            {spinManager.matchModeManager.matchActive &&
+                !countdownActive &&
+                !spinFinished && (
+                    <InMatchView
+                        OnSpinFinished={OnSpinFinished}
+                        OnSpinCancel={OnSpinCancel}
+                        matchTimerRef={matchTimerRef}
+                    />
+                )}
             {/* POST MATCH */}
             {spinFinished && (
                 <PostMatchView
                     time={exactTime.current ?? 0}
-                    spin={currentSpin}
-                    simRecords={options.simRecords.val}
+                    spin={spinManager.currentSpin}
+                    simRecords={spinManager.matchModeManager.simRecords}
                 />
             )}
         </section>

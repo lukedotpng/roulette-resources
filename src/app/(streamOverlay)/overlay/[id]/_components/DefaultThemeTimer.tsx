@@ -46,7 +46,7 @@ export default function DefaultThemeTimer({
         return () => {
             clearInterval(id);
         };
-    }, [matchActive]);
+    }, [matchActive, startTime]);
 
     if (startTime === -1) {
         return;

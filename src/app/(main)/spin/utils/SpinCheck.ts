@@ -1,4 +1,4 @@
-import { Mission, Spin, SpinCheckResult, SpinTarget } from "@/types";
+import { Mission } from "@/types";
 import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,
@@ -17,6 +17,7 @@ import {
     TARGET_UNIQUE_KILLS_LIST,
     UNIQUE_KILLS,
 } from "./SpinGlobals";
+import { Spin, SpinCheckResult, SpinTarget } from "../types";
 
 export function SpinIsLegal(spin: Spin): SpinCheckResult {
     const spinTargets = SPIN_MISSION_TARGETS_LIST[spin.mission];
@@ -25,7 +26,7 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
     const conditionsSpun: string[] = [];
 
     for (const target of spinTargets) {
-        const targetSpinInfo = spin.info[target];
+        const targetSpinInfo = spin.info[target as SpinTarget];
 
         if (!targetSpinInfo) {
             return {

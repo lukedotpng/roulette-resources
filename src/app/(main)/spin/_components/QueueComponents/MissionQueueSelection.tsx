@@ -1,5 +1,5 @@
 import { MISSIONS } from "@/utils/globals";
-import { Mission, Option } from "@/types";
+import { Mission } from "@/types";
 import {
     Dialog,
     DialogTrigger,
@@ -18,9 +18,11 @@ import {
 export default function MissionQueueSelection({
     className,
     missionQueue,
+    SetMissionQueue,
 }: {
     className: string;
-    missionQueue: Option<Mission[]>;
+    missionQueue: Mission[];
+    SetMissionQueue: (updatedMissionQueue: Mission[]) => void;
 }) {
     return (
         <Dialog>
@@ -46,7 +48,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...MISSIONS]);
+                                    SetMissionQueue([...MISSIONS]);
                                 }}
                             >
                                 {"Trilogy"}
@@ -54,7 +56,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...SEASON_ONE_MISSIONS]);
+                                    SetMissionQueue([...SEASON_ONE_MISSIONS]);
                                 }}
                             >
                                 {"Season 1"}
@@ -62,7 +64,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([...SEASON_TWO_MISSIONS]);
+                                    SetMissionQueue([...SEASON_TWO_MISSIONS]);
                                 }}
                             >
                                 {"Season 2"}
@@ -70,9 +72,7 @@ export default function MissionQueueSelection({
                             <button
                                 className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                 onClick={() => {
-                                    missionQueue.Set([
-                                        ...SEASON_THREE_MISSIONS,
-                                    ]);
+                                    SetMissionQueue([...SEASON_THREE_MISSIONS]);
                                 }}
                             >
                                 {"Season 3"}
@@ -84,10 +84,10 @@ export default function MissionQueueSelection({
                                         className="group flex h-8 w-full items-center gap-2 border-r-2 border-zinc-900 bg-white p-2 text-left text-zinc-900 hover:border-2 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                         onClick={() => {
                                             const updatedMissionQueue = [
-                                                ...missionQueue.val,
+                                                ...missionQueue,
                                             ];
                                             updatedMissionQueue.push(mission);
-                                            missionQueue.Set([
+                                            SetMissionQueue([
                                                 ...updatedMissionQueue,
                                             ]);
                                         }}
@@ -109,12 +109,12 @@ export default function MissionQueueSelection({
                             <button
                                 className="group ml-2 w-full border-2 border-zinc-900 bg-white text-[.8em] text-zinc-900 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white"
                                 onClick={() => {
-                                    missionQueue.Set([]);
+                                    SetMissionQueue([]);
                                 }}
                             >
                                 {"Clear Queue"}
                             </button>
-                            {missionQueue.val.map((mission, index) => {
+                            {missionQueue.map((mission, index) => {
                                 return (
                                     <div
                                         key={index}
@@ -129,7 +129,7 @@ export default function MissionQueueSelection({
 
                                                 const missionToMove = mission;
                                                 const updatedMissionQueue = [
-                                                    ...missionQueue.val,
+                                                    ...missionQueue,
                                                 ];
 
                                                 updatedMissionQueue[index] =
@@ -140,7 +140,7 @@ export default function MissionQueueSelection({
                                                 updatedMissionQueue[index - 1] =
                                                     missionToMove;
 
-                                                missionQueue.Set([
+                                                SetMissionQueue([
                                                     ...updatedMissionQueue,
                                                 ]);
                                             }}
@@ -159,14 +159,14 @@ export default function MissionQueueSelection({
                                             onClick={() => {
                                                 if (
                                                     index ===
-                                                    missionQueue.val.length - 1
+                                                    missionQueue.length - 1
                                                 ) {
                                                     return;
                                                 }
 
                                                 const missionToMove = mission;
                                                 const updatedMissionQueue = [
-                                                    ...missionQueue.val,
+                                                    ...missionQueue,
                                                 ];
 
                                                 updatedMissionQueue[index] =
@@ -177,7 +177,7 @@ export default function MissionQueueSelection({
                                                 updatedMissionQueue[index + 1] =
                                                     missionToMove;
 
-                                                missionQueue.Set([
+                                                SetMissionQueue([
                                                     ...updatedMissionQueue,
                                                 ]);
                                             }}
@@ -198,13 +198,13 @@ export default function MissionQueueSelection({
                                             className="group/delete flex h-10 w-10 items-center justify-center"
                                             onClick={() => {
                                                 let updatedMissionQueue = [
-                                                    ...missionQueue.val,
+                                                    ...missionQueue,
                                                 ];
                                                 updatedMissionQueue =
                                                     updatedMissionQueue.filter(
                                                         (_, i) => i !== index,
                                                     );
-                                                missionQueue.Set([
+                                                SetMissionQueue([
                                                     ...updatedMissionQueue,
                                                 ]);
                                             }}

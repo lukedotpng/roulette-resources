@@ -1,5 +1,5 @@
 import { GenerateSpin } from "./SpinGeneration";
-import { Mission, Spin, SpinInfo } from "@/types";
+import { Mission } from "@/types";
 import { GetRandomMission } from "./SpinUtils";
 import { MISSIONS } from "@/utils/globals";
 import {
@@ -8,6 +8,7 @@ import {
     SPIN_INFO_ID_MAP,
     SPIN_MISSION_TARGETS_LIST,
 } from "./SpinGlobals";
+import { Spin, SpinInfo, SpinTarget } from "../types";
 
 export function CreateSpinQuery(spin: Spin) {
     let spinQuery = "";
@@ -18,7 +19,7 @@ export function CreateSpinQuery(spin: Spin) {
     spinQuery += missionId;
 
     spinTargets.forEach((target) => {
-        const targetSpin = spin.info[target];
+        const targetSpin = spin.info[target as SpinTarget];
         if (!targetSpin) {
             return "err";
         }
@@ -94,7 +95,7 @@ export function ParseSpinQuery(spinQuery: string): Spin | null {
         );
         const ntko = ntkoId === "1";
 
-        spinInfo[target] = {
+        spinInfo[target as SpinTarget] = {
             killMethod: condition,
             disguise: disguise,
             ntko: ntko,
@@ -135,7 +136,7 @@ export function OldCreateSpinQuery(spin: Spin) {
     spinQuery += `m${missionIndex}`;
 
     spinTargets.forEach((target, index) => {
-        const targetSpin = spin.info[target];
+        const targetSpin = spin.info[target as SpinTarget];
         const conditionIndex = GetConditionIndex(targetSpin?.killMethod ?? "");
         const disguiseIndex = GetMissionDisguiseIndex(
             targetSpin?.disguise ?? "",
@@ -203,7 +204,7 @@ export function OldParseSpinQuery(spinQuery: string): Spin | null {
             return null;
         }
 
-        spinInfo[target] = {
+        spinInfo[target as SpinTarget] = {
             killMethod: condition,
             disguise: disguise,
             ntko: ntko,

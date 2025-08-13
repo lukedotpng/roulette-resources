@@ -35,7 +35,7 @@ export default function CountdownText({
                 clearInterval(intervalRef.current);
             }
         };
-    }, [active]);
+    }, [OnCountdownEnd, active]);
 
     const [countdownTime, setCountdownTime] = useState(3000);
     const intervalRef = useRef<NodeJS.Timeout>(null);

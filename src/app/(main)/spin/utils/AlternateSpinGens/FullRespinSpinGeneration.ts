@@ -1,11 +1,11 @@
+import { Mission } from "@/types";
 import {
-    KillMethodType,
-    Mission,
     Spin,
     SpinInfo,
     SpinTarget,
     TargetKillMethods,
-} from "@/types";
+    KillMethodType,
+} from "../../types";
 import { CanBeNTKO, SpinIsLegal } from "../SpinCheck";
 import {
     EXPLOSIVE_MODIFIER_PREFIX,

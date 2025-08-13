@@ -29,100 +29,104 @@ export default function MainSection() {
         );
     }
 
-    return (
-        <main className="m-3 flex flex-col items-center gap-2 text-xs sm:m-5 sm:gap-3 sm:text-base">
-            {spinManager.options.queueMode.val ? (
-                <MissionQueueSpinControls
-                    GenerateNextSpin={spinManager.GenerateNextSpin}
-                    GeneratePreviousSpin={spinManager.GeneratePreviousSpin}
-                    Respin={spinManager.Respin}
-                />
-            ) : (
-                <RandomMissionSpinControls
-                    NewSpin={spinManager.NewSpin}
-                    Respin={spinManager.Respin}
-                />
-            )}
-            {spinManager.currentSpin && (
-                <>
-                    {!spinManager.options.queueMode.val && (
+    const SpinControls = () => {
+        switch (spinManager.spinMode) {
+            case "pool":
+                return (
+                    <RandomMissionSpinControls
+                        NewSpin={spinManager.NewSpin}
+                        Respin={spinManager.Respin}
+                    />
+                );
+            case "queue":
+                return (
+                    <MissionQueueSpinControls
+                        GenerateNextSpin={spinManager.NextSpin}
+                        GeneratePreviousSpin={spinManager.PreviousSpin}
+                        Respin={spinManager.Respin}
+                    />
+                );
+        }
+
+        const MissionSwitchControls = () => {
+            if (spinManager.currentSpin === null) {
+                return null;
+            }
+            switch (spinManager.spinMode) {
+                case "pool":
+                    return (
                         <MissionSwitcher
                             currentMission={spinManager.currentSpin.mission}
                             HandleMissionSwitch={(mission: Mission) =>
                                 spinManager.NewSpin(mission)
                             }
                         />
-                    )}
-                    {spinManager.options.queueMode.val &&
-                        (spinManager.options.showQueueList.val ? (
+                    );
+                case "queue":
+                    if (spinManager.options.showQueueList) {
+                        return (
+                            <SimpleQueueList
+                                queueIndex={spinManager.queueIndex}
+                                UpdateQueueIndex={spinManager.SetQueueIndex}
+                                missionQueue={spinManager.missionQueue}
+                            />
+                        );
+                    } else {
+                        return (
                             <QueueList
-                                queueIndex={spinManager.options.queueIndex.val}
-                                UpdateQueueIndex={spinManager.UpdateQueueIndex}
-                                missionQueue={
-                                    spinManager.options.missionQueue.val
-                                }
+                                queueIndex={spinManager.queueIndex}
+                                UpdateQueueIndex={spinManager.SetQueueIndex}
+                                missionQueue={spinManager.missionQueue}
+                            />
+                        );
+                    }
+            }
+        };
+
+        return (
+            <main className="m-3 flex flex-col items-center gap-2 text-xs sm:m-5 sm:gap-3 sm:text-base">
+                <SpinControls />
+                <MissionSwitchControls />
+
+                {spinManager.currentSpin && (
+                    <>
+                        {spinManager.matchModeManager.enabled && (
+                            <MatchTimerSection spinManager={spinManager} />
+                        )}
+                        {spinManager.matchModeManager.enabled &&
+                        !spinManager.matchModeManager.matchActive ? (
+                            <SpinInfoMatchPlaceholder
+                                mission={spinManager.currentSpin.mission}
+                                layoutMode={spinManager.options.spinTheme.value}
                             />
                         ) : (
-                            <SimpleQueueList
-                                queueIndex={spinManager.options.queueIndex.val}
-                                UpdateQueueIndex={spinManager.UpdateQueueIndex}
-                                missionQueue={
-                                    spinManager.options.missionQueue.val
-                                }
-                            />
-                        ))}
-                    {spinManager.options.matchMode.val && (
-                        <MatchTimerSection
-                            matchActive={spinManager.matchActive}
-                            currentSpin={spinManager.currentSpin}
-                            StartMatch={spinManager.StartMatch}
-                            StopMatch={spinManager.StopMatch}
-                            overlayId={spinManager.overlayId}
-                            overlayKey={spinManager.overlayKey}
-                            options={spinManager.options}
-                        />
-                    )}
-                    {spinManager.options.matchMode.val &&
-                    !spinManager.matchActive ? (
-                        <SpinInfoMatchPlaceholder
-                            mission={spinManager.currentSpin.mission}
-                            options={spinManager.options}
-                        />
-                    ) : (
-                        <SpinInfoSection
-                            spin={spinManager.currentSpin}
-                            spinLegal={spinManager.spinLegal}
-                            RespinCondition={spinManager.RespinCondition}
-                            EditSpin={spinManager.EditSpin}
-                            options={spinManager.options}
-                        />
-                    )}
-                </>
-            )}
+                            <SpinInfoSection spinManager={spinManager} />
+                        )}
+                    </>
+                )}
 
-            <SpinOptionsSection
-                options={spinManager.options}
-                currentSpin={spinManager.currentSpin}
-                overlayId={spinManager.overlayId}
-                RegenerateOverlayId={spinManager.RegenerateOverlayId}
-            />
-
-            {spinManager.options.showTips.val && spinManager.currentSpin && (
-                <SpinTipsSection
-                    query={spinManager.query}
-                    mission={spinManager.currentSpin.mission}
+                <SpinOptionsSection
                     options={spinManager.options}
-                    matchActive={spinManager.matchActive}
+                    currentSpin={spinManager.currentSpin}
                 />
-            )}
 
-            <div
-                data-active={spinManager.noMissionsSelectedAlertActive}
-                aria-hidden={spinManager.noMissionsSelectedAlertActive}
-                className="fixed -top-36 z-10 rounded-md bg-red-500 p-4 font-bold text-white shadow-xl shadow-black transition-[top] ease-in-out data-[active=true]:visible data-[active=true]:top-20"
-            >
-                {"Please select missions"}
-            </div>
-        </main>
-    );
+                {spinManager.options.showTips.value &&
+                    spinManager.currentSpin && (
+                        <SpinTipsSection
+                            query={spinManager.spinQuery}
+                            mission={spinManager.currentSpin.mission}
+                            matchModeManager={spinManager.matchModeManager}
+                        />
+                    )}
+
+                <div
+                    data-active={spinManager.noMissionsSelectedAlertActive}
+                    aria-hidden={spinManager.noMissionsSelectedAlertActive}
+                    className="fixed -top-36 z-10 rounded-md bg-red-500 p-4 font-bold text-white shadow-xl shadow-black transition-[top] ease-in-out data-[active=true]:visible data-[active=true]:top-20"
+                >
+                    {"Please select missions"}
+                </div>
+            </main>
+        );
+    };
 }

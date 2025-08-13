@@ -1,5 +1,3 @@
-"use client";
-
 import { IsolationInsert, IsolationSelect, Mission, Target } from "@/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";

@@ -1,4 +1,4 @@
-import { Mission, MissionPoolOptions, Option, Season } from "@/types";
+import { Mission, Season } from "@/types";
 import {
     Dialog,
     DialogContent,
@@ -7,7 +7,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MISSIONS } from "@/utils/globals";
 import { MissionIDToDisplayText } from "@/utils/FormattingUtils";
 import {
@@ -16,13 +16,16 @@ import {
     SEASON_THREE_MISSIONS,
     SEASON_TWO_MISSIONS,
 } from "../../utils/SpinGlobals";
+import { MissionPoolOptions } from "../../types";
 
 export default function MissionPoolSelection({
     className,
     missionPool,
+    SetMissionPool,
 }: {
     className: string;
-    missionPool: Option<Mission[]>;
+    missionPool: Mission[];
+    SetMissionPool: (updatedMissionPool: Mission[]) => void;
 }) {
     const seasonsList: Season[] = ["season_1", "season_2", "season_3"];
 
@@ -39,34 +42,28 @@ export default function MissionPoolSelection({
     }
 
     const [missionsPoolOptions, setMissionsPoolOptions] =
-        useState<MissionPoolOptions>(
-            InitializeMissionPoolOptions(missionPool.val),
-        );
+        useState<MissionPoolOptions>(InitializeMissionPoolOptions(missionPool));
 
-    const [seasonsSelected, setSeasonsSelected] = useState({
-        season_1: false,
-        season_2: false,
-        season_3: false,
-    });
-
-    useEffect(() => {
+    function HandleMissionPoolOptionsUpdated(
+        updatedMissionPoolOptions: MissionPoolOptions,
+    ) {
         let seasonOneAllSelected = true;
         for (let i = 0; i < SEASON_ONE_MISSIONS.length; i++) {
-            if (!missionsPoolOptions[SEASON_ONE_MISSIONS[i]]) {
+            if (!updatedMissionPoolOptions[SEASON_ONE_MISSIONS[i]]) {
                 seasonOneAllSelected = false;
             }
         }
 
         let seasonTwoAllSelected = true;
         for (let i = 0; i < SEASON_TWO_MISSIONS.length; i++) {
-            if (!missionsPoolOptions[SEASON_TWO_MISSIONS[i]]) {
+            if (!updatedMissionPoolOptions[SEASON_TWO_MISSIONS[i]]) {
                 seasonTwoAllSelected = false;
             }
         }
 
         let seasonThreeAllSelected = true;
         for (let i = 0; i < SEASON_THREE_MISSIONS.length; i++) {
-            if (!missionsPoolOptions[SEASON_THREE_MISSIONS[i]]) {
+            if (!updatedMissionPoolOptions[SEASON_THREE_MISSIONS[i]]) {
                 seasonThreeAllSelected = false;
             }
         }
@@ -79,13 +76,22 @@ export default function MissionPoolSelection({
         const updatedMissionPool: Mission[] = [];
 
         MISSIONS.map((mission) => {
-            if (missionsPoolOptions[mission]) {
+            if (updatedMissionPoolOptions[mission]) {
                 updatedMissionPool.push(mission);
             }
         });
 
-        missionPool.Set(updatedMissionPool);
-    }, [missionsPoolOptions]);
+        setMissionsPoolOptions({
+            ...updatedMissionPoolOptions,
+        });
+        SetMissionPool(updatedMissionPool);
+    }
+
+    const [seasonsSelected, setSeasonsSelected] = useState({
+        season_1: false,
+        season_2: false,
+        season_3: false,
+    });
 
     return (
         <Dialog>
@@ -131,18 +137,18 @@ export default function MissionPoolSelection({
                                         data-selected={seasonsSelected[season]}
                                         className="h-8 w-full border-2 border-white bg-white text-zinc-900 first:mb-3 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:h-10"
                                         onClick={() => {
-                                            const updatedMissionsPoolOptions =
+                                            const updatedMissionPoolOptions =
                                                 missionsPoolOptions;
 
                                             seasonMissionList.map((mission) => {
-                                                updatedMissionsPoolOptions[
+                                                updatedMissionPoolOptions[
                                                     mission
                                                 ] = !seasonsSelected[season];
                                             });
 
-                                            setMissionsPoolOptions({
-                                                ...updatedMissionsPoolOptions,
-                                            });
+                                            HandleMissionPoolOptionsUpdated(
+                                                updatedMissionPoolOptions,
+                                            );
                                         }}
                                     >
                                         <h2 className="font-bold">
@@ -158,13 +164,17 @@ export default function MissionPoolSelection({
                                                 }
                                                 className="h-fit w-full border-2 border-white bg-white py-1 text-zinc-900 hover:border-red-500 data-[selected=true]:bg-red-500 data-[selected=true]:text-white sm:py-2"
                                                 onClick={() => {
-                                                    setMissionsPoolOptions({
-                                                        ...missionsPoolOptions,
-                                                        [mission]:
-                                                            !missionsPoolOptions[
-                                                                mission
-                                                            ],
-                                                    });
+                                                    const updatedMissionPoolOptions =
+                                                        {
+                                                            ...missionsPoolOptions,
+                                                            [mission]:
+                                                                !missionsPoolOptions[
+                                                                    mission
+                                                                ],
+                                                        };
+                                                    HandleMissionPoolOptionsUpdated(
+                                                        updatedMissionPoolOptions,
+                                                    );
                                                 }}
                                             >
                                                 {MissionIDToDisplayText(

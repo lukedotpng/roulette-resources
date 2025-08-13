@@ -1,5 +1,5 @@
-import { MatchSimRecord, Spin } from "@/types";
 import { MillisecondsToTimeString } from "@/utils/FormattingUtils";
+import { MatchSimRecord, Spin } from "../../types";
 
 export default function PostMatchView({
     time,
@@ -7,17 +7,20 @@ export default function PostMatchView({
     simRecords,
 }: {
     time: number;
-    spin: Spin;
+    spin: Spin | null;
     simRecords: MatchSimRecord[];
 }) {
     const timeString = MillisecondsToTimeString(time, false);
 
-    let simRecordsOnMission = simRecords.filter((record) => {
-        if (record.mission === spin.mission) {
-            return true;
-        }
-        return false;
-    });
+    let simRecordsOnMission = spin
+        ? simRecords.filter((record) => {
+              if (record.mission === spin.mission) {
+                  return true;
+              }
+              return false;
+          })
+        : [];
+
     simRecordsOnMission = simRecordsOnMission.sort((a, b) => a.time - b.time);
     const pbTimeString = MillisecondsToTimeString(
         simRecordsOnMission.length > 0 ? simRecordsOnMission[0].time : time,

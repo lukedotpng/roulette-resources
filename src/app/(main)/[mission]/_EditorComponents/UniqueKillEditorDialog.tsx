@@ -1,10 +1,4 @@
-import {
-    ActionResponse,
-    Mission,
-    SpinTarget,
-    Target,
-    UniqueKillInsert,
-} from "@/types";
+import { ActionResponse, Mission, Target, UniqueKillInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -46,6 +40,7 @@ import {
 } from "@/app/(main)/spin/utils/SpinGlobals";
 import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
 import { MISSION_TARGET_LIST } from "@/utils/globals";
+import { SpinTarget } from "../../spin/types";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,
@@ -104,7 +99,7 @@ export default function UniqueKillEditorDialog({
         uniqueKillOptions = [...uniqueKillOptions, ...customUniqueKills];
 
         return uniqueKillOptions;
-    }, [targetValue]);
+    }, [targetValue, uniqueKill.mission]);
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 

@@ -5,9 +5,9 @@ import {
     MethodImagePathFormatter,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import { Spin, SpinInfo } from "@/types";
 import Image from "next/image";
 import DefaultThemeTimer from "./DefaultThemeTimer";
+import { Spin, SpinInfo } from "@/app/(main)/spin/types";
 
 export default function Berlin({
     spin,

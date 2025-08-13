@@ -1,12 +1,12 @@
-export default function SpinOptionsChoiceSelector({
+export default function SpinOptionsChoiceSelector<T>({
     label,
     options,
     onClickHandler,
     activeOption,
 }: {
     label: string;
-    options: { id: string; display: string }[];
-    onClickHandler: (option: string) => void;
+    options: { id: T; display: string }[];
+    onClickHandler: (option: T) => void;
     activeOption: string;
 }) {
     return (

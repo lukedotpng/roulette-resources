@@ -1,6 +1,6 @@
-import { SpinOptions } from "@/types";
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { MatchModeManager } from "../../types";
 
 export default function TargetSpinCardRow({
     title,
@@ -10,7 +10,7 @@ export default function TargetSpinCardRow({
     EditSpin,
     LockCondition,
     conditionLocked,
-    options,
+    matchModeManager,
 }: {
     title: string;
     info: string;
@@ -19,7 +19,7 @@ export default function TargetSpinCardRow({
     EditSpin: () => void;
     LockCondition: () => void;
     conditionLocked: boolean;
-    options: SpinOptions;
+    matchModeManager: MatchModeManager;
 }) {
     const [spinAnimationActive, setSpinAnimationActive] = useState(false);
 
@@ -44,9 +44,9 @@ export default function TargetSpinCardRow({
                         {info}
                     </h1>
                 </div>
-                {!options.matchMode.val &&
+                {!matchModeManager.enabled &&
                     !conditionLocked &&
-                    (options.manualMode.val ? (
+                    (matchModeManager.enabled ? (
                         <button
                             className="w-4 fill-white hover:fill-red-500 sm:w-6"
                             onClick={EditSpin}
@@ -87,7 +87,7 @@ export default function TargetSpinCardRow({
                     quality={10}
                     className="h-full w-full object-cover"
                 />
-                {!options.matchMode.val && (
+                {!matchModeManager.enabled && (
                     <button
                         className="group absolute right-0 bottom-0 flex h-full w-full flex-col items-center justify-end fill-white p-1 hover:fill-red-500 data-[conditionlocked=true]:opacity-65 data-[conditionlocked=true]:hover:opacity-100"
                         onClick={() => {

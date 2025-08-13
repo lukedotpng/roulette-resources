@@ -1,4 +1,4 @@
-import { Mission, Spin, SpinStats } from "@/types";
+import { Mission } from "@/types";
 import { useEffect, useState } from "react";
 import { SpinIsLegal } from "../../utils/SpinCheck";
 import SpinStatsTable from "./SpinStatsTable";
@@ -10,6 +10,7 @@ import {
     UNIQUE_KILLS,
     WEAPONS_WITH_MODIFIERS,
 } from "../../utils/SpinGlobals";
+import { Spin, SpinStats } from "../../types";
 
 export default function SpinStatsSection({
     mission,

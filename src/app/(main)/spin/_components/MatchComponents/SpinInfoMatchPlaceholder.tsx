@@ -1,18 +1,19 @@
-import { Mission, SpinOptions } from "@/types";
+import { Mission } from "@/types";
 import { SPIN_MISSION_TARGETS_LIST } from "../../utils/SpinGlobals";
+import { SpinTheme } from "../../types";
 
 export default function SpinInfoMatchPlaceholder({
     mission,
-    options,
+    layoutMode,
 }: {
     mission: Mission;
-    options: SpinOptions;
+    layoutMode: SpinTheme;
 }) {
     const targets = SPIN_MISSION_TARGETS_LIST[mission];
 
     return (
         <section
-            data-row={options.layoutMode.val === "row"}
+            data-row={layoutMode === "row"}
             className="flex w-full gap-2 data-[row=false]:flex-col data-[row=false]:items-center data-[row=true]:flex-row data-[row=true]:flex-wrap data-[row=true]:items-start data-[row=true]:justify-center"
         >
             {targets.map((target) => {

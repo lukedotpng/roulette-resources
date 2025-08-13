@@ -1,7 +1,6 @@
 import { MISSIONS } from "@/utils/globals";
 import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
-import { SpinInfo, SpinTarget } from "@/types";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
 import {
     DisguiseIDToDisplayText,
@@ -9,6 +8,7 @@ import {
     MissionIDToDisplayText,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
+import { SpinInfo, SpinTarget } from "./types";
 
 export async function generateMetadata({
     searchParams,

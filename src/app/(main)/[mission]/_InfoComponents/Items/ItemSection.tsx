@@ -1,5 +1,3 @@
-"use client";
-
 import { ItemInsert, ItemSelect, ItemType, Mission } from "@/types";
 import { useState } from "react";
 import ItemEditorDialog from "../../_EditorComponents/ItemEditorDialog";

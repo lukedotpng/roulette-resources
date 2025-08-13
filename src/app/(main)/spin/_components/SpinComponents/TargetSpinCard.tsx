@@ -6,53 +6,60 @@ import {
     MethodImagePathFormatter,
     DisguiseImagePathFormatter,
 } from "@/utils/FormattingUtils";
-import {
-    Mission,
-    SpinInfo,
-    SpinOptions,
-    SpinTarget,
-    SpinUpdateAction,
-} from "@/types";
 import Image from "next/image";
 import TargetSpinCardRow from "./TargetSpinCardRow";
 import SpinEditorDialog from "../EditorComponents/SpinEditorDialog";
 import { useState } from "react";
+import {
+    SpinTarget,
+    SpinUpdateAction,
+    Spin,
+    LockedTargetConditions,
+    MatchModeManager,
+} from "../../types";
 
 export default function TargetSpinCard({
     spin,
     target,
-    mission,
-    options,
     RespinCondition,
     EditSpin,
+    lockedConditions,
+    SetLockedConditions,
+    manualMode,
+    canAlwaysEditNTKO,
+    matchModeManager,
 }: {
-    spin: SpinInfo;
+    spin: Spin;
     target: SpinTarget;
-    mission: Mission;
-    options: SpinOptions;
     RespinCondition: (target: SpinTarget, action: SpinUpdateAction) => void;
     EditSpin: (
         target: SpinTarget,
         action: SpinUpdateAction,
         newValue: string,
     ) => void;
+    lockedConditions: LockedTargetConditions;
+    SetLockedConditions: (
+        updatedLockedConditions: LockedTargetConditions,
+    ) => void;
+    manualMode: boolean;
+    canAlwaysEditNTKO: boolean;
+    matchModeManager: MatchModeManager;
 }) {
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [categoryToEdit, setCategoryToEdit] =
         useState<SpinUpdateAction>("killMethod");
 
     const killMethodLocked =
-        options.lockedConditions.val[target] !== undefined &&
-        options.lockedConditions.val[target].killMethod !== "";
+        lockedConditions[target] !== undefined &&
+        lockedConditions[target].killMethod !== "";
 
     const disguiseLocked =
-        options.lockedConditions.val[target] !== undefined &&
-        options.lockedConditions.val[target].disguise !== "";
+        lockedConditions[target] !== undefined &&
+        lockedConditions[target].disguise !== "";
 
     const showNtkoBar =
-        spin[target]?.ntko ||
-        (!killMethodLocked &&
-            (options.manualMode.val || options.canAlwaysEditNTKO.val));
+        spin.info[target]?.ntko ||
+        (!killMethodLocked && (manualMode || canAlwaysEditNTKO));
 
     return (
         <div className="w-full max-w-[48rem] border-2 border-white text-white">
@@ -73,14 +80,15 @@ export default function TargetSpinCard({
                     <TargetSpinCardRow
                         title="Method"
                         info={
-                            MethodIDToDisplayText(spin[target]?.killMethod) ??
-                            "No Method"
+                            MethodIDToDisplayText(
+                                spin.info[target]?.killMethod,
+                            ) ?? "No Method"
                         }
                         imageSrc={MethodImagePathFormatter(
-                            spin[target]?.killMethod || "No Method",
+                            spin.info[target]?.killMethod || "No Method",
                             target,
                         )}
-                        options={options}
+                        matchModeManager={matchModeManager}
                         HandleSpinUpdate={() =>
                             RespinCondition(target, "killMethod")
                         }
@@ -89,12 +97,11 @@ export default function TargetSpinCard({
                             setEditDialogActive(true);
                         }}
                         LockCondition={() => {
-                            if (spin[target] === undefined) {
+                            if (spin.info[target] === undefined) {
                                 return;
                             }
-                            const updatedLockedConditions = structuredClone(
-                                options.lockedConditions.val,
-                            );
+                            const updatedLockedConditions =
+                                structuredClone(lockedConditions);
                             if (updatedLockedConditions[target] === undefined) {
                                 updatedLockedConditions[target] = {
                                     killMethod: "",
@@ -110,31 +117,30 @@ export default function TargetSpinCard({
                                 ""
                             ) {
                                 updatedLockedConditions[target].killMethod =
-                                    spin[target].killMethod;
+                                    spin.info[target].killMethod;
                                 updatedLockedConditions[target].ntko =
-                                    spin[target].ntko;
+                                    spin.info[target].ntko;
                             } else {
                                 updatedLockedConditions[target].killMethod = "";
                                 updatedLockedConditions[target].ntko = false;
                             }
 
-                            options.lockedConditions.Set(
-                                updatedLockedConditions,
-                            );
+                            SetLockedConditions(updatedLockedConditions);
                         }}
                         conditionLocked={killMethodLocked}
                     />
                     <TargetSpinCardRow
                         title="Disguise"
                         info={
-                            DisguiseIDToDisplayText(spin[target]?.disguise) ??
-                            "No Disguise"
+                            DisguiseIDToDisplayText(
+                                spin.info[target]?.disguise,
+                            ) ?? "No Disguise"
                         }
                         imageSrc={DisguiseImagePathFormatter(
-                            spin[target]?.disguise || "No Disguise",
-                            mission,
+                            spin.info[target]?.disguise || "No Disguise",
+                            spin.mission,
                         )}
-                        options={options}
+                        matchModeManager={matchModeManager}
                         HandleSpinUpdate={() =>
                             RespinCondition(target, "disguise")
                         }
@@ -143,12 +149,11 @@ export default function TargetSpinCard({
                             setEditDialogActive(true);
                         }}
                         LockCondition={() => {
-                            if (spin[target] === undefined) {
+                            if (spin.info[target] === undefined) {
                                 return;
                             }
-                            const updatedLockedConditions = structuredClone(
-                                options.lockedConditions.val,
-                            );
+                            const updatedLockedConditions =
+                                structuredClone(lockedConditions);
                             if (updatedLockedConditions[target] === undefined) {
                                 updatedLockedConditions[target] = {
                                     killMethod: "",
@@ -163,19 +168,17 @@ export default function TargetSpinCard({
                                 updatedLockedConditions[target].disguise === ""
                             ) {
                                 updatedLockedConditions[target].disguise =
-                                    spin[target].disguise;
+                                    spin.info[target].disguise;
                             } else {
                                 updatedLockedConditions[target].disguise = "";
                             }
 
-                            options.lockedConditions.Set(
-                                updatedLockedConditions,
-                            );
+                            SetLockedConditions(updatedLockedConditions);
                         }}
                         conditionLocked={disguiseLocked}
                     />
                     <SpinEditorDialog
-                        mission={mission}
+                        mission={spin.mission}
                         target={target}
                         categoryToEdit={categoryToEdit}
                         EditSpin={(updatedValue) => {
@@ -189,13 +192,13 @@ export default function TargetSpinCard({
             </div>
             {showNtkoBar && (
                 <div
-                    data-active={spin[target]?.ntko}
+                    data-active={spin.info[target]?.ntko}
                     className="group relative border-t-[1px] border-white bg-zinc-900 py-0.5 text-center text-[.9em] font-bold data-[active=true]:bg-red-500 sm:border-t-2 sm:py-1 sm:text-[1em]"
                 >
                     <span className="decoration-2 group-data-[active=false]:line-through">
                         No Target Pacification
                     </span>
-                    {!options.matchMode.val && !killMethodLocked && (
+                    {!matchModeManager.enabled && !killMethodLocked && (
                         <button
                             className="absolute top-0 right-2 h-full fill-white"
                             onClick={() =>

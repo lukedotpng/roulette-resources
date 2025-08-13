@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type SubstackResponseObject = {
     id: number;
     title: string;
@@ -100,7 +102,7 @@ export default async function RouletteSubstackInfo() {
                                     </span>
                                 </p>
                             </a>
-                            <img
+                            <Image
                                 src={entry.cover_image}
                                 alt={"Article Cover Image"}
                                 className="aspect-square h-[95%] rounded-md object-cover"

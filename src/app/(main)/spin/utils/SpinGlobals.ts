@@ -1,12 +1,12 @@
+import { Mission } from "@/types";
 import {
-    SpinMissionTargets,
     TargetBannedKillMethods,
     MissionSpinOptions,
-    TargetUniqueKills,
-    Mission,
-    MissionPoolOptions,
     MissionDisguises,
-} from "@/types";
+    MissionPoolOptions,
+    SpinMissionTargets,
+    TargetUniqueKills,
+} from "../types";
 
 // Global
 export const WEAPONS = [

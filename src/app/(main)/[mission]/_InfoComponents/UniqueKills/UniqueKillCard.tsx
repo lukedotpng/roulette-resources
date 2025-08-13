@@ -75,7 +75,7 @@ export default function UniqueKillCard({
                 }
             }
         }
-    }, [targetUniqueKills, activeTargetId]);
+    }, [targetUniqueKills.length, targets, targetsUniqueKillsStatus]);
 
     return (
         <div className="w-full min-w-full flex-1 rounded-xl border-4 border-zinc-500 bg-white text-zinc-900 md:max-w-[50rem] md:min-w-[25rem]">

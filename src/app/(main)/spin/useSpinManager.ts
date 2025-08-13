@@ -1,20 +1,11 @@
-import {
-    Mission,
-    Spin,
-    SpinCheckResult,
-    SpinTarget,
-    SpinUpdateAction,
-} from "@/types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
 import {
     GenerateSpin,
     RegenerateDisguise,
     RegenerateKillMethod,
 } from "./utils/SpinGeneration";
-import { GenerateSpin as CustomRulesGenerateSpin } from "@/app/(main)/spin/_components/CustomRulesComponents/CustomRuleSpinGenerator";
 import { GetRandomMission } from "@/app/(main)/spin/utils/SpinUtils";
-import { useLocalState } from "@/utils/useLocalState";
 import {
     InitializeSpinOverlay,
     UpdateSpinOverlay,
@@ -24,49 +15,91 @@ import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheck";
 import { SPIN_MISSION_TARGETS_LIST } from "./utils/SpinGlobals";
+import { useMatchModeManager } from "./useMatchMode";
+import {
+    LockedTargetConditions,
+    Spin,
+    SpinCheckResult,
+    SpinManager,
+    SpinMode,
+    SpinTarget,
+    SpinUpdateAction,
+} from "./types";
+import { Mission } from "@/types";
 
-export function useSpinManager() {
+export function useSpinManager(): SpinManager {
+    const options = useSpinOptions();
+    const matchModeManager = useMatchModeManager();
+
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
-    function SetCurrentSpin(updatedSpin: Spin | null) {
-        if (
-            (updatedSpin !== null &&
-                currentSpin !== null &&
-                updatedSpin.mission !== currentSpin.mission) ||
-            options.matchMode.val
-        ) {
-            options.lockedConditions.Set({});
-        }
+    const SetCurrentSpin = useCallback(
+        (updatedSpin: Spin | null) => {
+            if (
+                (updatedSpin !== null &&
+                    currentSpin !== null &&
+                    updatedSpin.mission !== currentSpin.mission) ||
+                matchModeManager.enabled
+            ) {
+                setLockedConditions({});
+            }
 
-        setCurrentSpin(updatedSpin);
+            setCurrentSpin(updatedSpin);
+        },
+        [currentSpin, matchModeManager.enabled],
+    );
+
+    const [spinMode, setSpinMode] = useState<SpinMode>("pool");
+    function SetSpinMode(updatedSpinMode: SpinMode) {
+        setSpinMode(updatedSpinMode);
     }
 
-    const [spinLegal, setSpinLegal] = useState<SpinCheckResult>({
+    const [manualMode, setManualMode] = useState(false);
+    function SetManualMode(newState: boolean) {
+        setManualMode(newState);
+    }
+
+    const [missionPool, setMissionPool] = useState<Mission[]>([]);
+    function SetMissionPool(updatedMissionPool: Mission[]) {
+        setMissionPool(updatedMissionPool);
+    }
+
+    const [lockedConditions, setLockedConditions] =
+        useState<LockedTargetConditions>({});
+    function SetLockedConditions(
+        updatedLockedConditions: LockedTargetConditions,
+    ) {
+        const filteredLockedConditions: LockedTargetConditions = {};
+        const targets = Object.keys(updatedLockedConditions) as SpinTarget[];
+        for (const target of targets) {
+            if (updatedLockedConditions[target] === undefined) {
+                console.log(target);
+                continue;
+            }
+
+            // Remove newly blank locked conditions
+            if (
+                updatedLockedConditions[target].killMethod !== "" ||
+                updatedLockedConditions[target].disguise !== ""
+            ) {
+                filteredLockedConditions[target] =
+                    updatedLockedConditions[target];
+            }
+        }
+        setLockedConditions(filteredLockedConditions);
+    }
+
+    const [spinIsLegal, setSpinIsLegal] = useState<SpinCheckResult>({
         legal: true,
     });
 
-    const options = useSpinOptions(currentSpin, SetCurrentSpin);
-
-    // State
-    const [matchActive, setMatchActive] = useState(false);
     function StartMatch() {
-        setMatchActive(true);
+        if (matchModeManager.enabled) {
+            matchModeManager.SetMatchActive(true);
+        }
     }
     function StopMatch() {
         Respin();
-        setMatchActive(false);
-    }
-
-    const [overlayId, setOverlayId] = useLocalState(
-        "overlayId",
-        crypto.randomUUID(),
-    );
-    const [overlayKey, setOverlayKey] = useLocalState("overlayKey", Date.now());
-
-    async function RegenerateOverlayId(newId: string) {
-        setOverlayId(newId);
-        const newKey = Date.now();
-        setOverlayKey(newKey);
-        await InitializeSpinOverlay(newId, newKey, query);
+        matchModeManager.SetMatchActive(false);
     }
 
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
@@ -84,24 +117,22 @@ export function useSpinManager() {
 
     // General Spin Management
     function NewSpin(mission?: Mission) {
-        if (options.missionPool.val.length === 0) {
+        if (missionPool.length === 0) {
             AlertNoMissionsInPool();
             return;
         }
 
         let missionToSpin =
-            mission !== undefined
-                ? mission
-                : GetRandomMission(options.missionPool.val);
+            mission !== undefined ? mission : GetRandomMission(missionPool);
 
         while (
             mission === undefined &&
             currentSpin &&
-            options.dontRepeatMissions.val &&
-            options.missionPool.val.length > 1 &&
+            options.dontRepeatMissions.value &&
+            missionPool.length > 1 &&
             currentSpin.mission === missionToSpin
         ) {
-            missionToSpin = GetRandomMission(options.missionPool.val);
+            missionToSpin = GetRandomMission(missionPool);
         }
 
         if (missionToSpin === currentSpin?.mission) {
@@ -109,44 +140,26 @@ export function useSpinManager() {
             return;
         }
 
-        if (options.playCustomRules.val) {
-            const spin: Spin = CustomRulesGenerateSpin(
-                options.ruleset.val,
-                missionToSpin,
-            );
-            SetCurrentSpin(spin);
-        } else {
-            const spin: Spin = GenerateSpin(missionToSpin);
-            SetCurrentSpin(spin);
-        }
+        const spin: Spin = GenerateSpin(missionToSpin);
+        SetCurrentSpin(spin);
     }
-    function Respin() {
+    const Respin = useCallback(() => {
         if (currentSpin === null) {
             return;
         }
 
-        const targetsWithLockedConditions = Object.keys(
-            options.lockedConditions.val,
-        );
+        const targetsWithLockedConditions = Object.keys(lockedConditions);
 
         if (targetsWithLockedConditions.length === 0) {
-            if (options.playCustomRules.val) {
-                const spin: Spin = CustomRulesGenerateSpin(
-                    options.ruleset.val,
-                    currentSpin.mission,
-                );
-                SetCurrentSpin(spin);
-            } else {
-                const spin: Spin = GenerateSpin(currentSpin.mission);
-                SetCurrentSpin(spin);
-            }
+            const spin: Spin = GenerateSpin(currentSpin.mission);
+            SetCurrentSpin(spin);
         } else {
             const targets = SPIN_MISSION_TARGETS_LIST[currentSpin.mission];
             let updatedSpin: Spin = structuredClone(currentSpin);
 
             for (const target of targets) {
                 const lockedTargetConditions =
-                    options.lockedConditions.val[target];
+                    lockedConditions[target as keyof LockedTargetConditions];
                 const targetKillMethodLocked =
                     lockedTargetConditions !== undefined &&
                     lockedTargetConditions.killMethod !== "";
@@ -164,7 +177,8 @@ export function useSpinManager() {
 
             SetCurrentSpin(updatedSpin);
         }
-    }
+    }, [SetCurrentSpin, currentSpin, lockedConditions]);
+
     function RespinCondition(target: SpinTarget, action: SpinUpdateAction) {
         if (!currentSpin) {
             return;
@@ -228,91 +242,126 @@ export function useSpinManager() {
     }
 
     // Queue Management
-    function GenerateNextSpin() {
-        const nextIndex = options.queueIndex.val + 1;
-        if (nextIndex >= options.missionQueue.val.length) {
+    const [missionQueue, setMissionQueue] = useState<Mission[]>([]);
+    function SetMissionQueue(updatedQueue: Mission[]) {
+        if (updatedQueue.length === 0) {
+            SetCurrentSpin(null);
+        } else {
+            SetCurrentSpin(GenerateSpin(updatedQueue[0]));
+        }
+        setQueueIndex(0);
+        setMissionQueue(updatedQueue);
+    }
+    const [queueIndex, setQueueIndex] = useState(0);
+    function SetQueueIndex(updatedIndex: number) {
+        setQueueIndex(updatedIndex);
+        SetCurrentSpin(GenerateSpin(missionQueue[updatedIndex]));
+    }
+
+    function NextSpin() {
+        const nextIndex = queueIndex + 1;
+        if (nextIndex >= missionQueue.length) {
             return;
         }
-        options.queueIndex.Set(nextIndex);
-        SetCurrentSpin(GenerateSpin(options.missionQueue.val[nextIndex]));
+        SetQueueIndex(nextIndex);
     }
-    function GeneratePreviousSpin() {
-        const prevIndex = options.queueIndex.val - 1;
+    function PreviousSpin() {
+        const prevIndex = queueIndex - 1;
         if (prevIndex < 0) {
             return;
         }
-        options.queueIndex.Set(prevIndex);
-        SetCurrentSpin(GenerateSpin(options.missionQueue.val[prevIndex]));
-    }
-    function UpdateQueueIndex(index: number) {
-        options.queueIndex.Set(index);
-        SetCurrentSpin(GenerateSpin(options.missionQueue.val[index]));
+        SetQueueIndex(prevIndex);
     }
 
-    function UpdateSpin(spin: Spin) {
-        SetCurrentSpin(spin);
-    }
-    const query = useSpinQuery(currentSpin, UpdateSpin, matchActive, options);
+    const spinQuery = useSpinQuery(
+        currentSpin,
+        SetCurrentSpin,
+        matchModeManager,
+        options,
+    );
 
     // Update overlay on spin/query or theme change
     useEffect(() => {
-        if (!options.streamOverlayActive.val) {
+        if (!options.streamOverlay.active) {
             return;
         }
 
-        if (!options.matchMode.val || (options.matchMode.val && matchActive)) {
-            InitializeSpinOverlay(overlayId, overlayKey, query);
+        if (
+            !matchModeManager.enabled ||
+            (matchModeManager.enabled && matchModeManager.matchActive)
+        ) {
+            InitializeSpinOverlay(
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                spinQuery,
+            );
             UpdateSpinOverlay(
-                overlayId,
-                overlayKey,
-                query,
-                options.overlayTheme.val,
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                spinQuery,
+                options.streamOverlay.theme,
             );
         }
-    }, [options.streamOverlayActive.val, options.overlayTheme.val]);
+    }, [
+        options.streamOverlay.active,
+        options.streamOverlay.theme,
+        options.streamOverlay.id,
+        options.streamOverlay.key,
+        matchModeManager.enabled,
+        matchModeManager.matchActive,
+        spinQuery,
+    ]);
 
     // Respin when match mode is enabled to prevent controlling the spin
     useEffect(() => {
-        if (options.matchMode.val) {
+        if (matchModeManager.enabled) {
             Respin();
         }
-    }, [options.matchMode.val]);
+    }, [matchModeManager.enabled, Respin]);
 
     // Update overlay when match is active
     useEffect(() => {
-        if (!options.streamOverlayActive.val) {
+        if (!options.streamOverlay.active) {
             return;
         }
 
-        if (!options.matchMode.val) {
+        if (!matchModeManager.enabled) {
             UpdateSpinOverlayMatchStatus(
-                overlayId,
-                overlayKey,
-                query,
-                options.matchMode.val,
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                spinQuery,
+                matchModeManager.enabled,
                 -1,
             );
             return;
         }
         if (currentSpin) {
-            if (matchActive) {
+            if (matchModeManager.matchActive) {
                 UpdateSpinOverlayMatchStatus(
-                    overlayId,
-                    overlayKey,
-                    query,
-                    matchActive,
+                    options.streamOverlay.id,
+                    options.streamOverlay.key,
+                    spinQuery,
+                    matchModeManager.matchActive,
                     Date.now(),
                 );
             } else {
                 UpdateSpinOverlayMatchStatus(
-                    overlayId,
-                    overlayKey,
-                    query,
-                    matchActive,
+                    options.streamOverlay.id,
+                    options.streamOverlay.key,
+                    spinQuery,
+                    matchModeManager.matchActive,
                 );
             }
         }
-    }, [matchActive, options.matchMode.val]);
+    }, [
+        currentSpin,
+        spinQuery,
+        matchModeManager.enabled,
+        matchModeManager.matchActive,
+        options.streamOverlay.active,
+        options.streamOverlay.id,
+        options.streamOverlay.key,
+    ]);
 
     useEffect(() => {
         if (!currentSpin) {
@@ -320,40 +369,57 @@ export function useSpinManager() {
         }
 
         const newQuery = CreateSpinQuery(currentSpin);
-        setSpinLegal(SpinIsLegal(currentSpin));
+        setSpinIsLegal(SpinIsLegal(currentSpin));
 
-        if (options.matchMode.val) {
-            setMatchActive(false);
+        if (matchModeManager.enabled) {
+            matchModeManager.SetMatchActive(false);
         }
 
-        if (options.streamOverlayActive.val && !options.matchMode.val) {
+        if (options.streamOverlay.active && !matchModeManager.enabled) {
             UpdateSpinOverlay(
-                overlayId,
-                overlayKey,
+                options.streamOverlay.id,
+                options.streamOverlay.key,
                 newQuery,
-                options.overlayTheme.val,
+                options.streamOverlay.theme,
             );
         }
-    }, [currentSpin]);
-
-    return {
+    }, [
         currentSpin,
-        NewSpin,
-        Respin,
-        RespinCondition,
-        EditSpin,
-        GenerateNextSpin,
-        GeneratePreviousSpin,
-        UpdateQueueIndex,
-        spinLegal,
-        matchActive,
-        StartMatch,
-        StopMatch,
-        options,
-        noMissionsSelectedAlertActive,
-        query,
-        overlayId,
-        overlayKey,
-        RegenerateOverlayId,
+        matchModeManager,
+        options.streamOverlay.id,
+        options.streamOverlay.key,
+        options.streamOverlay.active,
+        options.streamOverlay.theme,
+    ]);
+
+    const spinManager: SpinManager = {
+        currentSpin: currentSpin,
+        spinQuery: spinQuery,
+        missionPool: missionPool,
+        SetMissionPool: SetMissionPool,
+        noMissionsSelectedAlertActive: noMissionsSelectedAlertActive,
+        missionQueue: missionQueue,
+        SetMissionQueue: SetMissionQueue,
+        spinMode: spinMode,
+        SetSpinMode: SetSpinMode,
+        manualMode: manualMode,
+        SetManualMode: SetManualMode,
+        NewSpin: NewSpin,
+        Respin: Respin,
+        RespinCondition: RespinCondition,
+        NextSpin: NextSpin,
+        PreviousSpin: PreviousSpin,
+        queueIndex: queueIndex,
+        SetQueueIndex: SetQueueIndex,
+        EditSpin: EditSpin,
+        lockedConditions: lockedConditions,
+        SetLockedConditions: SetLockedConditions,
+        spinIsLegal: spinIsLegal,
+        options: options,
+        matchModeManager: matchModeManager,
+        StartMatch: StartMatch,
+        StopMatch: StopMatch,
     };
+
+    return spinManager;
 }

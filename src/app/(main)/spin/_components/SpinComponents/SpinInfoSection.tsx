@@ -1,54 +1,48 @@
-import {
-    Spin,
-    SpinCheckResult,
-    SpinInfo,
-    SpinOptions,
-    SpinTarget,
-    SpinUpdateAction,
-} from "@/types";
+import { SpinInfo, SpinManager } from "../../types";
 import TargetSpinCard from "./TargetSpinCard";
 
 export default function SpinInfoSection({
-    spin,
-    spinLegal,
-    RespinCondition,
-    EditSpin,
-    options,
+    spinManager,
 }: {
-    spin: Spin;
-    spinLegal: SpinCheckResult;
-    RespinCondition: (target: SpinTarget, action: SpinUpdateAction) => void;
-    EditSpin: (
-        target: SpinTarget,
-        action: SpinUpdateAction,
-        newValue: string,
-    ) => void;
-    options: SpinOptions;
+    spinManager: SpinManager;
 }) {
+    if (spinManager.currentSpin === null) {
+        return;
+    }
+
     return (
         <section
-            data-row={options.layoutMode.val === "row"}
+            data-row={spinManager.options.spinTheme.value === "row"}
             className="flex w-full gap-2 data-[row=false]:flex-col data-[row=false]:items-center data-[row=true]:flex-row data-[row=true]:flex-wrap data-[row=true]:items-start data-[row=true]:justify-center"
         >
-            {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
+            {(
+                Object.keys(spinManager.currentSpin.info) as (keyof SpinInfo)[]
+            ).map((target) => {
+                if (spinManager.currentSpin === null) {
+                    return;
+                }
+
                 return (
                     <TargetSpinCard
                         key={target}
-                        spin={spin.info}
                         target={target}
-                        mission={spin.mission}
-                        RespinCondition={RespinCondition}
-                        EditSpin={EditSpin}
-                        options={options}
+                        spin={spinManager.currentSpin}
+                        RespinCondition={spinManager.RespinCondition}
+                        EditSpin={spinManager.EditSpin}
+                        lockedConditions={spinManager.lockedConditions}
+                        SetLockedConditions={spinManager.SetLockedConditions}
+                        manualMode={false}
+                        canAlwaysEditNTKO={false}
+                        matchModeManager={spinManager.matchModeManager}
                     />
                 );
             })}
-            {spinLegal &&
-                !spinLegal.legal &&
-                options.warnForIllegalSpins.val && (
+            {spinManager.spinIsLegal &&
+                !spinManager.spinIsLegal.legal &&
+                spinManager.options.warnForIllegalSpins.value && (
                     <p className="flex h-6 items-center gap-1 rounded-sm bg-white px-3 text-center text-[.9em] font-bold text-zinc-900">
                         <span className="text-red-500">{"WARNING: "}</span>
-                        <span>{spinLegal.reason_info}</span>
+                        <span>{spinManager.spinIsLegal.reason_info}</span>
                     </p>
                 )}
         </section>

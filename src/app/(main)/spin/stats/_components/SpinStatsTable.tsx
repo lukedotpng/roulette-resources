@@ -1,4 +1,4 @@
-import { Mission, SpinStats, SpinTarget, TargetSpinStats } from "@/types";
+import { Mission } from "@/types";
 import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,
@@ -11,6 +11,7 @@ import {
     TARGET_UNIQUE_KILLS_LIST,
     WEAPONS_WITH_MODIFIERS,
 } from "../../utils/SpinGlobals";
+import { SpinStats, SpinTarget, TargetSpinStats } from "../../types";
 
 export default function SpinStatsTable({
     stats,

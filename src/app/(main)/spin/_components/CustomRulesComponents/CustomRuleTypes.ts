@@ -1,4 +1,5 @@
-import { Mission, SpinTarget } from "@/types";
+import { Mission } from "@/types";
+import { SpinTarget } from "../../types";
 
 export type CustomKills = {
     melees?: string[];

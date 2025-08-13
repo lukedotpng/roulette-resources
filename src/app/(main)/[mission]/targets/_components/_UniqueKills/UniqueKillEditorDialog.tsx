@@ -1,4 +1,4 @@
-import { SpinTarget, UniqueKillInsert } from "@/types";
+import { UniqueKillInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -29,6 +29,7 @@ import {
     SPIN_TARGETS,
     TARGET_UNIQUE_KILLS_LIST,
 } from "@/app/(main)/spin/utils/SpinGlobals";
+import { SpinTarget } from "@/app/(main)/spin/types";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,

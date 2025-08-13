@@ -1,5 +1,3 @@
-"use client";
-
 import {
     DisguiseSelect,
     DisguiseVideoInsert,
@@ -8,7 +6,7 @@ import {
 } from "@/types";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import DisguiseCard from "./DisguiseCard";
 import DisguiseVideoEditorDialog from "../../_EditorComponents/DisguiseVideoEditorDialog";
 import DisguiseOptionPicker from "./DisguiseOptionPicker";
@@ -23,11 +21,14 @@ export default function DisguisesSection({
     const searchParams = useSearchParams();
     const session = useSession();
 
-    const disguiseIdList: string[] = [];
-    for (const disguise of disguises) {
-        const disguiseIdListNoMission = disguise.id.split("-")[1];
-        disguiseIdList.push(disguiseIdListNoMission);
-    }
+    const disguiseIdList: string[] = useMemo(() => {
+        const disguiseIdList = [];
+        for (const disguise of disguises) {
+            const disguiseIdListNoMission = disguise.id.split("-")[1];
+            disguiseIdList.push(disguiseIdListNoMission);
+        }
+        return disguiseIdList;
+    }, [disguises]);
 
     const searchParamQuery = "d";
     const [activeDisguiseId, setActiveDisguiseId] = useState(
@@ -38,7 +39,7 @@ export default function DisguisesSection({
         setActiveDisguiseId(
             searchParams.get(searchParamQuery) ?? disguiseIdList[0],
         );
-    }, [searchParams.get(searchParamQuery)]);
+    }, [disguiseIdList, searchParams]);
 
     const [disguiseVideoToEdit, setDisguiseVideoToEdit] =
         useState<DisguiseVideoInsert>({
@@ -78,7 +79,7 @@ export default function DisguisesSection({
                 setActiveDisguise(disguise);
             }
         }
-    }, [activeDisguiseId, activeDisguise, disguises]);
+    }, [activeDisguiseId, disguises, mission]);
 
     return (
         <section className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5">

@@ -46,7 +46,13 @@ export default function DisguiseVideoEditorDialog({
         } else {
             setCanSave(false);
         }
-    }, [disguiseVideoLink, disguiseVideoNotes, canSave]);
+    }, [
+        disguiseVideoLink,
+        disguiseVideo.link,
+        disguiseVideoNotes,
+        disguiseVideo.notes,
+        canSave,
+    ]);
 
     return (
         <Dialog open={editDialogActive} onOpenChange={setEditDialogActive}>

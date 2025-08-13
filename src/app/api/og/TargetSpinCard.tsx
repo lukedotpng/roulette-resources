@@ -1,4 +1,5 @@
-import { Mission, Spin, SpinTarget } from "@/types";
+import { Spin, SpinTarget } from "@/app/(main)/spin/types";
+import { Mission } from "@/types";
 
 export default function TargetSpinCard({
     spin,

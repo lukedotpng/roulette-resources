@@ -1,4 +1,3 @@
-import { MatchSimRecord, Mission, Spin, SpinOptions } from "@/types";
 import {
     Dialog,
     DialogTrigger,
@@ -18,26 +17,26 @@ import { ParseSpinQuery } from "../../utils/SpinQuery";
 import MissionSwitcher from "../PoolComponents/MissionSwitcher";
 import Link from "next/link";
 import { SPIN_MISSION_TARGETS_LIST } from "../../utils/SpinGlobals";
+import { MatchSimRecord, SpinManager, SpinTarget } from "../../types";
+import { Mission } from "@/types";
 
 export default function MatchSimLog({
-    options,
-    currentSpin,
+    spinManager,
 }: {
-    options: SpinOptions;
-    currentSpin: Spin | null;
+    spinManager: SpinManager;
 }) {
     const [showSpinIndex, setShowSpinIndex] = useState(-1);
     const [deleteRecordConfirmationActive, setDeleteRecordConfirmationActive] =
         useState(false);
 
     const [activeMission, setActiveMission] = useState<Mission>(
-        currentSpin ? currentSpin.mission : "paris",
+        spinManager.currentSpin ? spinManager.currentSpin.mission : "paris",
     );
     useEffect(() => {
-        if (currentSpin) {
-            setActiveMission(currentSpin.mission);
+        if (spinManager.currentSpin) {
+            setActiveMission(spinManager.currentSpin.mission);
         }
-    }, [currentSpin]);
+    }, [spinManager.currentSpin]);
 
     function OnMissionSwitch(mission: Mission) {
         setShowSpinIndex(-1);
@@ -57,9 +56,10 @@ export default function MatchSimLog({
     }
 
     function GetSimRecordsForMission() {
-        const filteredSimRecords = options.simRecords.val.filter((record) => {
-            return record.mission === activeMission;
-        });
+        const filteredSimRecords =
+            spinManager.matchModeManager.simRecords.filter((record) => {
+                return record.mission === activeMission;
+            });
         const sortedSimRecords = filteredSimRecords.sort(
             (a, b) => a.time - b.time,
         );
@@ -67,8 +67,8 @@ export default function MatchSimLog({
     }
 
     function DeleteRecord(record: MatchSimRecord) {
-        const updatedSimRecords = options.simRecords.val.filter(
-            (currRecord) => {
+        const updatedSimRecords =
+            spinManager.matchModeManager.simRecords.filter((currRecord) => {
                 if (
                     record.date === currRecord.date &&
                     record.mission === currRecord.mission &&
@@ -78,11 +78,10 @@ export default function MatchSimLog({
                     return false;
                 }
                 return true;
-            },
-        );
+            });
 
         setShowSpinIndex(-1);
-        options.simRecords.Set(updatedSimRecords);
+        spinManager.matchModeManager.SetSimRecords(updatedSimRecords);
     }
 
     return (
@@ -176,45 +175,49 @@ export default function MatchSimLog({
                                         </div>
                                         {showSpinIndex === index && (
                                             <div className="flex flex-col p-3 text-[.9em]">
-                                                {targets.map((target) => {
-                                                    const targetSpinInfo =
-                                                        spin.info[target];
-                                                    if (!targetSpinInfo) {
-                                                        return;
-                                                    }
+                                                {targets.map(
+                                                    (target: SpinTarget) => {
+                                                        const targetSpinInfo =
+                                                            spin.info[target];
+                                                        if (!targetSpinInfo) {
+                                                            return;
+                                                        }
 
-                                                    return (
-                                                        <p
-                                                            key={target}
-                                                            className="inline"
-                                                        >
-                                                            <span className="font-bold">
-                                                                {TargetIDToDisplayText(
-                                                                    target,
-                                                                )}
-                                                                {":"}
-                                                            </span>{" "}
-                                                            <span>
+                                                        return (
+                                                            <p
+                                                                key={target}
+                                                                className="inline"
+                                                            >
+                                                                <span className="font-bold">
+                                                                    {TargetIDToDisplayText(
+                                                                        target,
+                                                                    )}
+                                                                    {":"}
+                                                                </span>{" "}
                                                                 <span>
-                                                                    {MethodIDToDisplayText(
-                                                                        targetSpinInfo.killMethod,
+                                                                    <span>
+                                                                        {MethodIDToDisplayText(
+                                                                            targetSpinInfo.killMethod,
+                                                                        )}
+                                                                    </span>
+                                                                </span>
+                                                                {" / "}
+                                                                <span>
+                                                                    {DisguiseIDToDisplayText(
+                                                                        targetSpinInfo.disguise,
                                                                     )}
                                                                 </span>
-                                                            </span>
-                                                            {" / "}
-                                                            <span>
-                                                                {DisguiseIDToDisplayText(
-                                                                    targetSpinInfo.disguise,
+                                                                {targetSpinInfo.ntko && (
+                                                                    <span className="">
+                                                                        {
+                                                                            " / NTKO"
+                                                                        }
+                                                                    </span>
                                                                 )}
-                                                            </span>
-                                                            {targetSpinInfo.ntko && (
-                                                                <span className="">
-                                                                    {" / NTKO"}
-                                                                </span>
-                                                            )}
-                                                        </p>
-                                                    );
-                                                })}
+                                                            </p>
+                                                        );
+                                                    },
+                                                )}
                                                 <div className="mt-3 flex w-full justify-around gap-3">
                                                     <Link
                                                         href={`/spin?s=${record.spinId}`}

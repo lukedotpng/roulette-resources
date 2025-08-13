@@ -1,12 +1,3 @@
-import {
-    KillMethodType,
-    Mission,
-    Spin,
-    SpinInfo,
-    SpinTarget,
-    TargetKillMethods,
-} from "@/types";
-
 import { Ruleset } from "./CustomRuleTypes";
 import {
     MISSION_SPIN_INFO_LIST,
@@ -15,6 +6,14 @@ import {
     UNIQUE_KILLS,
     WEAPONS_WITH_MODIFIERS,
 } from "../../utils/SpinGlobals";
+import { Mission } from "@/types";
+import {
+    Spin,
+    SpinInfo,
+    SpinTarget,
+    TargetKillMethods,
+    KillMethodType,
+} from "../../types";
 
 export function GenerateSpin(ruleset: Ruleset, mission: Mission): Spin {
     const targets = SPIN_MISSION_TARGETS_LIST[mission];
