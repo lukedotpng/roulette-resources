@@ -47,32 +47,7 @@ export default function MissionPoolSelection({
     function HandleMissionPoolOptionsUpdated(
         updatedMissionPoolOptions: MissionPoolOptions,
     ) {
-        let seasonOneAllSelected = true;
-        for (let i = 0; i < SEASON_ONE_MISSIONS.length; i++) {
-            if (!updatedMissionPoolOptions[SEASON_ONE_MISSIONS[i]]) {
-                seasonOneAllSelected = false;
-            }
-        }
-
-        let seasonTwoAllSelected = true;
-        for (let i = 0; i < SEASON_TWO_MISSIONS.length; i++) {
-            if (!updatedMissionPoolOptions[SEASON_TWO_MISSIONS[i]]) {
-                seasonTwoAllSelected = false;
-            }
-        }
-
-        let seasonThreeAllSelected = true;
-        for (let i = 0; i < SEASON_THREE_MISSIONS.length; i++) {
-            if (!updatedMissionPoolOptions[SEASON_THREE_MISSIONS[i]]) {
-                seasonThreeAllSelected = false;
-            }
-        }
-
-        setSeasonsSelected({
-            season_1: seasonOneAllSelected,
-            season_2: seasonTwoAllSelected,
-            season_3: seasonThreeAllSelected,
-        });
+        setSeasonsSelected(GetSeasonsSelected(updatedMissionPoolOptions));
         const updatedMissionPool: Mission[] = [];
 
         MISSIONS.map((mission) => {
@@ -87,11 +62,37 @@ export default function MissionPoolSelection({
         SetMissionPool(updatedMissionPool);
     }
 
-    const [seasonsSelected, setSeasonsSelected] = useState({
-        season_1: false,
-        season_2: false,
-        season_3: false,
-    });
+    const [seasonsSelected, setSeasonsSelected] = useState(
+        GetSeasonsSelected(missionsPoolOptions),
+    );
+    function GetSeasonsSelected(missionPoolOptions: MissionPoolOptions) {
+        let seasonOneAllSelected = true;
+        for (let i = 0; i < SEASON_ONE_MISSIONS.length; i++) {
+            if (!missionPoolOptions[SEASON_ONE_MISSIONS[i]]) {
+                seasonOneAllSelected = false;
+            }
+        }
+
+        let seasonTwoAllSelected = true;
+        for (let i = 0; i < SEASON_TWO_MISSIONS.length; i++) {
+            if (!missionPoolOptions[SEASON_TWO_MISSIONS[i]]) {
+                seasonTwoAllSelected = false;
+            }
+        }
+
+        let seasonThreeAllSelected = true;
+        for (let i = 0; i < SEASON_THREE_MISSIONS.length; i++) {
+            if (!missionPoolOptions[SEASON_THREE_MISSIONS[i]]) {
+                seasonThreeAllSelected = false;
+            }
+        }
+
+        return {
+            season_1: seasonOneAllSelected,
+            season_2: seasonTwoAllSelected,
+            season_3: seasonThreeAllSelected,
+        };
+    }
 
     return (
         <Dialog>

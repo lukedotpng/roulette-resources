@@ -2,6 +2,7 @@ import { SpinManager } from "../../types";
 import MatchSimLog from "../MatchComponents/MatchSimLog";
 import MissionPoolSelection from "../PoolComponents/MissionPoolSelection";
 import MissionQueueSelection from "../QueueComponents/MissionQueueSelection";
+import SpinOptionsSection from "./SpinOptionsSection";
 
 export default function SpinToolbar({
     spinManager,
@@ -84,6 +85,10 @@ export default function SpinToolbar({
                     </svg>
                 </button>
             )}
+            <SpinOptionsSection
+                options={spinManager.options}
+                currentSpin={spinManager.currentSpin}
+            />
         </div>
     );
 }

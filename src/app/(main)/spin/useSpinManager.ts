@@ -26,6 +26,7 @@ import {
     SpinUpdateAction,
 } from "./types";
 import { Mission } from "@/types";
+import { useLocalState } from "@/utils/useLocalState";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
@@ -45,7 +46,7 @@ export function useSpinManager(): SpinManager {
 
             setCurrentSpin(updatedSpin);
         },
-        [currentSpin, matchModeManager.enabled],
+        [matchModeManager.enabled],
     );
 
     const [spinMode, setSpinMode] = useState<SpinMode>("pool");
@@ -58,7 +59,7 @@ export function useSpinManager(): SpinManager {
         setManualMode(newState);
     }
 
-    const [missionPool, setMissionPool] = useState<Mission[]>([]);
+    const [missionPool, setMissionPool] = useLocalState<Mission[]>("pool", []);
     function SetMissionPool(updatedMissionPool: Mission[]) {
         setMissionPool(updatedMissionPool);
     }
@@ -242,7 +243,10 @@ export function useSpinManager(): SpinManager {
     }
 
     // Queue Management
-    const [missionQueue, setMissionQueue] = useState<Mission[]>([]);
+    const [missionQueue, setMissionQueue] = useLocalState<Mission[]>(
+        "queue",
+        [],
+    );
     function SetMissionQueue(updatedQueue: Mission[]) {
         if (updatedQueue.length === 0) {
             SetCurrentSpin(null);
@@ -281,6 +285,7 @@ export function useSpinManager(): SpinManager {
     );
 
     // Update overlay on spin/query or theme change
+    // function UpdateOverlay() {}
     useEffect(() => {
         if (!options.streamOverlay.active) {
             return;
@@ -312,14 +317,14 @@ export function useSpinManager(): SpinManager {
         spinQuery,
     ]);
 
-    // Respin when match mode is enabled to prevent controlling the spin
+    // // Respin when match mode is enabled to prevent controlling the spin
     useEffect(() => {
         if (matchModeManager.enabled) {
             Respin();
         }
     }, [matchModeManager.enabled, Respin]);
 
-    // Update overlay when match is active
+    // // Update overlay when match is active
     useEffect(() => {
         if (!options.streamOverlay.active) {
             return;
@@ -385,7 +390,6 @@ export function useSpinManager(): SpinManager {
         }
     }, [
         currentSpin,
-        matchModeManager,
         options.streamOverlay.id,
         options.streamOverlay.key,
         options.streamOverlay.active,

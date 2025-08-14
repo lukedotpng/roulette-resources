@@ -10,6 +10,7 @@ export default function TargetSpinCardRow({
     EditSpin,
     LockCondition,
     conditionLocked,
+    manualMode,
     matchModeManager,
 }: {
     title: string;
@@ -19,6 +20,7 @@ export default function TargetSpinCardRow({
     EditSpin: () => void;
     LockCondition: () => void;
     conditionLocked: boolean;
+    manualMode: boolean;
     matchModeManager: MatchModeManager;
 }) {
     const [spinAnimationActive, setSpinAnimationActive] = useState(false);
@@ -46,7 +48,7 @@ export default function TargetSpinCardRow({
                 </div>
                 {!matchModeManager.enabled &&
                     !conditionLocked &&
-                    (matchModeManager.enabled ? (
+                    (manualMode ? (
                         <button
                             className="w-4 fill-white hover:fill-red-500 sm:w-6"
                             onClick={EditSpin}

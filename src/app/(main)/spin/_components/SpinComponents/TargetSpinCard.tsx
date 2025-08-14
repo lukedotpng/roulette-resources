@@ -128,6 +128,7 @@ export default function TargetSpinCard({
                             SetLockedConditions(updatedLockedConditions);
                         }}
                         conditionLocked={killMethodLocked}
+                        manualMode={manualMode}
                     />
                     <TargetSpinCardRow
                         title="Disguise"
@@ -176,6 +177,7 @@ export default function TargetSpinCard({
                             SetLockedConditions(updatedLockedConditions);
                         }}
                         conditionLocked={disguiseLocked}
+                        manualMode={manualMode}
                     />
                     <SpinEditorDialog
                         mission={spin.mission}

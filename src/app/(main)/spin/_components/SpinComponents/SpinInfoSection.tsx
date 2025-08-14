@@ -31,7 +31,7 @@ export default function SpinInfoSection({
                         EditSpin={spinManager.EditSpin}
                         lockedConditions={spinManager.lockedConditions}
                         SetLockedConditions={spinManager.SetLockedConditions}
-                        manualMode={false}
+                        manualMode={spinManager.manualMode}
                         canAlwaysEditNTKO={false}
                         matchModeManager={spinManager.matchModeManager}
                     />
