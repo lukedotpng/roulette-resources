@@ -66,7 +66,7 @@ export default function MainSection() {
                     />
                 );
             case "queue":
-                if (spinManager.options.showQueueList) {
+                if (!spinManager.options.showQueueList.value) {
                     return (
                         <SimpleQueueList
                             queueIndex={spinManager.queueIndex}
@@ -112,7 +112,7 @@ export default function MainSection() {
 
             {spinManager.options.showTips.value && spinManager.currentSpin && (
                 <SpinTipsSection
-                    query={spinManager.spinQuery}
+                    query={spinManager.spinQuery.query}
                     mission={spinManager.currentSpin.mission}
                     matchModeManager={spinManager.matchModeManager}
                 />
