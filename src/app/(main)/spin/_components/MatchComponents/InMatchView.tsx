@@ -10,10 +10,10 @@ export default function InMatchView({
     matchTimerRef: RefObject<HTMLParagraphElement | null>;
 }) {
     return (
-        <div className="flex h-full w-full">
+        <div className="flex h-full w-full gap-3 bg-zinc-800">
             <button
                 onClick={OnSpinFinished}
-                className="group flex h-full w-full flex-col items-center justify-center border-r-[.75rem] border-zinc-800"
+                className="group flex h-full w-full flex-col items-center justify-center border-4 border-white bg-white hover:border-red-500"
             >
                 <p
                     className="font-mono text-[1.4em] font-bold"
@@ -25,7 +25,7 @@ export default function InMatchView({
             </button>
             <button
                 onClick={OnSpinCancel}
-                className="w-8 text-[1.3em] font-bold hover:bg-red-500 hover:text-white"
+                className="w-8 bg-white text-[1.3em] font-bold hover:bg-red-500 hover:text-white"
             >
                 {"X"}
             </button>
