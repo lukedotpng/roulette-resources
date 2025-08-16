@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CountdownText from "./CountdownText";
 import { MillisecondsToTimeString } from "@/utils/FormattingUtils";
 import PreMatchView from "./PreMatchView";
@@ -22,10 +22,10 @@ export default function MatchTimerSection({
     const matchTimerRef = useRef<HTMLParagraphElement>(null);
     const intervalRef = useRef<NodeJS.Timeout>(null);
 
-    const OnStartMatch = useCallback(() => {
+    function OnStartMatch() {
         spinManager.StartMatch();
         setCountdownActive(false);
-    }, []);
+    }
 
     function OnSpinFinished() {
         if (intervalRef.current) {
@@ -113,7 +113,7 @@ export default function MatchTimerSection({
 
     useEffect(() => {
         setCountdownActive(false);
-    }, [spinManager.currentSpin]);
+    }, [spinManager.currentSpin, spinManager.spinMode]);
 
     return (
         <section className="flex h-16 w-full max-w-[48rem] items-center justify-center bg-white text-zinc-900 sm:h-20">

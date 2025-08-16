@@ -89,7 +89,7 @@ export type SpinMode = "pool" | "queue" | "seeded_queue";
 
 export type SpinManager = {
     currentSpin: Spin | null;
-    spinQuery: string;
+    spinQuery: SpinQuery;
     missionPool: Mission[];
     SetMissionPool: (updatedMissionPool: Mission[]) => void;
     noMissionsSelectedAlertActive: boolean;
@@ -157,9 +157,11 @@ export type SpinOptions = {
 
 export type MatchModeManager = {
     enabled: boolean;
-    SetEnabled: (updatedState: boolean) => void;
     matchActive: boolean;
-    SetMatchActive: (updatedState: boolean) => void;
+    EnableMatchMode: () => void;
+    DisableMatchMode: () => void;
+    StartMatch: () => void;
+    EndMatch: () => void;
     simRecords: MatchSimRecord[];
     SetSimRecords: (updatedSimRecords: MatchSimRecord[]) => void;
 };
@@ -169,6 +171,11 @@ export type MatchSimRecord = {
     spinId: string;
     time: number; // in ms
     date: number; // in ms
+};
+
+export type SpinQuery = {
+    query: string;
+    UpdateQuery: (spin: Spin) => void;
 };
 
 export type SpinMissionTargets = {

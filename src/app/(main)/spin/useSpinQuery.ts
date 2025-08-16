@@ -1,57 +1,49 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
-import { MatchModeManager, Spin, SpinOptions } from "./types";
+import { Spin, SpinOptions, SpinQuery } from "./types";
 
 export function useSpinQuery(
-    currentSpin: Spin | null,
     SetCurrentSpin: (spin: Spin | null) => void,
-    matchModeManager: MatchModeManager,
     options: SpinOptions,
-) {
+): SpinQuery {
     const searchParams = useSearchParams();
 
-    const [query, setQuery] = useState(searchParams.get("s") ?? "");
+    const [query, setQuery] = useState("");
 
     // Update current spin on page navigation
     useEffect(() => {
         const newSpinQuery = searchParams.get("s") ?? "";
 
+        if (newSpinQuery === query) {
+            return;
+        }
+
         const newSpin: Spin | null = GetSpinFromQuery(newSpinQuery, false);
         setQuery(newSpinQuery);
         SetCurrentSpin(newSpin);
-    }, [searchParams, SetCurrentSpin]);
+    }, [searchParams]);
 
-    // Update URL spin query on spin updates
-    useEffect(() => {
-        if (!currentSpin) {
-            return;
-        }
-        const spinQuery = CreateSpinQuery(currentSpin);
+    function UpdateQuery(spin: Spin) {
+        const spinQuery = CreateSpinQuery(spin);
 
         const params = new URLSearchParams(searchParams.toString());
 
-        const prevQuery = params.toString();
-        params.set("s", spinQuery);
+        const prevQuery = params.get("s");
 
-        if (
-            !options.updateUrlOnSpin.value ||
-            (matchModeManager.enabled && !matchModeManager.matchActive)
-        ) {
-            setQuery(spinQuery);
+        if (!options.updateUrlOnSpin.value) {
             return;
         }
 
-        if (prevQuery !== params.toString()) {
-            window.history.pushState(null, "", `/spin?${params.toString()}`);
-        }
-    }, [
-        currentSpin,
-        matchModeManager.enabled,
-        matchModeManager.matchActive,
-        options.updateUrlOnSpin.value,
-        searchParams,
-    ]);
+        setQuery(spinQuery);
 
-    return query;
+        if (prevQuery !== spinQuery) {
+            window.history.pushState(null, "", `/spin?s=${spinQuery}`);
+        }
+    }
+
+    return {
+        query: query,
+        UpdateQuery: UpdateQuery,
+    };
 }

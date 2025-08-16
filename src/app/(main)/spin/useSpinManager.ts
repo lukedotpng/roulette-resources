@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
 import {
     GenerateSpin,
@@ -11,13 +11,13 @@ import {
     UpdateSpinOverlay,
     UpdateSpinOverlayMatchStatus,
 } from "../../(streamOverlay)/OverlayActions";
-import { CreateSpinQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheck";
 import { SPIN_MISSION_TARGETS_LIST } from "./utils/SpinGlobals";
-import { useMatchModeManager } from "./useMatchMode";
 import {
     LockedTargetConditions,
+    MatchModeManager,
+    MatchSimRecord,
     Spin,
     SpinCheckResult,
     SpinManager,
@@ -30,33 +30,59 @@ import { useLocalState } from "@/utils/useLocalState";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
-    const matchModeManager = useMatchModeManager();
+
+    // MATCH MODE MANAGER
+    const [matchModeEnabled, setMatchModeEnabled] = useState(false);
+    const [matchActive, setMatchActive] = useState(false);
+    function EnableMatchMode() {
+        setMatchModeEnabled(true);
+    }
+    function DisableMatchMode() {
+        setMatchModeEnabled(false);
+        setMatchActive(false);
+    }
+    function StartMatch() {
+        if (!currentSpin) {
+            return;
+        }
+
+        setMatchActive(true);
+        const newSpin = GenerateSpin(currentSpin.mission);
+        SetCurrentSpin(newSpin);
+    }
+    function StopMatch() {
+        setMatchActive(false);
+    }
+    const [simRecords, setSimRecords] = useLocalState<MatchSimRecord[]>(
+        "simRecords",
+        [],
+    );
+    function SetSimRecords(updatedSimRecords: MatchSimRecord[]) {
+        setSimRecords(updatedSimRecords);
+    }
+    const matchModeManager: MatchModeManager = {
+        enabled: matchModeEnabled,
+        matchActive: matchActive,
+        EnableMatchMode: EnableMatchMode,
+        DisableMatchMode: DisableMatchMode,
+        StartMatch: StartMatch,
+        EndMatch: StopMatch,
+        simRecords: simRecords,
+        SetSimRecords: SetSimRecords,
+    };
 
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
-    const SetCurrentSpin = useCallback(
-        (updatedSpin: Spin | null) => {
-            if (
-                (updatedSpin !== null &&
-                    currentSpin !== null &&
-                    updatedSpin.mission !== currentSpin.mission) ||
-                matchModeManager.enabled
-            ) {
-                setLockedConditions({});
+    function SetCurrentSpin(updatedSpin: Spin | null) {
+        setCurrentSpin(updatedSpin);
+        if (updatedSpin) {
+            setSpinIsLegal(SpinIsLegal(updatedSpin));
+
+            spinQuery.UpdateQuery(updatedSpin);
+
+            if (matchActive) {
+                StopMatch();
             }
-
-            setCurrentSpin(updatedSpin);
-        },
-        [matchModeManager.enabled],
-    );
-
-    const [spinMode, setSpinMode] = useState<SpinMode>("pool");
-    function SetSpinMode(updatedSpinMode: SpinMode) {
-        setSpinMode(updatedSpinMode);
-    }
-
-    const [manualMode, setManualMode] = useState(false);
-    function SetManualMode(newState: boolean) {
-        setManualMode(newState);
+        }
     }
 
     const [missionPool, setMissionPool] = useLocalState<Mission[]>("pool", []);
@@ -64,44 +90,32 @@ export function useSpinManager(): SpinManager {
         setMissionPool(updatedMissionPool);
     }
 
+    const spinQuery = useSpinQuery(SetCurrentSpin, options);
+
+    const [spinMode, setSpinMode] = useState<SpinMode>("pool");
+    function SetSpinMode(updatedSpinMode: SpinMode) {
+        if (updatedSpinMode !== spinMode) {
+            StopMatch();
+        }
+        setSpinMode(updatedSpinMode);
+    }
+
+    const [manualMode, setManualMode] = useState(false);
+    function SetManualMode(updatedManualMode: boolean) {
+        setManualMode(updatedManualMode);
+    }
+
     const [lockedConditions, setLockedConditions] =
         useState<LockedTargetConditions>({});
     function SetLockedConditions(
         updatedLockedConditions: LockedTargetConditions,
     ) {
-        const filteredLockedConditions: LockedTargetConditions = {};
-        const targets = Object.keys(updatedLockedConditions) as SpinTarget[];
-        for (const target of targets) {
-            if (updatedLockedConditions[target] === undefined) {
-                console.log(target);
-                continue;
-            }
-
-            // Remove newly blank locked conditions
-            if (
-                updatedLockedConditions[target].killMethod !== "" ||
-                updatedLockedConditions[target].disguise !== ""
-            ) {
-                filteredLockedConditions[target] =
-                    updatedLockedConditions[target];
-            }
-        }
-        setLockedConditions(filteredLockedConditions);
+        setLockedConditions(updatedLockedConditions);
     }
 
     const [spinIsLegal, setSpinIsLegal] = useState<SpinCheckResult>({
         legal: true,
     });
-
-    function StartMatch() {
-        if (matchModeManager.enabled) {
-            matchModeManager.SetMatchActive(true);
-        }
-    }
-    function StopMatch() {
-        Respin();
-        matchModeManager.SetMatchActive(false);
-    }
 
     const [noMissionsSelectedAlertActive, setNoMissionsSelectedAlertActive] =
         useState(false);
@@ -144,7 +158,7 @@ export function useSpinManager(): SpinManager {
         const spin: Spin = GenerateSpin(missionToSpin);
         SetCurrentSpin(spin);
     }
-    const Respin = useCallback(() => {
+    function Respin() {
         if (currentSpin === null) {
             return;
         }
@@ -178,8 +192,7 @@ export function useSpinManager(): SpinManager {
 
             SetCurrentSpin(updatedSpin);
         }
-    }, [SetCurrentSpin, currentSpin, lockedConditions]);
-
+    }
     function RespinCondition(target: SpinTarget, action: SpinUpdateAction) {
         if (!currentSpin) {
             return;
@@ -276,125 +289,6 @@ export function useSpinManager(): SpinManager {
         }
         SetQueueIndex(prevIndex);
     }
-
-    const spinQuery = useSpinQuery(
-        currentSpin,
-        SetCurrentSpin,
-        matchModeManager,
-        options,
-    );
-
-    // Update overlay on spin/query or theme change
-    // function UpdateOverlay() {}
-    useEffect(() => {
-        if (!options.streamOverlay.active) {
-            return;
-        }
-
-        if (
-            !matchModeManager.enabled ||
-            (matchModeManager.enabled && matchModeManager.matchActive)
-        ) {
-            InitializeSpinOverlay(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                spinQuery,
-            );
-            UpdateSpinOverlay(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                spinQuery,
-                options.streamOverlay.theme,
-            );
-        }
-    }, [
-        options.streamOverlay.active,
-        options.streamOverlay.theme,
-        options.streamOverlay.id,
-        options.streamOverlay.key,
-        matchModeManager.enabled,
-        matchModeManager.matchActive,
-        spinQuery,
-    ]);
-
-    // // Respin when match mode is enabled to prevent controlling the spin
-    useEffect(() => {
-        if (matchModeManager.enabled) {
-            Respin();
-        }
-    }, [matchModeManager.enabled, Respin]);
-
-    // // Update overlay when match is active
-    useEffect(() => {
-        if (!options.streamOverlay.active) {
-            return;
-        }
-
-        if (!matchModeManager.enabled) {
-            UpdateSpinOverlayMatchStatus(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                spinQuery,
-                matchModeManager.enabled,
-                -1,
-            );
-            return;
-        }
-        if (currentSpin) {
-            if (matchModeManager.matchActive) {
-                UpdateSpinOverlayMatchStatus(
-                    options.streamOverlay.id,
-                    options.streamOverlay.key,
-                    spinQuery,
-                    matchModeManager.matchActive,
-                    Date.now(),
-                );
-            } else {
-                UpdateSpinOverlayMatchStatus(
-                    options.streamOverlay.id,
-                    options.streamOverlay.key,
-                    spinQuery,
-                    matchModeManager.matchActive,
-                );
-            }
-        }
-    }, [
-        currentSpin,
-        spinQuery,
-        matchModeManager.enabled,
-        matchModeManager.matchActive,
-        options.streamOverlay.active,
-        options.streamOverlay.id,
-        options.streamOverlay.key,
-    ]);
-
-    useEffect(() => {
-        if (!currentSpin) {
-            return;
-        }
-
-        const newQuery = CreateSpinQuery(currentSpin);
-        setSpinIsLegal(SpinIsLegal(currentSpin));
-
-        if (matchModeManager.enabled) {
-            matchModeManager.SetMatchActive(false);
-        }
-
-        if (options.streamOverlay.active && !matchModeManager.enabled) {
-            UpdateSpinOverlay(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                newQuery,
-                options.streamOverlay.theme,
-            );
-        }
-    }, [
-        currentSpin,
-        options.streamOverlay.id,
-        options.streamOverlay.key,
-        options.streamOverlay.active,
-        options.streamOverlay.theme,
-    ]);
 
     const spinManager: SpinManager = {
         currentSpin: currentSpin,

@@ -57,9 +57,11 @@ export default function SpinToolbar({
             <button
                 className="group w-16 border-red-500 bg-white text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 sm:w-24 sm:data-[active=true]:border-b-4"
                 onClick={() => {
-                    spinManager.matchModeManager.SetEnabled(
-                        !spinManager.matchModeManager.enabled,
-                    );
+                    if (spinManager.matchModeManager.enabled) {
+                        spinManager.matchModeManager.DisableMatchMode();
+                    } else {
+                        spinManager.matchModeManager.EnableMatchMode();
+                    }
                 }}
                 data-active={spinManager.matchModeManager.enabled}
             >

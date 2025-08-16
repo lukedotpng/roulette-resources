@@ -32,7 +32,9 @@ export default function SpinInfoSection({
                         lockedConditions={spinManager.lockedConditions}
                         SetLockedConditions={spinManager.SetLockedConditions}
                         manualMode={spinManager.manualMode}
-                        canAlwaysEditNTKO={false}
+                        canAlwaysEditNTKO={
+                            spinManager.options.canAlwaysEditNTKO.value
+                        }
                         matchModeManager={spinManager.matchModeManager}
                     />
                 );
