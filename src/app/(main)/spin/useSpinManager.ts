@@ -31,6 +31,7 @@ import { CreateSpinQuery } from "./utils/SpinQuery";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
+    const spinQuery = useSpinQuery(SetCurrentSpin, options);
 
     // MATCH MODE MANAGER
     const [matchModeEnabled, setMatchModeEnabled] = useState(false);
@@ -108,8 +109,6 @@ export function useSpinManager(): SpinManager {
     function SetMissionPool(updatedMissionPool: Mission[]) {
         setMissionPool(updatedMissionPool);
     }
-
-    const spinQuery = useSpinQuery(SetCurrentSpin, options);
 
     const [spinMode, setSpinMode] = useState<SpinMode>("pool");
     function SetSpinMode(updatedSpinMode: SpinMode) {
