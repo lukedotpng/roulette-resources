@@ -48,7 +48,7 @@ export default function TextThemeTimer({
         };
     }, [matchActive, startTime]);
 
-    if (startTime === -1) {
+    if (startTime === -1 || !matchActive) {
         return;
     }
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSpinQuery } from "./useSpinQuery";
 import {
     GenerateSpin,
@@ -27,6 +27,7 @@ import {
 } from "./types";
 import { Mission } from "@/types";
 import { useLocalState } from "@/utils/useLocalState";
+import { CreateSpinQuery } from "./utils/SpinQuery";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
@@ -47,11 +48,29 @@ export function useSpinManager(): SpinManager {
         }
 
         setMatchActive(true);
+
         const newSpin = GenerateSpin(currentSpin.mission);
         SetCurrentSpin(newSpin);
+
+        if (options.streamOverlay.active) {
+            UpdateSpinOverlayMatchStatus(
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                CreateSpinQuery(newSpin),
+                true,
+                Date.now(),
+            );
+        }
     }
     function StopMatch() {
         setMatchActive(false);
+
+        UpdateSpinOverlayMatchStatus(
+            options.streamOverlay.id,
+            options.streamOverlay.key,
+            spinQuery.query,
+            false,
+        );
     }
     const [simRecords, setSimRecords] = useLocalState<MatchSimRecord[]>(
         "simRecords",
@@ -98,6 +117,12 @@ export function useSpinManager(): SpinManager {
             StopMatch();
         }
         setSpinMode(updatedSpinMode);
+
+        if (updatedSpinMode === "queue") {
+            if (missionQueue.length > 0) {
+                SetQueueIndex(0);
+            }
+        }
     }
 
     const [manualMode, setManualMode] = useState(false);
@@ -289,6 +314,50 @@ export function useSpinManager(): SpinManager {
         }
         SetQueueIndex(prevIndex);
     }
+
+    const [streamOverlayInitialized, setStreamOverlayInitialized] = useState({
+        initialized: false,
+        id: "",
+    });
+
+    useEffect(() => {
+        if (!streamOverlayInitialized.initialized) {
+            InitializeSpinOverlay(
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                spinQuery.query,
+            );
+            setStreamOverlayInitialized({
+                initialized: true,
+                id: options.streamOverlay.id,
+            });
+        } else {
+            if (streamOverlayInitialized.id !== options.streamOverlay.id) {
+                InitializeSpinOverlay(
+                    options.streamOverlay.id,
+                    options.streamOverlay.key,
+                    spinQuery.query,
+                );
+                setStreamOverlayInitialized({
+                    initialized: true,
+                    id: options.streamOverlay.id,
+                });
+            }
+            UpdateSpinOverlay(
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                spinQuery.query,
+                options.streamOverlay.theme,
+            );
+        }
+    }, [
+        spinQuery.query,
+        options.streamOverlay.id,
+        options.streamOverlay.key,
+        options.streamOverlay.active,
+        options.streamOverlay.theme,
+        streamOverlayInitialized,
+    ]);
 
     const spinManager: SpinManager = {
         currentSpin: currentSpin,

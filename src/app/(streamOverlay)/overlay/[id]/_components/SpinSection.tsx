@@ -56,6 +56,8 @@ export default function SpinSection({
                     }
                     if (matchActive !== undefined) {
                         setMatchActive(matchActive);
+                    } else {
+                        setMatchActive(false);
                     }
                 },
             )
@@ -70,7 +72,7 @@ export default function SpinSection({
         return <h1 className="text-5xl text-white">{"Error finding spin"}</h1>;
     }
 
-    if (theme === "text_only") {
+    if (theme === "text") {
         return (
             <TextOnly
                 spin={spin}

@@ -48,7 +48,7 @@ export default function DefaultThemeTimer({
         };
     }, [matchActive, startTime]);
 
-    if (startTime === -1) {
+    if (startTime === -1 || !matchActive) {
         return;
     }
 
