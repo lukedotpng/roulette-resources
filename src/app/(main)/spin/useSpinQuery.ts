@@ -1,13 +1,18 @@
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
 import { Spin, SpinOptions, SpinQuery } from "./types";
+import { Mission } from "@/types";
+import { GenerateSpin } from "./utils/SpinGeneration";
+import { GetRandomMission } from "./utils/SpinUtils";
 
 export function useSpinQuery(
     SetCurrentSpin: (spin: Spin | null) => void,
     options: SpinOptions,
+    missionPool: Mission[],
 ): SpinQuery {
     const searchParams = useSearchParams();
+    const router = useRouter();
 
     const [query, setQuery] = useState("");
 
@@ -15,11 +20,17 @@ export function useSpinQuery(
     useEffect(() => {
         const newSpinQuery = searchParams.get("s") ?? "";
 
-        if (newSpinQuery === query) {
+        if (newSpinQuery === query && newSpinQuery !== "") {
             return;
         }
 
-        const newSpin: Spin | null = GetSpinFromQuery(newSpinQuery, false);
+        let newSpin: Spin | null;
+        if (newSpinQuery === "") {
+            newSpin = GenerateSpin(GetRandomMission(missionPool));
+        } else {
+            newSpin = GetSpinFromQuery(newSpinQuery, false);
+        }
+
         setQuery(newSpinQuery);
         SetCurrentSpin(newSpin);
     }, [searchParams]);
@@ -30,15 +41,13 @@ export function useSpinQuery(
         const params = new URLSearchParams(searchParams.toString());
 
         const prevQuery = params.get("s");
-
-        if (!options.updateUrlOnSpin.value) {
+        if (prevQuery === spinQuery) {
             return;
         }
 
         setQuery(spinQuery);
-
-        if (prevQuery !== spinQuery) {
-            window.history.pushState(null, "", `/spin?s=${spinQuery}`);
+        if (options.updateUrlOnSpin.value) {
+            router.push(`/spin?s=${spinQuery}`);
         }
     }
 

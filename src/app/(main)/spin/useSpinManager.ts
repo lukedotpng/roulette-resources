@@ -5,7 +5,11 @@ import {
     RegenerateDisguise,
     RegenerateKillMethod,
 } from "./utils/SpinGeneration";
-import { GetRandomMission } from "@/app/(main)/spin/utils/SpinUtils";
+import { GenerateSpin as GenerateSeededSpin } from "./utils/SeededSpinGeneration";
+import {
+    GenerateRandomSeed,
+    GetRandomMission,
+} from "@/app/(main)/spin/utils/SpinUtils";
 import {
     InitializeSpinOverlay,
     UpdateSpinOverlay,
@@ -28,10 +32,10 @@ import {
 import { Mission } from "@/types";
 import { useLocalState } from "@/utils/useLocalState";
 import { CreateSpinQuery } from "./utils/SpinQuery";
+import Rand from "rand-seed";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
-    const spinQuery = useSpinQuery(SetCurrentSpin, options);
 
     // MATCH MODE MANAGER
     const [matchModeEnabled, setMatchModeEnabled] = useState(false);
@@ -110,6 +114,8 @@ export function useSpinManager(): SpinManager {
         setMissionPool(updatedMissionPool);
     }
 
+    const spinQuery = useSpinQuery(SetCurrentSpin, options, missionPool);
+
     const [spinMode, setSpinMode] = useState<SpinMode>("pool");
     function SetSpinMode(updatedSpinMode: SpinMode) {
         if (updatedSpinMode !== spinMode) {
@@ -117,9 +123,9 @@ export function useSpinManager(): SpinManager {
         }
         setSpinMode(updatedSpinMode);
 
-        if (updatedSpinMode === "queue") {
+        if (updatedSpinMode === "queue" || updatedSpinMode === "seeded_queue") {
             if (missionQueue.length > 0) {
-                SetQueueIndex(0);
+                SetQueueIndex(0, updatedSpinMode);
             }
         }
     }
@@ -287,17 +293,48 @@ export function useSpinManager(): SpinManager {
     function SetMissionQueue(updatedQueue: Mission[]) {
         if (updatedQueue.length === 0) {
             SetCurrentSpin(null);
-        } else {
-            SetCurrentSpin(GenerateSpin(updatedQueue[0]));
         }
         setQueueIndex(0);
         setMissionQueue(updatedQueue);
     }
     const [queueIndex, setQueueIndex] = useState(0);
-    function SetQueueIndex(updatedIndex: number) {
+    function SetQueueIndex(updatedIndex: number, queueMode?: SpinMode) {
         setQueueIndex(updatedIndex);
-        SetCurrentSpin(GenerateSpin(missionQueue[updatedIndex]));
+
+        if (queueMode === undefined) {
+            queueMode = spinMode;
+        }
+
+        if (queueMode === "queue") {
+            SetCurrentSpin(GenerateSpin(missionQueue[updatedIndex]));
+        } else if (queueMode === "seeded_queue") {
+            SetCurrentSpin(seededQueueSpins[updatedIndex]);
+        }
     }
+
+    const [queueSeed, setQueueSeed] = useState(GenerateRandomSeed());
+    function SetQueueSeed(updatedQueueSeed: string) {
+        setQueueSeed(updatedQueueSeed);
+    }
+
+    const [seededQueueSpins, setSeededQueueSpins] = useState<Spin[]>([]);
+    function SetSeededQueueSpins(updatedSeededQueueSpins: Spin[]) {
+        setSeededQueueSpins([...updatedSeededQueueSpins]);
+        SetCurrentSpin(updatedSeededQueueSpins[0]);
+        // Call directly to avoid resetting current spin
+        setQueueIndex(0);
+    }
+    useEffect(() => {
+        const seededRandom = new Rand(queueSeed + missionQueue.length);
+
+        const updatedSeededQueueSpins: Spin[] = [];
+        for (const mission of missionQueue) {
+            updatedSeededQueueSpins.push(
+                GenerateSeededSpin(mission, seededRandom),
+            );
+        }
+        SetSeededQueueSpins([...updatedSeededQueueSpins]);
+    }, [queueSeed, missionQueue]);
 
     function NextSpin() {
         const nextIndex = queueIndex + 1;
@@ -314,6 +351,7 @@ export function useSpinManager(): SpinManager {
         SetQueueIndex(prevIndex);
     }
 
+    // Stream Overlay
     const [streamOverlayInitialized, setStreamOverlayInitialized] = useState({
         initialized: false,
         id: "",
@@ -377,6 +415,8 @@ export function useSpinManager(): SpinManager {
         PreviousSpin: PreviousSpin,
         queueIndex: queueIndex,
         SetQueueIndex: SetQueueIndex,
+        queueSeed: queueSeed,
+        SetQueueSeed: SetQueueSeed,
         EditSpin: EditSpin,
         lockedConditions: lockedConditions,
         SetLockedConditions: SetLockedConditions,

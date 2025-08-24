@@ -106,6 +106,8 @@ export type SpinManager = {
     PreviousSpin: () => void;
     queueIndex: number;
     SetQueueIndex: (updatedIndex: number) => void;
+    queueSeed: string;
+    SetQueueSeed: (updatedQueueSeed: string) => void;
     EditSpin: (
         target: SpinTarget,
         action: SpinUpdateAction,

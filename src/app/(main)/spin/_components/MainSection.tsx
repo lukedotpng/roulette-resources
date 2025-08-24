@@ -47,7 +47,13 @@ export default function MainSection() {
                     />
                 );
             case "seeded_queue":
-                return null;
+                return (
+                    <MissionQueueSpinControls
+                        GenerateNextSpin={spinManager.NextSpin}
+                        GeneratePreviousSpin={spinManager.PreviousSpin}
+                        Respin={spinManager.Respin}
+                    />
+                );
         }
     };
 
@@ -65,7 +71,7 @@ export default function MainSection() {
                         }
                     />
                 );
-            case "queue":
+            case "seeded_queue":
                 if (!spinManager.options.showQueueList.value) {
                     return (
                         <SimpleQueueList

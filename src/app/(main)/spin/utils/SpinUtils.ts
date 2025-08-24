@@ -12,3 +12,17 @@ export function GetRandomMission(missionPool: Mission[]): Mission {
 
     return randomMission;
 }
+
+export function GenerateRandomSeed(length?: number) {
+    const charOptions =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const newQueueSeedLength = length ?? 20;
+    let newQueueSeed = "";
+
+    for (let i = 0; i < newQueueSeedLength; i++) {
+        const randIndex = Math.floor(Math.random() * charOptions.length);
+        newQueueSeed += charOptions[randIndex];
+    }
+
+    return newQueueSeed;
+}
