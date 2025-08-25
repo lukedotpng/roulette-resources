@@ -18,6 +18,7 @@ export function useSpinQuery(
 
     // Update current spin on page navigation
     useEffect(() => {
+        console.log(searchParams);
         const newSpinQuery = searchParams.get("s") ?? "";
 
         if (newSpinQuery === query && newSpinQuery !== "") {

@@ -312,7 +312,10 @@ export function useSpinManager(): SpinManager {
         }
     }
 
-    const [queueSeed, setQueueSeed] = useState(GenerateRandomSeed());
+    const [queueSeed, setQueueSeed] = useLocalState(
+        "queueSeed",
+        GenerateRandomSeed(),
+    );
     function SetQueueSeed(updatedQueueSeed: string) {
         setQueueSeed(updatedQueueSeed);
     }
@@ -320,9 +323,12 @@ export function useSpinManager(): SpinManager {
     const [seededQueueSpins, setSeededQueueSpins] = useState<Spin[]>([]);
     function SetSeededQueueSpins(updatedSeededQueueSpins: Spin[]) {
         setSeededQueueSpins([...updatedSeededQueueSpins]);
-        SetCurrentSpin(updatedSeededQueueSpins[0]);
-        // Call directly to avoid resetting current spin
-        setQueueIndex(0);
+
+        if (spinMode === "seeded_queue") {
+            SetCurrentSpin(updatedSeededQueueSpins[0]);
+            // Call directly to avoid resetting current spin
+            setQueueIndex(0);
+        }
     }
     useEffect(() => {
         const seededRandom = new Rand(queueSeed + missionQueue.length);
