@@ -71,7 +71,7 @@ export default function MainSection() {
                         }
                     />
                 );
-            case "seeded_queue":
+            default:
                 if (!spinManager.options.showQueueList.value) {
                     return (
                         <SimpleQueueList
@@ -118,7 +118,7 @@ export default function MainSection() {
 
             {spinManager.options.showTips.value && spinManager.currentSpin && (
                 <SpinTipsSection
-                    query={spinManager.spinQuery.query}
+                    query={spinManager.spinQuery}
                     mission={spinManager.currentSpin.mission}
                     matchModeManager={spinManager.matchModeManager}
                 />

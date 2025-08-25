@@ -90,6 +90,11 @@ export default function SpinOptionsSection({
                                 onClickHandler={options.showQueueList.Toggle}
                                 activeState={options.showQueueList.value}
                             />
+                            <SpinOptionsToggle
+                                label={"Use Seeded Queues"}
+                                onClickHandler={options.useSeededQueues.Toggle}
+                                activeState={options.useSeededQueues.value}
+                            />
                             <SpinOptionsChoiceSelector
                                 label="Layout Mode"
                                 options={[

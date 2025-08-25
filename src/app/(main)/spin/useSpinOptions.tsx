@@ -27,6 +27,13 @@ export function useSpinOptions(): SpinOptions {
     function ToggleShowQueueList() {
         setShowQueueList(!showQueueList);
     }
+    const [useSeededQueues, setUseSeededQueues] = useLocalState(
+        "useSeededQueues",
+        false,
+    );
+    function ToggleUseSeededQueues() {
+        setUseSeededQueues(!useSeededQueues);
+    }
     const [spinTheme, setSpinTheme] = useLocalState<SpinTheme>("layout", "row");
     function SetSpinTheme(spinTheme: SpinTheme) {
         setSpinTheme(spinTheme);
@@ -92,6 +99,10 @@ export function useSpinOptions(): SpinOptions {
             Toggle: ToggleCanAlwaysEditNTKO,
         },
         showQueueList: { value: showQueueList, Toggle: ToggleShowQueueList },
+        useSeededQueues: {
+            value: useSeededQueues,
+            Toggle: ToggleUseSeededQueues,
+        },
         spinTheme: { value: spinTheme, Set: SetSpinTheme },
         // Help
         showTips: { value: showTips, Toggle: ToggleShowTips },

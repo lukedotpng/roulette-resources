@@ -121,6 +121,12 @@ export function useSpinManager(): SpinManager {
         if (updatedSpinMode !== spinMode) {
             StopMatch();
         }
+        if (
+            options.useSeededQueues.value === true &&
+            updatedSpinMode === "queue"
+        ) {
+            updatedSpinMode = "seeded_queue";
+        }
         setSpinMode(updatedSpinMode);
 
         if (updatedSpinMode === "queue" || updatedSpinMode === "seeded_queue") {
@@ -129,6 +135,14 @@ export function useSpinManager(): SpinManager {
             }
         }
     }
+    useEffect(() => {
+        if (spinMode === "queue" || spinMode === "seeded_queue") {
+            const updatedSpinMode: SpinMode = options.useSeededQueues.value
+                ? "seeded_queue"
+                : "queue";
+            SetSpinMode(updatedSpinMode);
+        }
+    }, [options.useSeededQueues.value]);
 
     const [manualMode, setManualMode] = useState(false);
     function SetManualMode(updatedManualMode: boolean) {

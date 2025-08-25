@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
 import { Spin, SpinOptions, SpinQuery } from "./types";
@@ -12,7 +12,6 @@ export function useSpinQuery(
     missionPool: Mission[],
 ): SpinQuery {
     const searchParams = useSearchParams();
-    const router = useRouter();
 
     const [query, setQuery] = useState("");
 
@@ -47,7 +46,7 @@ export function useSpinQuery(
 
         setQuery(spinQuery);
         if (options.updateUrlOnSpin.value) {
-            router.push(`/spin?s=${spinQuery}`);
+            window.history.pushState(null, "", `/spin?s=${spinQuery}`);
         }
     }
 

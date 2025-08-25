@@ -149,6 +149,7 @@ export type SpinOptions = {
     updateUrlOnSpin: { value: boolean; Toggle: () => void };
     canAlwaysEditNTKO: { value: boolean; Toggle: () => void };
     showQueueList: { value: boolean; Toggle: () => void };
+    useSeededQueues: { value: boolean; Toggle: () => void };
     spinTheme: { value: SpinTheme; Set: (newSpinTheme: SpinTheme) => void };
     // Help
     showTips: { value: boolean; Toggle: () => void };

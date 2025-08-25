@@ -58,9 +58,12 @@ export default function SpinToolbar({
                     <button
                         className="group flex-1 border-red-500 bg-white text-zinc-900 hover:bg-red-500 hover:text-white data-[active=true]:border-b-2 sm:data-[active=true]:border-b-4"
                         onClick={() => {
-                            spinManager.SetSpinMode("seeded_queue");
+                            spinManager.SetSpinMode("queue");
                         }}
-                        data-active={spinManager.spinMode === "seeded_queue"}
+                        data-active={
+                            spinManager.spinMode === "queue" ||
+                            spinManager.spinMode === "seeded_queue"
+                        }
                     >
                         {"Queue"}
                     </button>
