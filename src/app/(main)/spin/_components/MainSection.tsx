@@ -118,7 +118,7 @@ export default function MainSection() {
 
             {spinManager.options.showTips.value && spinManager.currentSpin && (
                 <SpinTipsSection
-                    query={spinManager.spinQuery}
+                    query={spinManager.spinQuery.query}
                     mission={spinManager.currentSpin.mission}
                     matchModeManager={spinManager.matchModeManager}
                 />
