@@ -37,7 +37,7 @@ export async function UpdateSpinOverlay(
     query: string,
     theme: string,
 ) {
-    console.log("Updating Spin at", id);
+    console.log("Updating Spin at", id, "with", query);
 
     await db
         .update(OverlaySchema)
@@ -60,7 +60,7 @@ export async function UpdateSpinOverlayMatchStatus(
     match_active: boolean,
     spin_start_time?: number,
 ) {
-    console.log("Updating Spin at", id);
+    console.log("Updating Spin Match Status at", id);
 
     if (spin_start_time === undefined) {
         await db

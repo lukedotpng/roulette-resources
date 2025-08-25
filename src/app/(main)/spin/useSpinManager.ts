@@ -98,6 +98,7 @@ export function useSpinManager(): SpinManager {
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
     function SetCurrentSpin(updatedSpin: Spin | null) {
         setCurrentSpin(updatedSpin);
+        console.log("UPDATING QUERY:", updatedSpin);
         if (updatedSpin) {
             setSpinIsLegal(SpinIsLegal(updatedSpin));
 
@@ -118,7 +119,7 @@ export function useSpinManager(): SpinManager {
 
     const [spinMode, setSpinMode] = useState<SpinMode>("pool");
     function SetSpinMode(updatedSpinMode: SpinMode) {
-        if (updatedSpinMode !== spinMode) {
+        if (updatedSpinMode !== spinMode && matchModeEnabled) {
             StopMatch();
         }
         if (
@@ -322,6 +323,7 @@ export function useSpinManager(): SpinManager {
         if (queueMode === "queue") {
             SetCurrentSpin(GenerateSpin(missionQueue[updatedIndex]));
         } else if (queueMode === "seeded_queue") {
+            console.log("UPDATING QUEUE INDEX");
             SetCurrentSpin(seededQueueSpins[updatedIndex]);
         }
     }
@@ -378,6 +380,7 @@ export function useSpinManager(): SpinManager {
     });
 
     useEffect(() => {
+        console.log("UPDATING OVERLAY:", spinQuery.query);
         if (!streamOverlayInitialized.initialized) {
             InitializeSpinOverlay(
                 options.streamOverlay.id,
