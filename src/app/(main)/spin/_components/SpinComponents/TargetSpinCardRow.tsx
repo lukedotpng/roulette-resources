@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { MatchModeManager } from "../../types";
 
 export default function TargetSpinCardRow({
     title,

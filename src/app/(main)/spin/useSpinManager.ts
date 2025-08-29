@@ -168,6 +168,7 @@ export function useSpinManager(): SpinManager {
                 options.canAlwaysEditNTKO.Toggle();
             }
             SetManualMode(false);
+            setMatchModeEnabled(false);
         }
     }, [spinMode]);
     useEffect(() => {

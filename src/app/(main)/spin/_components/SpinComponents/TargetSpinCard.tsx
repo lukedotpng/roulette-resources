@@ -15,8 +15,6 @@ import {
     SpinUpdateAction,
     Spin,
     LockedTargetConditions,
-    MatchModeManager,
-    SpinMode,
 } from "../../types";
 
 export default function TargetSpinCard({
