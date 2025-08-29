@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 type SubstackResponseObject = {
     id: number;
     title: string;
