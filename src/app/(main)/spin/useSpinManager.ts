@@ -162,6 +162,13 @@ export function useSpinManager(): SpinManager {
                 setQueueIndex(0);
             }
         }
+
+        if (spinMode === "seeded_queue") {
+            if (options.canAlwaysEditNTKO.value) {
+                options.canAlwaysEditNTKO.Toggle();
+            }
+            SetManualMode(false);
+        }
     }, [spinMode]);
     useEffect(() => {
         if (spinMode === "queue" || spinMode === "seeded_queue") {
@@ -439,7 +446,6 @@ export function useSpinManager(): SpinManager {
                     id: options.streamOverlay.id,
                 });
             }
-            console.log("1");
             UpdateSpinOverlay(
                 options.streamOverlay.id,
                 options.streamOverlay.key,
@@ -460,7 +466,6 @@ export function useSpinManager(): SpinManager {
         }
 
         if (!matchModeEnabled) {
-            console.log("2");
             UpdateSpinOverlayMatchStatus(
                 options.streamOverlay.id,
                 options.streamOverlay.key,
@@ -472,7 +477,6 @@ export function useSpinManager(): SpinManager {
         }
         if (currentSpin) {
             if (matchActive) {
-                console.log("3");
                 UpdateSpinOverlayMatchStatus(
                     options.streamOverlay.id,
                     options.streamOverlay.key,
@@ -481,7 +485,6 @@ export function useSpinManager(): SpinManager {
                     Date.now(),
                 );
             } else if (!matchModeEnabled) {
-                console.log("4");
                 UpdateSpinOverlayMatchStatus(
                     options.streamOverlay.id,
                     options.streamOverlay.key,

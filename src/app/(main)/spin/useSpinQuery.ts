@@ -37,7 +37,7 @@ export function useSpinQuery(
     }, [searchParams]);
 
     useEffect(() => {
-        if (currentSpin === null) {
+        if (!currentSpin) {
             return;
         }
 

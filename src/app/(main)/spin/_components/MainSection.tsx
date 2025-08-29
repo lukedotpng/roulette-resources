@@ -14,6 +14,8 @@ import MatchTimerSection from "./MatchComponents/MatchTimerSection";
 import SpinInfoMatchPlaceholder from "./MatchComponents/SpinInfoMatchPlaceholder";
 import SimpleQueueList from "./QueueComponents/SimpleQueueList";
 import SpinToolbar from "./OptionsComponents/SpinToolbar";
+import MissionSeededQueueSpinControls from "./QueueComponents/MissionSeededQueueSpinControls";
+import { GenerateRandomSeed } from "../utils/SpinUtils";
 
 export default function MainSection() {
     const [isMounted, setIsMounted] = useState(false);
@@ -48,10 +50,12 @@ export default function MainSection() {
                 );
             case "seeded_queue":
                 return (
-                    <MissionQueueSpinControls
-                        GenerateNextSpin={spinManager.NextSpin}
-                        GeneratePreviousSpin={spinManager.PreviousSpin}
-                        Respin={spinManager.Respin}
+                    <MissionSeededQueueSpinControls
+                        NextSpin={spinManager.NextSpin}
+                        PreviousSpin={spinManager.PreviousSpin}
+                        RefreshSeed={() =>
+                            spinManager.SetQueueSeed(GenerateRandomSeed())
+                        }
                     />
                 );
         }

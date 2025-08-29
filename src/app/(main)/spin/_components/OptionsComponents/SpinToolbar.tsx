@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { SpinManager } from "../../types";
 import MatchSimLog from "../MatchComponents/MatchSimLog";
 import MissionPoolSelection from "../PoolComponents/MissionPoolSelection";
@@ -12,6 +12,10 @@ export default function SpinToolbar({
     spinManager: SpinManager;
 }) {
     const [queueSeedInput, setQueueSeedInput] = useState(spinManager.queueSeed);
+
+    useEffect(() => {
+        setQueueSeedInput(spinManager.queueSeed);
+    }, [spinManager.queueSeed]);
 
     const MissionSelection = () => {
         switch (spinManager.spinMode) {
