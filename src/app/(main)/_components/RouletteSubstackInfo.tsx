@@ -102,10 +102,10 @@ export default async function RouletteSubstackInfo() {
                                     </span>
                                 </p>
                             </a>
-                            <Image
+                            <img
                                 src={entry.cover_image}
                                 alt={"Article Cover Image"}
-                                className="aspect-square h-[95%] rounded-md object-cover"
+                                className="aspect-[3/2] h-full rounded-sm object-cover"
                             />
                         </div>
                         <div className="m-auto w-[95%] self-center border-t-1 border-zinc-500 group-last:border-0"></div>

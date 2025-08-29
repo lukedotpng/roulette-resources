@@ -17,7 +17,12 @@ import {
 } from "../../(streamOverlay)/OverlayActions";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinIsLegal } from "./utils/SpinCheck";
-import { SPIN_MISSION_TARGETS_LIST } from "./utils/SpinGlobals";
+import {
+    SEASON_ONE_MISSIONS,
+    SEASON_THREE_MISSIONS,
+    SEASON_TWO_MISSIONS,
+    SPIN_MISSION_TARGETS_LIST,
+} from "./utils/SpinGlobals";
 import {
     LockedTargetConditions,
     MatchModeManager,
@@ -41,6 +46,8 @@ export function useSpinManager(): SpinManager {
     const [matchModeEnabled, setMatchModeEnabled] = useState(false);
     const [matchActive, setMatchActive] = useState(false);
     function EnableMatchMode() {
+        setLockedConditions({});
+
         setMatchModeEnabled(true);
     }
     function DisableMatchMode() {
@@ -48,34 +55,11 @@ export function useSpinManager(): SpinManager {
         setMatchActive(false);
     }
     function StartMatch() {
-        if (!currentSpin) {
-            return;
-        }
-
         setMatchActive(true);
-
-        const newSpin = GenerateSpin(currentSpin.mission);
-        SetCurrentSpin(newSpin);
-
-        if (options.streamOverlay.active) {
-            UpdateSpinOverlayMatchStatus(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                CreateSpinQuery(newSpin),
-                true,
-                Date.now(),
-            );
-        }
     }
     function StopMatch() {
+        Respin();
         setMatchActive(false);
-
-        UpdateSpinOverlayMatchStatus(
-            options.streamOverlay.id,
-            options.streamOverlay.key,
-            spinQuery.query,
-            false,
-        );
     }
     const [simRecords, setSimRecords] = useLocalState<MatchSimRecord[]>(
         "simRecords",
@@ -97,31 +81,69 @@ export function useSpinManager(): SpinManager {
 
     const [currentSpin, setCurrentSpin] = useState<Spin | null>(null);
     function SetCurrentSpin(updatedSpin: Spin | null) {
+        if (
+            !updatedSpin ||
+            !currentSpin ||
+            updatedSpin.mission !== currentSpin.mission
+        ) {
+            setLockedConditions({});
+        }
+
         setCurrentSpin(updatedSpin);
-        console.log("UPDATING QUERY:", updatedSpin);
-        if (updatedSpin) {
-            setSpinIsLegal(SpinIsLegal(updatedSpin));
+    }
+    useEffect(() => {
+        if (!currentSpin) {
+            return;
+        }
 
-            spinQuery.UpdateQuery(updatedSpin);
+        setSpinIsLegal(SpinIsLegal(currentSpin));
 
-            if (matchActive) {
-                StopMatch();
+        if (matchModeEnabled) {
+            setMatchActive(false);
+
+            if (options.streamOverlay.active) {
+                UpdateSpinOverlayMatchStatus(
+                    options.streamOverlay.id,
+                    options.streamOverlay.key,
+                    spinQuery,
+                    false,
+                );
             }
         }
-    }
+
+        const updatedSpinQuery = CreateSpinQuery(currentSpin);
+
+        if (options.streamOverlay.active && !matchModeEnabled) {
+            UpdateSpinOverlay(
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                updatedSpinQuery,
+                options.streamOverlay.theme,
+            );
+        }
+    }, [currentSpin]);
+    // Respin when match mode is enabled to prevent controlling the spin
+    useEffect(() => {
+        if (matchModeEnabled) {
+            Respin();
+        }
+    }, [matchModeEnabled]);
 
     const [missionPool, setMissionPool] = useLocalState<Mission[]>("pool", []);
     function SetMissionPool(updatedMissionPool: Mission[]) {
         setMissionPool(updatedMissionPool);
     }
 
-    const spinQuery = useSpinQuery(SetCurrentSpin, options, missionPool);
+    const spinQuery = useSpinQuery(
+        currentSpin,
+        SetCurrentSpin,
+        options,
+        matchModeManager,
+        missionPool,
+    );
 
     const [spinMode, setSpinMode] = useState<SpinMode>("pool");
     function SetSpinMode(updatedSpinMode: SpinMode) {
-        if (updatedSpinMode !== spinMode && matchModeEnabled) {
-            StopMatch();
-        }
         if (
             options.useSeededQueues.value === true &&
             updatedSpinMode === "queue"
@@ -129,13 +151,18 @@ export function useSpinManager(): SpinManager {
             updatedSpinMode = "seeded_queue";
         }
         setSpinMode(updatedSpinMode);
+    }
+    useEffect(() => {
+        if (matchModeEnabled) {
+            StopMatch();
+        }
 
-        if (updatedSpinMode === "queue" || updatedSpinMode === "seeded_queue") {
+        if (spinMode === "queue" || spinMode === "seeded_queue") {
             if (missionQueue.length > 0) {
-                SetQueueIndex(0, updatedSpinMode);
+                setQueueIndex(0);
             }
         }
-    }
+    }, [spinMode]);
     useEffect(() => {
         if (spinMode === "queue" || spinMode === "seeded_queue") {
             const updatedSpinMode: SpinMode = options.useSeededQueues.value
@@ -187,7 +214,7 @@ export function useSpinManager(): SpinManager {
 
         while (
             mission === undefined &&
-            currentSpin &&
+            currentSpin !== null &&
             options.dontRepeatMissions.value &&
             missionPool.length > 1 &&
             currentSpin.mission === missionToSpin
@@ -301,10 +328,11 @@ export function useSpinManager(): SpinManager {
     }
 
     // Queue Management
-    const [missionQueue, setMissionQueue] = useLocalState<Mission[]>(
-        "queue",
-        [],
-    );
+    const [missionQueue, setMissionQueue] = useLocalState<Mission[]>("queue", [
+        ...SEASON_ONE_MISSIONS,
+        ...SEASON_TWO_MISSIONS,
+        ...SEASON_THREE_MISSIONS,
+    ]);
     function SetMissionQueue(updatedQueue: Mission[]) {
         if (updatedQueue.length === 0) {
             SetCurrentSpin(null);
@@ -313,21 +341,9 @@ export function useSpinManager(): SpinManager {
         setMissionQueue(updatedQueue);
     }
     const [queueIndex, setQueueIndex] = useState(0);
-    function SetQueueIndex(updatedIndex: number, queueMode?: SpinMode) {
+    function SetQueueIndex(updatedIndex: number) {
         setQueueIndex(updatedIndex);
-
-        if (queueMode === undefined) {
-            queueMode = spinMode;
-        }
-
-        if (queueMode === "queue") {
-            SetCurrentSpin(GenerateSpin(missionQueue[updatedIndex]));
-        } else if (queueMode === "seeded_queue") {
-            console.log("UPDATING QUEUE INDEX");
-            SetCurrentSpin(seededQueueSpins[updatedIndex]);
-        }
     }
-
     const [queueSeed, setQueueSeed] = useLocalState(
         "queueSeed",
         GenerateRandomSeed(),
@@ -335,17 +351,30 @@ export function useSpinManager(): SpinManager {
     function SetQueueSeed(updatedQueueSeed: string) {
         setQueueSeed(updatedQueueSeed);
     }
-
     const [seededQueueSpins, setSeededQueueSpins] = useState<Spin[]>([]);
     function SetSeededQueueSpins(updatedSeededQueueSpins: Spin[]) {
         setSeededQueueSpins([...updatedSeededQueueSpins]);
 
         if (spinMode === "seeded_queue") {
-            SetCurrentSpin(updatedSeededQueueSpins[0]);
-            // Call directly to avoid resetting current spin
             setQueueIndex(0);
         }
     }
+    useEffect(() => {
+        if (spinMode === "queue") {
+            if (missionQueue.length > 0) {
+                SetCurrentSpin(GenerateSpin(missionQueue[queueIndex]));
+            } else {
+                SetCurrentSpin(null);
+            }
+        } else if (spinMode === "seeded_queue") {
+            if (missionQueue.length > 0) {
+                SetCurrentSpin(seededQueueSpins[queueIndex]);
+            } else {
+                SetCurrentSpin(null);
+            }
+        }
+    }, [spinMode, queueIndex, missionQueue, seededQueueSpins]);
+
     useEffect(() => {
         const seededRandom = new Rand(queueSeed + missionQueue.length);
 
@@ -363,14 +392,14 @@ export function useSpinManager(): SpinManager {
         if (nextIndex >= missionQueue.length) {
             return;
         }
-        SetQueueIndex(nextIndex);
+        setQueueIndex(nextIndex);
     }
     function PreviousSpin() {
         const prevIndex = queueIndex - 1;
         if (prevIndex < 0) {
             return;
         }
-        SetQueueIndex(prevIndex);
+        setQueueIndex(prevIndex);
     }
 
     // Stream Overlay
@@ -380,12 +409,19 @@ export function useSpinManager(): SpinManager {
     });
 
     useEffect(() => {
-        console.log("UPDATING OVERLAY:", spinQuery.query);
+        if (!options.streamOverlay.active) {
+            return;
+        }
+
+        if (matchModeEnabled && matchActive) {
+            return;
+        }
+
         if (!streamOverlayInitialized.initialized) {
             InitializeSpinOverlay(
                 options.streamOverlay.id,
                 options.streamOverlay.key,
-                spinQuery.query,
+                spinQuery,
             );
             setStreamOverlayInitialized({
                 initialized: true,
@@ -396,28 +432,65 @@ export function useSpinManager(): SpinManager {
                 InitializeSpinOverlay(
                     options.streamOverlay.id,
                     options.streamOverlay.key,
-                    spinQuery.query,
+                    spinQuery,
                 );
                 setStreamOverlayInitialized({
                     initialized: true,
                     id: options.streamOverlay.id,
                 });
             }
+            console.log("1");
             UpdateSpinOverlay(
                 options.streamOverlay.id,
                 options.streamOverlay.key,
-                spinQuery.query,
+                spinQuery,
                 options.streamOverlay.theme,
             );
         }
     }, [
-        spinQuery.query,
         options.streamOverlay.id,
         options.streamOverlay.key,
         options.streamOverlay.active,
         options.streamOverlay.theme,
-        streamOverlayInitialized,
     ]);
+
+    useEffect(() => {
+        if (!options.streamOverlay.active) {
+            return;
+        }
+
+        if (!matchModeEnabled) {
+            console.log("2");
+            UpdateSpinOverlayMatchStatus(
+                options.streamOverlay.id,
+                options.streamOverlay.key,
+                spinQuery,
+                false, // Match status
+                -1,
+            );
+            return;
+        }
+        if (currentSpin) {
+            if (matchActive) {
+                console.log("3");
+                UpdateSpinOverlayMatchStatus(
+                    options.streamOverlay.id,
+                    options.streamOverlay.key,
+                    spinQuery,
+                    matchActive,
+                    Date.now(),
+                );
+            } else if (!matchModeEnabled) {
+                console.log("4");
+                UpdateSpinOverlayMatchStatus(
+                    options.streamOverlay.id,
+                    options.streamOverlay.key,
+                    spinQuery,
+                    matchActive,
+                );
+            }
+        }
+    }, [matchModeEnabled, matchActive, options.streamOverlay.active]);
 
     const spinManager: SpinManager = {
         currentSpin: currentSpin,

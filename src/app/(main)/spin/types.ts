@@ -89,7 +89,7 @@ export type SpinMode = "pool" | "queue" | "seeded_queue";
 
 export type SpinManager = {
     currentSpin: Spin | null;
-    spinQuery: SpinQuery;
+    spinQuery: string;
     missionPool: Mission[];
     SetMissionPool: (updatedMissionPool: Mission[]) => void;
     noMissionsSelectedAlertActive: boolean;

@@ -1,16 +1,18 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
-import { Spin, SpinOptions, SpinQuery } from "./types";
+import { MatchModeManager, Spin, SpinOptions } from "./types";
 import { Mission } from "@/types";
 import { GenerateSpin } from "./utils/SpinGeneration";
 import { GetRandomMission } from "./utils/SpinUtils";
 
 export function useSpinQuery(
+    currentSpin: Spin | null,
     SetCurrentSpin: (spin: Spin | null) => void,
     options: SpinOptions,
+    matchModeManager: MatchModeManager,
     missionPool: Mission[],
-): SpinQuery {
+) {
     const searchParams = useSearchParams();
 
     const [query, setQuery] = useState("");
@@ -34,24 +36,29 @@ export function useSpinQuery(
         SetCurrentSpin(newSpin);
     }, [searchParams]);
 
-    function UpdateQuery(spin: Spin) {
-        const spinQuery = CreateSpinQuery(spin);
+    useEffect(() => {
+        if (currentSpin === null) {
+            return;
+        }
 
+        const spinQuery = CreateSpinQuery(currentSpin);
         const params = new URLSearchParams(searchParams.toString());
 
-        const prevQuery = params.get("s");
-        if (prevQuery === spinQuery) {
+        const previousQuery = params.get("s");
+
+        if (previousQuery === spinQuery) {
             return;
         }
 
         setQuery(spinQuery);
-        if (options.updateUrlOnSpin.value) {
+
+        if (
+            options.updateUrlOnSpin.value &&
+            !(matchModeManager.enabled && !matchModeManager.matchActive)
+        ) {
             window.history.pushState(null, "", `/spin?s=${spinQuery}`);
         }
-    }
+    }, [currentSpin, matchModeManager.matchActive, matchModeManager.enabled]);
 
-    return {
-        query: query,
-        UpdateQuery: UpdateQuery,
-    };
+    return query;
 }
