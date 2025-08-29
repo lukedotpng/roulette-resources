@@ -11,7 +11,7 @@ export default function TargetSpinCardRow({
     LockCondition,
     conditionLocked,
     manualMode,
-    matchModeManager,
+    spinEditsDisabled,
 }: {
     title: string;
     info: string;
@@ -21,7 +21,7 @@ export default function TargetSpinCardRow({
     LockCondition: () => void;
     conditionLocked: boolean;
     manualMode: boolean;
-    matchModeManager: MatchModeManager;
+    spinEditsDisabled: boolean;
 }) {
     const [spinAnimationActive, setSpinAnimationActive] = useState(false);
 
@@ -46,7 +46,7 @@ export default function TargetSpinCardRow({
                         {info}
                     </h1>
                 </div>
-                {!matchModeManager.enabled &&
+                {!spinEditsDisabled &&
                     !conditionLocked &&
                     (manualMode ? (
                         <button
@@ -89,7 +89,7 @@ export default function TargetSpinCardRow({
                     quality={10}
                     className="h-full w-full object-cover"
                 />
-                {!matchModeManager.enabled && (
+                {!spinEditsDisabled && (
                     <button
                         className="group absolute right-0 bottom-0 flex h-full w-full flex-col items-center justify-end fill-white p-1 hover:fill-red-500 data-[conditionlocked=true]:opacity-65 data-[conditionlocked=true]:hover:opacity-100"
                         onClick={() => {

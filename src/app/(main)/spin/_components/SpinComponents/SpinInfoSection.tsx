@@ -10,6 +10,10 @@ export default function SpinInfoSection({
         return;
     }
 
+    const spinEditsDisabled =
+        spinManager.matchModeManager.enabled ||
+        spinManager.spinMode === "seeded_queue";
+
     return (
         <section
             data-row={spinManager.options.spinTheme.value === "row"}
@@ -35,7 +39,7 @@ export default function SpinInfoSection({
                         canAlwaysEditNTKO={
                             spinManager.options.canAlwaysEditNTKO.value
                         }
-                        matchModeManager={spinManager.matchModeManager}
+                        spinEditsDisabled={spinEditsDisabled}
                     />
                 );
             })}

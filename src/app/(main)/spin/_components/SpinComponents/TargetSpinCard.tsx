@@ -16,6 +16,7 @@ import {
     Spin,
     LockedTargetConditions,
     MatchModeManager,
+    SpinMode,
 } from "../../types";
 
 export default function TargetSpinCard({
@@ -27,7 +28,7 @@ export default function TargetSpinCard({
     SetLockedConditions,
     manualMode,
     canAlwaysEditNTKO,
-    matchModeManager,
+    spinEditsDisabled,
 }: {
     spin: Spin;
     target: SpinTarget;
@@ -43,7 +44,7 @@ export default function TargetSpinCard({
     ) => void;
     manualMode: boolean;
     canAlwaysEditNTKO: boolean;
-    matchModeManager: MatchModeManager;
+    spinEditsDisabled: boolean;
 }) {
     const [editDialogActive, setEditDialogActive] = useState(false);
     const [categoryToEdit, setCategoryToEdit] =
@@ -88,7 +89,7 @@ export default function TargetSpinCard({
                             spin.info[target]?.killMethod || "No Method",
                             target,
                         )}
-                        matchModeManager={matchModeManager}
+                        spinEditsDisabled={spinEditsDisabled}
                         HandleSpinUpdate={() =>
                             RespinCondition(target, "killMethod")
                         }
@@ -141,7 +142,7 @@ export default function TargetSpinCard({
                             spin.info[target]?.disguise || "No Disguise",
                             spin.mission,
                         )}
-                        matchModeManager={matchModeManager}
+                        spinEditsDisabled={spinEditsDisabled}
                         HandleSpinUpdate={() =>
                             RespinCondition(target, "disguise")
                         }
@@ -200,7 +201,7 @@ export default function TargetSpinCard({
                     <span className="decoration-2 group-data-[active=false]:line-through">
                         No Target Pacification
                     </span>
-                    {!matchModeManager.enabled && !killMethodLocked && (
+                    {!spinEditsDisabled && !killMethodLocked && (
                         <button
                             className="absolute top-0 right-2 h-full fill-white"
                             onClick={() =>
