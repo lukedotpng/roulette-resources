@@ -25,7 +25,9 @@ export default function SpinToolbar({
         slug: string;
         spin: HitmapsSpin;
         spin_id: string;
-    }>("https://daily.ohshitman.fun/api/spin_data", fetcher);
+    }>("https://daily.ohshitman.fun/api/spin_data", fetcher, {
+        shouldRetryOnError: false,
+    });
 
     const [dailySpinDate, setDailySpinDate] = useState("");
     const [dailySpin, setDailySpin] = useState<Spin | null>(null);
