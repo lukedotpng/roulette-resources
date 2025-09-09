@@ -498,6 +498,7 @@ export function useSpinManager(): SpinManager {
 
     const spinManager: SpinManager = {
         currentSpin: currentSpin,
+        SetCurrentSpin: SetCurrentSpin,
         spinQuery: spinQuery,
         missionPool: missionPool,
         SetMissionPool: SetMissionPool,

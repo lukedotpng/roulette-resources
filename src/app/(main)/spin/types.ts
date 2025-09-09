@@ -89,6 +89,7 @@ export type SpinMode = "pool" | "queue" | "seeded_queue";
 
 export type SpinManager = {
     currentSpin: Spin | null;
+    SetCurrentSpin: (updatedSpin: Spin) => void;
     spinQuery: string;
     missionPool: Mission[];
     SetMissionPool: (updatedMissionPool: Mission[]) => void;
@@ -255,4 +256,25 @@ export type SpinStats = {
     count: number;
     illegalSpinCount: number;
     targets: { [key in SpinTarget]?: TargetSpinStats };
+};
+
+export type HitmapsSpin = {
+    mission: { slug: string };
+    targetConditions: HitmapsTargetConditions[];
+};
+
+export type HitmapsTargetConditions = {
+    target: {
+        name: string;
+    };
+    killMethod: {
+        name: string;
+        selectedVariant: string | null;
+    };
+    disguise: {
+        name: string;
+    };
+    complications: {
+        name: string;
+    }[];
 };

@@ -1,10 +1,12 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { SpinManager } from "../../types";
+import { HitmapsSpin, Spin, SpinManager } from "../../types";
 import MatchSimLog from "../MatchComponents/MatchSimLog";
 import MissionPoolSelection from "../PoolComponents/MissionPoolSelection";
 import MissionQueueSelection from "../QueueComponents/MissionQueueSelection";
 import SpinOptionsSection from "./SpinOptionsSection";
-import { GenerateRandomSeed } from "../../utils/SpinUtils";
+import { GenerateRandomSeed, HitmapsSpinParse } from "../../utils/SpinUtils";
+import useSWR from "swr";
+import Link from "next/link";
 
 export default function SpinToolbar({
     spinManager,
@@ -16,6 +18,54 @@ export default function SpinToolbar({
     useEffect(() => {
         setQueueSeedInput(spinManager.queueSeed);
     }, [spinManager.queueSeed]);
+
+    const fetcher = async (url: string) => fetch(url).then((res) => res.json());
+    const dailySpinResponse = useSWR<{
+        date: string;
+        slug: string;
+        spin: HitmapsSpin;
+        spin_id: string;
+    }>("https://daily.ohshitman.fun/api/spin_data", fetcher);
+
+    const [dailySpinDate, setDailySpinDate] = useState("");
+    const [dailySpin, setDailySpin] = useState<Spin | null>(null);
+
+    useEffect(() => {
+        if (dailySpinResponse.isLoading) {
+            return;
+        }
+
+        if (dailySpinResponse.error) {
+            console.log("ERROR LOADING DAILY SPIN");
+            console.log(dailySpinResponse.error);
+            return;
+        }
+
+        if (dailySpinResponse.data === undefined) {
+            return;
+        }
+
+        console.log(dailySpinResponse.data);
+
+        const parsedSpin = HitmapsSpinParse(dailySpinResponse.data.spin);
+        if (parsedSpin === null) {
+            return;
+        }
+
+        setDailySpin(parsedSpin);
+        setDailySpinDate(dailySpinResponse.data.date);
+    }, [
+        dailySpinResponse.data,
+        dailySpinResponse.error,
+        dailySpinResponse.isLoading,
+    ]);
+
+    function LoadDailySpin() {
+        if (dailySpin === null) {
+            return;
+        }
+        spinManager.SetCurrentSpin(dailySpin);
+    }
 
     const MissionSelection = () => {
         switch (spinManager.spinMode) {
@@ -118,17 +168,17 @@ export default function SpinToolbar({
                     currentSpin={spinManager.currentSpin}
                 />
             </div>
-            <div className="flex h-5 w-full flex-wrap justify-center gap-1 text-[.9em] sm:h-8 sm:gap-2 sm:text-[1em]">
+            <div className="flex h-5 w-full flex-wrap gap-1 text-[.9em] sm:h-8 sm:gap-2 sm:text-[1em]">
                 {spinManager.spinMode === "seeded_queue" && (
                     <form
-                        className="flex h-full w-full max-w-[80%] gap-1"
+                        className="flex h-full w-full max-w-[50%] gap-1"
                         onSubmit={(e: FormEvent<HTMLFormElement>) => {
                             e.preventDefault();
                             spinManager.SetQueueSeed(queueSeedInput);
                         }}
                     >
                         <label className="-mr-1 bg-white px-1 leading-5 text-zinc-900 sm:leading-8">
-                            {"Queue Seed:"}
+                            {"Seed:"}
                         </label>
                         <input
                             className="group flex-1 border-1 border-white bg-white px-1 text-zinc-900 inset-shadow-[0px_0px_5px] inset-shadow-zinc-900 outline-0 focus:inset-shadow-red-500"
@@ -163,6 +213,35 @@ export default function SpinToolbar({
                         </button>
                     </form>
                 )}
+                <div className="flex-1"></div>
+                {!spinManager.matchModeManager.enabled &&
+                    dailySpin !== null && (
+                        <div className="flex h-full gap-1 sm:gap-2">
+                            <button
+                                className="w-16 items-center border-red-500 bg-white text-zinc-900 hover:bg-red-500 hover:text-white sm:w-24"
+                                onClick={LoadDailySpin}
+                            >
+                                {"Daily Spin"}
+                            </button>
+                            <Link
+                                href={
+                                    "https://daily.ohshitman.fun/" +
+                                    dailySpinDate
+                                }
+                                className="group flex aspect-square h-full items-center justify-center bg-white hover:bg-red-500"
+                                target="_blank"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512"
+                                    className="w-[70%] group-hover:fill-white"
+                                >
+                                    {/*Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.*/}
+                                    <path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z" />
+                                </svg>
+                            </Link>
+                        </div>
+                    )}
             </div>
         </div>
     );
