@@ -68,8 +68,8 @@ export function MethodIDToDisplayText(item: string | undefined) {
     const words = item.split("_"); // ["palace", "staff"]
 
     for (let word of words) {
-        if (word.toLowerCase() === "smg") {
-            word = "SMG";
+        if (word.toLowerCase() === "smg" || word.toLowerCase() === "iv") {
+            word = word.toUpperCase();
         }
         itemDisplayText += word.charAt(0).toUpperCase() + word.slice(1) + " ";
     }
