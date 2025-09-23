@@ -499,6 +499,7 @@ const ISLE_OF_SGAIL_MELEES = [
     "fiber_wire",
     "neck_snap",
     "sacrificial_knife",
+    "aztec_necklace",
 ];
 const ISLE_OF_SGAIL_DISGUISES = [
     "suit",
@@ -1934,4 +1935,6 @@ export const SPIN_INFO_ID_MAP: { [key: string]: string } = {
     overpressurize_the_steam_pool: "b7",
     b8: "hammer_&_sickle_sculpture",
     "hammer_&_sickle_sculpture": "b8",
+    b9: "aztec_necklace",
+    aztec_necklace: "b9",
 } as const;
