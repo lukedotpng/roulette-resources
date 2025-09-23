@@ -116,6 +116,8 @@ function HitmapsKillMethodParse(killMethod: string, variant: string | null) {
         // SANTA FORTUNA
         // MUMBAI
         // WHITTLETON CREEK
+        case "Janus' Hammer & Sickle Sculpture":
+            return "hammer_&_sickle_sculpture";
         // AMBROSE ISLAND
         // ISLE OF SGAIL
         // NEW YORK
