@@ -130,8 +130,8 @@ function HitmapsKillMethodParse(killMethod: string, variant: string | null) {
     }
 
     let killMethodFormatted = killMethod.toLowerCase();
-    killMethodFormatted = killMethodFormatted.replace(/[^0-9a-zA-Z ]+/g, "");
-    killMethodFormatted = killMethodFormatted.replace(" ", "_");
+    killMethodFormatted = killMethodFormatted.replaceAll(/[^0-9a-zA-Z ]+/g, "");
+    killMethodFormatted = killMethodFormatted.replaceAll(" ", "_");
 
     if (killMethodFormatted == "explosive_weapon") {
         killMethodFormatted = "explosive";
@@ -237,8 +237,8 @@ function HitmapsDisguiseParse(disguise: string) {
     }
 
     let disguiseFormatted = disguise.toLowerCase();
-    disguiseFormatted = disguiseFormatted.replace(/[^0-9a-zA-Z ]+/, "");
-    disguiseFormatted = disguiseFormatted.replace(" ", "_");
+    disguiseFormatted = disguiseFormatted.replaceAll(/[^0-9a-zA-Z ]+/g, "");
+    disguiseFormatted = disguiseFormatted.replaceAll(" ", "_");
 
     return disguiseFormatted;
 }
