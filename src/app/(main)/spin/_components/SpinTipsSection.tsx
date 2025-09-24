@@ -140,7 +140,7 @@ export default function SpinTipsSection({
                                             className="flex flex-col py-1"
                                         >
                                             <Link
-                                                href={`/${mission}/disguises?d=${disguise.id}`}
+                                                href={`/${mission}`}
                                                 target="_blank"
                                                 className="text-[1.05em] font-bold underline decoration-red-500 decoration-2"
                                             >
@@ -196,8 +196,8 @@ export default function SpinTipsSection({
                                                     <Link
                                                         href={
                                                             mission === "berlin"
-                                                                ? `/${mission}/targets?kill=${method.kill_method}`
-                                                                : `/${mission}/targets?target=${target}`
+                                                                ? `/${mission}`
+                                                                : `/${mission}`
                                                         }
                                                         target="_blank"
                                                         className="text-[1.05em] font-bold underline decoration-red-500 decoration-2"
