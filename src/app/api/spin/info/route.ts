@@ -60,7 +60,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         const isNtko = spin.info[target]?.ntko || false;
 
         filteredItemData.forEach((item) => {
-            const itemId = item.name.toLowerCase().replaceAll(" ", "_");
+            const itemId = item.id.split("-")[1];
             if (itemId.toLowerCase() === currentCondition.toLowerCase()) {
                 itemsInSpin.push(item);
             }
