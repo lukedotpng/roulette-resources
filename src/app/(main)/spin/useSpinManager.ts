@@ -212,7 +212,7 @@ export function useSpinManager(): SpinManager {
 
     // General Spin Management
     function NewSpin(mission?: Mission) {
-        if (missionPool.length === 0) {
+        if (missionPool.length === 0 && mission === undefined) {
             AlertNoMissionsInPool();
             return;
         }
