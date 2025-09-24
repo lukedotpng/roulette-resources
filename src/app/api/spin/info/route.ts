@@ -14,6 +14,7 @@ import {
     ItemSchema,
     UniqueKillSchema,
 } from "@/server/db/schema";
+import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
 import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
@@ -109,13 +110,18 @@ export async function GET(request: NextRequest): Promise<Response> {
             }
 
             if (addUniqueKill) {
+                const uniqueKillInfo =
+                    uniqueKill.info === ""
+                        ? UniqueKillToMarkdown(uniqueKill)
+                        : uniqueKill.info;
+
                 uniqueKillsInSpin.push({
                     id: uniqueKill.id,
                     mission: uniqueKill.mission,
                     name: uniqueKill.name,
                     target: uniqueKill.target,
                     kill_method: uniqueKill.kill_method,
-                    info: uniqueKill.info,
+                    info: uniqueKillInfo,
                     video_link: uniqueKill.video_link,
                 });
             }
