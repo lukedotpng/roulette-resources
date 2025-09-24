@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { MatchModeManager, SpinTips, TargetSpinTips } from "../types";
+import Markdown from "react-markdown";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -173,7 +174,7 @@ export default function SpinTipsSection({
                                 .uniqueKills.length > 0 &&
                                 (
                                     targetSpinInfo[target] as TargetSpinTips
-                                ).uniqueKills.map((method) => {
+                                ).uniqueKills.map((method, index) => {
                                     if (!method) {
                                         return null;
                                     }
@@ -208,55 +209,24 @@ export default function SpinTipsSection({
                                                 )}
                                                 <div className="px-2 sm:px-4">
                                                     <p className="font-bold">
-                                                        {`${method.name || `Method`}:`}
+                                                        {`${method.name || `Method #${index + 1}`}:`}
                                                     </p>
-                                                    <ul className="ul list-disc px-5">
-                                                        {method.starts && (
-                                                            <li className="li">
-                                                                <strong>
-                                                                    Starts:{" "}
-                                                                </strong>
-                                                                {method.starts}
-                                                            </li>
-                                                        )}
-                                                        {method.requires && (
-                                                            <li className="li">
-                                                                <strong>
-                                                                    Requires:{" "}
-                                                                </strong>
-                                                                {
-                                                                    method.requires
-                                                                }
-                                                            </li>
-                                                        )}
-                                                        {method.timings && (
-                                                            <li className="li">
-                                                                <strong>
-                                                                    Timings:{" "}
-                                                                </strong>
-                                                                {method.timings}
-                                                            </li>
-                                                        )}
-                                                        {method.notes && (
-                                                            <li className="li">
-                                                                <strong>
-                                                                    Notes:{" "}
-                                                                </strong>
-                                                                {method.notes}
-                                                            </li>
-                                                        )}
-                                                        {method.video_link && (
-                                                            <a
-                                                                className="w-fit font-bold underline"
-                                                                href={
-                                                                    method.video_link
-                                                                }
-                                                                target="_blank"
-                                                            >
-                                                                Watch video here
-                                                            </a>
-                                                        )}
-                                                    </ul>
+                                                    <div className="markdown pl-2 sm:pl-4">
+                                                        <Markdown
+                                                            components={{
+                                                                a(props) {
+                                                                    return (
+                                                                        <a
+                                                                            target="_blank"
+                                                                            {...props}
+                                                                        ></a>
+                                                                    );
+                                                                },
+                                                            }}
+                                                        >
+                                                            {method.info}
+                                                        </Markdown>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
