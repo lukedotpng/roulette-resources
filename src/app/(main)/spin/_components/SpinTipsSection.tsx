@@ -6,7 +6,7 @@ import { Mission } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { MatchModeManager, SpinResources, TargetSpinResources } from "../types";
+import { MatchModeManager, SpinTips, TargetSpinTips } from "../types";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -19,12 +19,12 @@ export default function SpinTipsSection({
     mission: Mission;
     matchModeManager: MatchModeManager;
 }) {
-    const { data, error, isLoading } = useSWR<TargetSpinResources>(
+    const { data, error, isLoading } = useSWR<SpinTips>(
         "/api/spin/info?s=" + query,
         fetcher,
     );
 
-    const [targetSpinInfo, setTargetSpinInfo] = useState<TargetSpinResources>();
+    const [targetSpinInfo, setTargetSpinInfo] = useState<SpinTips>();
 
     useEffect(() => {
         setTargetSpinInfo(data);
@@ -56,7 +56,7 @@ export default function SpinTipsSection({
 
     return (
         <section className="flex w-full flex-wrap justify-center gap-3 text-[.6rem] text-zinc-900 sm:text-[.9rem]">
-            {(Object.keys(targetSpinInfo) as (keyof TargetSpinResources)[]).map(
+            {(Object.keys(targetSpinInfo) as (keyof SpinTips)[]).map(
                 (target) => {
                     if (
                         !targetSpinInfo[target]?.items &&
@@ -84,10 +84,10 @@ export default function SpinTipsSection({
                             <h2 className="text-center text-[1.1em] font-bold">
                                 {TargetIDToDisplayText(target)}
                             </h2>
-                            {(targetSpinInfo[target] as SpinResources).items
+                            {(targetSpinInfo[target] as TargetSpinTips).items
                                 .length > 0 &&
                                 (
-                                    targetSpinInfo[target] as SpinResources
+                                    targetSpinInfo[target] as TargetSpinTips
                                 ).items.map((item) => {
                                     return (
                                         <div
@@ -117,10 +117,10 @@ export default function SpinTipsSection({
                                     );
                                 })}
                             {/* Disguises */}
-                            {(targetSpinInfo[target] as SpinResources).disguises
-                                .length > 0 &&
+                            {(targetSpinInfo[target] as TargetSpinTips)
+                                .disguises.length > 0 &&
                                 (
-                                    targetSpinInfo[target] as SpinResources
+                                    targetSpinInfo[target] as TargetSpinTips
                                 ).disguises.map((disguise) => {
                                     const firstSeperatorIndex =
                                         disguise.quick_look.indexOf("|");
@@ -169,10 +169,10 @@ export default function SpinTipsSection({
                                     );
                                 })}
                             {/* Unique Kills */}
-                            {(targetSpinInfo[target] as SpinResources)
+                            {(targetSpinInfo[target] as TargetSpinTips)
                                 .uniqueKills.length > 0 &&
                                 (
-                                    targetSpinInfo[target] as SpinResources
+                                    targetSpinInfo[target] as TargetSpinTips
                                 ).uniqueKills.map((method) => {
                                     if (!method) {
                                         return null;
@@ -269,76 +269,3 @@ export default function SpinTipsSection({
         </section>
     );
 }
-
-// function GetSpinInfo(
-//     spin: Spin,
-//     itemData: Item[],
-//     disguiseData: Disguise[],
-//     uniqueKillData: UniqueKill[],
-// ): TargetSpinResources {
-//     const targetSpinResources = {} as TargetSpinResources;
-
-//     const filteredItemData = itemData.filter(
-//         (item) => item.map == spin.mission,
-//     );
-//     const filteredDisguiseData = disguiseData.filter(
-//         (disguise) => disguise.map == spin.mission,
-//     );
-//     const filteredUniqueKillData = uniqueKillData.filter(
-//         (uniqueKill) => uniqueKill.map == spin.mission,
-//     );
-
-//     (Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
-//         const itemsInSpin: Item[] = [];
-//         const disguisesInSpin: Disguise[] = [];
-//         const uniqueKillsInSpin: UniqueKill[] = [];
-
-//         const currentCondition = spin.info[target]?.condition || "";
-//         const currentDisguise = spin.info[target]?.disguise || "";
-//         const isNtko = spin.info[target]?.ntko || false;
-
-//         filteredItemData.forEach((item) => {
-//             const itemId = item.name.toLowerCase().replaceAll(" ", "_");
-//             if (itemId.toLowerCase() === currentCondition.toLowerCase()) {
-//                 itemsInSpin.push(item);
-//             }
-//         });
-
-//         filteredUniqueKillData.forEach((uniqueKill) => {
-//             if (uniqueKill.target !== target && spin.mission !== "berlin") {
-//                 return;
-//             }
-
-//             if (uniqueKill.kill_method === currentCondition) {
-//                 uniqueKillsInSpin.push(uniqueKill);
-//             } else if (
-//                 currentCondition.includes("loud") &&
-//                 uniqueKill.kill_method === "loud_kills"
-//             ) {
-//                 uniqueKillsInSpin.push(uniqueKill);
-//             } else if (
-//                 uniqueKill.kill_method === "consumed" &&
-//                 currentCondition === "consumed_poison"
-//             ) {
-//                 uniqueKillsInSpin.push(uniqueKill);
-//             } else if (isNtko && uniqueKill.kill_method === "live_kills") {
-//                 uniqueKillsInSpin.push(uniqueKill);
-//             }
-//         });
-
-//         filteredDisguiseData.forEach((disguise) => {
-//             const disguiseIdNoMission = disguise.id.split("-")[1] || "";
-//             if (disguiseIdNoMission === currentDisguise) {
-//                 disguisesInSpin.push(disguise);
-//             }
-//         });
-
-//         targetSpinResources[target] = {
-//             items: itemsInSpin,
-//             disguises: disguisesInSpin,
-//             uniqueKills: uniqueKillsInSpin,
-//         };
-//     });
-
-//     return targetSpinResources;
-// }

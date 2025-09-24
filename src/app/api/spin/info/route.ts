@@ -1,4 +1,4 @@
-import { TargetSpinResources, SpinInfo } from "@/app/(main)/spin/types";
+import { SpinTips, SpinInfo } from "@/app/(main)/spin/types";
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { db } from "@/server/db";
 import {
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         where: eq(UniqueKillSchema.mission, spin.mission),
     });
 
-    const targetSpinResources = {} as TargetSpinResources;
+    const targetSpinResources = {} as SpinTips;
 
     const filteredItemData = itemData.filter(
         (item) => item.mission == spin.mission,

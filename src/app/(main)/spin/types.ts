@@ -202,14 +202,14 @@ export type MissionDisguises = {
     [key in Mission]: string[];
 };
 
-export type SpinResources = {
+export type TargetSpinTips = {
     items: ItemSelect[];
     disguises: DisguiseSelect[];
     uniqueKills: UniqueKillSelect[];
 };
 
-export type TargetSpinResources = {
-    [key in SpinTarget]?: SpinResources;
+export type SpinTips = {
+    [key in SpinTarget]?: TargetSpinTips;
 };
 
 export type SpinIllegalReason =
