@@ -202,10 +202,45 @@ export type MissionDisguises = {
     [key in Mission]: string[];
 };
 
+export type SpinTipItem = {
+    id: string;
+    mission: string;
+    name: string;
+    type: string;
+    quick_look: string;
+    hitmaps_link: string;
+};
+
+export type SpinTipDisguiseVideo = {
+    id: string;
+    disguise_id: string;
+    link: string;
+    notes: string;
+};
+
+export type SpinTipDisguise = {
+    id: string;
+    mission: string;
+    quick_look: string;
+    notes: string | null;
+    hitmaps_link: string | null;
+    disguiseVideos: SpinTipDisguiseVideo[];
+};
+
+export type SpinTipKill = {
+    id: string;
+    mission: string;
+    name: string;
+    target: string;
+    kill_method: string;
+    info: string;
+    video_link: string;
+};
+
 export type TargetSpinTips = {
-    items: ItemSelect[];
-    disguises: DisguiseSelect[];
-    uniqueKills: UniqueKillSelect[];
+    items: SpinTipItem[];
+    disguises: SpinTipDisguise[];
+    uniqueKills: SpinTipKill[];
 };
 
 export type SpinTips = {
