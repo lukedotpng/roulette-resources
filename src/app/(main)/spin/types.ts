@@ -1,10 +1,4 @@
-import {
-    DisguiseSelect,
-    ItemSelect,
-    Mission,
-    Season,
-    UniqueKillSelect,
-} from "@/types";
+import { Mission, Season } from "@/types";
 
 export type MissionSpinInfoElement = "disguises" | "killMethods";
 
