@@ -86,6 +86,15 @@ export default function MainContent({
 
     return (
         <div className="flex flex-1 flex-col items-center gap-3 text-white md:gap-5">
+            <nav className="flex w-fit justify-center gap-3 text-[1.2em]">
+                <a href="#timings">{"Timings"}</a>
+                <a href="#items">{"Items"}</a>
+                <a href="#disguises">{"Disguises"}</a>
+                <a href="#isolations">{"Isolations"}</a>
+                <a href="#unique-kills">{"Unique Kills"}</a>
+                <a href="#routes">{"Routes"}</a>
+                <a href="#tech">{"Tech"}</a>
+            </nav>
             {/* <ResourceFilter SetFilterQuery={SetFilterQuery} /> */}
             {/* Dont show timings flashcard when searching */}
             {filterQuery.trim() === "" && (

@@ -18,7 +18,10 @@ export default function TimingsCardSection({
     }
 
     return (
-        <section className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5">
+        <section
+            id="timings"
+            className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5"
+        >
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Timings"}
             </h1>
