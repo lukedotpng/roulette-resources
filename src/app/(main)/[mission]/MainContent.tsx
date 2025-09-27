@@ -19,7 +19,7 @@ import UniqueKillsSection from "./_InfoComponents/UniqueKills/UniqueKillsSection
 import { use, useMemo, useState } from "react";
 import TechSection from "./_InfoComponents/Tech/TechSections";
 
-export default function Sections({
+export default function MainContent({
     mission,
     timingsFlashcardPromise,
     itemsPromise,
@@ -85,7 +85,7 @@ export default function Sections({
     }, [filterQuery, items, disguises, isolations, uniqueKills, routes, tech]);
 
     return (
-        <>
+        <div className="flex flex-1 flex-col items-center gap-3 text-white md:gap-5">
             {/* <ResourceFilter SetFilterQuery={SetFilterQuery} /> */}
             {/* Dont show timings flashcard when searching */}
             {filterQuery.trim() === "" && (
@@ -112,6 +112,6 @@ export default function Sections({
                 routes={filteredRoutes}
             />
             <TechSection mission={mission as Mission} tech={filteredTech} />
-        </>
+        </div>
     );
 }

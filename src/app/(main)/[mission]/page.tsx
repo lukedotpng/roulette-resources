@@ -10,7 +10,7 @@ import {
     TimingsFlashcardSchema,
 } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
-import Sections from "./sections";
+import MainContent from "./MainContent";
 import { Mission } from "@/types";
 
 export default async function Page({
@@ -46,7 +46,7 @@ export default async function Page({
     });
 
     return (
-        <Sections
+        <MainContent
             mission={mission as Mission}
             timingsFlashcardPromise={timingsFlashcardPromise}
             itemsPromise={itemsPromise}
