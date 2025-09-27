@@ -18,8 +18,8 @@ export default async function Page({
 
     return (
         <main className="flex flex-1 flex-col items-center gap-3 pb-5 text-white md:gap-5">
-            <header className="flex w-full items-center justify-between gap-2 border-white p-2 pb-0 sm:p-5 sm:pb-0">
-                <h1 className="flex-1 text-center text-[1.5em] font-bold">
+            <header className="flex w-full items-center justify-between gap-2 border-white pt-3 sm:pt-5">
+                <h1 className="flex-1 text-center text-[1.8em] font-bold">
                     {MissionIDToDisplayText(mission)}
                 </h1>
             </header>
