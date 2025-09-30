@@ -35,7 +35,7 @@ export default function TechSection({
     return (
         <section
             id="tech"
-            className="flex w-full flex-col justify-center gap-2.5 px-2 sm:px-5"
+            className="flex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
         >
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Tech"}

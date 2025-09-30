@@ -16,8 +16,11 @@ import ItemSection from "./_InfoComponents/Items/ItemSection";
 import RoutesSection from "./_InfoComponents/Routes/RoutesSections";
 import TimingsCardSection from "./_InfoComponents/TimingsCard/TimingsSection";
 import UniqueKillsSection from "./_InfoComponents/UniqueKills/UniqueKillsSection";
-import { use, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import TechSection from "./_InfoComponents/Tech/TechSections";
+import { usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import MissionPageNav from "./_components/MissionPageNav";
 
 export default function MainContent({
     mission,
@@ -38,6 +41,8 @@ export default function MainContent({
     routesPromise: Promise<RouteSelect[]>;
     techPromise: Promise<TechSelect[]>;
 }) {
+    const searchParams = useSearchParams();
+
     const timingsFlashcard = use(timingsFlashcardPromise);
     const items = use(itemsPromise);
     const disguises = use(disguisesPromise);
@@ -84,17 +89,14 @@ export default function MainContent({
         };
     }, [filterQuery, items, disguises, isolations, uniqueKills, routes, tech]);
 
+    const [fragmentHash, setFragmentHash] = useState("");
+    useEffect(() => {
+        setFragmentHash(window.location.hash);
+    }, [searchParams]);
+
     return (
-        <div className="flex flex-1 flex-col items-center gap-3 text-white md:gap-5">
-            <nav className="flex w-fit justify-center gap-3 text-[1.2em]">
-                <a href="#timings">{"Timings"}</a>
-                <a href="#items">{"Items"}</a>
-                <a href="#disguises">{"Disguises"}</a>
-                <a href="#isolations">{"Isolations"}</a>
-                <a href="#unique-kills">{"Unique Kills"}</a>
-                <a href="#routes">{"Routes"}</a>
-                <a href="#tech">{"Tech"}</a>
-            </nav>
+        <div className="flex w-full flex-col items-center gap-3 text-white md:gap-5">
+            <MissionPageNav fragmentHash={fragmentHash} />
             {/* <ResourceFilter SetFilterQuery={SetFilterQuery} /> */}
             {/* Dont show timings flashcard when searching */}
             {filterQuery.trim() === "" && (
