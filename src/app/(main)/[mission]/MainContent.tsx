@@ -18,8 +18,7 @@ import TimingsCardSection from "./_InfoComponents/TimingsCard/TimingsSection";
 import UniqueKillsSection from "./_InfoComponents/UniqueKills/UniqueKillsSection";
 import { use, useEffect, useMemo, useState } from "react";
 import TechSection from "./_InfoComponents/Tech/TechSections";
-import { usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import MissionPageNav from "./_components/MissionPageNav";
 
 export default function MainContent({
