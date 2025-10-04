@@ -46,7 +46,7 @@ export default function DisguiseOptionPicker({
                 </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent
-                className="z-20 -mt-1 flex h-fit max-h-72 w-48 flex-col overflow-y-auto rounded-lg border-2 border-zinc-500 text-[.9em] shadow-[0_0_20px_0px] shadow-black"
+                className="z-20 flex h-fit max-h-72 w-48 flex-col overflow-y-auto rounded-lg border-2 border-zinc-500 text-[.9em] shadow-[0_0_20px_0px] shadow-black"
                 onCloseAutoFocus={(event: Event) => {
                     event.preventDefault();
                 }}
