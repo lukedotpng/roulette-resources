@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
-import { DeleteUniqueKillAction } from "../../_InfoActions/UniqueKillActions";
+import { DeleteUniqueKillAction } from "./UniqueKillActions";
 
 export default function BerlinUniqueKillCard({
     uniqueKills,

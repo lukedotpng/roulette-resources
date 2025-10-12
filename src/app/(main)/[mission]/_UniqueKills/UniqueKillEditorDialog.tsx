@@ -18,7 +18,7 @@ import {
 import {
     CreateUniqueKillAction,
     UpdateUniqueKillAction,
-} from "../_InfoActions/UniqueKillActions";
+} from "./UniqueKillActions";
 import {
     MethodIDToDisplayText,
     TargetIDToDisplayText,

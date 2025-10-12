@@ -4,7 +4,8 @@ import { RouteSelect, Mission, RouteInsert } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import RouteCard from "./RouteCard";
-import RouteEditorDialog from "../../_EditorComponents/RouteEditorDialog";
+import RouteEditorDialog from "./RouteEditorDialog";
+import InfoSection from "../_components/InfoSection";
 
 export default function RoutesSection({
     mission,
@@ -33,10 +34,7 @@ export default function RoutesSection({
     }
 
     return (
-        <section
-            id="routes"
-            className="flex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
-        >
+        <InfoSection id="routes">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Routes"}
             </h1>
@@ -92,6 +90,6 @@ export default function RoutesSection({
                     setEditDialogActive={setEditDialogActive}
                 />
             )}
-        </section>
+        </InfoSection>
     );
 }

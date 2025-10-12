@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { Mission, TimingsFlashcardSelect } from "@/types";
 import { useState } from "react";
 import Markdown from "react-markdown";
-import FlashcardEditorForm from "../../_EditorComponents/FlashcardEditorForm";
+import FlashcardEditorForm from "./FlashcardEditorForm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";

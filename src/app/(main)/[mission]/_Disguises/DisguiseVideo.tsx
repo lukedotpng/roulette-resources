@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DeleteDisguiseVideoAction } from "../../_InfoActions/DisguiseActions";
+import { DeleteDisguiseVideoAction } from "./DisguiseActions";
 import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";

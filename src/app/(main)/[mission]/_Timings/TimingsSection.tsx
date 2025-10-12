@@ -3,6 +3,7 @@
 import { Mission, TimingsFlashcardSelect } from "@/types";
 import TimingsCard from "./TimingsCard";
 import { useSession } from "next-auth/react";
+import InfoSection from "../_components/InfoSection";
 
 export default function TimingsCardSection({
     mission,
@@ -18,10 +19,7 @@ export default function TimingsCardSection({
     }
 
     return (
-        <section
-            id="timings"
-            className="flex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
-        >
+        <InfoSection id="timings">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Timings"}
             </h1>
@@ -29,6 +27,6 @@ export default function TimingsCardSection({
                 mission={mission}
                 timingsFlashcard={timingsFlashcard}
             />
-        </section>
+        </InfoSection>
     );
 }

@@ -11,7 +11,7 @@ import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
 import {
     CreateIsolationAction,
     UpdateIsolationAction,
-} from "../_InfoActions/IsolationActions";
+} from "./IsolationActions";
 
 import {
     BoldItalicUnderlineToggles,

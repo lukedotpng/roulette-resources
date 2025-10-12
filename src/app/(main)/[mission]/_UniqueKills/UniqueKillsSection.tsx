@@ -8,7 +8,7 @@ import {
     STANDARD_UNIQUE_KILL_TYPES,
 } from "@/utils/globals";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
-import UniqueKillEditorDialog from "../../_EditorComponents/UniqueKillEditorDialog";
+import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
 import UniqueKillCard from "./UniqueKillCard";
 import {
     TARGET_BANNED_KILL_METHODS_LIST,
@@ -22,6 +22,7 @@ import {
     DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import { SpinTarget } from "@/app/(main)/spin/types";
+import InfoSection from "../_components/InfoSection";
 
 export default function UniqueKillsSection({
     mission,
@@ -104,10 +105,7 @@ export default function UniqueKillsSection({
     );
 
     return (
-        <section
-            id="unique-kills"
-            className="flex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
-        >
+        <InfoSection id="unique-kills">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Unique Kills"}
             </h1>
@@ -211,6 +209,6 @@ export default function UniqueKillsSection({
                     setEditDialogActive={setEditDialogActive}
                 />
             )}
-        </section>
+        </InfoSection>
     );
 }

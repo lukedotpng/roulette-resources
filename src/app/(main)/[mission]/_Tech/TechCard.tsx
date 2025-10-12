@@ -1,4 +1,4 @@
-import { RouteSelect } from "@/types";
+import { TechSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -8,25 +8,25 @@ import {
 } from "@radix-ui/react-dialog";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DeleteRouteAction } from "../../_InfoActions/RouteActions";
+import { DeleteTechAction } from "./TechActions";
 import { MarkdownTextToDisplay } from "@/utils/FormattingUtils";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 
-export default function RouteCard({
-    route,
-    HandleRouteEditTrigger,
+export default function TechCard({
+    tech,
+    HandleTechEditTrigger,
 }: {
-    route: RouteSelect;
-    HandleRouteEditTrigger: (route: RouteSelect, isNew: boolean) => void;
+    tech: TechSelect;
+    HandleTechEditTrigger: (tech: TechSelect, isNew: boolean) => void;
 }) {
     const session = useSession();
 
-    const [deleteRouteConfirmationOpen, setDeleteRouteConfirmationOpen] =
+    const [deleteTechConfirmationOpen, setDeleteTechConfirmationOpen] =
         useState(false);
 
-    const link = route.video_link;
+    const link = tech.video_link;
     const youtubeIdRegex =
         /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/; // Regex found from on stack overflow https://stackoverflow.com/a/8260383
 
@@ -40,9 +40,9 @@ export default function RouteCard({
         <div className="w-full min-w-full flex-1 rounded-xl border-4 border-zinc-500 bg-white p-3 text-zinc-900 md:max-w-[40rem] md:min-w-[25rem]">
             <div className="relative flex flex-col gap-2">
                 <p className="self-center text-[1.1em] font-bold">
-                    {route.name}
+                    {tech.name}
                 </p>
-                {route.notes && (
+                {tech.notes && (
                     <div className="markdown col-start-1 row-start-1 py-1 data-[active=false]:pointer-events-none data-[active=false]:opacity-0">
                         <Markdown
                             remarkPlugins={[remarkBreaks]}
@@ -53,7 +53,7 @@ export default function RouteCard({
                                 },
                             }}
                         >
-                            {MarkdownTextToDisplay(route.notes)}
+                            {MarkdownTextToDisplay(tech.notes)}
                         </Markdown>
                     </div>
                 )}
@@ -70,7 +70,7 @@ export default function RouteCard({
                 {session.data?.user?.admin && (
                     <div className="absolute top-1 right-1 flex gap-3">
                         <button
-                            onClick={() => HandleRouteEditTrigger(route, false)}
+                            onClick={() => HandleTechEditTrigger(tech, false)}
                             className="group"
                         >
                             <svg
@@ -84,7 +84,7 @@ export default function RouteCard({
                         </button>
                         <button
                             className="group"
-                            onClick={() => setDeleteRouteConfirmationOpen(true)}
+                            onClick={() => setDeleteTechConfirmationOpen(true)}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -96,9 +96,9 @@ export default function RouteCard({
                             </svg>
                         </button>
                         <Dialog
-                            open={deleteRouteConfirmationOpen}
+                            open={deleteTechConfirmationOpen}
                             onOpenChange={() => {
-                                setDeleteRouteConfirmationOpen(false);
+                                setDeleteTechConfirmationOpen(false);
                             }}
                         >
                             <DialogPortal>
@@ -111,7 +111,7 @@ export default function RouteCard({
                                         <button
                                             className="flex-1 rounded-bl-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                             onClick={() =>
-                                                setDeleteRouteConfirmationOpen(
+                                                setDeleteTechConfirmationOpen(
                                                     false,
                                                 )
                                             }
@@ -121,9 +121,7 @@ export default function RouteCard({
                                         <button
                                             className="flex-1 rounded-br-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                             onClick={async () => {
-                                                await DeleteRouteAction(
-                                                    route.id,
-                                                );
+                                                await DeleteTechAction(tech.id);
                                             }}
                                         >
                                             Delete

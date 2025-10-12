@@ -7,7 +7,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import {
     CreateTimingsFlashcardAction,
     UpdateTimingsFlashcardAction,
-} from "../_InfoActions/TimingsFlashcardActions";
+} from "./TimingsFlashcardActions";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";

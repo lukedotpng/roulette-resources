@@ -1,10 +1,11 @@
 import { ItemInsert, ItemSelect, ItemType, Mission } from "@/types";
 import { useState } from "react";
-import ItemEditorDialog from "../../_EditorComponents/ItemEditorDialog";
+import ItemEditorDialog from "./ItemEditorDialog";
 import WeaponCard from "./WeaponCard";
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 import UtilitiesCard from "./UtilitiesCard";
 import MeleeCard from "./MeleeCard";
+import InfoSection from "../_components/InfoSection";
 
 export default function ItemSection({
     mission,
@@ -57,10 +58,7 @@ export default function ItemSection({
     }
 
     return (
-        <section
-            id="items"
-            className="flex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
-        >
+        <InfoSection id="items">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Items"}
             </h1>
@@ -97,6 +95,6 @@ export default function ItemSection({
                     setEditDialogActive={setEditDialogActive}
                 />
             )}
-        </section>
+        </InfoSection>
     );
 }

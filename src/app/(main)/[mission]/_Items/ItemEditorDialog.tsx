@@ -8,10 +8,7 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import {
-    CreateItemAction,
-    UpdateItemAction,
-} from "../_InfoActions/ItemActions";
+import { CreateItemAction, UpdateItemAction } from "./ItemActions";
 import {
     MethodDisplayTextToID,
     MethodIDToDisplayText,

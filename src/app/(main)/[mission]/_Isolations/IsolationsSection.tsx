@@ -1,10 +1,11 @@
 import { IsolationInsert, IsolationSelect, Mission, Target } from "@/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import IsolationEditorDialog from "../../_EditorComponents/IsolationEditorDialog";
+import IsolationEditorDialog from "./IsolationEditorDialog";
 import { MISSION_TARGET_LIST } from "@/utils/globals";
 import { TargetIDToDisplayText } from "@/utils/FormattingUtils";
 import IsolationCard from "./IsolationCard";
+import InfoSection from "../_components/InfoSection";
 
 export default function IsolationsSection({
     mission,
@@ -51,10 +52,7 @@ export default function IsolationsSection({
     sortedIsolations.sort((a, b) => a.name.localeCompare(b.name));
 
     return (
-        <section
-            id="isolations"
-            className="flex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
-        >
+        <InfoSection id="isolations">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Isolations"}
             </h1>
@@ -126,6 +124,6 @@ export default function IsolationsSection({
                     setEditDialogActive={setEditDialogActive}
                 />
             )}
-        </section>
+        </InfoSection>
     );
 }

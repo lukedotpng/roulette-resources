@@ -11,7 +11,7 @@ import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import {
     NewDisguiseVideoAction,
     UpdateDisguiseVideoAction,
-} from "../_InfoActions/DisguiseActions";
+} from "./DisguiseActions";
 import { DisguiseIDToDisplayText } from "@/utils/FormattingUtils";
 import FreeformInput from "../_components/FreeformInput";
 

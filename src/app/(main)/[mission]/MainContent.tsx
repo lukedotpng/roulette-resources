@@ -10,14 +10,14 @@ import {
     TimingsFlashcardSelect,
     UniqueKillSelect,
 } from "@/types";
-import DisguisesSection from "./_InfoComponents/Disguises/DisguisesSection";
-import IsolationsSection from "./_InfoComponents/Isolations/IsolationsSection";
-import ItemSection from "./_InfoComponents/Items/ItemSection";
-import RoutesSection from "./_InfoComponents/Routes/RoutesSections";
-import TimingsCardSection from "./_InfoComponents/TimingsCard/TimingsSection";
-import UniqueKillsSection from "./_InfoComponents/UniqueKills/UniqueKillsSection";
+import DisguisesSection from "./_Disguises/DisguisesSection";
+import IsolationsSection from "./_Isolations/IsolationsSection";
+import ItemSection from "./_Items/ItemSection";
+import RoutesSection from "./_Routes/RoutesSections";
+import TimingsCardSection from "./_Timings/TimingsSection";
+import UniqueKillsSection from "./_UniqueKills/UniqueKillsSection";
 import { use, useEffect, useMemo, useState } from "react";
-import TechSection from "./_InfoComponents/Tech/TechSections";
+import TechSection from "./_Tech/TechSections";
 import { useSearchParams } from "next/navigation";
 import MissionPageNav from "./_components/MissionPageNav";
 

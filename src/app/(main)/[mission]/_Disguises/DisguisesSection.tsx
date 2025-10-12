@@ -8,8 +8,9 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
 import DisguiseCard from "./DisguiseCard";
-import DisguiseVideoEditorDialog from "../../_EditorComponents/DisguiseVideoEditorDialog";
+import DisguiseVideoEditorDialog from "./DisguiseVideoEditorDialog";
 import DisguiseOptionPicker from "./DisguiseOptionPicker";
+import InfoSection from "../_components/InfoSection";
 
 export default function DisguisesSection({
     mission,
@@ -82,10 +83,7 @@ export default function DisguisesSection({
     }, [activeDisguiseId, disguises, mission]);
 
     return (
-        <section
-            id="disguises"
-            className="lex w-full scroll-m-10 flex-col justify-center gap-2.5 px-2 sm:px-5"
-        >
+        <InfoSection id="disguises">
             <h1 className="border-b-2 border-white text-[1.2em] font-bold">
                 {"Disguises"}
             </h1>
@@ -122,6 +120,6 @@ export default function DisguisesSection({
                     setEditDialogActive={setEditDialogActive}
                 />
             )}
-        </section>
+        </InfoSection>
     );
 }

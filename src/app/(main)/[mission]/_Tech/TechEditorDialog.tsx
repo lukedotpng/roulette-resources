@@ -1,4 +1,4 @@
-import { ActionResponse, RouteInsert } from "@/types";
+import { ActionResponse, TechInsert } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -8,49 +8,46 @@ import {
 } from "@radix-ui/react-dialog";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import {
-    CreateRouteAction,
-    UpdateRouteAction,
-} from "../_InfoActions/RouteActions";
+import { CreateTechAction, UpdateTechAction } from "./TechActions";
 import FreeformInput from "../_components/FreeformInput";
 import { useRouter } from "next/navigation";
 
-export default function RouteEditorDialog({
-    route,
+export default function TechEditorDialog({
+    tech,
     isNew,
     editDialogActive,
     setEditDialogActive,
 }: {
-    route: RouteInsert;
+    tech: TechInsert;
     isNew: boolean;
     editDialogActive: boolean;
     setEditDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
     const router = useRouter();
 
-    const [routeName, setRouteName] = useState(route.name);
-    const [routeNotes, setRouteNotes] = useState(route.notes || "");
-    const [routeVideoLink, setRouteVideoLink] = useState(route.video_link);
+    const [techName, setTechName] = useState(tech.name);
+    const [techNotes, setTechNotes] = useState(tech.notes || "");
+    const [techVideoLink, setTechVideoLink] = useState(tech.video_link);
 
     const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
     useEffect(() => {
         if (
-            routeName !== route.name ||
-            routeNotes !== route.notes ||
-            routeVideoLink !== route.video_link
+            techName !== tech.name ||
+            techNotes !== tech.notes ||
+            techVideoLink !== tech.video_link
         ) {
             setHasBeenEdited(true);
         } else {
             setHasBeenEdited(false);
         }
     }, [
-        routeName,
-        route.name,
-        routeNotes,
-        route.notes,
-        routeVideoLink,
-        route.video_link,
+        techName,
+        tech.name,
+        techNotes,
+        tech.notes,
+        techVideoLink,
+        tech.video_link,
         hasBeenEdited,
     ]);
 
@@ -60,16 +57,16 @@ export default function RouteEditorDialog({
                 <DialogOverlay className="fixed inset-0 bg-zinc-900 opacity-80" />
                 <DialogContent className="fixed top-1/2 left-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white sm:max-w-[50rem]">
                     <DialogTitle className="w-full p-3 text-center font-bold">
-                        {`${isNew ? "Create" : "Edit"} Route`}
+                        {`${isNew ? "Create" : "Edit"} Tech`}
                     </DialogTitle>
                     <form
                         className="p-3"
                         action={async (formData: FormData) => {
                             let res: ActionResponse;
                             if (isNew) {
-                                res = await CreateRouteAction(formData);
+                                res = await CreateTechAction(formData);
                             } else {
-                                res = await UpdateRouteAction(formData);
+                                res = await UpdateTechAction(formData);
                             }
                             if (!res.success) {
                                 console.log("UPLOAD ERROR:", res.error);
@@ -84,66 +81,66 @@ export default function RouteEditorDialog({
                         }}
                     >
                         <fieldset className="">
-                            {/* Field for the route name */}
+                            {/* Field for the tech name */}
                             <label className="font-semibold">Name:</label>
                             <input
                                 required
                                 type="text"
                                 name="name"
-                                value={routeName}
-                                onChange={(e) => setRouteName(e.target.value)}
+                                value={techName}
+                                onChange={(e) => setTechName(e.target.value)}
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="name"
                             />
                         </fieldset>
                         <fieldset className="pt-2">
-                            {/* Field for route notes */}
+                            {/* Field for tech notes */}
                             <label className="font-semibold">Notes:</label>
                             <FreeformInput
-                                value={routeNotes}
+                                value={techNotes}
                                 onChange={(updateNotes: string) => {
-                                    setRouteNotes(updateNotes);
+                                    setTechNotes(updateNotes);
                                 }}
                                 id={"notes"}
                             />
                             {/*<input
                                 type="text"
                                 name="notes"
-                                value={routeNotes}
-                                onChange={(e) => setRouteNotes(e.target.value)}
+                                value={techNotes}
+                                onChange={(e) => setTechNotes(e.target.value)}
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="notes"
                             />*/}
                         </fieldset>
                         <fieldset className="pt-2">
-                            {/* Field for route video link */}
+                            {/* Field for tech video link */}
                             <label className="font-semibold">Video Link:</label>
                             <input
                                 type="url"
                                 name="video_link"
                                 required
-                                value={routeVideoLink}
+                                value={techVideoLink}
                                 onChange={(e) =>
-                                    setRouteVideoLink(e.target.value)
+                                    setTechVideoLink(e.target.value)
                                 }
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="video_link"
                             />
                         </fieldset>
-                        {/* Hidden field for Route ID */}
+                        {/* Hidden field for Tech ID */}
                         <input
                             hidden
                             readOnly
                             name="id"
-                            value={route.id}
+                            value={tech.id}
                             id="id"
                         />
-                        {/* Hidden field for Route Mission */}
+                        {/* Hidden field for Tech Mission */}
                         <input
                             hidden
                             readOnly
                             name="mission"
-                            value={route.mission}
+                            value={tech.mission}
                             id="mission"
                         />
 

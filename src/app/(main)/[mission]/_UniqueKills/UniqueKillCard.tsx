@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TargetIDToDisplayText } from "@/utils/FormattingUtils";
 import Markdown from "react-markdown";
 import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
-import { DeleteUniqueKillAction } from "../../_InfoActions/UniqueKillActions";
+import { DeleteUniqueKillAction } from "./UniqueKillActions";
 
 export default function UniqueKillCard({
     targets,
