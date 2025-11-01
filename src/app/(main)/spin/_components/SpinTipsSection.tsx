@@ -180,11 +180,9 @@ export default function SpinTipsSection({
                                     }
 
                                     const printMethodTitle =
-                                        lastMethodShown !==
-                                        method.kill_method + method.target;
+                                        lastMethodShown !== method.kill_method;
 
-                                    lastMethodShown =
-                                        method.kill_method + method.target;
+                                    lastMethodShown = method.kill_method;
 
                                     return (
                                         <div key={method.id} className="py-1">
