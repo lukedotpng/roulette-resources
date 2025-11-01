@@ -88,14 +88,9 @@ export default function MainContent({
         };
     }, [filterQuery, items, disguises, isolations, uniqueKills, routes, tech]);
 
-    const [fragmentHash, setFragmentHash] = useState("");
-    useEffect(() => {
-        setFragmentHash(window.location.hash);
-    }, [searchParams]);
-
     return (
         <div className="flex w-full flex-col items-center gap-3 text-white md:gap-5">
-            <MissionPageNav fragmentHash={fragmentHash} />
+            <MissionPageNav />
             {/* <ResourceFilter SetFilterQuery={SetFilterQuery} /> */}
             {/* Dont show timings flashcard when searching */}
             {filterQuery.trim() === "" && (
