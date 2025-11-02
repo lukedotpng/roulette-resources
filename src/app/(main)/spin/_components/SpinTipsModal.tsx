@@ -7,9 +7,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { FocusedSpinTip, SpinTipDisguise, SpinTipKill } from "../types";
 import Markdown from "react-markdown";
-import Link from "next/link";
 import {
-    DisguiseIDToDisplayText,
     MarkdownTextToDisplay,
     MethodIDToDisplayText,
 } from "@/utils/FormattingUtils";

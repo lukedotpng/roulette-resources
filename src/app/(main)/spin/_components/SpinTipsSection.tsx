@@ -212,7 +212,7 @@ export default function SpinTipsSection({
                                 .uniqueKills.length > 0 &&
                                 (
                                     targetSpinInfo[target] as TargetSpinTips
-                                ).uniqueKills.map((method, index) => {
+                                ).uniqueKills.map((method) => {
                                     if (!method) {
                                         return null;
                                     }

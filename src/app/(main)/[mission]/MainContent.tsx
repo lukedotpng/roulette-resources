@@ -16,9 +16,8 @@ import ItemSection from "./_Items/ItemSection";
 import RoutesSection from "./_Routes/RoutesSections";
 import TimingsCardSection from "./_Timings/TimingsSection";
 import UniqueKillsSection from "./_UniqueKills/UniqueKillsSection";
-import { use, useEffect, useMemo, useState } from "react";
+import { use, useMemo, useState } from "react";
 import TechSection from "./_Tech/TechSections";
-import { useSearchParams } from "next/navigation";
 import MissionPageNav from "./_components/MissionPageNav";
 
 export default function MainContent({
@@ -40,8 +39,6 @@ export default function MainContent({
     routesPromise: Promise<RouteSelect[]>;
     techPromise: Promise<TechSelect[]>;
 }) {
-    const searchParams = useSearchParams();
-
     const timingsFlashcard = use(timingsFlashcardPromise);
     const items = use(itemsPromise);
     const disguises = use(disguisesPromise);
