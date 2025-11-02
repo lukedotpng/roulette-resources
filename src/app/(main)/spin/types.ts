@@ -241,6 +241,17 @@ export type SpinTips = {
     [key in SpinTarget]?: TargetSpinTips;
 };
 
+export type FocusedSpinTip =
+    | {
+          type: "disguise";
+          data: SpinTipDisguise;
+      }
+    | {
+          type: "killMethod";
+          data: SpinTipKill;
+      }
+    | null;
+
 export type SpinIllegalReason =
     | "error_checking_legality"
     | "repeat_kill_method"
