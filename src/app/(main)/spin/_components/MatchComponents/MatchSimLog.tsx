@@ -13,12 +13,13 @@ import {
     MillisecondsToTimeString,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import { ParseSpinQuery } from "../../utils/SpinQuery";
 import MissionSwitcher from "../PoolComponents/MissionSwitcher";
 import Link from "next/link";
-import { SPIN_MISSION_TARGETS_LIST } from "../../utils/SpinGlobals";
-import { MatchSimRecord, SpinManager, SpinTarget } from "../../types";
+import { MatchSimRecord, SpinManager } from "../../types";
 import { Mission } from "@/types";
+import { ParseSpinQuery } from "@/lib/RouletteSpinner/queryParser";
+import { MISSION_TARGETS_LIST } from "@/lib/RouletteSpinner/globals";
+import { SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export default function MatchSimLog({
     spinManager,
@@ -123,7 +124,7 @@ export default function MatchSimLog({
                                 }
 
                                 const targets =
-                                    SPIN_MISSION_TARGETS_LIST[spin.mission];
+                                    MISSION_TARGETS_LIST[spin.mission];
                                 const recordDate = new Date(record.date);
 
                                 return (

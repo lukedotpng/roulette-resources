@@ -1,5 +1,6 @@
 import { MillisecondsToTimeString } from "@/utils/FormattingUtils";
-import { MatchSimRecord, Spin } from "../../types";
+import { MatchSimRecord } from "../../types";
+import { Spin } from "@/lib/RouletteSpinner/types";
 
 export default function PostMatchView({
     time,

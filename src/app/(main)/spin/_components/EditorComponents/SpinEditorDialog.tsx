@@ -14,13 +14,14 @@ import {
 import { Mission } from "@/types";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import { SpinUpdateAction } from "../../types";
 import {
-    MISSION_DISGUISES_LIST,
-    MISSION_SPIN_INFO_LIST,
-    TARGET_UNIQUE_KILLS_LIST,
     WEAPONS,
-} from "../../utils/SpinGlobals";
-import { SpinTarget, SpinUpdateAction } from "../../types";
+    TARGET_UNIQUE_KILLS_LIST,
+    MISSION_DISGUISES_LIST,
+    MISSION_CONDITIONS_MAP,
+} from "@/lib/RouletteSpinner/globals";
+import { SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export default function SpinEditorDialog({
     mission,
@@ -37,13 +38,13 @@ export default function SpinEditorDialog({
     dialogActive: boolean;
     setDialogActive: Dispatch<SetStateAction<boolean>>;
 }) {
-    const meleeOptions = MISSION_SPIN_INFO_LIST[mission].killMethods.melees;
+    const meleeOptions = MISSION_CONDITIONS_MAP[mission].killMethods.melees;
     const weaponOptions = WEAPONS;
     const uniqueKillOptions =
         target === "erich_soders"
             ? [...TARGET_UNIQUE_KILLS_LIST[target]]
             : [
-                  ...MISSION_SPIN_INFO_LIST[mission].killMethods.unique_kills,
+                  ...MISSION_CONDITIONS_MAP[mission].killMethods.unique_kills,
                   ...TARGET_UNIQUE_KILLS_LIST[target],
               ];
 

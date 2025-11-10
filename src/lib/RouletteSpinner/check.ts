@@ -1,9 +1,4 @@
-import { Mission } from "@/types";
-import {
-    DisguiseIDToDisplayText,
-    MethodIDToDisplayText,
-    TargetIDToDisplayText,
-} from "@/utils/FormattingUtils";
+import { Mission } from "./types";
 import {
     ASSAULT_RIFLE_KILL_METHOD_LIST,
     EXPLOSIVE_KILL_METHOD_LIST,
@@ -12,15 +7,20 @@ import {
     SHOTGUN_KILL_METHOD_LIST,
     SMG_KILL_METHOD_LIST,
     SNIPER_KILL_METHOD_LIST,
-    SPIN_MISSION_TARGETS_LIST,
+    MISSION_TARGETS_LIST,
     TARGET_BANNED_KILL_METHODS_LIST,
     TARGET_UNIQUE_KILLS_LIST,
     UNIQUE_KILLS,
-} from "./SpinGlobals";
-import { Spin, SpinCheckResult, SpinTarget } from "../types";
+} from "./globals";
+import { Spin, SpinCheckResult, SpinTarget } from "./types";
+import {
+    DisguiseIDToDisplayText,
+    MethodIDToDisplayText,
+    TargetIDToDisplayText,
+} from "./utils";
 
-export function SpinIsLegal(spin: Spin): SpinCheckResult {
-    const spinTargets = SPIN_MISSION_TARGETS_LIST[spin.mission];
+export function SpinCheck(spin: Spin): SpinCheckResult {
+    const spinTargets = MISSION_TARGETS_LIST[spin.mission];
 
     const disguisesSpun: string[] = [];
     const conditionsSpun: string[] = [];
@@ -58,17 +58,17 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
             };
         }
 
-        const conditionBannedWithDisguise = ConditionIsBannedWithDisguise(
+        const killMethodBannedWithDisguise = KillMethodIsBannedWithDisguise(
             spin.mission,
             target,
             targetSpinInfo.killMethod,
             targetSpinInfo.disguise,
         );
-        if (conditionBannedWithDisguise.isBanned) {
+        if (killMethodBannedWithDisguise.isBanned) {
             return {
                 legal: false,
                 reason: "kill_method_banned_with_disguise",
-                reason_info: conditionBannedWithDisguise.reason,
+                reason_info: killMethodBannedWithDisguise.reason,
             };
         }
 
@@ -105,7 +105,7 @@ export function SpinIsLegal(spin: Spin): SpinCheckResult {
 
         if (
             spin.mission === "hokkaido" &&
-            ExplosionConditionRepeatsOnHokkaido(
+            ExplosiveKillRepeatsOnHokkaido(
                 targetSpinInfo.killMethod,
                 conditionsSpun,
             )
@@ -158,7 +158,7 @@ export function TargetKillMethodIsBanned(
     return false;
 }
 
-export function ConditionIsBannedWithDisguise(
+function KillMethodIsBannedWithDisguise(
     mission: Mission,
     target: SpinTarget,
     condition: string,
@@ -247,7 +247,7 @@ export function ConditionIsBannedWithDisguise(
     };
 }
 
-export function ExplosionConditionRepeatsOnHokkaido(
+export function ExplosiveKillRepeatsOnHokkaido(
     targetCondition: string,
     conditionsSpun: string[],
 ) {

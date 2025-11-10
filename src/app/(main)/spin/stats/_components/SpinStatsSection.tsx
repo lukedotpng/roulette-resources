@@ -1,16 +1,17 @@
 import { Mission } from "@/types";
 import { useEffect, useState } from "react";
-import { SpinIsLegal } from "../../utils/SpinCheck";
 import SpinStatsTable from "./SpinStatsTable";
 import {
     LARGE_WEAPON_LIST,
-    MISSION_SPIN_INFO_LIST,
-    SPIN_MISSION_TARGETS_LIST,
+    MISSION_CONDITIONS_MAP,
+    MISSION_TARGETS_LIST,
     TARGET_UNIQUE_KILLS_LIST,
     UNIQUE_KILLS,
     WEAPONS_WITH_MODIFIERS,
-} from "../../utils/SpinGlobals";
-import { Spin, SpinStats } from "../../types";
+} from "@/lib/RouletteSpinner/globals";
+import { SpinStats } from "../../types";
+import { Spin } from "@/lib/RouletteSpinner/types";
+import { SpinCheck } from "@/lib/RouletteSpinner/check";
 
 export default function SpinStatsSection({
     mission,
@@ -35,7 +36,7 @@ export default function SpinStatsSection({
 
     function GenerateStats() {
         const spinList: Spin[] = [];
-        const targets = SPIN_MISSION_TARGETS_LIST[mission];
+        const targets = MISSION_TARGETS_LIST[mission];
         const currSpinStats: SpinStats = {
             count: 100000,
             illegalSpinCount: 0,
@@ -94,7 +95,7 @@ export default function SpinStatsSection({
                 }
 
                 const missionMelees = [
-                    ...MISSION_SPIN_INFO_LIST[mission].killMethods.melees,
+                    ...MISSION_CONDITIONS_MAP[mission].killMethods.melees,
                 ];
                 const targetUniqueKills = [...TARGET_UNIQUE_KILLS_LIST[target]];
 
@@ -142,7 +143,7 @@ export default function SpinStatsSection({
                 }
             }
 
-            const res = SpinIsLegal(spin);
+            const res = SpinCheck(spin);
 
             if (!res.legal) {
                 console.log(res.reason_info);

@@ -4,9 +4,9 @@ import { MillisecondsToTimeString } from "@/utils/FormattingUtils";
 import PreMatchView from "./PreMatchView";
 import InMatchView from "./InMatchView";
 import PostMatchView from "./PostMatchView";
-import { CreateSpinQuery } from "../../utils/SpinQuery";
 import { UpdateSpinOverlayMatchStatus } from "@/app/(streamOverlay)/OverlayActions";
 import { SpinManager } from "../../types";
+import { CreateSpinQuery } from "@/lib/RouletteSpinner/queryParser";
 
 export default function MatchTimerSection({
     spinManager,

@@ -5,7 +5,7 @@ import {
 } from "@/utils/FormattingUtils";
 
 import TextThemeTimer from "./TextThemeTimer";
-import { Spin, SpinInfo } from "@/app/(main)/spin/types";
+import { Spin, SpinInfo } from "@/lib/RouletteSpinner/types";
 
 export default function TextOnly({
     spin,

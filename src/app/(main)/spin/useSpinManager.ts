@@ -4,8 +4,8 @@ import {
     GenerateSpin,
     RegenerateDisguise,
     RegenerateKillMethod,
-} from "./utils/SpinGeneration";
-import { GenerateSpin as GenerateSeededSpin } from "./utils/SeededSpinGeneration";
+} from "@/lib/RouletteSpinner/generation";
+import { GenerateSpin as GenerateSeededSpin } from "@/lib/RouletteSpinner/seededGeneration";
 import {
     GenerateRandomSeed,
     GetRandomMission,
@@ -16,28 +16,30 @@ import {
     UpdateSpinOverlayMatchStatus,
 } from "../../(streamOverlay)/OverlayActions";
 import { useSpinOptions } from "./useSpinOptions";
-import { SpinIsLegal } from "./utils/SpinCheck";
+import { SpinCheck } from "@/lib/RouletteSpinner/check";
 import {
     SEASON_ONE_MISSIONS,
     SEASON_THREE_MISSIONS,
     SEASON_TWO_MISSIONS,
-    SPIN_MISSION_TARGETS_LIST,
 } from "./utils/SpinGlobals";
 import {
     LockedTargetConditions,
     MatchModeManager,
     MatchSimRecord,
-    Spin,
-    SpinCheckResult,
     SpinManager,
     SpinMode,
-    SpinTarget,
     SpinUpdateAction,
 } from "./types";
-import { Mission } from "@/types";
 import { useLocalState } from "@/utils/useLocalState";
-import { CreateSpinQuery } from "./utils/SpinQuery";
 import Rand from "rand-seed";
+import { CreateSpinQuery } from "@/lib/RouletteSpinner/queryParser";
+import {
+    Mission,
+    Spin,
+    SpinCheckResult,
+    SpinTarget,
+} from "@/lib/RouletteSpinner/types";
+import { MISSION_TARGETS_LIST } from "@/lib/RouletteSpinner/globals";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
@@ -96,7 +98,7 @@ export function useSpinManager(): SpinManager {
             return;
         }
 
-        setSpinIsLegal(SpinIsLegal(currentSpin));
+        setSpinIsLegal(SpinCheck(currentSpin));
 
         if (matchModeEnabled) {
             setMatchActive(false);
@@ -249,7 +251,7 @@ export function useSpinManager(): SpinManager {
             const spin: Spin = GenerateSpin(currentSpin.mission);
             SetCurrentSpin(spin);
         } else {
-            const targets = SPIN_MISSION_TARGETS_LIST[currentSpin.mission];
+            const targets = MISSION_TARGETS_LIST[currentSpin.mission];
             let updatedSpin: Spin = structuredClone(currentSpin);
 
             for (const target of targets) {

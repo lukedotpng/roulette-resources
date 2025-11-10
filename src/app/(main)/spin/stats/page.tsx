@@ -2,12 +2,7 @@
 
 import { Mission } from "@/types";
 import { useState } from "react";
-import { GenerateSpin } from "../utils/SpinGeneration";
-// import { GenerateSpin as CustomGenerateSpin } from "../_components/CustomRulesComponents/CustomRuleSpinGenerator";
-import { GenerateSpin as KillMethodFirstGenerateSpin } from "../utils/AlternateSpinGens/KillMethodFirstSpinGeneration";
-import { GenerateSpin as RespinConditionGenerateSpin } from "../utils/AlternateSpinGens/RespinConditionSpinGeneration";
-// import { GenerateSpin as FullRespinGenerateSpin } from "../utils/FullRespinSpinGeneration";
-// import { GenerateSpin as PartialRespinGenerateSpin } from "../utils/PartialRespinSpinGeneration";
+import { GenerateSpin } from "@/lib/RouletteSpinner/generation";
 
 import MissionSwitcher from "../_components/PoolComponents/MissionSwitcher";
 import SpinStatsSection from "./_components/SpinStatsSection";
@@ -28,31 +23,6 @@ export default function Page() {
                 mission={mission}
                 GenerateSpin={GenerateSpin}
             />
-            {/* <SpinStatsSection
-                title="Custom"
-                mission={mission}
-                GenerateSpin={CustomGenerateSpin}
-            /> */}
-            <SpinStatsSection
-                title="Kill Then Disguise"
-                mission={mission}
-                GenerateSpin={KillMethodFirstGenerateSpin}
-            />
-            <SpinStatsSection
-                title="Respin Condition"
-                mission={mission}
-                GenerateSpin={RespinConditionGenerateSpin}
-            />
-            {/* <SpinStatsSection
-                title="Respin each target on illegal condition"
-                mission={mission}
-                GenerateSpin={PartialRespinGenerateSpin}
-            />
-            <SpinStatsSection
-                title="Respin all targets on illegal spin"
-                mission={mission}
-                GenerateSpin={FullRespinGenerateSpin}
-            /> */}
         </main>
     );
 }

@@ -1,4 +1,5 @@
-import { Spin, SpinTarget } from "@/app/(main)/spin/types";
+import { Spin, SpinTarget } from "@/lib/RouletteSpinner/types";
+
 import { Mission } from "@/types";
 
 export default function TargetSpinCard({

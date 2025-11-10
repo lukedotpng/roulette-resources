@@ -1,4 +1,4 @@
-import { SpinTarget } from "@/app/(main)/spin/types";
+import { SpinTarget } from "@/lib/RouletteSpinner/types";
 import { Mission } from "@/types";
 
 export function MissionIDToDisplayText(mission: string) {

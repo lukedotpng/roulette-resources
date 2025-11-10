@@ -6,12 +6,13 @@ import {
 } from "@/utils/FormattingUtils";
 import { useState } from "react";
 import {
-    MISSION_SPIN_INFO_LIST,
-    SPIN_MISSION_TARGETS_LIST,
+    MISSION_CONDITIONS_MAP,
+    MISSION_TARGETS_LIST,
     TARGET_UNIQUE_KILLS_LIST,
     WEAPONS_WITH_MODIFIERS,
-} from "../../utils/SpinGlobals";
-import { SpinStats, SpinTarget, TargetSpinStats } from "../../types";
+} from "@/lib/RouletteSpinner/globals";
+import { SpinStats, TargetSpinStats } from "../../types";
+import { SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export default function SpinStatsTable({
     stats,
@@ -25,10 +26,10 @@ export default function SpinStatsTable({
     const [weaponsActive, setWeaponsActive] = useState(false);
     const [meleesActive, setMeleesActive] = useState(false);
 
-    const disguises = MISSION_SPIN_INFO_LIST[mission].disguises;
-    const melees = MISSION_SPIN_INFO_LIST[mission].killMethods.melees;
-    let uniqueKills = MISSION_SPIN_INFO_LIST[mission].killMethods.unique_kills;
-    const targets = SPIN_MISSION_TARGETS_LIST[mission];
+    const disguises = MISSION_CONDITIONS_MAP[mission].disguises;
+    const melees = MISSION_CONDITIONS_MAP[mission].killMethods.melees;
+    let uniqueKills = MISSION_CONDITIONS_MAP[mission].killMethods.unique_kills;
+    const targets = MISSION_TARGETS_LIST[mission];
     for (const target of targets) {
         uniqueKills = [...uniqueKills, ...TARGET_UNIQUE_KILLS_LIST[target]];
     }

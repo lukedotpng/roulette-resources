@@ -1,26 +1,26 @@
-import { Mission } from "@/types";
-import { CanBeNTKO } from "./SpinCheck";
+import Rand from "rand-seed";
 import {
-    EXPLOSIVE_KILL_METHOD_LIST,
-    EXPLOSIVE_MODIFIER_PREFIX,
-    LARGE_WEAPON_LIST,
-    MISSION_SPIN_INFO_LIST,
-    SPIN_MISSION_TARGETS_LIST,
-    TARGET_BANNED_KILL_METHODS_LIST,
-    TARGET_UNIQUE_KILLS_LIST,
-} from "./SpinGlobals";
-import {
+    KillMethodType,
+    Mission,
     Spin,
     SpinInfo,
     SpinTarget,
     TargetKillMethods,
-    KillMethodType,
-} from "../types";
-import Rand from "rand-seed";
+} from "./types";
+import {
+    EXPLOSIVE_KILL_METHOD_LIST,
+    EXPLOSIVE_MODIFIER_PREFIX,
+    LARGE_WEAPON_LIST,
+    MISSION_CONDITIONS_MAP,
+    MISSION_TARGETS_LIST,
+    TARGET_BANNED_KILL_METHODS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+} from "./globals";
+import { CanBeNTKO } from "./check";
 
 export function GenerateSpin(mission: Mission, seededRandom: Rand): Spin {
-    const targets = SPIN_MISSION_TARGETS_LIST[mission];
-    const spinInfoOptions = MISSION_SPIN_INFO_LIST[mission];
+    const targets = MISSION_TARGETS_LIST[mission];
+    const spinInfoOptions = MISSION_CONDITIONS_MAP[mission];
 
     const spinInfo: SpinInfo = {};
 

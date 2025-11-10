@@ -1,12 +1,12 @@
 import {
     SpinTips,
-    SpinInfo,
     SpinTipItem,
     SpinTipKill,
     SpinTipDisguise,
     SpinTipDisguiseVideo,
 } from "@/app/(main)/spin/types";
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
+import { SpinInfo } from "@/lib/RouletteSpinner/types";
 import { db } from "@/server/db";
 import {
     DisguiseSchema,

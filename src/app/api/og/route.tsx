@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import SpinInfoSection from "./SpinInfoSection";
 
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
-import { SpinInfo } from "@/app/(main)/spin/types";
+import { SpinInfo } from "@/lib/RouletteSpinner/types";
 
 export async function GET(request: Request) {
     const spinQuery = new URL(request.url).searchParams.get("s") || "";

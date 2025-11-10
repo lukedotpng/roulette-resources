@@ -1,83 +1,14 @@
-import { Mission, Season } from "@/types";
+import {
+    Mission,
+    Spin,
+    SpinCheckResult,
+    SpinTarget,
+} from "@/lib/RouletteSpinner/types";
+import { Season } from "@/types";
 
 export type MissionSpinInfoElement = "disguises" | "killMethods";
 
-export type KillMethodType = "melees" | "weapons" | "unique_kills";
-
-export type TargetKillMethods = {
-    [key in KillMethodType]: string[];
-};
-
-export type TargetBannedKillMethods = {
-    [key in SpinTarget]: string[];
-};
-
-export type MissionSpinOptions = {
-    [key in Mission]: {
-        disguises: string[];
-        killMethods: TargetKillMethods;
-    };
-};
-
-export type SpinTarget =
-    | "viktor_novikov"
-    | "dalia_margolis"
-    | "silvio_caruso"
-    | "francesca_de_santis"
-    | "claus_strandberg"
-    | "reza_zaydan"
-    | "jordan_cross"
-    | "ken_morgan"
-    | "sean_rose"
-    | "ezra_berg"
-    | "penelope_graves"
-    | "maya_parvati"
-    | "erich_soders"
-    | "yuki_yamazaki"
-    | "sierra_knox"
-    | "robert_knox"
-    | "rico_delgado"
-    | "jorge_franco"
-    | "andrea_martinez"
-    | "dawood_rangan"
-    | "vanya_shah"
-    | "wazir_kale"
-    | "janus"
-    | "nolan_cassidy"
-    | "noel_crest"
-    | "sinhi_akka"
-    | "zoe_washington"
-    | "sophia_washington"
-    | "athena_savalas"
-    | "tyson_williams"
-    | "ljudmila_vetrova"
-    | "steven_bradley"
-    | "carl_ingram"
-    | "marcus_stuyvesant"
-    | "alexa_carlisle"
-    | "ica_agent_#1"
-    | "ica_agent_#2"
-    | "ica_agent_#3"
-    | "ica_agent_#4"
-    | "ica_agent_#5"
-    | "hush"
-    | "imogen_royce"
-    | "don_yates"
-    | "tamara_vidal";
-
 export type SpinUpdateAction = "killMethod" | "disguise" | "toggle_ntko";
-
-export type Spin = {
-    mission: Mission;
-    info: SpinInfo;
-};
-export type SpinInfo = {
-    [key in SpinTarget]?: {
-        disguise: string;
-        killMethod: string;
-        ntko: boolean;
-    };
-};
 
 export type SpinMode = "pool" | "queue" | "seeded_queue";
 
@@ -176,24 +107,12 @@ export type SpinQuery = {
     UpdateQuery: (spin: Spin) => void;
 };
 
-export type SpinMissionTargets = {
-    [key in Mission]: readonly SpinTarget[];
-};
-
-export type TargetUniqueKills = {
-    [key in SpinTarget]: string[];
-};
-
 export type MissionPoolOptions = {
     [key in Mission]: boolean;
 };
 
 export type SeasonPoolSelected = {
     [key in Season]: boolean;
-};
-
-export type MissionDisguises = {
-    [key in Mission]: string[];
 };
 
 export type SpinTipItem = {
@@ -251,20 +170,6 @@ export type FocusedSpinTip =
           data: SpinTipKill;
       }
     | null;
-
-export type SpinIllegalReason =
-    | "error_checking_legality"
-    | "repeat_kill_method"
-    | "repeat_disguise"
-    | "condition_banned"
-    | "kill_method_banned_with_disguise"
-    | "illegal_ntko";
-
-export type SpinCheckResult = {
-    legal: boolean;
-    reason?: SpinIllegalReason;
-    reason_info?: string;
-};
 
 export type DisguiseStats = {
     disguise: string;

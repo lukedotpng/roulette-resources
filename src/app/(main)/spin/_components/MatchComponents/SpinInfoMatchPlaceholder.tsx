@@ -1,6 +1,6 @@
 import { Mission } from "@/types";
-import { SPIN_MISSION_TARGETS_LIST } from "../../utils/SpinGlobals";
 import { SpinTheme } from "../../types";
+import { MISSION_TARGETS_LIST } from "@/lib/RouletteSpinner/globals";
 
 export default function SpinInfoMatchPlaceholder({
     mission,
@@ -9,7 +9,7 @@ export default function SpinInfoMatchPlaceholder({
     mission: Mission;
     layoutMode: SpinTheme;
 }) {
-    const targets = SPIN_MISSION_TARGETS_LIST[mission];
+    const targets = MISSION_TARGETS_LIST[mission];
 
     return (
         <section

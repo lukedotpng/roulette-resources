@@ -1,25 +1,26 @@
-import { Mission } from "@/types";
-import { CanBeNTKO } from "./SpinCheck";
+import { CanBeNTKO } from "./check";
 import {
     EXPLOSIVE_KILL_METHOD_LIST,
     EXPLOSIVE_MODIFIER_PREFIX,
     LARGE_WEAPON_LIST,
-    MISSION_SPIN_INFO_LIST,
-    SPIN_MISSION_TARGETS_LIST,
+    MISSION_CONDITIONS_MAP,
+    MISSION_TARGETS_LIST,
     TARGET_BANNED_KILL_METHODS_LIST,
     TARGET_UNIQUE_KILLS_LIST,
-} from "./SpinGlobals";
+} from "./globals";
+
 import {
+    KillMethodType,
+    Mission,
     Spin,
     SpinInfo,
     SpinTarget,
     TargetKillMethods,
-    KillMethodType,
-} from "../types";
+} from "./types";
 
 export function GenerateSpin(mission: Mission): Spin {
-    const targets = SPIN_MISSION_TARGETS_LIST[mission];
-    const spinInfoOptions = MISSION_SPIN_INFO_LIST[mission];
+    const targets = MISSION_TARGETS_LIST[mission];
+    const spinInfoOptions = MISSION_CONDITIONS_MAP[mission];
 
     const spinInfo: SpinInfo = {};
 
@@ -396,7 +397,7 @@ function GetLegalWeapons(
 }
 
 export function RegenerateKillMethod(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MISSION_SPIN_INFO_LIST[spin.mission];
+    const spinInfoOptions = MISSION_CONDITIONS_MAP[spin.mission];
     const updatedSpin = structuredClone(spin);
 
     const conditionsSpun: string[] = [];
@@ -437,7 +438,7 @@ export function RegenerateKillMethod(spin: Spin, target: SpinTarget): Spin {
 }
 
 export function RegenerateDisguise(spin: Spin, target: SpinTarget): Spin {
-    const spinInfoOptions = MISSION_SPIN_INFO_LIST[spin.mission];
+    const spinInfoOptions = MISSION_CONDITIONS_MAP[spin.mission];
 
     const updatedSpin = structuredClone(spin);
 

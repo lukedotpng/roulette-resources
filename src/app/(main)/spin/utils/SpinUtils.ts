@@ -1,6 +1,7 @@
 import { Mission } from "@/types";
 import { MISSIONS } from "@/utils/globals";
-import { HitmapsSpin, Spin, SpinTarget } from "../types";
+import { HitmapsSpin } from "../types";
+import { Spin, SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export function GetRandomMission(missionPool: Mission[]): Mission {
     if (!missionPool || missionPool.length === 0) {

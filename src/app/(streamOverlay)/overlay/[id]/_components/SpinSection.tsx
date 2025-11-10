@@ -7,7 +7,7 @@ import LargeMaps from "./LargeMaps";
 import Berlin from "./Berlin";
 import TextOnly from "./TextOnly";
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
-import { Spin } from "@/app/(main)/spin/types";
+import { Spin } from "@/lib/RouletteSpinner/types";
 
 export default function SpinSection({
     id,

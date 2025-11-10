@@ -1,14 +1,15 @@
 import { MISSIONS } from "@/utils/globals";
 import MainSection from "./_components/MainSection";
 import { Metadata } from "next";
-import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
+import { GetSpinFromQuery } from "./utils/SpinQuery";
 import {
     DisguiseIDToDisplayText,
     MethodIDToDisplayText,
     MissionIDToDisplayText,
     TargetIDToDisplayText,
 } from "@/utils/FormattingUtils";
-import { SpinInfo, SpinTarget } from "./types";
+import { CreateSpinQuery } from "@/lib/RouletteSpinner/queryParser";
+import { SpinInfo, SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export async function generateMetadata({
     searchParams,

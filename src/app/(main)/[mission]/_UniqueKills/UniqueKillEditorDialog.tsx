@@ -34,13 +34,14 @@ import {
     ListsToggle,
     MDXEditorMethods,
 } from "@mdxeditor/editor";
+
+import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
+import { MISSION_TARGET_LIST } from "@/utils/globals";
 import {
     TARGET_BANNED_KILL_METHODS_LIST,
     TARGET_UNIQUE_KILLS_LIST,
-} from "@/app/(main)/spin/utils/SpinGlobals";
-import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
-import { MISSION_TARGET_LIST } from "@/utils/globals";
-import { SpinTarget } from "../../spin/types";
+} from "@/lib/RouletteSpinner/globals";
+import { SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export default function UniqueKillEditorDialog({
     uniqueKill,

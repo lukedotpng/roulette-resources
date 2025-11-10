@@ -7,7 +7,7 @@ import {
 } from "@/utils/FormattingUtils";
 import Image from "next/image";
 import DefaultThemeTimer from "./DefaultThemeTimer";
-import { Spin, SpinInfo } from "@/app/(main)/spin/types";
+import { Spin, SpinInfo } from "@/lib/RouletteSpinner/types";
 
 export default function Berlin({
     spin,

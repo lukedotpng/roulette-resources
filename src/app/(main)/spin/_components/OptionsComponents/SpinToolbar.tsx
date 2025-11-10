@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { HitmapsSpin, Spin, SpinManager } from "../../types";
+import { HitmapsSpin, SpinManager } from "../../types";
 import MatchSimLog from "../MatchComponents/MatchSimLog";
 import MissionPoolSelection from "../PoolComponents/MissionPoolSelection";
 import MissionQueueSelection from "../QueueComponents/MissionQueueSelection";
@@ -7,6 +7,7 @@ import SpinOptionsSection from "./SpinOptionsSection";
 import { GenerateRandomSeed, HitmapsSpinParse } from "../../utils/SpinUtils";
 import useSWR from "swr";
 import Link from "next/link";
+import { Spin } from "@/lib/RouletteSpinner/types";
 
 export default function SpinToolbar({
     spinManager,

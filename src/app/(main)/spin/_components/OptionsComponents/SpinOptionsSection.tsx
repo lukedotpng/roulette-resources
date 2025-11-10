@@ -9,8 +9,9 @@ import {
 import { useState } from "react";
 import SpinOptionsToggle from "./SpinOptionsToggle";
 import SpinOptionsChoiceSelector from "./SpinOptionsChoiceSelector";
-import { CreateSpinQuery } from "../../utils/SpinQuery";
-import { SpinOptions, Spin } from "../../types";
+import { SpinOptions } from "../../types";
+import { Spin } from "@/lib/RouletteSpinner/types";
+import { CreateSpinQuery } from "@/lib/RouletteSpinner/queryParser";
 
 export default function SpinOptionsSection({
     options,

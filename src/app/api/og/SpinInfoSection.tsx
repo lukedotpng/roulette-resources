@@ -1,4 +1,4 @@
-import { Spin, SpinInfo } from "@/app/(main)/spin/types";
+import { Spin, SpinInfo } from "@/lib/RouletteSpinner/types";
 import TargetSpinCard from "./TargetSpinCard";
 
 export default function SpinInfoSection({ spin }: { spin: Spin }) {

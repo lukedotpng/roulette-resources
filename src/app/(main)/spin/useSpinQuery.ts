@@ -1,10 +1,12 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CreateSpinQuery, GetSpinFromQuery } from "./utils/SpinQuery";
-import { MatchModeManager, Spin, SpinOptions } from "./types";
+import { GetSpinFromQuery } from "./utils/SpinQuery";
+import { MatchModeManager, SpinOptions } from "./types";
 import { Mission } from "@/types";
-import { GenerateSpin } from "./utils/SpinGeneration";
 import { GetRandomMission } from "./utils/SpinUtils";
+import { Spin } from "@/lib/RouletteSpinner/types";
+import { GenerateSpin } from "@/lib/RouletteSpinner/generation";
+import { CreateSpinQuery } from "@/lib/RouletteSpinner/queryParser";
 
 export function useSpinQuery(
     currentSpin: Spin | null,

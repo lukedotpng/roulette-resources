@@ -10,10 +10,7 @@ import {
 import { MethodIDToDisplayText } from "@/utils/FormattingUtils";
 import UniqueKillEditorDialog from "./UniqueKillEditorDialog";
 import UniqueKillCard from "./UniqueKillCard";
-import {
-    TARGET_BANNED_KILL_METHODS_LIST,
-    TARGET_UNIQUE_KILLS_LIST,
-} from "@/app/(main)/spin/utils/SpinGlobals";
+
 import BerlinUniqueKillCard from "./BerlinUniqueKillCard";
 import {
     DropdownMenu,
@@ -21,8 +18,12 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import { SpinTarget } from "@/app/(main)/spin/types";
 import InfoSection from "../_components/InfoSection";
+import {
+    TARGET_BANNED_KILL_METHODS_LIST,
+    TARGET_UNIQUE_KILLS_LIST,
+} from "@/lib/RouletteSpinner/globals";
+import { SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export default function UniqueKillsSection({
     mission,

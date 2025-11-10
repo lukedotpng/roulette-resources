@@ -10,12 +10,8 @@ import Image from "next/image";
 import TargetSpinCardRow from "./TargetSpinCardRow";
 import SpinEditorDialog from "../EditorComponents/SpinEditorDialog";
 import { useState } from "react";
-import {
-    SpinTarget,
-    SpinUpdateAction,
-    Spin,
-    LockedTargetConditions,
-} from "../../types";
+import { SpinUpdateAction, LockedTargetConditions } from "../../types";
+import { Spin, SpinTarget } from "@/lib/RouletteSpinner/types";
 
 export default function TargetSpinCard({
     spin,
