@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { TimingsFlashcardSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import z from "zod";
 
@@ -68,7 +68,7 @@ export async function CreateTimingsFlashcardAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(formParsed.data.mission + "timingsFlashcard");
     return { success: true };
 }
 
@@ -118,7 +118,7 @@ export async function UpdateTimingsFlashcardAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(formParsed.data.mission + "timingsFlashcard");
 
     return { success: true };
 }

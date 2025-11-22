@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { TechSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import z from "zod";
 
@@ -72,7 +72,7 @@ export async function CreateTechAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(formParsed.data.mission + "tech");
     return { success: true };
 }
 
@@ -121,11 +121,13 @@ export async function UpdateTechAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(formParsed.data.mission + "tech");
     return { success: true };
 }
 
+// TODO: ADD TRY/CATCH
 export async function DeleteTechAction(
+    mission: string,
     techId: string,
 ): Promise<ActionResponse> {
     const session = await auth();
@@ -139,6 +141,6 @@ export async function DeleteTechAction(
         .set({ visible: false, updated_at: new Date() })
         .where(eq(TechSchema.id, techId));
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(mission + "tech");
     return { success: true };
 }

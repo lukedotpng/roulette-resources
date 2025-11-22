@@ -1,4 +1,4 @@
-import { DisguiseSelect, DisguiseVideoSelect } from "@/types";
+import { DisguiseSelect, DisguiseVideoSelect, Mission } from "@/types";
 
 import DisguiseVideo from "./DisguiseVideo";
 
@@ -34,6 +34,7 @@ export default function DisguiseCard({
                     {disguiseVideos.map((disguiseVideo) => (
                         <DisguiseVideo
                             key={disguiseVideo.id}
+                            mission={disguise.mission as Mission}
                             disguiseVideo={disguiseVideo}
                             SetEditDialogActive={SetEditDialogActive}
                         />

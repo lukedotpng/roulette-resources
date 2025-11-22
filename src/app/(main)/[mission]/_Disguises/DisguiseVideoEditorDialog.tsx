@@ -107,6 +107,13 @@ export default function DisguiseVideoEditorDialog({
                                 className="w-full border-2 border-zinc-900 p-1"
                                 id="hitmaps_link"
                             />
+                            {/* Hidden field for Disguise Mission */}
+                            <input
+                                hidden
+                                readOnly
+                                name="mission"
+                                value={disguise.mission}
+                            />
                             {/* Hidden field for Disguise Video ID */}
                             <input
                                 hidden

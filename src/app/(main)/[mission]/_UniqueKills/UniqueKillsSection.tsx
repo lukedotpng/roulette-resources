@@ -186,6 +186,7 @@ export default function UniqueKillsSection({
                 <div className="flex w-full justify-center gap-2 sm:gap-2">
                     {mission !== "berlin" ? (
                         <UniqueKillCard
+                            mission={mission}
                             targets={targets}
                             uniqueKills={listedUniqueKills}
                             handleUniqueKillEditTrigger={
@@ -194,6 +195,7 @@ export default function UniqueKillsSection({
                         />
                     ) : (
                         <BerlinUniqueKillCard
+                            mission={mission}
                             uniqueKills={listedUniqueKills}
                             handleUniqueKillEditTrigger={
                                 HandleUniqueKillEditTrigger
