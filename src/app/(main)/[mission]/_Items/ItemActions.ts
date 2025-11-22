@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { ItemSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import postgres from "postgres";
 
 import z from "zod";
@@ -21,6 +21,7 @@ const createItemScheme = z.object({
 
 const updateItemScheme = z.object({
     id: z.string().min(1),
+    mission: z.string().min(1),
     name: z.string().min(1),
     quick_look: z.string().min(0),
     hitmaps_link: z.string(),
@@ -83,7 +84,7 @@ export async function CreateItemAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(formParsed.data.mission + "items");
     return { success: true };
 }
 
@@ -100,6 +101,7 @@ export async function UpdateItemAction(
 
     const formParsed = updateItemScheme.safeParse({
         id: formData.get("id"),
+        mission: formData.get("mission"),
         name: formData.get("name"),
         quick_look: formData.get("quick_look"),
         hitmaps_link: formData.get("hitmaps_link"),
@@ -134,6 +136,6 @@ export async function UpdateItemAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/", "page");
+    revalidateTag(formParsed.data.mission + "items");
     return { success: true };
 }

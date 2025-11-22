@@ -1,4 +1,4 @@
-import { DisguiseVideoSelect } from "@/types";
+import { DisguiseVideoSelect, Mission } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -15,9 +15,11 @@ import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 
 export default function DisguiseVideo({
+    mission,
     disguiseVideo,
     SetEditDialogActive,
 }: {
+    mission: Mission;
     disguiseVideo: DisguiseVideoSelect;
     SetEditDialogActive: (
         updatedEditDialogActive: boolean,
@@ -120,6 +122,7 @@ export default function DisguiseVideo({
                                         className="flex-1 rounded-br-lg border-t-2 border-l-1 border-zinc-900 bg-white p-2 text-zinc-900 hover:bg-red-500 hover:text-white"
                                         onClick={async () =>
                                             await DeleteDisguiseVideoAction(
+                                                mission,
                                                 disguiseVideo.id,
                                             )
                                         }

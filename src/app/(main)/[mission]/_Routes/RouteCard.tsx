@@ -122,6 +122,7 @@ export default function RouteCard({
                                             className="flex-1 rounded-br-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                             onClick={async () => {
                                                 await DeleteRouteAction(
+                                                    route.mission,
                                                     route.id,
                                                 );
                                             }}

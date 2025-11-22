@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { IsolationSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import z from "zod";
 
@@ -76,7 +76,7 @@ export async function CreateIsolationAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/targets", "page");
+    revalidateTag(formParsed.data.mission + "isolations");
     return { success: true };
 }
 
@@ -129,11 +129,12 @@ export async function UpdateIsolationAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/targets", "page");
+    revalidateTag(formParsed.data.mission + "isolations");
     return { success: true };
 }
 
 export async function DeleteIsolationAction(
+    mission: string,
     isolationId: string,
 ): Promise<ActionResponse> {
     const session = await auth();
@@ -169,6 +170,6 @@ export async function DeleteIsolationAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/targets", "page");
+    revalidateTag(mission + "isolations");
     return { success: true };
 }

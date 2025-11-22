@@ -1,4 +1,4 @@
-import { Target, UniqueKillSelect } from "@/types";
+import { Mission, Target, UniqueKillSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -14,10 +14,12 @@ import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
 import { DeleteUniqueKillAction } from "./UniqueKillActions";
 
 export default function UniqueKillCard({
+    mission,
     targets,
     uniqueKills,
     handleUniqueKillEditTrigger,
 }: {
+    mission: Mission;
     targets: readonly Target[];
     uniqueKills: UniqueKillSelect[];
     handleUniqueKillEditTrigger: (
@@ -227,6 +229,7 @@ export default function UniqueKillCard({
                                 onClick={async () => {
                                     if (uniqueKillIdToDelete) {
                                         await DeleteUniqueKillAction(
+                                            mission,
                                             uniqueKillIdToDelete,
                                         );
                                     }

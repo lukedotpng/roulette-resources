@@ -1,4 +1,4 @@
-import { UniqueKillSelect } from "@/types";
+import { Mission, UniqueKillSelect } from "@/types";
 import {
     Dialog,
     DialogPortal,
@@ -13,9 +13,11 @@ import { UniqueKillToMarkdown } from "@/utils/OldInfoToMarkdown";
 import { DeleteUniqueKillAction } from "./UniqueKillActions";
 
 export default function BerlinUniqueKillCard({
+    mission,
     uniqueKills,
     handleUniqueKillEditTrigger,
 }: {
+    mission: Mission;
     uniqueKills: UniqueKillSelect[];
     handleUniqueKillEditTrigger: (
         uniqueKill: UniqueKillSelect,
@@ -146,6 +148,7 @@ export default function BerlinUniqueKillCard({
                                                         className="flex-1 rounded-br-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                                         onClick={async () => {
                                                             await DeleteUniqueKillAction(
+                                                                mission,
                                                                 uniqueKillMethod.id,
                                                             );
                                                             setDeleteUniqueKillConfirmationOpen(

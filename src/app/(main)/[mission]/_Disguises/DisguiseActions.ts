@@ -5,11 +5,12 @@ import { db } from "@/server/db";
 import { DisguiseVideoSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import z from "zod";
 
 const zodUpdateDisguiseVideoScheme = z.object({
+    mission: z.string(),
     video_id: z.string(),
     disguise_id: z.string(),
     link: z.string().url(),
@@ -17,6 +18,7 @@ const zodUpdateDisguiseVideoScheme = z.object({
 });
 
 const zodNewDisguiseVideoScheme = z.object({
+    mission: z.string(),
     disguise_id: z.string(),
     link: z.string().url(),
     notes: z.string(),
@@ -32,6 +34,7 @@ export async function UpdateDisguiseVideoAction(
     }
 
     const formParsed = zodUpdateDisguiseVideoScheme.safeParse({
+        mission: formData.get("mission"),
         video_id: formData.get("video_id"),
         disguise_id: formData.get("disguise_id"),
         link: formData.get("link"),
@@ -73,7 +76,7 @@ export async function UpdateDisguiseVideoAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/disguises", "page");
+    revalidateTag(formParsed.data.mission + "disguises");
     return { success: true };
 }
 
@@ -87,6 +90,7 @@ export async function NewDisguiseVideoAction(
     }
 
     const formParsed = zodNewDisguiseVideoScheme.safeParse({
+        mission: formData.get("mission"),
         disguise_id: formData.get("disguise_id"),
         link: formData.get("link"),
         notes: formData.get("notes"),
@@ -125,11 +129,12 @@ export async function NewDisguiseVideoAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/disguises", "page");
+    revalidateTag(formParsed.data.mission + "disguises");
     return { success: true };
 }
 
 export async function DeleteDisguiseVideoAction(
+    mission: string,
     disguiseVideoId: string,
 ): Promise<ActionResponse> {
     const session = await auth();
@@ -165,6 +170,6 @@ export async function DeleteDisguiseVideoAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/disguises", "page");
+    revalidateTag(mission + "disguises");
     return { success: true };
 }

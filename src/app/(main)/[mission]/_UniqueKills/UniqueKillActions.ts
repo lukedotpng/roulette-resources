@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { UniqueKillSchema, UpdateLogSchema } from "@/server/db/schema";
 import { ActionResponse } from "@/types";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import z from "zod";
 
@@ -79,7 +79,7 @@ export async function CreateUniqueKillAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/targets", "page");
+    revalidateTag(formParsed.data.mission + "uniqueKills");
     return { success: true };
 }
 
@@ -134,11 +134,12 @@ export async function UpdateUniqueKillAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/targets", "page");
+    revalidateTag(formParsed.data.mission + "uniqueKills");
     return { success: true };
 }
 
 export async function DeleteUniqueKillAction(
+    mission: string,
     uniqueKillId: string,
 ): Promise<ActionResponse> {
     const session = await auth();
@@ -171,6 +172,6 @@ export async function DeleteUniqueKillAction(
         console.error("ERROR UPDATING LOG: This feels ironic");
     }
 
-    revalidatePath("/[mission]/targets", "page");
+    revalidateTag(mission + "uniqueKills");
     return { success: true };
 }

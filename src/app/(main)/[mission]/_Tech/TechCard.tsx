@@ -121,7 +121,10 @@ export default function TechCard({
                                         <button
                                             className="flex-1 rounded-br-lg bg-white p-3 text-zinc-900 hover:bg-red-500 hover:text-white"
                                             onClick={async () => {
-                                                await DeleteTechAction(tech.id);
+                                                await DeleteTechAction(
+                                                    tech.mission,
+                                                    tech.id,
+                                                );
                                             }}
                                         >
                                             Delete

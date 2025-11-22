@@ -139,6 +139,7 @@ export default function IsolationCard({
                                             onClick={async () => {
                                                 const res =
                                                     await DeleteIsolationAction(
+                                                        isolation.mission,
                                                         isolation.id,
                                                     );
                                                 if (!res.success) {
