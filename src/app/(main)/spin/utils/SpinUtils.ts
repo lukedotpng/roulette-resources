@@ -130,8 +130,6 @@ function HitmapsKillMethodParse(killMethod: string, variant: string | null) {
         // MENDOZA
     }
 
-    console.log("killMethod:", killMethod);
-    console.log("variant:", variant);
     let killMethodFormatted = killMethod.toLowerCase();
     killMethodFormatted = killMethodFormatted.replaceAll(/[^0-9a-zA-Z ]+/g, "");
     killMethodFormatted = killMethodFormatted.replaceAll(" ", "_");
