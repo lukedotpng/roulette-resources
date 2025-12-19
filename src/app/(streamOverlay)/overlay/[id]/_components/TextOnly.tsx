@@ -10,11 +10,11 @@ import { Spin, SpinInfo } from "@/lib/RouletteSpinner/types";
 export default function TextOnly({
     spin,
     startTime,
-    matchActive,
+    showSpinTimer,
 }: {
     spin: Spin;
     startTime: number;
-    matchActive: boolean;
+    showSpinTimer: boolean;
 }) {
     return (
         <main
@@ -52,7 +52,10 @@ export default function TextOnly({
                     </div>
                 );
             })}
-            <TextThemeTimer startTime={startTime} matchActive={matchActive} />
+            <TextThemeTimer
+                startTime={startTime}
+                showSpinTimer={showSpinTimer}
+            />
         </main>
     );
 }

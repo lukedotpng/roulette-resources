@@ -3,10 +3,10 @@ import { useEffect, useRef } from "react";
 
 export default function DefaultThemeTimer({
     startTime,
-    matchActive,
+    showSpinTimer,
 }: {
     startTime: number;
-    matchActive: boolean;
+    showSpinTimer: boolean;
 }) {
     const intervalRef = useRef<NodeJS.Timeout>(null);
 
@@ -18,7 +18,7 @@ export default function DefaultThemeTimer({
             return;
         }
 
-        if (!matchActive) {
+        if (!showSpinTimer) {
             exactTime.current = Date.now() - startTime;
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
@@ -46,9 +46,9 @@ export default function DefaultThemeTimer({
         return () => {
             clearInterval(id);
         };
-    }, [matchActive, startTime]);
+    }, [showSpinTimer, startTime]);
 
-    if (startTime === -1 || !matchActive) {
+    if (startTime === -1 || !showSpinTimer) {
         return;
     }
 

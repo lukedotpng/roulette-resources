@@ -12,11 +12,11 @@ import { Spin, SpinInfo } from "@/lib/RouletteSpinner/types";
 export default function Berlin({
     spin,
     startTime,
-    matchActive,
+    showSpinTimer,
 }: {
     spin: Spin;
     startTime: number;
-    matchActive: boolean;
+    showSpinTimer: boolean;
 }) {
     return (
         <main
@@ -110,7 +110,7 @@ export default function Berlin({
             })}
             <DefaultThemeTimer
                 startTime={startTime}
-                matchActive={matchActive}
+                showSpinTimer={showSpinTimer}
             />
         </main>
     );

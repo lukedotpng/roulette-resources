@@ -1,6 +1,5 @@
 "use client";
 
-import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 import SmallMaps from "./SmallMaps";
 import LargeMaps from "./LargeMaps";
@@ -9,62 +8,45 @@ import TextOnly from "./TextOnly";
 import { GetSpinFromQuery } from "@/app/(main)/spin/utils/SpinQuery";
 import { Spin } from "@/lib/RouletteSpinner/types";
 
-export default function SpinSection({
-    id,
-    initialQuery,
-    initialTheme,
-}: {
-    id: string;
-    initialQuery: string;
-    initialTheme: string;
-}) {
-    // const [query, setQuery] = useState(initialQuery);
-    const [spin, setSpin] = useState<Spin | null>(
-        GetSpinFromQuery(initialQuery, false),
-    );
-    const [theme, setTheme] = useState(initialTheme);
-    const [startTime, setStartTime] = useState<number>(-1);
-    const [matchActive, setMatchActive] = useState(false);
+export default function SpinSection({ id }: { id: string }) {
+    const [spin, setSpin] = useState<Spin>();
+    const [theme, setTheme] = useState("default");
+    const [startTime, setStartTime] = useState(-1);
+    const [showSpinTimer, setShowSpinTimer] = useState(false);
+
+    function onOpen(event: Event) {
+        console.log("Connected to overlay server");
+    }
+    function onMessage(event: MessageEvent) {
+        const messageData = JSON.parse(event.data);
+        if (messageData) {
+            if (messageData["spin_query"]) {
+                const spin = GetSpinFromQuery(messageData["spin_query"], false);
+                if (spin) {
+                    setSpin(spin);
+                }
+            }
+            if (messageData["spin_theme"]) {
+                setTheme(messageData["spin_theme"]);
+            }
+            if (messageData["spin_start_time"]) {
+                setStartTime(messageData["spin_start_time"]);
+            }
+            if (messageData["show_spin_timer"]) {
+                console.log(messageData["show_spin_timer"]);
+                setShowSpinTimer(messageData["show_spin_timer"]);
+            }
+        }
+    }
 
     useEffect(() => {
-        const channel = supabase
-            .channel("overlay-" + id)
-            .on(
-                "postgres_changes",
-                {
-                    event: "UPDATE",
-                    schema: "public",
-                    table: "roulette-resources-overlays",
-                    filter: `id=eq.${id}`,
-                },
-                (payload) => {
-                    const newQuery = payload.new["spin_query"];
-                    const newTheme = payload.new["theme"];
-                    const startTime = payload.new["spin_start_time"];
-                    const matchActive = payload.new["match_active"];
-
-                    console.log(payload.new);
-
-                    if (newQuery) {
-                        // setQuery(newQuery);
-                        setTheme(newTheme);
-                        setSpin(GetSpinFromQuery(newQuery, false));
-                    }
-
-                    if (startTime) {
-                        setStartTime(startTime);
-                    }
-                    if (matchActive !== undefined) {
-                        setMatchActive(matchActive);
-                    } else {
-                        setMatchActive(false);
-                    }
-                },
-            )
-            .subscribe();
+        const socket = new WebSocket("ws://localhost:8080/" + id);
+        socket.addEventListener("open", onOpen);
+        socket.addEventListener("message", onMessage);
 
         return () => {
-            supabase.removeChannel(channel);
+            socket.removeEventListener("open", onOpen);
+            socket.removeEventListener("message", onMessage);
         };
     }, [id]);
 
@@ -77,7 +59,7 @@ export default function SpinSection({
             <TextOnly
                 spin={spin}
                 startTime={startTime}
-                matchActive={matchActive}
+                showSpinTimer={showSpinTimer}
             />
         );
     }
@@ -87,7 +69,7 @@ export default function SpinSection({
             <Berlin
                 spin={spin}
                 startTime={startTime}
-                matchActive={matchActive}
+                showSpinTimer={showSpinTimer}
             />
         );
     } else if (Object.keys(spin.info).length > 2) {
@@ -95,7 +77,7 @@ export default function SpinSection({
             <LargeMaps
                 spin={spin}
                 startTime={startTime}
-                matchActive={matchActive}
+                showSpinTimer={showSpinTimer}
             />
         );
     } else {
@@ -103,7 +85,7 @@ export default function SpinSection({
             <SmallMaps
                 spin={spin}
                 startTime={startTime}
-                matchActive={matchActive}
+                showSpinTimer={showSpinTimer}
             />
         );
     }

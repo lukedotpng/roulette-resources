@@ -14,11 +14,11 @@ import { Spin, SpinInfo } from "@/lib/RouletteSpinner/types";
 export default function SmallMaps({
     spin,
     startTime,
-    matchActive,
+    showSpinTimer,
 }: {
     spin: Spin;
     startTime: number;
-    matchActive: boolean;
+    showSpinTimer: boolean;
 }) {
     return (
         <main
@@ -125,7 +125,7 @@ export default function SmallMaps({
             })}
             <DefaultThemeTimer
                 startTime={startTime}
-                matchActive={matchActive}
+                showSpinTimer={showSpinTimer}
             />
         </main>
     );
