@@ -21,7 +21,7 @@ export default function Berlin({
     return (
         <main
             id="container"
-            className="relative flex h-[600px] w-[1300px] flex-wrap justify-end text-sm"
+            className="relative flex h-[600px] w-[1300px] flex-wrap justify-end"
         >
             {(Object.keys(spin.info) as (keyof SpinInfo)[]).map((target) => {
                 const targetSpinInfo = spin.info[target];
@@ -34,84 +34,84 @@ export default function Berlin({
                         key={target}
                         className="h-[300px] w-[433px] text-white"
                     >
-                        <div className="flex h-full w-full flex-col">
-                            <h1 className="w-full bg-white py-1 text-center text-[2em] font-bold text-zinc-900">
-                                {TargetIDToDisplayText(target)}
-                            </h1>
+                        <h1 className="h-[40px] w-full bg-white text-center text-[1.8em] leading-[40px] font-bold text-zinc-900">
+                            {TargetIDToDisplayText(target)}
+                        </h1>
+                        <div className="flex h-[260px] w-full flex-col">
+                            <BerlinConditionRow
+                                conditionType={"Method"}
+                                conditionDisplayText={MethodIDToDisplayText(
+                                    targetSpinInfo.killMethod,
+                                )}
+                                imageUrl={MethodImagePathFormatter(
+                                    targetSpinInfo.killMethod,
+                                    target,
+                                )}
+                                ntkoBannerShown={targetSpinInfo.ntko}
+                            />
                             {targetSpinInfo.ntko && (
-                                <div className="w-full bg-red-500 py-0.5 text-center text-[1.75em] font-bold">
-                                    <span className="decoration-2">
-                                        No Target Pacification
-                                    </span>
-                                </div>
+                                <p className="h-[12%] w-full bg-red-500 text-center text-[1.5em] leading-[31.2px] font-bold">
+                                    No Target Pacification
+                                </p>
                             )}
-                            <div className="flex flex-1 items-center justify-between bg-zinc-900">
-                                <div className="flex h-full w-full flex-col items-start justify-center p-2">
-                                    <div className="px-1">
-                                        <p className="text-[1.5em] font-bold underline decoration-red-500 decoration-2">
-                                            {"Method"}
-                                        </p>
-                                        <h1 className="flex-1 text-[2em] font-bold">
-                                            {MethodIDToDisplayText(
-                                                targetSpinInfo.killMethod,
-                                            ) ?? "No Method"}
-                                        </h1>
-                                    </div>
-                                </div>
-                                <Image
-                                    src={MethodImagePathFormatter(
-                                        targetSpinInfo.killMethod ||
-                                            "No Method",
-                                        target,
-                                    )}
-                                    alt={
-                                        MethodIDToDisplayText(
-                                            targetSpinInfo.killMethod,
-                                        ) ?? "No Method"
-                                    }
-                                    width={693}
-                                    height={517}
-                                    quality={50}
-                                    className="h-full w-[30%] border-l-2 border-white object-cover object-center"
-                                />
-                            </div>
-                            <div className="flex flex-1 items-center justify-between border-t-[1px] border-white bg-zinc-900">
-                                <div className="flex h-full w-full flex-col items-start justify-center p-2">
-                                    <div className="px-1">
-                                        <p className="text-[1.5em] font-bold underline decoration-red-500 decoration-2">
-                                            {"Disguise"}
-                                        </p>
-                                        <h1 className="flex-1 text-[2em] font-bold">
-                                            {DisguiseIDToDisplayText(
-                                                targetSpinInfo.disguise,
-                                            ) ?? "No Disguise"}
-                                        </h1>
-                                    </div>
-                                </div>
-                                <Image
-                                    src={DisguiseImagePathFormatter(
-                                        targetSpinInfo.disguise || "No Method",
-                                        spin.mission,
-                                    )}
-                                    alt={
-                                        DisguiseIDToDisplayText(
-                                            targetSpinInfo.killMethod,
-                                        ) ?? "No Method"
-                                    }
-                                    width={693}
-                                    height={517}
-                                    quality={10}
-                                    className="h-full w-[30%] border-l-2 border-white object-cover object-center"
-                                />
-                            </div>
+                            <BerlinConditionRow
+                                conditionType={"Disguise"}
+                                conditionDisplayText={DisguiseIDToDisplayText(
+                                    targetSpinInfo.disguise,
+                                )}
+                                imageUrl={DisguiseImagePathFormatter(
+                                    targetSpinInfo.disguise,
+                                    spin.mission,
+                                )}
+                                ntkoBannerShown={targetSpinInfo.ntko}
+                            />
                         </div>
                     </div>
                 );
             })}
-            <DefaultThemeTimer
-                startTime={startTime}
-                showSpinTimer={showSpinTimer}
-            />
+            <div className="absolute top-[300px] left-0 w-[433px]">
+                <DefaultThemeTimer
+                    startTime={startTime}
+                    showSpinTimer={showSpinTimer}
+                />
+            </div>
         </main>
+    );
+}
+
+function BerlinConditionRow({
+    conditionType,
+    conditionDisplayText,
+    imageUrl,
+    ntkoBannerShown,
+}: {
+    conditionType: "Method" | "Disguise";
+    conditionDisplayText: string;
+    imageUrl: string;
+    ntkoBannerShown: boolean;
+}) {
+    return (
+        <div
+            data-ntkoshown={ntkoBannerShown}
+            data-toprow={conditionType === "Method"}
+            className="group flex w-full items-center justify-between border-white bg-zinc-900 data-[ntkoshown=false]:h-1/2 data-[ntkoshown=true]:h-[44%]"
+        >
+            <div className="flex h-full w-[70%] flex-col items-start justify-center px-1 group-data-[ntkoshown=false]:group-data-[toprow=false]:border-t group-data-[ntkoshown=false]:group-data-[toprow=true]:border-b">
+                <p className="text-[1.3em] font-bold underline decoration-red-500 decoration-2">
+                    {conditionType}
+                </p>
+                <h1 className="text-[1.6em] font-bold">
+                    {conditionDisplayText}
+                </h1>
+            </div>
+            <Image
+                src={imageUrl}
+                alt={conditionDisplayText}
+                width={693}
+                height={517}
+                quality={10}
+                className="h-full w-[30%] object-cover object-center"
+            />
+        </div>
     );
 }

@@ -11,13 +11,9 @@ export default function TextThemeTimer({
     const intervalRef = useRef<NodeJS.Timeout>(null);
 
     const exactTime = useRef<number>(null);
-    const matchTimerRef = useRef<HTMLParagraphElement>(null);
+    const matchTimerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-        if (startTime === -1) {
-            return;
-        }
-
         if (!showSpinTimer) {
             exactTime.current = Date.now() - startTime;
             if (intervalRef.current) {
@@ -30,10 +26,12 @@ export default function TextThemeTimer({
         // Time in ms
         const intervalTime = 100;
         const id = setInterval(() => {
-            if (startTime > -1) {
-                exactTime.current = Date.now() - startTime;
+            exactTime.current = Date.now() - startTime;
 
-                if (matchTimerRef.current) {
+            if (matchTimerRef.current) {
+                if (startTime < 0 || exactTime.current < 0) {
+                    matchTimerRef.current.innerHTML = "00:00";
+                } else {
                     matchTimerRef.current.innerHTML = MillisecondsToTimeString(
                         exactTime.current,
                         false,
@@ -48,15 +46,15 @@ export default function TextThemeTimer({
         };
     }, [showSpinTimer, startTime]);
 
-    if (startTime === -1 || !showSpinTimer) {
+    if (!showSpinTimer) {
         return;
     }
 
     return (
-        <div className="w-full pr-2">
-            <p ref={matchTimerRef} className="text-right font-mono">
-                {"00:00"}
-            </p>
-        </div>
+        <p>
+            <span>{"[ "}</span>
+            <span ref={matchTimerRef}>{"00:00"}</span>
+            <span>{" ]"}</span>
+        </p>
     );
 }

@@ -14,10 +14,6 @@ export default function DefaultThemeTimer({
     const matchTimerRef = useRef<HTMLParagraphElement>(null);
 
     useEffect(() => {
-        if (startTime === -1) {
-            return;
-        }
-
         if (!showSpinTimer) {
             exactTime.current = Date.now() - startTime;
             if (intervalRef.current) {
@@ -30,10 +26,12 @@ export default function DefaultThemeTimer({
         // Time in ms
         const intervalTime = 100;
         const id = setInterval(() => {
-            if (startTime > -1) {
-                exactTime.current = Date.now() - startTime;
+            exactTime.current = Date.now() - startTime;
 
-                if (matchTimerRef.current) {
+            if (matchTimerRef.current) {
+                if (startTime < 0 || exactTime.current < 0) {
+                    matchTimerRef.current.innerHTML = "00:00";
+                } else {
                     matchTimerRef.current.innerHTML = MillisecondsToTimeString(
                         exactTime.current,
                         false,
@@ -48,15 +46,16 @@ export default function DefaultThemeTimer({
         };
     }, [showSpinTimer, startTime]);
 
-    if (startTime === -1 || !showSpinTimer) {
+    if (!showSpinTimer) {
         return;
     }
 
     return (
-        <div className="absolute right-0 -bottom-[50px] flex h-[50px] w-[1300px] items-center justify-center bg-zinc-900">
-            <p ref={matchTimerRef} className="font-mono text-4xl text-white">
-                {"00:00"}
-            </p>
-        </div>
+        <p
+            ref={matchTimerRef}
+            className="h-10 w-full border-t-2 border-white bg-zinc-900 text-center font-mono text-4xl font-bold text-white"
+        >
+            {"00:00"}
+        </p>
     );
 }

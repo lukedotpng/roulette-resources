@@ -14,38 +14,36 @@ export default function SpinSection({ id }: { id: string }) {
     const [startTime, setStartTime] = useState(-1);
     const [showSpinTimer, setShowSpinTimer] = useState(false);
 
-    function onOpen(event: Event) {
-        console.log("Connected to overlay server");
-    }
     function onMessage(event: MessageEvent) {
         const messageData = JSON.parse(event.data);
         if (messageData) {
-            if (messageData["spin_query"]) {
+            if ("spin_query" in messageData) {
                 const spin = GetSpinFromQuery(messageData["spin_query"], false);
                 if (spin) {
                     setSpin(spin);
                 }
             }
-            if (messageData["spin_theme"]) {
+            if ("spin_theme" in messageData) {
                 setTheme(messageData["spin_theme"]);
             }
-            if (messageData["spin_start_time"]) {
-                setStartTime(messageData["spin_start_time"]);
+            if ("spin_start_time" in messageData) {
+                if (typeof messageData["spin_start_time"] === "number") {
+                    setStartTime(messageData["spin_start_time"]);
+                } else {
+                    setStartTime(-1);
+                }
             }
-            if (messageData["show_spin_timer"]) {
-                console.log(messageData["show_spin_timer"]);
-                setShowSpinTimer(messageData["show_spin_timer"]);
+            if ("show_spin_timer" in messageData) {
+                setShowSpinTimer(messageData["show_spin_timer"] === true);
             }
         }
     }
 
     useEffect(() => {
         const socket = new WebSocket("ws://localhost:8080/" + id);
-        socket.addEventListener("open", onOpen);
         socket.addEventListener("message", onMessage);
 
         return () => {
-            socket.removeEventListener("open", onOpen);
             socket.removeEventListener("message", onMessage);
         };
     }, [id]);
