@@ -50,7 +50,7 @@ export default function Berlin({
                                 ntkoBannerShown={targetSpinInfo.ntko}
                             />
                             {targetSpinInfo.ntko && (
-                                <p className="h-[12%] w-full bg-red-500 text-center text-[1.5em] leading-[31.2px] font-bold">
+                                <p className="h-[12%] w-full bg-red-500 text-center text-[1.5em] leading-[29px] font-bold">
                                     No Target Pacification
                                 </p>
                             )}
@@ -98,7 +98,7 @@ function BerlinConditionRow({
         >
             <div className="flex h-full w-[70%] flex-col items-start justify-center px-1 group-data-[ntkoshown=false]:group-data-[toprow=false]:border-t group-data-[ntkoshown=false]:group-data-[toprow=true]:border-b">
                 <p className="text-[1.3em] font-bold underline decoration-red-500 decoration-2">
-                    {conditionType}
+                    {conditionType + ":"}
                 </p>
                 <h1 className="text-[1.6em] font-bold">
                     {conditionDisplayText}

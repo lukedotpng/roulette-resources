@@ -116,7 +116,7 @@ function SmallMapConditionRow({
             >
                 <div className="px-2">
                     <p className="text-[1.5em] font-bold underline decoration-red-500 decoration-2">
-                        {conditionType}
+                        {conditionType + ":"}
                     </p>
                     <h1 className="text-[1.8em] font-bold">
                         {conditionDisplayText}
