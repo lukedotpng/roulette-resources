@@ -4,9 +4,9 @@ import { MillisecondsToTimeString } from "@/utils/FormattingUtils";
 import PreMatchView from "./PreMatchView";
 import InMatchView from "./InMatchView";
 import PostMatchView from "./PostMatchView";
-import { UpdateSpinOverlayMatchStatus } from "@/app/(streamOverlay)/OverlayActions";
 import { SpinManager } from "../../types";
 import { CreateSpinQuery } from "@/lib/RouletteSpinner/queryParser";
+import { UpdateOverlay } from "../../utils/OverlayUtils";
 
 export default function MatchTimerSection({
     spinManager,
@@ -44,12 +44,12 @@ export default function MatchTimerSection({
 
         const spinQuery = CreateSpinQuery(spinManager.currentSpin);
 
-        UpdateSpinOverlayMatchStatus(
-            spinManager.options.streamOverlay.id,
-            spinManager.options.streamOverlay.key,
-            spinQuery,
-            false,
-        );
+        UpdateOverlay({
+            id: spinManager.options.streamOverlay.id,
+            key: spinManager.options.streamOverlay.key,
+            spin_query: spinQuery,
+            show_spin_timer: false,
+        });
 
         if (!exactTime.current) {
             console.error("ERROR SAVING TIME");

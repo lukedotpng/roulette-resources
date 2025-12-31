@@ -69,6 +69,14 @@ export type StreamOverlay = {
     theme: OverlayTheme;
     SetTheme: (updatedTheme: OverlayTheme) => void;
 };
+export type OverlayUpdateRequest = {
+    id: string;
+    key: number;
+    spin_query?: string;
+    spin_theme?: OverlayTheme;
+    spin_start_time?: number;
+    show_spin_timer?: boolean;
+};
 export type SpinOptions = {
     // General
     dontRepeatMissions: { value: boolean; Toggle: () => void };

@@ -40,7 +40,7 @@ export default function SpinSection({ id }: { id: string }) {
     }
 
     useEffect(() => {
-        const socket = new WebSocket("ws://localhost:8080/" + id);
+        const socket = new WebSocket("wss://rouletteoverlay.luke.town/" + id);
         socket.addEventListener("message", onMessage);
 
         return () => {

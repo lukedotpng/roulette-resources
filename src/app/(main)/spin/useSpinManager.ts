@@ -10,11 +10,6 @@ import {
     GenerateRandomSeed,
     GetRandomMission,
 } from "@/app/(main)/spin/utils/SpinUtils";
-import {
-    InitializeSpinOverlay,
-    UpdateSpinOverlay,
-    UpdateSpinOverlayMatchStatus,
-} from "../../(streamOverlay)/OverlayActions";
 import { useSpinOptions } from "./useSpinOptions";
 import { SpinCheck } from "@/lib/RouletteSpinner/check";
 import {
@@ -40,6 +35,7 @@ import {
     SpinTarget,
 } from "@/lib/RouletteSpinner/types";
 import { MISSION_TARGETS_LIST } from "@/lib/RouletteSpinner/globals";
+import { UpdateOverlay } from "./utils/OverlayUtils";
 
 export function useSpinManager(): SpinManager {
     const options = useSpinOptions();
@@ -104,24 +100,23 @@ export function useSpinManager(): SpinManager {
             setMatchActive(false);
 
             if (options.streamOverlay.active) {
-                UpdateSpinOverlayMatchStatus(
-                    options.streamOverlay.id,
-                    options.streamOverlay.key,
-                    spinQuery,
-                    false,
-                );
+                UpdateOverlay({
+                    id: options.streamOverlay.id,
+                    key: options.streamOverlay.key,
+                    show_spin_timer: false,
+                });
             }
         }
 
         const updatedSpinQuery = CreateSpinQuery(currentSpin);
 
         if (options.streamOverlay.active && !matchModeEnabled) {
-            UpdateSpinOverlay(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                updatedSpinQuery,
-                options.streamOverlay.theme,
-            );
+            UpdateOverlay({
+                id: options.streamOverlay.id,
+                key: options.streamOverlay.key,
+                spin_query: updatedSpinQuery,
+                spin_theme: options.streamOverlay.theme,
+            });
         }
     }, [currentSpin]);
     // Respin when match mode is enabled to prevent controlling the spin
@@ -428,33 +423,33 @@ export function useSpinManager(): SpinManager {
         }
 
         if (!streamOverlayInitialized.initialized) {
-            InitializeSpinOverlay(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                spinQuery,
-            );
+            UpdateOverlay({
+                id: options.streamOverlay.id,
+                key: options.streamOverlay.key,
+                spin_query: spinQuery,
+            });
             setStreamOverlayInitialized({
                 initialized: true,
                 id: options.streamOverlay.id,
             });
         } else {
             if (streamOverlayInitialized.id !== options.streamOverlay.id) {
-                InitializeSpinOverlay(
-                    options.streamOverlay.id,
-                    options.streamOverlay.key,
-                    spinQuery,
-                );
+                UpdateOverlay({
+                    id: options.streamOverlay.id,
+                    key: options.streamOverlay.key,
+                    spin_query: spinQuery,
+                });
                 setStreamOverlayInitialized({
                     initialized: true,
                     id: options.streamOverlay.id,
                 });
             }
-            UpdateSpinOverlay(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                spinQuery,
-                options.streamOverlay.theme,
-            );
+            UpdateOverlay({
+                id: options.streamOverlay.id,
+                key: options.streamOverlay.key,
+                spin_query: spinQuery,
+                spin_theme: options.streamOverlay.theme,
+            });
         }
     }, [
         options.streamOverlay.id,
@@ -468,32 +463,41 @@ export function useSpinManager(): SpinManager {
             return;
         }
 
-        if (!matchModeEnabled) {
-            UpdateSpinOverlayMatchStatus(
-                options.streamOverlay.id,
-                options.streamOverlay.key,
-                spinQuery,
-                false, // Match status
-                -1,
-            );
-            return;
-        }
+        // if (!matchModeEnabled) {
+        //     UpdateOverlay({
+        //         id: options.streamOverlay.id,
+        //         key: options.streamOverlay.key,
+        //         spinQuery: spinQuery,
+        //         theme: options.streamOverlay.theme,
+        //     });
+        //     UpdateSpinOverlayMatchStatus(
+        //         options.streamOverlay.id,
+        //         options.streamOverlay.key,
+        //         spinQuery,
+        //         false, // Match status
+        //         -1,
+        //     );
+        //     return;
+        // }
         if (currentSpin) {
             if (matchActive) {
-                UpdateSpinOverlayMatchStatus(
-                    options.streamOverlay.id,
-                    options.streamOverlay.key,
-                    spinQuery,
-                    matchActive,
-                    Date.now(),
-                );
+                UpdateOverlay({
+                    id: options.streamOverlay.id,
+                    key: options.streamOverlay.key,
+                    spin_query: spinQuery,
+                    spin_theme: options.streamOverlay.theme,
+                    spin_start_time: Date.now(),
+                    show_spin_timer: true,
+                });
             } else if (!matchModeEnabled) {
-                UpdateSpinOverlayMatchStatus(
-                    options.streamOverlay.id,
-                    options.streamOverlay.key,
-                    spinQuery,
-                    matchActive,
-                );
+                UpdateOverlay({
+                    id: options.streamOverlay.id,
+                    key: options.streamOverlay.key,
+                    spin_query: spinQuery,
+                    spin_theme: options.streamOverlay.theme,
+                    spin_start_time: Date.now(),
+                    show_spin_timer: false,
+                });
             }
         }
     }, [matchModeEnabled, matchActive, options.streamOverlay.active]);

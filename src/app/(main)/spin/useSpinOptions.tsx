@@ -1,7 +1,7 @@
 import { useLocalState } from "@/utils/useLocalState";
 import { useState } from "react";
 import { SpinOptions, SpinTheme, OverlayTheme, StreamOverlay } from "./types";
-import { InitializeSpinOverlay } from "@/app/(streamOverlay)/OverlayActions";
+import { UpdateOverlay } from "./utils/OverlayUtils";
 
 export function useSpinOptions(): SpinOptions {
     // General
@@ -62,7 +62,7 @@ export function useSpinOptions(): SpinOptions {
         setOverlayId(newId);
         const newKey = Date.now();
         setOverlayKey(newKey);
-        await InitializeSpinOverlay(newId, newKey, spinQuery);
+        await UpdateOverlay({ id: newId, key: newKey, spin_query: spinQuery });
     }
     const [streamOverlayActive, setStreamOverlayActive] = useState(false);
     function ToggleStreamOverlayActive() {
