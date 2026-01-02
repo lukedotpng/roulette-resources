@@ -128,7 +128,7 @@ export default function SpinOptionsSection({
                                 {"Stream Overlay"}
                             </h2>
                             <SpinOptionsToggle
-                                label={"Enable Stream Overlay (1300x650)"}
+                                label={"Enable Stream Overlay (1300x600)"}
                                 onClickHandler={
                                     options.streamOverlay.ToggleActive
                                 }
