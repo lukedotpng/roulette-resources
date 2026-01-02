@@ -16,7 +16,5 @@ export async function UpdateOverlay(
         },
     );
 
-    console.log(res);
-
     return res;
 }
