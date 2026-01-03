@@ -34,7 +34,7 @@ import {
     SpinCheckResult,
     SpinTarget,
 } from "@/lib/RouletteSpinner/types";
-import { MISSION_TARGETS_LIST } from "@/lib/RouletteSpinner/globals";
+import { MISSION_TARGETS_LIST, MISSIONS } from "@/lib/RouletteSpinner/globals";
 import { UpdateOverlay } from "./utils/OverlayUtils";
 
 export function useSpinManager(): SpinManager {
@@ -126,7 +126,10 @@ export function useSpinManager(): SpinManager {
         }
     }, [matchModeEnabled]);
 
-    const [missionPool, setMissionPool] = useLocalState<Mission[]>("pool", []);
+    const [missionPool, setMissionPool] = useLocalState<Mission[]>(
+        "pool",
+        MISSIONS,
+    );
     function SetMissionPool(updatedMissionPool: Mission[]) {
         setMissionPool(updatedMissionPool);
     }
