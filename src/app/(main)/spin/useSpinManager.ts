@@ -427,6 +427,8 @@ export function useSpinManager(): SpinManager {
                 id: options.streamOverlay.id,
                 key: options.streamOverlay.key,
                 spin_query: spinQuery,
+                spin_theme: options.streamOverlay.theme,
+                show_spin_timer: options.streamOverlay.timerVisible,
             });
             setStreamOverlayInitialized({
                 initialized: true,
@@ -438,6 +440,8 @@ export function useSpinManager(): SpinManager {
                     id: options.streamOverlay.id,
                     key: options.streamOverlay.key,
                     spin_query: spinQuery,
+                    spin_theme: options.streamOverlay.theme,
+                    show_spin_timer: options.streamOverlay.timerVisible,
                 });
                 setStreamOverlayInitialized({
                     initialized: true,
@@ -449,6 +453,7 @@ export function useSpinManager(): SpinManager {
                 key: options.streamOverlay.key,
                 spin_query: spinQuery,
                 spin_theme: options.streamOverlay.theme,
+                show_spin_timer: options.streamOverlay.timerVisible,
             });
         }
     }, [
@@ -456,6 +461,7 @@ export function useSpinManager(): SpinManager {
         options.streamOverlay.key,
         options.streamOverlay.active,
         options.streamOverlay.theme,
+        options.streamOverlay.timerVisible,
     ]);
 
     useEffect(() => {

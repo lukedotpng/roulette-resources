@@ -75,6 +75,13 @@ export function useSpinOptions(): SpinOptions {
     function SetOverlayTheme(newTheme: OverlayTheme) {
         setOverlayTheme(newTheme);
     }
+    const [timerVisible, setTimerVisible] = useLocalState<boolean>(
+        "timerVisible",
+        false,
+    );
+    function ToggleTimerVisible() {
+        setTimerVisible(!timerVisible);
+    }
     const streamOverlay: StreamOverlay = {
         id: overlayId,
         RegenerateId: RegenerateOverlayId,
@@ -83,6 +90,8 @@ export function useSpinOptions(): SpinOptions {
         ToggleActive: ToggleStreamOverlayActive,
         theme: overlayTheme,
         SetTheme: SetOverlayTheme,
+        timerVisible: timerVisible,
+        ToggleTimerVisible: ToggleTimerVisible,
     };
 
     const settings: SpinOptions = {

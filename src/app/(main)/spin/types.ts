@@ -68,6 +68,8 @@ export type StreamOverlay = {
     ToggleActive: () => void;
     theme: OverlayTheme;
     SetTheme: (updatedTheme: OverlayTheme) => void;
+    timerVisible: boolean;
+    ToggleTimerVisible: () => void;
 };
 export type OverlayUpdateRequest = {
     id: string;

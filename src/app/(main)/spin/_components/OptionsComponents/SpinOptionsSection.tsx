@@ -197,6 +197,13 @@ export default function SpinOptionsSection({
                                 onClickHandler={options.streamOverlay.SetTheme}
                                 activeOption={options.streamOverlay.theme}
                             />
+                            <SpinOptionsToggle
+                                label="Always Show Timer"
+                                onClickHandler={
+                                    options.streamOverlay.ToggleTimerVisible
+                                }
+                                activeState={options.streamOverlay.timerVisible}
+                            />
                         </div>
                     </section>
                 </DialogContent>
