@@ -35,15 +35,16 @@ export default function TargetSpinCardRow({
         }, 150);
     }
     return (
-        <div className="flex h-[50%] items-center justify-between border-t-[1px] border-white bg-zinc-900">
-            <div className="mr-2 flex h-full w-full items-center justify-between">
-                <div className="px-1">
-                    <p className="text-[.75em] font-bold underline decoration-red-500 decoration-1 sm:text-[.85em] sm:decoration-2 md:text-[.95em]">
-                        {title}
+        <div
+            data-bottomrow={title === "Disguise"}
+            className="flex h-[50%] items-center justify-between border-white bg-zinc-900 data-[bottomrow=false]:border-b-[0.5px] data-[bottomrow=true]:border-t-[0.5px]"
+        >
+            <div className="flex h-full w-full items-center justify-between px-2">
+                <div className="w-[calc(100%-1rem)]">
+                    <p className="text-[.90em] font-bold underline decoration-red-500 decoration-1 sm:decoration-2">
+                        {title + ":"}
                     </p>
-                    <h1 className="text-[0.95em] font-bold sm:text-[1.1em] md:text-[1.3em]">
-                        {info}
-                    </h1>
+                    <h1 className="text-[1em] font-bold">{info}</h1>
                 </div>
                 {!spinEditsDisabled &&
                     !conditionLocked &&
@@ -79,7 +80,7 @@ export default function TargetSpinCardRow({
                         </button>
                     ))}
             </div>
-            <div className="relative aspect-[693/517] h-full w-12 border-l-[1px] border-white sm:w-20 sm:border-l-2">
+            <div className="relative aspect-693/517 h-full w-12 border-l border-white sm:w-20 sm:border-l-2">
                 <Image
                     src={imageSrc}
                     alt={title ?? "No Disguise"}

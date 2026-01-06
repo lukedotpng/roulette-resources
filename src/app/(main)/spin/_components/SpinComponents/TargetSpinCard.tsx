@@ -57,9 +57,9 @@ export default function TargetSpinCard({
         (!killMethodLocked && (manualMode || canAlwaysEditNTKO));
 
     return (
-        <div className="w-full max-w-[48rem] border-2 border-white text-white">
+        <div className="w-full max-w-[40rem] border border-white text-white sm:border-2">
             <div className="flex h-24 w-full text-white sm:h-36">
-                <div className="relative w-28 border-r-[1px] border-white sm:w-48 sm:border-r-2">
+                <div className="relative w-28 border-r border-white sm:w-40 sm:border-r-2">
                     <Image
                         src={TargetImagePathFormatter(target)}
                         alt={target}
@@ -67,7 +67,7 @@ export default function TargetSpinCard({
                         height={517}
                         className="h-full object-cover object-center"
                     />
-                    <h1 className="absolute bottom-0 w-full bg-zinc-900/75 text-center text-[.65rem] font-bold sm:text-[1em]">
+                    <h1 className="absolute bottom-0 w-full bg-zinc-900/75 text-center text-[.9em] font-bold">
                         {TargetIDToDisplayText(target)}
                     </h1>
                 </div>
@@ -190,7 +190,7 @@ export default function TargetSpinCard({
             {showNtkoBar && (
                 <div
                     data-active={spin.info[target]?.ntko}
-                    className="group relative border-t-[1px] border-white bg-zinc-900 py-0.5 text-center text-[.9em] font-bold data-[active=true]:bg-red-500 sm:border-t-2 sm:py-1 sm:text-[1em]"
+                    className="group relative border-t border-white bg-zinc-900 py-0.5 text-center font-bold data-[active=true]:bg-red-500"
                 >
                     <span className="decoration-2 group-data-[active=false]:line-through">
                         No Target Pacification

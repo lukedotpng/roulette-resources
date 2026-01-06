@@ -18,7 +18,7 @@ export default function SpinInfoSection({
     return (
         <section
             data-row={spinManager.options.spinTheme.value === "row"}
-            className="flex w-full gap-2 data-[row=false]:flex-col data-[row=false]:items-center data-[row=true]:flex-row data-[row=true]:flex-wrap data-[row=true]:items-start data-[row=true]:justify-center"
+            className="flex w-full gap-2 text-[0.7rem] data-[row=false]:flex-col data-[row=false]:items-center data-[row=true]:flex-row data-[row=true]:flex-wrap data-[row=true]:items-start data-[row=true]:justify-center sm:text-base"
         >
             {(
                 Object.keys(spinManager.currentSpin.info) as (keyof SpinInfo)[]
