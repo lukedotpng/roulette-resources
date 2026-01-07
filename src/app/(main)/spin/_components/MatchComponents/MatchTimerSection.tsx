@@ -48,7 +48,7 @@ export default function MatchTimerSection({
             id: spinManager.options.streamOverlay.id,
             key: spinManager.options.streamOverlay.key,
             spin_query: spinQuery,
-            show_spin_timer: false,
+            show_spin_timer: spinManager.options.streamOverlay.timerVisible,
         });
 
         if (!exactTime.current) {

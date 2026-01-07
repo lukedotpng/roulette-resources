@@ -62,7 +62,14 @@ export function useSpinOptions(): SpinOptions {
         setOverlayId(newId);
         const newKey = Date.now();
         setOverlayKey(newKey);
-        await UpdateOverlay({ id: newId, key: newKey, spin_query: spinQuery });
+        await UpdateOverlay({
+            id: newId,
+            key: newKey,
+            spin_query: spinQuery,
+            spin_theme: overlayTheme,
+            show_spin_timer: timerVisible,
+            spin_start_time: Date.now(),
+        });
     }
     const [streamOverlayActive, setStreamOverlayActive] = useLocalState(
         "overlayActive",

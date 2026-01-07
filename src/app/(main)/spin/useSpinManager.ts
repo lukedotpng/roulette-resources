@@ -116,6 +116,7 @@ export function useSpinManager(): SpinManager {
                 key: options.streamOverlay.key,
                 spin_query: updatedSpinQuery,
                 spin_theme: options.streamOverlay.theme,
+                spin_start_time: Date.now(),
             });
         }
     }, [currentSpin]);
@@ -432,6 +433,7 @@ export function useSpinManager(): SpinManager {
                 spin_query: spinQuery,
                 spin_theme: options.streamOverlay.theme,
                 show_spin_timer: options.streamOverlay.timerVisible,
+                spin_start_time: Date.now(),
             });
             setStreamOverlayInitialized({
                 initialized: true,
@@ -505,7 +507,7 @@ export function useSpinManager(): SpinManager {
                     spin_query: spinQuery,
                     spin_theme: options.streamOverlay.theme,
                     spin_start_time: Date.now(),
-                    show_spin_timer: false,
+                    show_spin_timer: options.streamOverlay.timerVisible,
                 });
             }
         }
