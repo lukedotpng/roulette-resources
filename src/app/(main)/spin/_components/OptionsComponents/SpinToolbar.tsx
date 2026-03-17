@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { HitmapsSpin, SpinManager } from "../../types";
 import MatchSimLog from "../MatchComponents/MatchSimLog";
 import MissionPoolSelection from "../PoolComponents/MissionPoolSelection";
@@ -187,7 +187,9 @@ export default function SpinToolbar({
                             className="group flex-1 border-1 border-white bg-white px-1 text-zinc-900 inset-shadow-[0px_0px_5px] inset-shadow-zinc-900 outline-0 focus:inset-shadow-red-500"
                             value={queueSeedInput}
                             spellCheck={false}
-                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                            onInput={(
+                                e: React.InputEvent<HTMLInputElement>,
+                            ) => {
                                 setQueueSeedInput(e.currentTarget.value);
                             }}
                         />
