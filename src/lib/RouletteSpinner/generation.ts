@@ -207,7 +207,8 @@ function GetRandomCondition(
             if (
                 target === "vanya_shah" ||
                 target === "dawood_rangan" ||
-                target === "hush"
+                target === "hush" ||
+                target === "noel_crest"
             ) {
                 modifierPrefix = Math.random() > 0.5 ? "remote_" : "loud_";
             } else {
@@ -252,20 +253,7 @@ function GetLegalUniqueKills(
 ) {
     // Handle Soders uniquely, by only checking if "explosion" kills repeat
     if (target === "erich_soders") {
-        const legalUniqueKills = TARGET_UNIQUE_KILLS_LIST[target];
-        return legalUniqueKills.filter((uniqueKill: string) => {
-            if (uniqueKill === "explosion") {
-                if (conditionsSpun.includes("explosion_accident")) {
-                    return false;
-                }
-                for (const condition of conditionsSpun) {
-                    if (EXPLOSIVE_KILL_METHOD_LIST.includes(condition)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        });
+        return TARGET_UNIQUE_KILLS_LIST[target];
     }
 
     const trapKills = [
@@ -334,9 +322,9 @@ function GetLegalUniqueKills(
             return false;
         }
         if (
-            target === "vanya_shah" &&
-            disguise === "tailor" &&
-            uniqueKill === "drowning"
+            target === "alexa_carlisle" &&
+            disguise === "undertaker" &&
+            uniqueKill === "smother_in_pillow"
         ) {
             return false;
         }
@@ -383,13 +371,6 @@ function GetLegalWeapons(
             if (pastConditionModfierRemoved === weapon) {
                 return false;
             }
-        }
-        if (
-            target === "yuki_yamazaki" &&
-            conditionsSpun.includes("explosion") &&
-            weapon === "explosive"
-        ) {
-            return false;
         }
 
         return true;

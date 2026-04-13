@@ -103,20 +103,20 @@ export function SpinCheck(spin: Spin): SpinCheckResult {
             }
         }
 
-        if (
-            spin.mission === "hokkaido" &&
-            ExplosiveKillRepeatsOnHokkaido(
-                targetSpinInfo.killMethod,
-                conditionsSpun,
-            )
-        ) {
-            return {
-                legal: false,
-                reason: "repeat_kill_method",
-                reason_info:
-                    "Yuki and Soders cannot both have Explosion/Explosive kills",
-            };
-        }
+        // if (
+        //     spin.mission === "hokkaido" &&
+        //     ExplosiveKillRepeatsOnHokkaido(
+        //         targetSpinInfo.killMethod,
+        //         conditionsSpun,
+        //     )
+        // ) {
+        //     return {
+        //         legal: false,
+        //         reason: "repeat_kill_method",
+        //         reason_info:
+        //             "Yuki and Soders cannot both have Explosion/Explosive kills",
+        //     };
+        // }
 
         if (targetSpinInfo.ntko) {
             const canBeNTKO = CanBeNTKO(
@@ -229,15 +229,15 @@ function KillMethodIsBannedWithDisguise(
             reason: `Marcus cannot have a "Drowning" kill with the Skydiving Suit disguise`,
         };
     }
-    // Mumbai Vanya drowning in tailor disguise
+    // Dartmoor Alexa smother in pillow in undertaker disguise
     if (
-        target === "vanya_shah" &&
-        disguise === "tailor" &&
-        condition === "drowning"
+        target === "alexa_carlisle" &&
+        disguise === "undertaker" &&
+        condition === "smother_in_pillow"
     ) {
         return {
             isBanned: true,
-            reason: `Vanya cannot have a "Drowning" kill with the Tailor disguise`,
+            reason: `Alexa cannot have the "Smother In Pillow" kill with the Undertaker disguise`,
         };
     }
 
@@ -247,36 +247,36 @@ function KillMethodIsBannedWithDisguise(
     };
 }
 
-export function ExplosiveKillRepeatsOnHokkaido(
-    targetCondition: string,
-    conditionsSpun: string[],
-) {
-    const hokkadioExplosiveKillTypes = [
-        "remote_explosive",
-        "loud_explosive",
-        "impact_explosive",
-        "explosion_accident",
-        "explosion",
-    ];
+// export function ExplosiveKillRepeatsOnHokkaido(
+//     targetCondition: string,
+//     conditionsSpun: string[],
+// ) {
+//     const hokkadioExplosiveKillTypes = [
+//         "remote_explosive",
+//         "loud_explosive",
+//         "impact_explosive",
+//         "explosion_accident",
+//         "explosion",
+//     ];
 
-    let anotherConditionIsExplosionType = false;
-    for (const pastCondition of conditionsSpun) {
-        if (hokkadioExplosiveKillTypes.includes(pastCondition)) {
-            anotherConditionIsExplosionType = true;
-            break;
-        }
-    }
+//     let anotherConditionIsExplosionType = false;
+//     for (const pastCondition of conditionsSpun) {
+//         if (hokkadioExplosiveKillTypes.includes(pastCondition)) {
+//             anotherConditionIsExplosionType = true;
+//             break;
+//         }
+//     }
 
-    // Both target conditions are of "explosion" type
-    if (
-        hokkadioExplosiveKillTypes.includes(targetCondition) &&
-        anotherConditionIsExplosionType
-    ) {
-        return true;
-    }
+//     // Both target conditions are of "explosion" type
+//     if (
+//         hokkadioExplosiveKillTypes.includes(targetCondition) &&
+//         anotherConditionIsExplosionType
+//     ) {
+//         return true;
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
 export function KillMethodRepeats(
     targetKillMethod: string,
