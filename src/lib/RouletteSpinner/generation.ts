@@ -1,6 +1,5 @@
 import { CanBeNTKO } from "./check";
 import {
-    EXPLOSIVE_KILL_METHOD_LIST,
     EXPLOSIVE_MODIFIER_PREFIX,
     LARGE_WEAPON_LIST,
     MISSION_CONDITIONS_MAP,
