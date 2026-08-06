@@ -35,6 +35,9 @@ importers:
       next-auth:
         specifier: 5.0.0-beta.32
         version: 5.0.0-beta.32(next@15.5.22(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+      postcss:
+        specifier: ^8.5.23
+        version: 8.5.25
       postgres:
         specifier: ^3.4.9
         version: 3.4.9
@@ -87,9 +90,6 @@ importers:
       eslint-config-next:
         specifier: 15.1.5
         version: 15.1.5(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
-      postcss:
-        specifier: ^8.5.25
-        version: 8.5.25
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
