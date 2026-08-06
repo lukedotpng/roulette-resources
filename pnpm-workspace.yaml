@@ -1,4 +1,0 @@
-allowBuilds:
-  es5-ext: true
-  sharp: true
-  unrs-resolver: true
