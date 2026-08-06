@@ -44,6 +44,9 @@ export default function Home() {
                             <li className="li w-52 max-w-full rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
                                 {"Meekah"}
                             </li>
+                            <li className="li w-52 max-w-full rounded-md py-1 shadow-[0_0px_10px] shadow-red-500">
+                                {"magicdave"}
+                            </li>
                         </ul>
                         <div className="flex-1"></div>
                         <a
