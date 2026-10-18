@@ -1002,7 +1002,7 @@ export const TARGET_UNIQUE_KILLS_LIST: TargetUniqueKills = {
     francesca_de_santis: [],
     claus_strandberg: [],
     reza_zaydan: [],
-    jordan_cross: ["smother_in_cake"],
+    jordan_cross: [],
     ken_morgan: [],
     sean_rose: ["explosive_watch_battery", "overpowered_nitro_charge"],
     ezra_berg: [],
