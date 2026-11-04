@@ -28,8 +28,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             authorization: {
                 url: "https://discord.com/api/oauth2/authorize",
                 params: { scope: "identify" },
-                issuer: "https://discord.com",
             },
+            issuer: "https://discord.com",
             async profile(profile) {
                 // Default avatar profile logic from auth.js discord provider
                 if (profile.avatar === null) {
