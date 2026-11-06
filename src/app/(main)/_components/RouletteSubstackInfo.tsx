@@ -50,7 +50,7 @@ type SubstackResponseObject = {
 };
 
 export default async function RouletteSubstackInfo() {
-    let hitmanrrSubstackRes = (await fetch(
+    const hitmanrrSubstackRes = (await fetch(
         "https://hitmanrr.substack.com/api/v1/archive?sort=new&search=&limit=0",
     )
         .then((res) => res.json())
