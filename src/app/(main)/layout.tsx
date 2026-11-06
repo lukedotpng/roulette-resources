@@ -13,6 +13,7 @@ import { SessionProvider } from "next-auth/react";
 const notoSans = Noto_Sans({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
     subsets: ["latin"],
+    display: "swap"
 });
 
 export default function RootLayout({

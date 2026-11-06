@@ -1,71 +1,77 @@
 type SubstackResponseObject = {
-    id: number;
-    title: string;
-    post_date: string;
-    canonical_url: string;
-    reactions: {
-        "❤": number;
-    };
-    subtitle: string;
-    cover_image: string;
-    description: string;
-    truncated_body_text: string;
-    publishedBylines: [
-        {
-            id: number;
-            name: string;
-            handle: string;
-            photo_url: string;
-            bio: string;
-            profile_set_up_at: string;
-            reader_installed_at: string;
-            publicationUsers: [
-                {
-                    id: number;
-                    user_id: number;
-                    publication_id: number;
-                    role: string;
-                    public: boolean;
-                    is_primary: boolean;
-                    publication: {
+    nextCursor: string,
+    posts: {
+        id: number;
+        title: string;
+        post_date: string;
+        canonical_url: string;
+        reactions: {
+            "❤": number;
+        };
+        subtitle: string;
+        cover_image: string;
+        description: string;
+        truncated_body_text: string;
+        publishedBylines: [
+            {
+                id: number;
+                name: string;
+                handle: string;
+                photo_url: string;
+                bio: string;
+                profile_set_up_at: string;
+                reader_installed_at: string;
+                publicationUsers: [
+                    {
                         id: number;
-                        name: string;
-                        subdomain: string;
-                        hero_text: string;
-                        logo_url: string;
-                        theme_var_background_pop: string;
-                        email_from_name: string;
-                        copyright: string;
-                    };
-                },
-            ];
-        },
-    ];
-    reaction_count: number;
-    comment_count: number;
-    child_comment_count: number;
+                        user_id: number;
+                        publication_id: number;
+                        role: string;
+                        public: boolean;
+                        is_primary: boolean;
+                        publication: {
+                            id: number;
+                            name: string;
+                            subdomain: string;
+                            hero_text: string;
+                            logo_url: string;
+                            theme_var_background_pop: string;
+                            email_from_name: string;
+                            copyright: string;
+                        };
+                    },
+                ];
+            },
+        ];
+        reaction_count: number;
+        comment_count: number;
+        child_comment_count: number;
+        }[]
 };
 
 export default async function RouletteSubstackInfo() {
     let hitmanrrSubstackRes = (await fetch(
-        "https://hitmanrr.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=0",
+        "https://hitmanrr.substack.com/api/v1/archive?sort=new&search=&limit=0",
     )
         .then((res) => res.json())
         .catch(() => {
             console.log("Could not fetch substack data");
-        })) as SubstackResponseObject[];
+        })) as SubstackResponseObject;
 
-    if (hitmanrrSubstackRes === undefined || hitmanrrSubstackRes.length === 0) {
+    console.log(hitmanrrSubstackRes)
+
+    if (hitmanrrSubstackRes === undefined || hitmanrrSubstackRes.posts === undefined || hitmanrrSubstackRes.posts.length === 0) {
         return null;
     }
 
-    if (hitmanrrSubstackRes.length > 3) {
-        hitmanrrSubstackRes = hitmanrrSubstackRes.slice(0, 3);
+    let hitmanSubstackPosts = hitmanrrSubstackRes.posts
+    if (hitmanSubstackPosts.length > 3) {
+        hitmanSubstackPosts = hitmanSubstackPosts.slice(0, 3);
     }
 
     return (
         <ul className="ul md w-full rounded-xl border-white bg-[#ffecec] shadow-md shadow-black">
-            {hitmanrrSubstackRes.map((entry) => {
+            {hitmanSubstackPosts.map((entry) => {
                 const date = new Date(entry.post_date);
                 const dateString =
                     date.toDateString().split(" ")[1] +
